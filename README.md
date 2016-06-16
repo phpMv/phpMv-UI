@@ -4,7 +4,7 @@
 
 [phpMv-UI website](http://phpmv-ui.kobject.net/)
 
-[![Build Status](https://travis-ci.org/jcheron/phpMv-UI-tests-suite.svg?branch=master)](https://travis-ci.org/jcheron/phpMv-UI-tests-suite)
+[![Build Status](https://travis-ci.org/jcheron/phalcon-jquery-tests-suite.svg?branch=master)](https://travis-ci.org/jcheron/phalcon-jquery-tests-suite)
 [![Latest Stable Version](https://poser.pugx.org/jcheron/phpMv-UI/v/stable)](https://packagist.org/packages/phpmv/php-mv-ui) [![Total Downloads](https://poser.pugx.org/jcheron/phpMv-UI/downloads)](https://packagist.org/packages/phpmv/php-mv-ui) [![Latest Unstable Version](https://poser.pugx.org/jcheron/phpMv-UI/v/unstable)](https://packagist.org/packages/phpmv/php-mv-ui) [![License](https://poser.pugx.org/jcheron/phpMv-UI/license)](https://packagist.org/packages/phpmv/php-mv-ui)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/?branch=master)
 <a href="http://phalconist.com/jcheron/phpMv-UI" target="_blank">
