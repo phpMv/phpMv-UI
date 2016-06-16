@@ -1,10 +1,15 @@
 {
-    "name": "jcheron/phalcon-jquery",
-    "description": "A JQuery and UI library for Phalcon MVC framework",
-    "type": "phalcon-jquery",
+    "name": "phpMv/phpMv-UI",
+    "description": "A JQuery and UI library for php and php MVC frameworks",
+    "type": "phpMv-UI",
     "keywords": [
+	    "php",
         "jquery",
         "phalcon",
+		"symfony",
+		"laravel",
+		"Yii",
+		"codeIgniter",
         "twitter bootstrap",
         "jquery ui",
         "semantic ui",
@@ -14,9 +19,8 @@
         "php": ">5.3.9",
         "frameworks/jquery": "~2.1",
         "components/jqueryui": "~1.11",
-        "twitter/bootstrap": "~3.3",
-        "ext-phalcon": ">1.3"
-    },
+        "twitter/bootstrap": "~3.3"
+		},
     "autoload": {
         "psr-4": { "Ajax\\": "Ajax/" }
     },
