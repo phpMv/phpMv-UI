@@ -1,5 +1,5 @@
 {
-    "name": "phpMv/phpMv-UI",
+    "name": "phpmv/php-mv-ui",
     "description": "A JQuery and UI library for php and php MVC frameworks",
     "type": "phpMv-UI",
     "keywords": [
