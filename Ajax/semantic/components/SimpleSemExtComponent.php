@@ -1,0 +1,40 @@
+<?php
+
+namespace Ajax\semantic\components;
+
+use Ajax\common\components\SimpleExtComponent;
+use Ajax\JsUtils;
+
+class SimpleSemExtComponent extends SimpleExtComponent {
+	protected $paramParts;
+	public function __construct(JsUtils $js) {
+		parent::__construct($js);
+		$this->paramParts=array();
+	}
+
+	protected function generateParamParts(){
+		$results=[];
+		foreach ($this->paramParts as $paramPart){
+			$results[]="{$this->uiName}(".\implode(",", $paramPart).")";
+		}
+		return \implode(".", $results);
+	}
+
+	public function getScript() {
+		$allParams=$this->params;
+		$this->jquery_code_for_compile=array ();
+		$paramParts="";
+		if(\sizeof($this->paramParts)>0){
+			$paramParts=".".$this->generateParamParts();
+		}
+		$this->jquery_code_for_compile []="$( \"".$this->attachTo."\" ).{$this->uiName}(".$this->getParamsAsJSON($allParams).")".$paramParts.";";
+		$this->compileEvents();
+		return $this->compileJQueryCode();
+	}
+
+	public function setParamParts($paramParts) {
+		$this->paramParts=$paramParts;
+		return $this;
+	}
+
+}
