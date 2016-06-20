@@ -215,7 +215,8 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 
 	public function setAbsolutePaths($absolutePaths) {
 		$this->absolutePaths=$absolutePaths;
-		for($i=0;$i<\sizeof($this->content);$i++){
+		$size=\sizeof($this->content);
+		for($i=0;$i<$size;$i++){
 			$this->content[$i]->setProperty($this->attr, $this->getHref($i));
 		}
 		return $this;
