@@ -31,7 +31,7 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 	 *
 	 * @var boolean if set to true, the path of the elements is absolute
 	 */
-	protected $absolutePaths=true;
+	protected $absolutePaths=false;
 
 	/**
 	 *
@@ -212,4 +212,13 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 	public function asTexts() {
 		$this->contentAs("div");
 	}
+
+	public function setAbsolutePaths($absolutePaths) {
+		$this->absolutePaths=$absolutePaths;
+		for($i=0;$i<\sizeof($this->content);$i++){
+			$this->content[$i]->setProperty($this->attr, $this->getHref($i));
+		}
+		return $this;
+	}
+
 }
