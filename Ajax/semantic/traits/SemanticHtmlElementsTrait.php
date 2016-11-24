@@ -96,6 +96,13 @@ trait SemanticHtmlElementsTrait {
 		return $this->addHtmlComponent(new HtmlIcon($identifier, $icon));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param string $src
+	 * @param string $alt
+	 * @param string $size
+	 * @return HtmlImage
+	 */
 	public function htmlImage($identifier, $src="", $alt="", $size=NULL) {
 		return $this->addHtmlComponent(new HtmlImage($identifier, $src, $alt, $size));
 	}
@@ -134,6 +141,12 @@ trait SemanticHtmlElementsTrait {
 		return $this->addHtmlComponent(new HtmlLabel($identifier, $content,$icon, $tagName));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param array $labels
+	 * @param array $attributes
+	 * @return HtmlLabelGroups
+	 */
 	public function htmlLabelGroups($identifier,$labels=array(),$attributes=array()){
 		return $this->addHtmlComponent(new HtmlLabelGroups($identifier,$labels,$attributes));
 	}
@@ -175,15 +188,26 @@ trait SemanticHtmlElementsTrait {
 	 * @param string|HtmlSemDoubleElement $hiddenContent
 	 * @param RevealType|string $type
 	 * @param Direction|string $attributeType
+	 * @return HtmlReveal
 	 */
 	public function htmlReveal($identifier, $visibleContent, $hiddenContent, $type=RevealType::FADE, $attributeType=NULL) {
 		return $this->addHtmlComponent(new HtmlReveal($identifier, $visibleContent, $hiddenContent, $type, $attributeType));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param array $steps
+	 * @return HtmlStep
+	 */
 	public function htmlStep($identifier, $steps=array()) {
 		return $this->addHtmlComponent(new HtmlStep($identifier, $steps));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param string $flag
+	 * @return HtmlFlag
+	 */
 	public function htmlFlag($identifier, $flag) {
 		return $this->addHtmlComponent(new HtmlFlag($identifier, $flag));
 	}

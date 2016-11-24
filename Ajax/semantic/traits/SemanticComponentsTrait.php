@@ -59,30 +59,65 @@ trait SemanticComponentsTrait {
 		return $this->addComponent(new Accordion($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Sticky
+	 */
 	public function sticky($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Sticky($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Checkbox
+	 */
 	public function checkbox($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Checkbox($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Rating
+	 */
 	public function rating($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Rating($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Progress
+	 */
 	public function progress($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Progress($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Search
+	 */
 	public function search($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Search($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Dimmer
+	 */
 	public function dimmer($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Dimmer($this->js), $attachTo, $params);
 	}
 
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Modal
+	 */
 	public function modal($attachTo=NULL, $params=NULL,$paramsParts=NULL) {
 		$result= $this->addComponent(new Modal($this->js), $attachTo, $params);
 		$result->setParamParts($paramsParts);

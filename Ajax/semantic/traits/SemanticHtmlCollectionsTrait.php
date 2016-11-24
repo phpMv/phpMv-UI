@@ -12,6 +12,7 @@ trait SemanticHtmlCollectionsTrait {
 	 * @param string $identifier
 	 * @param int $rowCount
 	 * @param int $colCount
+	 * @return HtmlTable
 	 */
 	public function htmlTable($identifier, $rowCount, $colCount){
 		return $this->addHtmlComponent(new HtmlTable($identifier, $rowCount, $colCount));
