@@ -51,7 +51,7 @@ body, table, div, p, dl {
 	width: 100%;
 	border-bottom: 1px solid #395D54;
 }
-..memtitle{
+.memtitle{
 	font-weight: 600 !important;
 	font-size: 120% !important;
 	background-color: #F1E2D3;
