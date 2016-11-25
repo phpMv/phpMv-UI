@@ -1,6 +1,10 @@
 @CHARSET "UTF-8";
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina|Fredoka+One');
 
+body, table, div, p, dl {
+    font: 400 13px/21px Roboto,sans-serif;
+}
+
 #projectname
 {
 	font: 300% 'Baloo Bhaina', cursive !important;
@@ -12,6 +16,7 @@
 	font-size: 12px;
 	margin: 0px;
 	padding: 0px;
+	margin-top: -30px;
 }
 
 #projectnumber
@@ -47,8 +52,11 @@
 	border-bottom: 1px solid #395D54;
 }
 ..memtitle{
-	font-weight: 600;
-	font-size: 120%;
+	font-weight: 600 !important;
+	font-size: 120% !important;
+	background-color: #F1E2D3;
+    background-image: none;
+    color: #935B38;
 }
 .memdoc p{
 	color: #357B74;
