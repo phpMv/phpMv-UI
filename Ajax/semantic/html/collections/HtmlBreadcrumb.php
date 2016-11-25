@@ -10,6 +10,7 @@ use Ajax\JsUtils;
 
 /**
  * Semantic UI Breadcrumb component
+ *
  * @see http://semantic-ui.com/collections/breadcrumb.html
  * @method _hrefFunction($e)
  * @author jc
