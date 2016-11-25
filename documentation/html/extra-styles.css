@@ -1,9 +1,6 @@
 @CHARSET "UTF-8";
-@font-face {
-	font-family: 'Harabara';
-	src: url('./fonts/Harabara.eot');
-	src: local('Harabara'), url('./fonts/Harabara.woff') format('woff'), url('./fonts/Harabara.ttf') format('truetype');
-}
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+
 
 body, table, div, p, dl {
     font: 400 12px/20px Roboto,sans-serif !important;
@@ -11,7 +8,7 @@ body, table, div, p, dl {
 
 #projectname
 {
-	font: 300% 'Harabara' !important;
+	font: 300% 'Fredoka One', cursive !important;
 }
 
 #projectbrief
