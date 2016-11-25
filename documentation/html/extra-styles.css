@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+@font-face {
+	font-family: 'Harabara';
+	src: url('./fonts/Harabara.eot');
+	src: local('Harabara'), url('./fonts/Harabara.woff') format('woff'), url('./fonts/Harabara.ttf') format('truetype');
+}
+
+body, table, div, p, dl {
+    font: 400 12px/20px Roboto,sans-serif !important;
+}
+
+#projectname
+{
+	font: 300% 'Harabara' !important;
+}
+
+#projectbrief
+{
+	color: #C8EFD2;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#projectnumber
+{
+	color: rgb(255,255,255);
+	font-size: 25px;
+	font-weight: 400;
+	font-style: italic;
+	margin: 0px;
+	padding: 0px;
+}
+
+#version{
+	color: rgb(71, 69, 70);
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0px;
+	padding: 0px 10px 0px;
+}
+
+#titlearea
+{
+	color: rgb(71, 69, 70);
+    position: relative;
+    text-align: left;
+    text-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 0px;
+    perspective-origin: 950.5px 128px;
+    transform-origin: 950.5px 128px;
+	background: rgb(48,118,112) linear-gradient( rgb(132,211,178) 0px, rgb(48,118,112) 100%) repeat-x scroll 0% 0% / auto padding-box border-box;
+	padding: 0px 0px 10px;
+	margin: 0px;
+	width: 100%;
+	border-bottom: 1px solid #395D54;
+}
