@@ -1,14 +1,9 @@
 @CHARSET "UTF-8";
-@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
-
-
-body, table, div, p, dl {
-    font: 400 12px/20px Roboto,sans-serif !important;
-}
+@import url('https://fonts.googleapis.com/css?family=Baloo+Bhaina|Fredoka+One');
 
 #projectname
 {
-	font: 300% 'Fredoka One', cursive !important;
+	font: 300% 'Baloo Bhaina', cursive !important;
 }
 
 #projectbrief
@@ -50,4 +45,12 @@ body, table, div, p, dl {
 	margin: 0px;
 	width: 100%;
 	border-bottom: 1px solid #395D54;
+}
+..memtitle{
+	font-weight: 600;
+	font-size: 120%;
+}
+.memdoc p{
+	color: #357B74;
+	font-weight: 500 !important;
 }
