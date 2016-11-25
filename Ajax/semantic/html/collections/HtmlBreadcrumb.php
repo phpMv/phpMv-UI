@@ -79,6 +79,9 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 		return parent::contentAsString();
 	}
 
+	/**
+	 * @param int $index
+	 */
 	public function setActive($index=null) {
 		if (!isset($index)) {
 			$index=sizeof($this->content) - 1;
