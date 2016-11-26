@@ -33,6 +33,8 @@ trait SemanticHtmlElementsTrait {
 
 	/**
 	 * Return a new Semantic Html Button
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/31
+	 * @see http://semantic-ui.com/elements/button.html
 	 * @param string $identifier
 	 * @param string $value
 	 * @param string $cssStyle

@@ -10,8 +10,8 @@ use Ajax\semantic\html\elements\html5\HtmlLink;
 
 /**
  * Semantic Button component
- * @see http://semantic-ui.com/elements/button.html
- * @author jc
+ * @see http://phpmv-ui.kobject.net/index/direct/main/31
+ * @see http://semantic-ui.com/elements/button.html * @author jc
  * @version 1.001
  */
 class HtmlButton extends HtmlSemDoubleElement {
