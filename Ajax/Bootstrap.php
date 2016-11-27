@@ -28,6 +28,14 @@ use Ajax\bootstrap\html\HtmlPagination;
 use Ajax\bootstrap\html\HtmlGridSystem;
 use Ajax\bootstrap\traits\BootstrapComponentsTrait;
 
+/**
+ * Bootstrap PHP library
+ *
+ * @author jcheron
+ * @version 1.004
+ * @license Apache 2 http://www.apache.org/licenses/
+ */
+
 class Bootstrap extends BaseGui {
 	use BootstrapComponentsTrait;
 	public function __construct($autoCompile=true) {

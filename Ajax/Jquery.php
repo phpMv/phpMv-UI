@@ -7,7 +7,7 @@ use Ajax\common\traits\JqueryAjaxTrait;
 use Ajax\common\traits\JqueryActionsTrait;
 
 /**
- * JQuery Phalcon library
+ * JQuery library
  *
  * @author jcheron
  * @version 1.002

@@ -46,7 +46,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a group of Semantic buttons
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/50
+	 * @see http://semantic-ui.com/elements/button.html#buttons
 	 * @param string $identifier
 	 * @param array $elements
 	 * @param boolean $asIcons
@@ -57,7 +59,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 * Creates an html container
+	 * Returns a new Semantic container
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/34
+	 * @see http://semantic-ui.com/elements/container.html
 	 * @param string $identifier
 	 * @param string $content
 	 * @return HtmlContainer
@@ -67,7 +71,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a new Semantic divider
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/42
+	 * @see http://semantic-ui.com/elements/divider.html
 	 * @param string $identifier
 	 * @param string $content
 	 * @return HtmlDivider
@@ -77,7 +83,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a new Semantic header
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/43
+	 * @see http://semantic-ui.com/elements/header.html
 	 * @param string $identifier
 	 * @param number $niveau
 	 * @param mixed $content
@@ -89,7 +97,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a new Semantic icon
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/44
+	 * @see http://semantic-ui.com/elements/icon.html
 	 * @param string $identifier
 	 * @param string $icon
 	 * @return HtmlIcon
@@ -99,6 +109,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
+	 * Returns a new Semantic image
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/55
+	 * @see http://semantic-ui.com/elements/image.html
 	 * @param string $identifier
 	 * @param string $src
 	 * @param string $alt
@@ -110,7 +123,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a new Semantic group of images
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/0
+	 * @see http://semantic-ui.com/elements/image.html#size
 	 * @param string $identifier
 	 * @param array $icons
 	 * @param string $size
@@ -121,7 +136,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a new Semantic html input
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/45
+	 * @see http://semantic-ui.com/elements/input.html
 	 * @param string $identifier
 	 * @param string $type
 	 * @param string $value
@@ -133,7 +150,9 @@ trait SemanticHtmlElementsTrait {
 	}
 
 	/**
-	 *
+	 * Returns a new Semantic label
+	 * @see http://phpmv-ui.kobject.net/index/direct/main/46
+	 * @see http://semantic-ui.com/elements/label.html
 	 * @param string $identifier
 	 * @param string $content
 	 * @param string $tagName

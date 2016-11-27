@@ -23,7 +23,14 @@ use Ajax\semantic\traits\SemanticHtmlCollectionsTrait;
 use Ajax\semantic\traits\SemanticHtmlModulesTrait;
 use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 
-class Semantic extends BaseGui {
+/**
+ * Semantic PHP library
+ *
+ * @author jcheron
+ * @version 1.004
+ * @license Apache 2 http://www.apache.org/licenses/
+ */
+ class Semantic extends BaseGui {
 	use SemanticComponentsTrait,SemanticHtmlElementsTrait,SemanticHtmlCollectionsTrait,
 	SemanticHtmlModulesTrait,SemanticHtmlViewsTrait;
 

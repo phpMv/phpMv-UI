@@ -22,7 +22,8 @@ body, table, div, p, dl {
 #projectnumber
 {
 	color: rgb(255,255,255);
-	font-size: 25px;
+	text-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 0px;
+	font-size: 20px;
 	font-weight: 400;
 	font-style: italic;
 	margin: 0px;
@@ -64,7 +65,7 @@ body, table, div, p, dl {
 }
 #MSearchField{
 	background: none;
-	font: 400 9pt Roboto,sans-serif;
+	font: 9pt Roboto,sans-serif;
 	border: inherit;
 }
 #MSearchBox .left{
@@ -73,4 +74,8 @@ body, table, div, p, dl {
 
 #MSearchBox .right{
 	background: none;
+}
+
+.SelectItem{
+	font: 8pt Roboto,sans-serif;
 }
