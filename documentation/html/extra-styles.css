@@ -62,3 +62,15 @@ body, table, div, p, dl {
 	color: #357B74;
 	font-weight: 500 !important;
 }
+#MSearchField{
+	background: none;
+	font: 400 9pt Roboto,sans-serif;
+	border: inherit;
+}
+#MSearchBox .left{
+	background: none;
+}
+
+#MSearchBox .right{
+	background: none;
+}
