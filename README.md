@@ -20,10 +20,11 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 * JQuery >= 2.0.3
 * JQuery UI >= 1.10 [optional]
 * Twitter Bootstrap >= 3.3.2 [optional]
+* Semantic-UI >= 2.2 [optional]
 
 ##Resources
-* [API](http://api.kobject.net/phpMv-UI/) : in progress
-* [Documentation](http://slamwiki.kobject.net/en/slam4/php/phalcon/jquery) : in progress
+* [API](https://codedocs.xyz/phpMv/)
+* [Documentation](http://phpmv-ui.kobject.net/)
 
 ##I - Installation
 
