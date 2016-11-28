@@ -23,7 +23,7 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 * Semantic-UI >= 2.2 [optional]
 
 ##Resources
-* [API](https://codedocs.xyz/phpMv/)
+* [API](https://codedocs.xyz/phpMv/phpMv-UI/)
 * [Documentation](http://phpmv-ui.kobject.net/)
 
 ##I - Installation
