@@ -116,6 +116,14 @@ trait BaseTrait {
 	}
 
 	/**
+	 * show it is currently the active user selection
+	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 */
+	public function setActive($value=true){
+		return $this->addToProperty("class", "active");
+	}
+
+	/**
 	 * can be formatted to appear on dark backgrounds
 	 */
 	public function setInverted() {

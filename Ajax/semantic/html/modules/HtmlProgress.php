@@ -49,10 +49,6 @@ class HtmlProgress extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "indicating");
 	}
 
-	public function setActive() {
-		return $this->addToProperty("class", "active");
-	}
-
 	public function setWarning() {
 		return $this->addToProperty("class", "warning");
 	}

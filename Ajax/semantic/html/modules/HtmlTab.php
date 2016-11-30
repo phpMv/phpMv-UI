@@ -1,19 +1,24 @@
 <?php
-
 namespace Ajax\semantic\html\modules;
 
 use Ajax\semantic\html\base\HtmlSemCollection;
-use Ajax\semantic\html\content\HtmlAccordionItem;
+use Ajax\semantic\html\elements\HtmlSegment;
+use Ajax\semantic\html\collections\menus\HtmlMenu;
+use Ajax\semantic\html\base\constants\Side;
 use Ajax\JsUtils;
 
-class HtmlAccordion extends HtmlSemCollection{
-
+class HtmlTab extends HtmlSemCollection{
 	protected $params=array();
 
-	public function __construct( $identifier, $tagName="div", $baseClass="ui"){
-		parent::__construct( $identifier, "div", "ui accordion");
+	public function __construct( $identifier, $tabs=array()){
+		parent::__construct( $identifier, "div", "");
+		$menu=new HtmlMenu("menu".$this->identifier);
+		$menu->asTab(false)->setAttachment(NULL,Side::TOP);
+		$this->content["menu"]=$menu;
+		$this->addItems($tabs);
+		if(\sizeof($tabs)>0)
+			$this->activate(0);
 	}
-
 
 	protected function createItem($value){
 		$count=$this->count();
@@ -22,11 +27,18 @@ class HtmlAccordion extends HtmlSemCollection{
 		if(\is_array($value)){
 			$title=@$value[0];$content=@$value[1];
 		}
-		return new HtmlAccordionItem("item-".$this->identifier."-".$count, $title,$content);
+		$menuItem=$this->content["menu"]->addItem($title);
+		$menuItem->addToProperty("data-tab", $menuItem->getIdentifier());
+		$menuItem->removeProperty("href");
+		$segment=new HtmlSegment("item-".$this->identifier."-".$count, $content);
+		$segment->setAttachment(NULL,Side::BOTTOM)->addToProperty("class", "tab")->addToProperty("data-tab",$menuItem->getIdentifier());
+		return $segment;
 	}
 
-	protected function createCondition($value){
-		return ($value instanceof HtmlAccordionItem)===false;
+	public function activate($index){
+		$this->content["menu"]->getItem($index)->setActive(true);
+		$this->content[$index]->setActive(true);
+		return $this;
 	}
 
 	public function addPanel($title,$content){
@@ -57,27 +69,15 @@ class HtmlAccordion extends HtmlSemCollection{
 	public function renderViewPanel(JsUtils $js,$title,$initialController, $viewName, $params=array()) {
 		return $this->addPanel($title, $js->renderContent($initialController, $viewName,$params));
 	}
+
 	/*
 	 * (non-PHPdoc)
 	 * @see BaseHtml::run()
 	 */
 	public function run(JsUtils $js) {
 		if(isset($this->_bsComponent)===false)
-			$this->_bsComponent=$js->semantic()->accordion("#".$this->identifier,$this->params);
+			$this->_bsComponent=$js->semantic()->tab("#".$this->identifier." .item",$this->params);
 			$this->addEventsOnRun($js);
 			return $this->_bsComponent;
-	}
-
-	public function setStyled(){
-		return $this->addToProperty("class", "styled");
-	}
-
-	public function activate($index){
-		$this->getItem($index)->setActive(true);
-		return $this;
-	}
-
-	public function setExclusive($value){
-		$this->params["exclusive"]=$value;
 	}
 }

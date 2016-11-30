@@ -14,6 +14,7 @@ use Ajax\semantic\components\Progress;
 use Ajax\semantic\components\Search;
 use Ajax\semantic\components\Dimmer;
 use Ajax\semantic\components\Modal;
+use Ajax\semantic\components\Tab;
 
 trait SemanticComponentsTrait {
 
@@ -121,6 +122,16 @@ trait SemanticComponentsTrait {
 	public function modal($attachTo=NULL, $params=NULL,$paramsParts=NULL) {
 		$result= $this->addComponent(new Modal($this->js), $attachTo, $params);
 		$result->setParamParts($paramsParts);
+		return $result;
+	}
+
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Tab
+	 */
+	public function tab($attachTo=NULL, $params=NULL) {
+		$result= $this->addComponent(new Tab($this->js), $attachTo, $params);
 		return $result;
 	}
 }

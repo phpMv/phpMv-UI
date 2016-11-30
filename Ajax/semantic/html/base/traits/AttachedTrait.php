@@ -8,11 +8,11 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 trait AttachedTrait {
 
 	/**
-	 *
+	 * @param HtmlSemDoubleElement $toElement
 	 * @param string $side
 	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
 	 */
-	public function setAttachment(HtmlSemDoubleElement $toElement, $value=Side::BOTH) {
+	public function setAttachment($toElement, $value=Side::BOTH) {
 		if (isset($toElement)) {
 			$toElement->addToPropertyCtrl("class", "attached", array ("attached" ));
 		}

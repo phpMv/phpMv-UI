@@ -33,6 +33,7 @@ class HtmlMenuItem extends HtmlAbsractItem {
 			$this->setContent($content);
 		}
 	}
+
 /*	public function addIcon($icon, $before=true) {
 		$content=$this->content;
 		$this->content=new HtmlSemDoubleElement("content-" . $this->identifier, "div", "content");

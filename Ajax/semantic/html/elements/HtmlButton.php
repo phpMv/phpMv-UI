@@ -129,14 +129,6 @@ class HtmlButton extends HtmlSemDoubleElement {
 	}
 
 	/**
-	 * show it is currently the active user selection
-	 * @return \Ajax\semantic\html\elements\HtmlButton
-	 */
-	public function setActive() {
-		return $this->addToProperty("class", "active");
-	}
-
-	/**
 	 * hint towards a positive consequence
 	 * @return \Ajax\semantic\html\elements\HtmlButton
 	 */

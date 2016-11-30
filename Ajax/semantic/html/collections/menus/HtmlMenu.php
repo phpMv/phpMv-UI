@@ -15,6 +15,7 @@ use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\elements\HtmlButton;
+use Ajax\semantic\html\base\traits\AttachedTrait;
 
 /**
  * Semantic Menu component
@@ -23,6 +24,7 @@ use Ajax\semantic\html\elements\HtmlButton;
  * @version 1.001
  */
 class HtmlMenu extends HtmlSemCollection {
+	use AttachedTrait;
 	private $_itemHeader;
 
 	public function __construct($identifier, $items=array()) {
@@ -130,7 +132,7 @@ class HtmlMenu extends HtmlSemCollection {
 	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
-		$itemO=new HtmlLink("item-" . \sizeof($this->content), "", $value);
+		$itemO=new HtmlLink($this->identifier."item" . \sizeof($this->content), "", $value);
 		return $itemO->setClass("item");
 	}
 

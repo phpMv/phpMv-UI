@@ -37,8 +37,12 @@ class HtmlStepItem extends HtmlAbsractItem {
 		}
 	}
 
-	public function setActive(){
-		return $this->setStatus(StepStatus::ACTIVE);
+	public function setActive($value=true){
+		if($value)
+			$this->setStatus(StepStatus::ACTIVE);
+		else
+			$this->setStatus(StepStatus::NONE);
+		return $this;
 	}
 
 	public function setCompleted(){

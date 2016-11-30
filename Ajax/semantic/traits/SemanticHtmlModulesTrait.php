@@ -10,6 +10,7 @@ use Ajax\semantic\html\modules\HtmlSearch;
 use Ajax\semantic\html\modules\HtmlDimmer;
 use Ajax\semantic\html\modules\HtmlModal;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
+use Ajax\semantic\html\modules\HtmlTab;
 
 trait SemanticHtmlModulesTrait {
 
@@ -79,5 +80,15 @@ trait SemanticHtmlModulesTrait {
 	 */
 	public function htmlModal($identifier, $header="", $content="", $actions=array()) {
 		return $this->addHtmlComponent(new HtmlModal($identifier, $header,$content,$actions));
+	}
+
+	/**
+	 * Returns a new Semantic Tab
+	 * @see http://semantic-ui.com/modules/tab.html
+	 * @param array $tabs
+	 * @return HtmlTab
+	 */
+	public function htmlTab($identifier, $tabs=array()) {
+		return $this->addHtmlComponent(new HtmlTab($identifier, $tabs));
 	}
 }

@@ -123,9 +123,6 @@ class HtmlModal extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "basic");
 	}
 
-	public function setActive(){
-		return $this->addToProperty("class", "active");
-	}
 
 	public function setTransition($value){
 		$this->_paramParts[]=["'setting'","'transition'","'".$value."'"];
