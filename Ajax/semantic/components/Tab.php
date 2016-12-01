@@ -11,6 +11,8 @@ class Tab extends SimpleExtComponent {
 		parent::__construct($js);
 		$this->uiName="tab";
 	}
-
+	public function setDebug($value=true) {
+		return $this->setParam("debug", $value);
+	}
 	//TODO other events implementation
 }

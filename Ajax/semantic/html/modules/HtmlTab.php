@@ -8,7 +8,7 @@ use Ajax\semantic\html\base\constants\Side;
 use Ajax\JsUtils;
 
 class HtmlTab extends HtmlSemCollection{
-	protected $params=array();
+	protected $params=array("debug"=>true);
 
 	public function __construct( $identifier, $tabs=array()){
 		parent::__construct( $identifier, "div", "");
@@ -16,8 +16,6 @@ class HtmlTab extends HtmlSemCollection{
 		$menu->asTab(false)->setAttachment(NULL,Side::TOP);
 		$this->content["menu"]=$menu;
 		$this->addItems($tabs);
-		if(\sizeof($tabs)>0)
-			$this->activate(0);
 	}
 
 	protected function createItem($value){
@@ -79,5 +77,10 @@ class HtmlTab extends HtmlSemCollection{
 			$this->_bsComponent=$js->semantic()->tab("#".$this->identifier." .item",$this->params);
 			$this->addEventsOnRun($js);
 			return $this->_bsComponent;
+	}
+	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		if($this->content["menu"]->count()>0)
+			$this->activate(0);
+		return parent::compile($js,$view);
 	}
 }
