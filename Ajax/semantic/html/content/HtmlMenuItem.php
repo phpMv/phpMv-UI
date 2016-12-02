@@ -2,8 +2,6 @@
 
 namespace Ajax\semantic\html\content;
 
-use Ajax\semantic\html\base\HtmlSemDoubleElement;
-use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\service\JArray;
 
 class HtmlMenuItem extends HtmlAbsractItem {
