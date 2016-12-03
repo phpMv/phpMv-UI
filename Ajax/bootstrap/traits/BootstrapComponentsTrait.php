@@ -14,8 +14,18 @@ use Ajax\bootstrap\components\Collapse;
 use Ajax\Bootstrap;
 use Ajax\common\components\SimpleComponent;
 
+/**
+ * @property \Ajax\JsUtils $js
+ */
+
 trait BootstrapComponentsTrait {
 
+	/**
+	 * @param SimpleComponent $component
+	 * @param string|null $attachTo $attachTo
+	 * @param array|null $params
+	 * @return SimpleComponent
+	 */
 	public abstract function addComponent(SimpleComponent $component, $attachTo, $params);
 	/**
 	 *
