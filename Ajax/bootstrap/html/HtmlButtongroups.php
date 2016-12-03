@@ -12,6 +12,10 @@ use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
  * @version 1.001
  */
 class HtmlButtongroups extends HtmlBsDoubleElement {
+
+	/**
+	 * @var array[HtmlButton]
+	 */
 	protected $elements;
 
 	public function __construct($identifier, $elements=array(), $cssStyle=NULL, $size=NULL, $tagName="div") {
