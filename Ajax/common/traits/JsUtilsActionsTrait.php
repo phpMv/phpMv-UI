@@ -2,6 +2,10 @@
 
 namespace Ajax\common\traits;
 
+/**
+ * @author jc
+ * @property Ajax\JsUtils $js
+ */
 trait JsUtilsActionsTrait {
 
 	/**

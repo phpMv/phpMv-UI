@@ -7,6 +7,10 @@ use Ajax\semantic\html\base\constants\Color;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlIcon;
 
+/**
+ * @author jc
+ * @property string $identifier
+ */
 trait BaseTrait {
 	protected $_variations=[ ];
 	protected $_states=[ ];
@@ -19,6 +23,8 @@ trait BaseTrait {
 	protected abstract function addToPropertyCtrlCheck($name, $value, $typeCtrl);
 
 	public abstract function addToProperty($name, $value, $separator=" ");
+
+	public abstract function setProperty($name, $value);
 
 	public function addVariation($variation) {
 		return $this->addToPropertyCtrlCheck("class", $variation, $this->_variations);

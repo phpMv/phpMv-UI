@@ -7,7 +7,7 @@ use Ajax\common\traits\JqueryAjaxTrait;
 use Ajax\common\traits\JqueryActionsTrait;
 
 /**
- * JQuery library
+ * JQuery Phalcon library
  *
  * @author jcheron
  * @version 1.002
@@ -29,6 +29,7 @@ class Jquery {
 	protected $jquery_table_sorter_active=FALSE;
 	protected $jquery_table_sorter_pager_active=FALSE;
 	protected $jsUtils;
+	protected $params;
 
 	protected $jquery_events=array (
 			"bind","blur","change","click","dblclick","delegate","die","error","focus","focusin","focusout","hover","keydown","keypress","keyup","live","load","mousedown","mousseenter","mouseleave","mousemove","mouseout","mouseover","mouseup","off","on","one","ready","resize","scroll","select","submit","toggle","trigger","triggerHandler","undind","undelegate","unload"

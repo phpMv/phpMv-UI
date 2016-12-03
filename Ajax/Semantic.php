@@ -23,14 +23,7 @@ use Ajax\semantic\traits\SemanticHtmlCollectionsTrait;
 use Ajax\semantic\traits\SemanticHtmlModulesTrait;
 use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 
-/**
- * Semantic PHP library
- *
- * @author jcheron
- * @version 1.004
- * @license Apache 2 http://www.apache.org/licenses/
- */
- class Semantic extends BaseGui {
+class Semantic extends BaseGui {
 	use SemanticComponentsTrait,SemanticHtmlElementsTrait,SemanticHtmlCollectionsTrait,
 	SemanticHtmlModulesTrait,SemanticHtmlViewsTrait;
 
@@ -42,7 +35,7 @@ use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 	 *
 	 * @param string $identifier
 	 * @param array $items
-	 * @return Ajax\semantic\html\collections\menus\HtmlMenu
+	 * @return Ajax\semantic\html\collections\HtmlMenu
 	 */
 	public function htmlMenu($identifier, $items=array()) {
 		return $this->addHtmlComponent(new HtmlMenu($identifier, $items));
@@ -52,7 +45,6 @@ use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 	 * Adds an icon menu
 	 * @param string $identifier
 	 * @param array $items icons
-	 * @return Ajax\semantic\html\collections\menus\HtmlIconMenu
 	 */
 	public function htmlIconMenu($identifier, $items=array()) {
 		return $this->addHtmlComponent(new HtmlIconMenu($identifier, $items));
@@ -62,7 +54,6 @@ use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 	 * Adds an labeled icon menu
 	 * @param string $identifier
 	 * @param array $items icons
-	 * @return HtmlLabeledIconMenu
 	 */
 	public function htmlLabeledIconMenu($identifier, $items=array()) {
 		return $this->addHtmlComponent(new HtmlLabeledIconMenu($identifier, $items));
@@ -73,7 +64,6 @@ use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 	 * @param string $identifier
 	 * @param string $value
 	 * @param array $items
-	 * @return HtmlDropdown
 	 */
 	public function htmlDropdown($identifier, $value="", $items=array()) {
 		return $this->addHtmlComponent(new HtmlDropdown($identifier, $value, $items));
@@ -153,6 +143,7 @@ use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 	}
 
 	/**
+	 * Returns a new Semantic Sticky
 	 * @param string $identifier
 	 * @param array $content
 	 * @return HtmlSticky

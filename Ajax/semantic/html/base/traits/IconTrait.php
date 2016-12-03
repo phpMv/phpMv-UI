@@ -4,6 +4,13 @@ namespace Ajax\semantic\html\base\traits;
 
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\base\constants\Direction;
+
+
+/**
+ * @author jc
+ * @property string $identifier
+ * @property mixed $content
+ */
 trait IconTrait {
 	private $_hasIcon=false;
 

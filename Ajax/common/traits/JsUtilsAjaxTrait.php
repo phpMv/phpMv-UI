@@ -3,6 +3,11 @@
 namespace Ajax\common\traits;
 
 use Ajax\service\JArray;
+
+/**
+ * @author jc
+ * @property Ajax\JsUtils $js
+ */
 trait JsUtilsAjaxTrait {
 
 	public function setAjaxLoader($loader) {

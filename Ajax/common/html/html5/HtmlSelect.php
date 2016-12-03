@@ -13,7 +13,7 @@ class HtmlSelect extends HtmlDoubleElement {
 	private $default;
 	private $options;
 
-	public function __construct($identifier, $caption,$default=NULL) {
+	public function __construct($identifier, $caption="",$default=NULL) {
 		parent::__construct($identifier, "select");
 		$this->setProperty("name", $identifier);
 		$this->setProperty("class", "form-control");

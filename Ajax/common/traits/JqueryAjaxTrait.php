@@ -3,8 +3,13 @@
 namespace Ajax\common\traits;
 
 use Ajax\service\JString;
-use Ajax\service\PhalconUtils;
-use Symfony\Component\Config\Definition\Exception\Exception;
+
+
+/**
+ * @author jc
+ * @property array $jquery_code_for_compile
+ * @property Ajax\JsUtils $jsUtils
+ */
 trait JqueryAjaxTrait {
 
 	protected $ajaxLoader='<span></span><span></span><span></span><span></span><span></span>';

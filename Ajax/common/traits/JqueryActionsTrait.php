@@ -4,7 +4,7 @@ namespace Ajax\common\traits;
 /**
  *
  * @author jc
- * @property array $jquery_code_for_compile;
+ * @property array $jquery_code_for_compile
  */
 
 trait JqueryActionsTrait {

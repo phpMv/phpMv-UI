@@ -19,6 +19,9 @@ abstract class HtmlSemNavElement extends HtmlSemCollection {
 	 */
 	protected $attr;
 
+	/**
+	 * @var string|array
+	 */
 	protected $_contentSeparator="";
 
 

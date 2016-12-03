@@ -17,7 +17,7 @@ use Ajax\ui\Components\Tooltip;
 use Ajax\common\BaseGui;
 
 /**
- * JQuery UI library
+ * JQuery UI Phalcon library
  *
  * @author jcheron
  * @version 1.001
