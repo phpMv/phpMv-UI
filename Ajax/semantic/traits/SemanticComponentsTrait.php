@@ -21,7 +21,7 @@ trait SemanticComponentsTrait {
 	/**
 	 * @param SimpleComponent $component
 	 * @param string|null $attachTo $attachTo
-	 * @param array|null $params
+	 * @param array|string|null $params
 	 * @return SimpleComponent
 	 */
 	public abstract function addComponent(SimpleComponent $component, $attachTo, $params);

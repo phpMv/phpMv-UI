@@ -23,7 +23,7 @@ trait BootstrapComponentsTrait {
 	/**
 	 * @param SimpleComponent $component
 	 * @param string|null $attachTo $attachTo
-	 * @param array|null $params
+	 * @param array|null|string $params
 	 * @return SimpleComponent
 	 */
 	public abstract function addComponent(SimpleComponent $component, $attachTo, $params);
