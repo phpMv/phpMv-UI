@@ -9,7 +9,6 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Wide;
 use Ajax\common\html\html5\HtmlImg;
 use Ajax\semantic\html\modules\HtmlDropdown;
-use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\modules\HtmlPopup;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\elements\html5\HtmlLink;
@@ -97,6 +96,9 @@ class HtmlMenu extends HtmlSemCollection {
 			$headerItem->setContent($header);
 			$item->addContent($headerItem);
 			$this->_itemHeader=$headerItem;
+		}
+		if(\is_array($menu)){
+			$menu=new HtmlMenu("menu-" . $this->identifier . "-" . $count,$menu);
 		}
 		$menu->setClass("menu");
 		$item->addContent($menu);

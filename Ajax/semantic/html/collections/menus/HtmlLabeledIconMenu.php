@@ -3,8 +3,8 @@
 namespace Ajax\semantic\html\collections\menus;
 
 use Ajax\semantic\html\collections\menus\HtmlMenu;
-use Ajax\bootstrap\html\HtmlLink;
 use Ajax\semantic\html\elements\HtmlIcon;
+use Ajax\semantic\html\elements\html5\HtmlLink;
 
 /**
  * Semantic Menu component with only labeled icons

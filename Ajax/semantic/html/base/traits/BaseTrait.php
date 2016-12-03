@@ -116,6 +116,14 @@ trait BaseTrait {
 	}
 
 	/**
+	 *
+	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 */
+	public function asHeader(){
+		return $this->addToProperty("class", "header");
+	}
+
+	/**
 	 * show it is currently the active user selection
 	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
 	 */
