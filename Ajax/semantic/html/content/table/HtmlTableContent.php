@@ -56,6 +56,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	 * {@inheritDoc}
 	 *
 	 * @see \Ajax\common\html\HtmlCollection::createItem()
+	 * @return HtmlTR
 	 */
 	protected function createItem($value) {
 		$count=$this->count();

@@ -47,10 +47,11 @@ class HtmlForm extends HtmlBsDoubleElement {
 						$control->setLabel($label, false);
 						break;
 					case "select":
-						$control=new HtmlSelect($futureElement);
+						$control=new HtmlSelect($futureElement,"");
 						$control->setProperty("size", $futureElementValues [1]);
 						$control->setClass("form-control");
-						$control->setLabel($this->getPart($futureElement));
+						//$control->setLabel($this->getPart($futureElement));
+						//TODO check Select label
 						break;
 					default:
 						$control=new HtmlInput($futureElement);
