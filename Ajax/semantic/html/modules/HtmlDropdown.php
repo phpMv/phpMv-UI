@@ -34,8 +34,8 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->addItems($items);
 	}
 
-	public function addItem($item,$value=NULL,$image=NULL){
-		$itemO=$this->beforeAddItem($item,$value,$image);
+	public function addItem($item,$value=NULL,$image=NULL,$description=NULL){
+		$itemO=$this->beforeAddItem($item,$value,$image,$description);
 		$this->items[]=$itemO;
 		return $itemO;
 	}
@@ -44,6 +44,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->addIconP($icon,$before,$labeled);
 		return $this->getElementById("text-".$this->identifier, $this->content)->setWrapAfter("");
 	}
+
 	/**
 	 * Insert an item at a position
 	 * @param mixed $item
@@ -59,15 +60,16 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		 return $itemO;
 	}
 
-	protected function beforeAddItem($item,$value=NULL,$image=NULL){
+	protected function beforeAddItem($item,$value=NULL,$image=NULL,$description=NULL){
 		$itemO=$item;
 		if(\is_array($item)){
+			$description=JArray::getValue($item, "description", 3);
 			$value=JArray::getValue($item, "value", 1);
 			$image=JArray::getValue($item, "image", 2);
 			$item=JArray::getValue($item, "item", 0);
 		}
 		if(!$item instanceof HtmlDropdownItem){
-			$itemO=new HtmlDropdownItem("dd-item-".$this->identifier."-".\sizeof($this->items),$item,$value,$image);
+			$itemO=new HtmlDropdownItem("dd-item-".$this->identifier."-".\sizeof($this->items),$item,$value,$image,$description);
 		}elseif($itemO instanceof HtmlDropdownItem){
 			$this->addToProperty("class", "vertical");
 		}
@@ -88,6 +90,53 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->input=new HtmlInput($name,"hidden");
 	}
 
+	/**
+	 * Adds a search input item
+	 * @param string $placeHolder
+	 * @param string $icon
+	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 */
+	public function addSearchInputItem($placeHolder=NULL,$icon=NULL){
+		return $this->addItem(HtmlDropdownItem::searchInput($placeHolder,$icon));
+	}
+
+	/**
+	 * Adds a divider item
+	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 */
+	public function addDividerItem(){
+		return $this->addItem(HtmlDropdownItem::divider());
+	}
+
+	/**
+	 * Adds an header item
+	 * @param string $caption
+	 * @param string $icon
+	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|unknown
+	 */
+	public function addHeaderItem($caption=NULL,$icon=NULL){
+		return $this->addItem(HtmlDropdownItem::header($caption,$icon));
+	}
+
+	/**
+	 * Adds an item with a circular label
+	 * @param string $caption
+	 * @param string $color
+	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|unknown
+	 */
+	public function addCircularLabelItem($caption,$color){
+		return $this->addItem(HtmlDropdownItem::circular($caption, $color));
+	}
+
+	/**
+	 * @param string $caption
+	 * @param string $image
+	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 */
+	public function addMiniAvatarImageItem($caption,$image){
+		return $this->addItem(HtmlDropdownItem::avatar($caption, $image));
+	}
+
 	public function addItems($items){
 		if(JArray::isAssociative($items)){
 			foreach ($items as $k=>$v){
@@ -100,6 +149,9 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		}
 	}
 
+	/**
+	 * @return int
+	 */
 	public function count(){
 		return \sizeof($this->items);
 	}
@@ -128,6 +180,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	public function asButton($floating=false){
 		if($floating)
 			$this->addToProperty("class", "floating");
+		$this->removePropertyValue("class", "selection");
 		return $this->addToProperty("class", "button");
 	}
 
@@ -136,12 +189,14 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 			$this->addInput($name);
 		if($multiple)
 			$this->addToProperty("class", "multiple");
-		if ($selection)
-			$this->addToPropertyCtrl("class", "selection",array("selection"));
+		if ($selection){
+			if($this->propertyContains("class", "button")===false)
+				$this->addToPropertyCtrl("class", "selection",array("selection"));
+		}
 		return $this;
 	}
 
-	public function asSearch($name=NULL,$multiple=false,$selection=false){
+	public function asSearch($name=NULL,$multiple=false,$selection=true){
 		$this->asSelect($name,$multiple,$selection);
 		return $this->addToProperty("class", "search");
 	}

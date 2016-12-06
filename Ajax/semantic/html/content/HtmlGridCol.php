@@ -52,7 +52,7 @@ class HtmlGridCol extends HtmlSemDoubleElement {
 			$divider->setVertical();
 		else
 			$divider->setHorizontal();
-		$this->wrap("", $divider);
+		$this->wrap($divider,"");
 		return $divider;
 	}
 }
