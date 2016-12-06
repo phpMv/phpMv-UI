@@ -10,6 +10,7 @@ use Ajax\semantic\html\modules\HtmlDimmer;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\JsUtils;
+use Phalcon\Mvc\View;
 
 /**
  * Base class for Semantic double elements
@@ -92,8 +93,8 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
-		if (isset($this->_popup))
-			$this->_popup->compile();
+	if (isset($this->_popup))
+			$this->_popup->compile($js);
 		return parent::compile($js, $view);
 	}
 

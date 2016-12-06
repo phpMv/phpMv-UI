@@ -15,6 +15,7 @@ use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\traits\AttachedTrait;
+use Ajax\semantic\html\content\HtmlMenuItem;
 
 /**
  * Semantic Menu component
@@ -50,15 +51,14 @@ class HtmlMenu extends HtmlSemCollection {
 
 	private function getItemToInsert($item) {
 		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButton || ($item instanceof HtmlDropdown && $this->propertyContains("class", "vertical")===false)) {
-			$itemO=new HtmlSemDoubleElement("item-" . $this->identifier, "div", "");
-			$itemO->setContent($item);
+			$itemO=new HtmlMenuItem("item-" . $this->identifier, $item);
 			$item=$itemO;
 		}
 		return $item;
 	}
 
 	private function afterInsert($item) {
-		if (!$item instanceof HtmlMenu)
+		if (!$item instanceof HtmlMenu && $item->propertyContains("class", "header")===false)
 			$item->addToPropertyCtrl("class", "item", array ("item" ));
 		else {
 			$this->setSecondary();
@@ -124,7 +124,8 @@ class HtmlMenu extends HtmlSemCollection {
 		if (\is_string($value)) {
 			$dd=new HtmlDropdown("dropdown-" . $this->identifier . "-" . $this->count(), $value, $items);
 		}
-		return $this->addItem($dd);
+		$this->addItem($dd);
+		return $dd;
 	}
 
 	/**
@@ -134,16 +135,21 @@ class HtmlMenu extends HtmlSemCollection {
 	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
-		$itemO=new HtmlLink($this->identifier."item" . \sizeof($this->content), "", $value);
-		return $itemO->setClass("item");
+		$itemO=new HtmlMenuItem($this->identifier."item" . \sizeof($this->content),"");
+		$itemO->setTagName("a");
+		$itemO->setContent($value);
+		return $itemO;
 	}
 
 	public function setInverted() {
 		return $this->addToProperty("class", "inverted");
 	}
 
-	public function setSecondary() {
-		return $this->addToProperty("class", "secondary");
+	public function setSecondary($value=true) {
+		if($value)
+			$this->addToProperty("class", "secondary");
+		else
+			$this->removePropertyValue("class", "secondary");
 	}
 
 	public function setVertical() {

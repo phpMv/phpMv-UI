@@ -51,4 +51,5 @@ class HtmlRating extends HtmlSemDoubleElement {
 	public function setIcon($icon="star"){
 		return $this->addToPropertyCtrl("class", $icon, ["star","heart",""]);
 	}
+
 }

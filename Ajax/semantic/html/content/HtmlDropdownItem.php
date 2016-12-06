@@ -5,14 +5,14 @@ namespace Ajax\semantic\html\content;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\common\html\HtmlDoubleElement;
 use Ajax\common\html\html5\HtmlImg;
-use Ajax\common\html\html5\HtmlInput;
-use Ajax\service\JArray;
 use Ajax\semantic\html\base\traits\IconTrait;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\elements\HtmlIcon;
+use Ajax\semantic\html\collections\menus\HtmlMenu;
+use Ajax\semantic\html\base\traits\MenuItemTrait;
 
 class HtmlDropdownItem extends HtmlSemDoubleElement {
-	use IconTrait;
+	use IconTrait,MenuItemTrait;
 	public function __construct($identifier, $content="",$value=NULL,$image=NULL,$description=NULL) {
 		parent::__construct($identifier, "a");
 		$this->setClass("item");
@@ -34,6 +34,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 
 	public function setData($value){
 		$this->setProperty("data-value", $value);
+		return $this;
 	}
 
 	public function asOption(){
@@ -78,48 +79,16 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function asSearchInput($placeholder=NULL,$icon=NULL){
-		$this->setClass("ui icon search input");
-		$input=new HtmlInput("search-".$this->identifier);
-		if(isset($placeholder))
-			$input->setProperty("placeholder", $placeholder);
-		$this->content=$input;
-		if(isset($icon))
-			$this->addIcon($icon);
-		return $this;
-	}
 
-	public function setContent($content){
-		if($content==="-"){
-			$this->asDivider();
-		}elseif($content==="-search-"){
-			$values=\explode(",",$content,-1);
-			$this->asSearchInput(JArray::getDefaultValue($values, 0, "Search..."),JArray::getDefaultValue($values, 1, "search"));
-		}else
-			parent::setContent($content);
-		return $this;
-	}
 
-	/**
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
-	 */
-	public function asDivider(){
-		$this->content=NULL;
-		$this->setClass("divider");
-		return $this;
-	}
-
-	/**
-	 * @param string $caption
-	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
-	 */
-	public function asHeader($caption=NULL,$icon=NULL){
-		$this->setClass("header");
-		$this->content=$caption;
-		if(isset($icon))
-			$this->addIcon($icon,true);
-		return $this;
+	public function addMenuItem($items) {
+		$menu=new HtmlMenu("menu-" . $this->identifier, $items);
+		$content=$this->content;
+		$this->setTagName("div");
+		$this->setProperty("class", "item");
+		$icon=new HtmlIcon("", "dropdown");
+		$this->content=[$icon,new HtmlSemDoubleElement("","span","text",$content),$menu];
+		return $menu;
 	}
 
 	/**

@@ -20,6 +20,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	protected $items=array ();
 	protected $_params=array("action"=>"nothing","on"=>"hover");
 	protected $input;
+	protected $value;
 
 	public function __construct($identifier, $value="", $items=array()) {
 		parent::__construct($identifier, "div");
@@ -27,7 +28,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->setProperty("class", "ui dropdown");
 		$content=new HtmlSemDoubleElement("text-".$this->identifier,"div");
 		$content->setClass("text");
-		$content->setContent($value);
+		$this->setValue($value);
 		$content->wrap("",new HtmlIcon("", "dropdown"));
 		$this->content=array($content);
 		$this->tagName="div";
@@ -149,6 +150,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		}
 	}
 
+	public function getItem($index){
+		return $this->items[$index];
+	}
+
 	/**
 	 * @return int
 	 */
@@ -171,6 +176,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function setVertical(){
 		return $this->addToPropertyCtrl("class", "vertical",array("vertical"));
+	}
+
+	public function setInline(){
+		return $this->addToPropertyCtrl("class", "inline",["inline"]);
 	}
 
 	public function setSimple(){
@@ -232,14 +241,19 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	}
 
 	public function setValue($value){
-		if(isset($this->input)){
+		$this->value=$value;
+		return $this;
+	}
+	private function applyValue(){
+		$value=$this->value;
+		if(isset($this->input) && isset($value)){
 			$this->input->setProperty("value", $value);
 		}else{
 			$this->setProperty("value", $value);
 		}
-		$textElement=$this->getElementById("text-".$this->identifier, $this->content);
-		if(isset($textElement))
-			$textElement->setContent($value);
+			$textElement=$this->getElementById("text-".$this->identifier, $this->content);
+			if(isset($textElement))
+				$textElement->setContent($value);
 		return $this;
 	}
 
@@ -266,5 +280,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function setFullTextSearch($value){
 		$this->_params["fullTextSearch"]=$value;
+	}
+
+	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		$this->applyValue();
+		return parent::compile($js,$view);
 	}
 }

@@ -137,9 +137,9 @@ class HtmlGrid extends HtmlSemCollection {
 	 * @return \Ajax\semantic\html\collections\HtmlGrid
 	 */
 	public function setColsCount($numCols, $toCreate=true, $width=NULL) {
-		/*if (isset($width)==false) {
+		if (isset($width)==false) {
 			$this->setWide($numCols);
-		}*/
+		}
 		if ($toCreate == true) {
 			$count=$this->count();
 			if ($count == 0 || $this->hasOnlyCols($count)) {

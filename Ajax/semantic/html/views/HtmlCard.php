@@ -12,6 +12,7 @@ use Ajax\semantic\html\content\card\HtmlCardContent;
 use Ajax\semantic\html\content\card\HtmlCardHeaderContent;
 use Ajax\semantic\html\elements\HtmlReveal;
 use Ajax\semantic\html\base\constants\RevealType;
+use Ajax\semantic\html\elements\HtmlButtonGroups;
 
 class HtmlCard extends HtmlSemDoubleElement {
 
@@ -84,6 +85,19 @@ class HtmlCard extends HtmlSemDoubleElement {
 		}
 		return $this->addElementInContent("content", $content);
 	}
+
+	/**
+	 * @param array $elements
+	 * @param string $asIcons
+	 * @return \Ajax\semantic\html\elements\HtmlButtonGroups
+	 */
+	public function addButtons($elements=array(), $asIcons=false){
+		$buttons=new HtmlButtonGroups("buttons-".$this->identifier,$elements,$asIcons);
+		$this->addElementInContent("content", $buttons);
+		return $buttons;
+	}
+
+
 
 	public function addCardHeaderContent($header, $metas=array(), $description=NULL) {
 		$count=\sizeof($this->content);

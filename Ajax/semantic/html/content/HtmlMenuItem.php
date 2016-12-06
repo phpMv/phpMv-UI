@@ -3,11 +3,13 @@
 namespace Ajax\semantic\html\content;
 
 use Ajax\service\JArray;
+use Ajax\semantic\html\base\traits\MenuItemTrait;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
-class HtmlMenuItem extends HtmlAbsractItem {
-
+class HtmlMenuItem extends HtmlSemDoubleElement {
+	use MenuItemTrait;
 	public function __construct($identifier, $content) {
-		parent::__construct($identifier,"item",$content);
+		parent::__construct($identifier,"div","item",$content);
 	}
 
 	protected function initContent($content){

@@ -24,7 +24,7 @@ trait IconTrait {
 				$iconO=new HtmlIcon("icon-".$this->identifier, $icon);
 			}
 			$this->addToPropertyCtrl("class", $direction." icon", Direction::getConstantValues("icon"));
-			$this->addContent($iconO,false);
+			$this->addContent($iconO,$direction===Direction::LEFT);
 			$this->_hasIcon=true;
 		}else{
 			$iconO=$this->getIcon();

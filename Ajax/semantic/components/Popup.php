@@ -27,6 +27,7 @@ class Popup extends SimpleExtComponent {
 	 * @return $this
 	 */
 	public function setOnShow($jsCode) {
+		$jsCode=str_ireplace("\"","%quote%", $jsCode);
 		return $this->setParam("onShow", "%function(){".$jsCode."}%");
 	}
 

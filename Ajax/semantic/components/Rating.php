@@ -11,5 +11,6 @@ class Rating extends SimpleExtComponent {
 		parent::__construct($js);
 		$this->uiName="rating";
 	}
+
 	//TODO other events implementation
 }

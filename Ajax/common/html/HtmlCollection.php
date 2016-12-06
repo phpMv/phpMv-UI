@@ -4,7 +4,6 @@ namespace Ajax\common\html;
 
 use Ajax\common\html\HtmlDoubleElement;
 use Ajax\service\JArray;
-use Ajax\JsUtils;
 
 /**
  * Base class for Html collections

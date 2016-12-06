@@ -4,6 +4,7 @@ namespace Ajax\semantic\html\content;
 
 use Ajax\JsUtils;
 use Ajax\service\JString;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 class InternalPopup {
 	protected $title;
 	protected $content;
@@ -19,7 +20,7 @@ class InternalPopup {
 	}
 
 	public function setHtml($html) {
-		$this->html=$html;
+		$this->html= $html;
 		return $this;
 	}
 
@@ -32,7 +33,7 @@ class InternalPopup {
 		$this->params["onShow"]=$jsCode;
 	}
 
-	public function compile(){
+	public function compile(JsUtils $js=NULL){
 		if(JString::isNotNull($this->title)){
 			$this->semElement->addToProperty("data-title", $this->title);
 		}
@@ -40,7 +41,21 @@ class InternalPopup {
 			$this->semElement->addToProperty("data-content", $this->content);
 		}
 		if(JString::isNotNull($this->html)){
-			$this->semElement->addToProperty("data-html", $this->html);
+			$html=$this->html;
+			if(\is_array($html)){
+				\array_walk($html, function(&$item) use($js){
+					if($item instanceof HtmlSemDoubleElement){
+						$comp=$item->compile($js);
+						$bs=$item->run($js);
+						if(isset($bs))
+							$this->params['onShow']=$bs->getScript();
+						$item=$comp;
+					}
+				});
+				$html=\implode("",$html);
+			}
+			$html=\str_replace("\"", "'", $html);
+			$this->semElement->addToProperty("data-html", $html);
 		}
 		if(JString::isNotNull($this->variation)){
 			$this->semElement->addToProperty("data-variation", $this->variation);
