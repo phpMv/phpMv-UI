@@ -150,6 +150,7 @@ class HtmlMenu extends HtmlSemCollection {
 			$this->addToProperty("class", "secondary");
 		else
 			$this->removePropertyValue("class", "secondary");
+		return $this;
 	}
 
 	public function setVertical() {
