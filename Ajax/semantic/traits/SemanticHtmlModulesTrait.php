@@ -11,6 +11,7 @@ use Ajax\semantic\html\modules\HtmlDimmer;
 use Ajax\semantic\html\modules\HtmlModal;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\semantic\html\modules\HtmlTab;
+use Ajax\semantic\html\modules\HtmlShape;
 
 trait SemanticHtmlModulesTrait {
 
@@ -72,6 +73,7 @@ trait SemanticHtmlModulesTrait {
 
 
 	/**
+	 * Returns a new semantic modal dialog
 	 * @param string $identifier
 	 * @param string $header
 	 * @param string $content
@@ -90,5 +92,15 @@ trait SemanticHtmlModulesTrait {
 	 */
 	public function htmlTab($identifier, $tabs=array()) {
 		return $this->addHtmlComponent(new HtmlTab($identifier, $tabs));
+	}
+
+	/**
+	 * Returns a new Semantic Shape
+	 * @see http://semantic-ui.com/modules/shape.html
+	 * @param array $slides
+	 * @return HtmlShape
+	 */
+	public function htmlShape($identifier, $slides=array()) {
+		return $this->addHtmlComponent(new HtmlShape($identifier, $slides));
 	}
 }

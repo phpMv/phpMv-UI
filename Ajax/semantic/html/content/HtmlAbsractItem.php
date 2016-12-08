@@ -57,6 +57,8 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 			$this->setTagName("div");
 			$this->removeProperty("href");
 			$this->addToPropertyCtrl("class", "active", array("active"));
+		}else{
+			$this->removePropertyValue("class", "active");
 		}
 		return $this;
 	}

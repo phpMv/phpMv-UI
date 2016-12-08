@@ -129,4 +129,33 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 		}
 		return $this;
 	}
+
+	public function setProperties($properties){
+		$i=0;
+		foreach ($properties as $k=>$v){
+			$c=$this->content[$i++];
+			if(isset($c))
+				$c->setProperty($k,$v);
+			else
+				return $this;
+		}
+		return $this;
+	}
+
+	public function setPropertyValues($property,$values){
+		$i=0;
+		if(\is_array($values)===false){
+			$values=\array_fill(0, $this->count(),$values);
+		}
+		foreach ($values as $value){
+			$c=$this->content[$i++];
+			if(isset($c)===true){
+				$c->setProperty($property,$value);
+			}
+			else{
+				return $this;
+			}
+		}
+		return $this;
+	}
 }

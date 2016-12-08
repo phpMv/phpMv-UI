@@ -64,4 +64,8 @@ class HtmlDivider extends HtmlSemDoubleElement {
 	public function setInverted() {
 		return $this->addToProperty("class", "inverted");
 	}
+
+	public function setIgnored(){
+		return $this->addToProperty("class", "ignored");
+	}
 }

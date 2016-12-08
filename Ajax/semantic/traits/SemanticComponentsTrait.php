@@ -15,6 +15,7 @@ use Ajax\semantic\components\Search;
 use Ajax\semantic\components\Dimmer;
 use Ajax\semantic\components\Modal;
 use Ajax\semantic\components\Tab;
+use Ajax\semantic\components\Shape;
 
 trait SemanticComponentsTrait {
 
@@ -138,6 +139,16 @@ trait SemanticComponentsTrait {
 	 */
 	public function tab($attachTo=NULL, $params=NULL) {
 		$result= $this->addComponent(new Tab($this->js), $attachTo, $params);
+		return $result;
+	}
+
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Shape
+	 */
+	public function shape($attachTo=NULL, $params=NULL) {
+		$result= $this->addComponent(new Shape($this->js), $attachTo, $params);
 		return $result;
 	}
 }

@@ -3,6 +3,7 @@
 namespace Ajax\semantic\html\elements;
 
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\semantic\html\base\HtmlSemCollection;
 
 /**
  * Semantic UI Buttongroups component
@@ -10,26 +11,24 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
  * @author jc
  * @version 1.001
  */
-class HtmlButtonGroups extends HtmlSemDoubleElement {
+class HtmlButtonGroups extends HtmlSemCollection {
 
 	public function __construct($identifier, $elements=array(), $asIcons=false) {
 		parent::__construct($identifier, "div", "ui buttons");
-		$this->content=array ();
 		if ($asIcons === true)
 			$this->asIcons();
 		$this->addElements($elements, $asIcons);
 	}
+	protected function createItem($value){
+		return new HtmlButton("button-" . $this->identifier . "-" . \sizeof($this->content), $value);
+	}
+
 
 	public function addElement($element, $asIcon=false) {
-		$elementO=$element;
-		if (\is_string($element)) {
-			if ($asIcon) {
-				$elementO=new HtmlButton("button-" . $this->identifier . "-" . \sizeof($this->content));
-				$elementO->asIcon($element);
-			} else
-				$elementO=new HtmlButton("button-" . $this->identifier . "-" . \sizeof($this->content), $element);
-		}
-		$this->addContent($elementO);
+		$item=$this->addItem($element);
+		if($asIcon)
+			$item->asIcon($element);
+		return $item;
 	}
 
 	public function addElements($elements, $asIcons=false) {
@@ -56,6 +55,7 @@ class HtmlButtonGroups extends HtmlSemDoubleElement {
 
 	public function asIcons() {
 		foreach ( $this->content as $item ) {
+			if($item instanceof HtmlButton)
 			$item->asIcon($item->getContent());
 		}
 		return $this->addToProperty("class", "icons");
@@ -75,16 +75,11 @@ class HtmlButtonGroups extends HtmlSemDoubleElement {
 	 * @return HtmlButton
 	 */
 	public function getElement($index) {
-		if (is_int($index))
-			return $this->content[$index];
-		else {
-			$elm=$this->getElementById($index, $this->content);
-			return $elm;
-		}
+		return $this->getItem($index);
 	}
 
 	public function setElement($index, $button) {
-		$this->content[$index]=$button;
+		$this->setItem($index, $button);
 		return $this;
 	}
 
