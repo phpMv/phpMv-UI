@@ -298,7 +298,25 @@ abstract class BaseHtml extends BaseWidget {
 		return $this->onClick($jsCode);
 	}
 
+	public function onCreate($jsCode){
+		if(isset($this->_events["_create"])){
+			$this->_events["_create"][]=$jsCode;
+		}else{
+			$this->_events["_create"]=[$jsCode];
+		}
+		return $this;
+	}
+
 	public function addEventsOnRun(JsUtils $js) {
+		if(isset($this->_events["_create"])){
+			$create=$this->_events["_create"];
+			if(\is_array($create)){
+				$create=\implode("", $create);
+			}
+			if($create!=="")
+				$js->exec($create,true);
+			unset($this->_events["_create"]);
+		}
 		if (isset($this->_bsComponent)) {
 			foreach ( $this->_events as $event => $jsCode ) {
 				$code=$jsCode;

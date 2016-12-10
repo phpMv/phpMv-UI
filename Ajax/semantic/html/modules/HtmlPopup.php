@@ -10,7 +10,6 @@ use Ajax\semantic\html\elements\HtmlList;
 
 
 class HtmlPopup extends HtmlSemDoubleElement {
-	private $_params;
 	private $_container;
 	public function __construct(BaseHtml $container,$identifier, $content="") {
 		parent::__construct($identifier, "div");

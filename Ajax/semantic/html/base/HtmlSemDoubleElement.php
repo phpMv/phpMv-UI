@@ -21,6 +21,8 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	use BaseTrait;
 	protected $_popup=NULL;
 	protected $_dimmer=NULL;
+	protected $_params=array ();
+
 
 	public function __construct($identifier, $tagName="p", $baseClass="ui", $content=NULL) {
 		parent::__construct($identifier, $tagName);
@@ -107,6 +109,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		}
 		return $this->_bsComponent;
 	}
+
 	/*
 	 * public function __call($name, $arguments){
 	 * $type=\substr($name, 0,3);

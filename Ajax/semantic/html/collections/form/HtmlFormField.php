@@ -7,9 +7,11 @@ use Ajax\semantic\html\base\constants\Wide;
 use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlLabel;
+use Ajax\semantic\components\validation\FieldValidation;
 
 class HtmlFormField extends HtmlSemDoubleElement {
 	protected $_container;
+	protected $_validation;
 	public function __construct($identifier, $field,$label=NULL) {
 		parent::__construct($identifier, "div","field");
 		$this->content=array();
@@ -106,5 +108,21 @@ class HtmlFormField extends HtmlSemDoubleElement {
 	public function setReadonly(){
 		$this->getField()->setProperty("readonly", "");
 	}
+
+	public function addRule($type,$prompt=NULL,$value=NULL){
+		$field=$this->getField();
+		if(isset($field)){
+			if(!isset($this->_validation)){
+				$this->_validation=new FieldValidation($field->getIdentifier());
+			}
+			$this->_validation->addRule($type,$prompt,$value);
+		}
+		return $this;
+	}
+
+	public function getValidation() {
+		return $this->_validation;
+	}
+
 
 }

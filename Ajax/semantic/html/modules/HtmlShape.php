@@ -5,6 +5,7 @@ use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\semantic\html\content\HtmlShapeItem;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\common\html\BaseHtml;
 
 
 class HtmlShape extends HtmlSemCollection{
@@ -60,8 +61,58 @@ class HtmlShape extends HtmlSemCollection{
 		return "$('#".$this->identifier."').shape('".$action."');";
 	}
 
-	public function jsFlipleft(){
+	public function jsFlipLeft(){
 		return $this->jsDo("flip left");
+	}
+
+	public function jsFlipRight(){
+		return $this->jsDo("flip right");
+	}
+
+	public function jsFlipUp(){
+		return $this->jsDo("flip up");
+	}
+
+	public function jsFlipDown(){
+		return $this->jsDo("flip down");
+	}
+
+	public function jsFlipOver(){
+		return $this->jsDo("flip over");
+	}
+
+	public function jsFlipBack(){
+		return $this->jsDo("flip back");
+	}
+
+	private function doActionOn($element,$event,$what){
+		if($element instanceof BaseHtml){
+			return $element->on($event, $what,true,true);
+		}
+	}
+
+	public function flipLeftOn($element,$event){
+		return $this->doActionOn($element, $event, $this->jsFlipLeft());
+	}
+
+	public function flipRightOn($element,$event){
+		return $this->doActionOn($element, $event, $this->jsFlipRight());
+	}
+
+	public function flipUpOn($element,$event){
+		return $this->doActionOn($element, $event, $this->jsFlipUp());
+	}
+
+	public function flipDownOn($element,$event){
+		return $this->doActionOn($element, $event, $this->jsFlipDown());
+	}
+
+	public function flipBackOn($element,$event){
+		return $this->doActionOn($element, $event, $this->jsFlipBack());
+	}
+
+	public function flipOverOn($element,$event){
+		return $this->doActionOn($element, $event, $this->jsFlipOver());
 	}
 
 	public function setActiveSide($index){
@@ -78,6 +129,17 @@ class HtmlShape extends HtmlSemCollection{
 
 	public function asText(){
 		return $this->addToPropertyCtrl("class", "text", ["text"]);
+	}
+
+	public function setWidth($width="initial"){
+		$this->_params["width"]=$width;
+	}
+	public function onChange($jsCode){
+		return $this->_params["onChange"]="%function(){" . $jsCode . "}%";
+	}
+
+	public function beforeChange($jsCode){
+		return $this->_params["beforeChange"]="%function(){" . $jsCode . "}%";
 	}
 
 	/*

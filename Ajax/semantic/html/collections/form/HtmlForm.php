@@ -8,6 +8,7 @@ use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\collections\form\traits\FieldsTrait;
 use Ajax\semantic\html\elements\HtmlDivider;
+use Ajax\JsUtils;
 
 /**
  * Semantic Form component
@@ -18,16 +19,31 @@ use Ajax\semantic\html\elements\HtmlDivider;
 class HtmlForm extends HtmlSemCollection {
 
 	use FieldsTrait;
+	/**
+	 * @var array
+	 */
 	protected $_fields;
+
+	/**
+	 * @var array
+	 */
+	protected $_validationParams;
 
 	public function __construct($identifier, $elements=array()) {
 		parent::__construct($identifier, "form", "ui form");
 		$this->_states=[ State::ERROR,State::SUCCESS,State::WARNING,State::DISABLED ];
 		$this->setProperty("name", $this->identifier);
 		$this->_fields=array ();
+		$this->_validationParams=[];
 		$this->addItems($elements);
 	}
 
+	/**
+	 * @param string $title
+	 * @param number $niveau
+	 * @param string $dividing
+	 * @return HtmlHeader
+	 */
 	public function addHeader($title, $niveau=1, $dividing=true) {
 		$header=new HtmlHeader("", $niveau, $title);
 		if ($dividing)
@@ -35,6 +51,10 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->addItem($header);
 	}
 
+	/**
+	 * @param string $caption
+	 * @return \Ajax\semantic\html\collections\form\HtmlForm
+	 */
 	public function addDivider($caption=NULL){
 		return $this->addContent(new HtmlDivider("",$caption));
 	}
@@ -97,6 +117,14 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->addItem($field);
 	}
 
+	public function addFieldRule($index,$type,$prompt=NULL,$value=NULL){
+		$field=$this->getItem($index);
+		if(isset($field)){
+			$field->addRule($type,$prompt,$value);
+		}
+		return $this;
+	}
+
 	/**
 	 *
 	 * @param string $identifier
@@ -117,11 +145,41 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->addItem($message);
 	}
 
+	public function run(JsUtils $js) {
+		$hasValidation=false;
+		$compo=$js->semantic()->form("#".$this->identifier);
+		foreach ($this->_fields as $field){
+			$validation=$field->getValidation();
+			if(isset($validation)){
+				$validation->setIdentifier($field->getField()->getIdentifier());
+				$compo->addFieldValidation($validation);
+				$hasValidation=true;
+			}
+		}
+		if($hasValidation===false){
+			return parent::run($js);
+		}
+		$compo->addParams($this->_validationParams);
+		$this->_bsComponent=$compo;
+		$this->addEventsOnRun($js);
+		return $this->_bsComponent;
+	}
+
 	public function setLoading() {
 		return $this->addToProperty("class", "loading");
+	}
+
+	public function addErrorMessage(){
+		return $this->addContent((new HtmlMessage(""))->setError());
 	}
 
 	public function jsState($state) {
 		return $this->jsDoJquery("addClass", $state);
 	}
+
+	public function setValidationParams(array $_validationParams) {
+		$this->_validationParams=$_validationParams;
+		return $this;
+	}
+
 }

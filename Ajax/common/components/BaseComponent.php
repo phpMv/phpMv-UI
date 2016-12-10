@@ -81,5 +81,12 @@ abstract class BaseComponent {
 		return $this;
 	}
 
+	public function addParams($params){
+		foreach ($params as $k=>$v){
+				$this->setParam($k, $v);
+		}
+		return $this;
+	}
+
 	abstract public function getScript();
 }

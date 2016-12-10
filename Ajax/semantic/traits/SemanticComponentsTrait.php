@@ -16,6 +16,7 @@ use Ajax\semantic\components\Dimmer;
 use Ajax\semantic\components\Modal;
 use Ajax\semantic\components\Tab;
 use Ajax\semantic\components\Shape;
+use Ajax\semantic\components\Form;
 
 trait SemanticComponentsTrait {
 
@@ -151,4 +152,15 @@ trait SemanticComponentsTrait {
 		$result= $this->addComponent(new Shape($this->js), $attachTo, $params);
 		return $result;
 	}
+
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Form
+	 */
+	public function form($attachTo=NULL, $params=NULL) {
+		$result= $this->addComponent(new Form($this->js), $attachTo, $params);
+		return $result;
+	}
+
 }

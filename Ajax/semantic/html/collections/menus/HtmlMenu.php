@@ -11,7 +11,6 @@ use Ajax\common\html\html5\HtmlImg;
 use Ajax\semantic\html\modules\HtmlDropdown;
 use Ajax\semantic\html\modules\HtmlPopup;
 use Ajax\semantic\html\elements\HtmlIcon;
-use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\traits\AttachedTrait;

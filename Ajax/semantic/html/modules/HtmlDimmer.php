@@ -9,7 +9,6 @@ use Ajax\common\html\HtmlSingleElement;
 
 class HtmlDimmer extends HtmlSemDoubleElement {
 	private $_container;
-	private $_params=array ();
 	private $_inverted;
 
 	public function __construct($identifier, $content=NULL) {

@@ -9,7 +9,6 @@ use Ajax\semantic\html\base\constants\Direction;
 
 class HtmlSearch extends HtmlSemDoubleElement {
 	private $_elements=array ();
-	private $_params=array ();
 	private $_searchFields=array ("title" );
 	private $_local=false;
 

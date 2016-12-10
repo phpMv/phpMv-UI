@@ -3,19 +3,15 @@
 namespace Ajax;
 
 use Ajax\common\BaseGui;
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\modules\HtmlDropdown;
-use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\modules\HtmlPopup;
 use Ajax\common\html\BaseHtml;
-use Ajax\semantic\html\collections\HtmlGrid;
 use Ajax\semantic\html\collections\menus\HtmlIconMenu;
 use Ajax\semantic\html\collections\menus\HtmlLabeledIconMenu;
 use Ajax\semantic\html\collections\HtmlBreadcrumb;
 use Ajax\semantic\html\modules\HtmlAccordion;
 use Ajax\semantic\components\Accordion;
 use Ajax\semantic\html\collections\menus\HtmlAccordionMenu;
-use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\semantic\traits\SemanticComponentsTrait;
 use Ajax\semantic\traits\SemanticHtmlElementsTrait;
 use Ajax\semantic\html\modules\HtmlSticky;
@@ -31,15 +27,6 @@ class Semantic extends BaseGui {
 		parent::__construct($autoCompile=true);
 	}
 
-	/**
-	 *
-	 * @param string $identifier
-	 * @param array $items
-	 * @return Ajax\semantic\html\collections\HtmlMenu
-	 */
-	public function htmlMenu($identifier, $items=array()) {
-		return $this->addHtmlComponent(new HtmlMenu($identifier, $items));
-	}
 
 	/**
 	 * Adds an icon menu
@@ -70,16 +57,6 @@ class Semantic extends BaseGui {
 	}
 
 	/**
-	 * Adds a new message
-	 * @param string $identifier
-	 * @param string $content
-	 * @return HtmlMessage
-	 */
-	public function htmlMessage($identifier, $content="") {
-		return $this->addHtmlComponent(new HtmlMessage($identifier, $content));
-	}
-
-	/**
 	 *
 	 * @param string $identifier
 	 * @param mixed $content
@@ -87,19 +64,6 @@ class Semantic extends BaseGui {
 	 */
 	public function htmlPopup(BaseHtml $container, $identifier, $content) {
 		return $this->addHtmlComponent(new HtmlPopup($container, $identifier, $content));
-	}
-
-	/**
-	 *
-	 * @param string $identifier
-	 * @param int $numRows
-	 * @param int $numCols
-	 * @param boolean $createCols
-	 * @param boolean $implicitRows
-	 * @return HtmlGrid
-	 */
-	public function htmlGrid($identifier, $numRows=1, $numCols=NULL, $createCols=true, $implicitRows=false) {
-		return $this->addHtmlComponent(new HtmlGrid($identifier, $numRows, $numCols, $createCols, $implicitRows));
 	}
 
 	/**
@@ -132,15 +96,6 @@ class Semantic extends BaseGui {
 		return $this->addHtmlComponent(new HtmlAccordionMenu($identifier, $items));
 	}
 
-	/**
-	 * Returns a new Semantic Form
-	 * @param string $identifier
-	 * @param array $elements
-	 * @return HtmlForm
-	 */
-	public function htmlForm($identifier, $elements=array()) {
-		return $this->addHtmlComponent(new HtmlForm($identifier, $elements));
-	}
 
 	/**
 	 * Returns a new Semantic Sticky

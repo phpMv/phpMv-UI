@@ -86,6 +86,10 @@ class HtmlMessage extends HtmlSemDoubleElement {
 		return $this->addToPropertyCtrl("class", $style, Style::getConstants());
 	}
 
+	public function setError(){
+		return $this->setStyle("error");
+	}
+
 	public function setAttached(HtmlDoubleElement $toElement=NULL){
 		if(isset($toElement)){
 			$toElement->addToProperty("class", "attached");

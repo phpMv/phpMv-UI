@@ -9,7 +9,6 @@ use Ajax\service\JArray;
 use Ajax\semantic\html\base\constants\State;
 
 class HtmlProgress extends HtmlSemDoubleElement {
-	private $_params=array ();
 
 	public function __construct($identifier, $value=NULL, $label=NULL, $attributes=array()) {
 		parent::__construct($identifier, "div", "ui progress");

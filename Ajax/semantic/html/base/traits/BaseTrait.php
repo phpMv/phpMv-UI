@@ -86,6 +86,11 @@ trait BaseTrait {
 		return $this->addContent(new HtmlIcon("icon-" . $this->identifier, $icon), $before);
 	}
 
+	public function addSticky($context="body"){
+		$this->onCreate("$('#".$this->identifier."').sticky({ context: '".$context."'});");
+		return $this;
+	}
+
 	/**
 	 *
 	 * {@inheritDoc}
