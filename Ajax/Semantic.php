@@ -18,10 +18,13 @@ use Ajax\semantic\html\modules\HtmlSticky;
 use Ajax\semantic\traits\SemanticHtmlCollectionsTrait;
 use Ajax\semantic\traits\SemanticHtmlModulesTrait;
 use Ajax\semantic\traits\SemanticHtmlViewsTrait;
+use function Composer\Autoload\includeFile;
 
 class Semantic extends BaseGui {
 	use SemanticComponentsTrait,SemanticHtmlElementsTrait,SemanticHtmlCollectionsTrait,
 	SemanticHtmlModulesTrait,SemanticHtmlViewsTrait;
+
+	private $language;
 
 	public function __construct($autoCompile=true) {
 		parent::__construct($autoCompile=true);
@@ -105,5 +108,16 @@ class Semantic extends BaseGui {
 	 */
 	public function htmlSticky($identifier, $content=array()) {
 		return $this->addHtmlComponent(new HtmlSticky($identifier, $content));
+	}
+
+	public function setLanguage($language){
+		if($language!==$this->language){
+			$file=\realpath(dirname(__FILE__)."/semantic/components/validation/languages/".$language.".js");
+			if(\file_exists($file)){
+				$script=\file_get_contents($file);
+				$this->js->exec($script,true);
+				$this->language=$language;
+			}
+		}
 	}
 }

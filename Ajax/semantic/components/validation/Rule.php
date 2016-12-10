@@ -62,20 +62,68 @@ class Rule implements \JsonSerializable{
 		return $result;
 	}
 
-	public static function match($name,$prompt=null){
+	public static function match($name,$prompt=NULL){
 		return new Rule("match[".$name."]",$prompt);
 	}
 
-	public static function integer($min=0,$max=100,$prompt=null){
+	public static function integer($min=0,$max=100,$prompt=NULL){
 		return new Rule("integer[{$min}..{$max}]",$prompt);
 	}
 
-	public static function decimal($prompt=null){
-		return new Rule("decimal]",$prompt);
+	public static function decimal($prompt=NULL){
+		return new Rule("decimal",$prompt);
 	}
 
-	public static function number($prompt=null){
+	public static function number($prompt=NULL){
 		return new Rule("number",$prompt);
+	}
+
+	public static function is($value,$prompt=NULL){
+		return new Rule("is[".$value."]",$prompt);
+	}
+
+	public static function isExactly($value,$prompt=NULL){
+		return new Rule("isExactly[".$value."]",$prompt);
+	}
+
+	public static function not($value,$prompt=NULL){
+		return new Rule("not[".$value."]",$prompt);
+	}
+
+	public static function notExactly($value,$prompt=NULL){
+		return new Rule("notExactly[".$value."]",$prompt);
+	}
+
+	public static function contains($value,$prompt=NULL){
+		return new Rule("contains[".$value."]",$prompt);
+	}
+
+	public static function containsExactly($value,$prompt=NULL){
+		return new Rule("containsExactly[".$value."]",$prompt);
+	}
+
+	public static function doesntContain($value,$prompt=NULL){
+		return new Rule("doesntContain[".$value."]",$prompt);
+	}
+
+	public static function doesntContainExactly($value,$prompt=NULL){
+		return new Rule("doesntContainExactly[".$value."]",$prompt);
+	}
+
+	public static function minCount($value,$prompt=NULL){
+		return new Rule("minCount[".$value."]",$prompt);
+	}
+
+	public static function maxCount($value,$prompt=NULL){
+		return new Rule("maxCount[".$value."]",$prompt);
+	}
+
+	public static function exactCount($value,$prompt=NULL){
+		return new Rule("exactCount[".$value."]",$prompt);
+	}
+
+	public static function email($prompt=NULL){
+		return new Rule("email",$prompt);
 	}
 
 }

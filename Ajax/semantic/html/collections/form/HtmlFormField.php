@@ -19,6 +19,7 @@ class HtmlFormField extends HtmlSemDoubleElement {
 		if(isset($label))
 			$this->setLabel($label);
 		$this->setField($field);
+		$this->_validation=NULL;
 	}
 
 	public function addPointingLabel($label,$pointing=Direction::NONE){

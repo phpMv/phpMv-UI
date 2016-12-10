@@ -146,17 +146,18 @@ class HtmlForm extends HtmlSemCollection {
 	}
 
 	public function run(JsUtils $js) {
-		$hasValidation=false;
-		$compo=$js->semantic()->form("#".$this->identifier);
+		$compo=NULL;
 		foreach ($this->_fields as $field){
 			$validation=$field->getValidation();
 			if(isset($validation)){
+				if(isset($compo)===false){
+					$compo=$js->semantic()->form("#".$this->identifier);
+				}
 				$validation->setIdentifier($field->getField()->getIdentifier());
 				$compo->addFieldValidation($validation);
-				$hasValidation=true;
 			}
 		}
-		if($hasValidation===false){
+		if(isset($compo)===false){
 			return parent::run($js);
 		}
 		$compo->addParams($this->_validationParams);
