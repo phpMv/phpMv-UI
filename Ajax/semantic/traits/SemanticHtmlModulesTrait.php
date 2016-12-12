@@ -2,7 +2,6 @@
 
 namespace Ajax\semantic\traits;
 
-use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\base\constants\CheckboxType;
 use Ajax\semantic\html\modules\HtmlRating;
 use Ajax\semantic\html\modules\HtmlProgress;
@@ -26,7 +25,7 @@ trait SemanticHtmlModulesTrait {
 	 * @return HtmlCheckbox
 	 */
 	public function htmlCheckbox($identifier, $label=NULL, $value=NULL, $type=NULL) {
-		return $this->addHtmlComponent(new HtmlFormCheckbox($identifier, $label, $value, $type));
+		return $this->addHtmlComponent(new HtmlCheckbox($identifier, $label, $value, $type));
 	}
 
 	/**

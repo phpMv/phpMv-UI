@@ -101,7 +101,7 @@ class HtmlFormFields extends HtmlSemCollection {
 		foreach ( $items as $val => $caption ) {
 			$itemO=new HtmlFormRadio($name."-".$i++, $name, $caption, $val, $type);
 			if ($val===$value) {
-				$itemO->getField()->getField()->setProperty("checked", "");
+				$itemO->getField()->setProperty("checked", "");
 			}
 			$fields[]=$itemO;
 		}

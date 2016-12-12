@@ -9,7 +9,7 @@ trait CheckboxTrait {
 	public abstract function addToPropertyCtrl($name, $value, $typeCtrl);
 
 	public function setType($checkboxType) {
-		return $this->addToPropertyCtrl("class", $checkboxType, CheckboxType::getConstants());
+		return $this->getHtmlCk()->addToPropertyCtrl("class", $checkboxType, CheckboxType::getConstants());
 	}
 
 	/**
@@ -34,9 +34,9 @@ trait CheckboxTrait {
 	public function getField(){
 		return $this->content["field"]->getField();
 	}
-	
+
 	public function getHtmlCk(){
 		return $this->content["field"];
 	}
-	
+
 }
