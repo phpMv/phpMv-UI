@@ -19,7 +19,7 @@ trait CheckboxTrait {
 	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
 	 */
 	public function attachEvent($selector, $action=NULL) {
-		return $this->getField()->attachEvent($selector, $action);
+		return $this->getHtmlCk()->attachEvent($selector, $action);
 	}
 
 	/**
@@ -28,10 +28,15 @@ trait CheckboxTrait {
 	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
 	 */
 	public function attachEvents($events=array()) {
-		return $this->getField()->attachEvents($events);
+		return $this->getHtmlCk()->attachEvents($events);
 	}
 
 	public function getField(){
 		return $this->content["field"]->getField();
 	}
+	
+	public function getHtmlCk(){
+		return $this->content["field"];
+	}
+	
 }

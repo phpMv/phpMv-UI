@@ -89,7 +89,7 @@ class HtmlList extends HtmlSemCollection {
 		$identifier=$this->identifier . "-" . $count;
 		if (isset($masterItem)) {
 			$masterO=new HtmlFormCheckbox("master-" . $identifier, $masterItem);
-			$masterO->getField()->addToProperty("class", "master");
+			$masterO->getHtmlCk()->addToProperty("class", "master");
 			$masterO->setClass("item");
 			$this->addItem($masterO);
 		}
@@ -98,7 +98,7 @@ class HtmlList extends HtmlSemCollection {
 		foreach ( $items as $val => $caption ) {
 			$itemO=new HtmlFormCheckbox($identifier . "-" . $i++, $caption, $val, "child");
 			if (\array_search($val, $values) !== false) {
-				$itemO->getField()->getField()->setProperty("checked", "");
+				$itemO->getField()->setProperty("checked", "");
 			}
 			$itemO->setClass("item");
 			$fields[]=$itemO;
