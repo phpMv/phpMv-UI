@@ -121,6 +121,13 @@ class HtmlFormField extends HtmlSemDoubleElement {
 		return $this;
 	}
 
+	public function addRules(array $rules){
+		foreach ($rules as $rule){
+			$this->addRule($rule);
+		}
+		return $this;
+	}
+
 	public function getValidation() {
 		return $this->_validation;
 	}

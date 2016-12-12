@@ -10,7 +10,7 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\collections\form\traits\FieldsTrait;
 
 class HtmlFormFields extends HtmlSemCollection {
-	
+
 	use FieldsTrait;
 	protected $_equalWidth;
 	protected $_name;
@@ -22,7 +22,7 @@ class HtmlFormFields extends HtmlSemCollection {
 	}
 
 	public function addFields($fields=NULL, $label=NULL) {
-		if (!$fieldsinstanceofHtmlFormFields) {
+		if (!$fields instanceof HtmlFormFields) {
 			if (\is_array($fields)===false) {
 				$fields=\func_get_args();
 				$end=\end($fields);

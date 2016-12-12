@@ -1,7 +1,6 @@
 <?php
 namespace Ajax\semantic\components;
 
-use Ajax\common\components\SimpleExtComponent;
 use Ajax\JsUtils;
 use Ajax\semantic\components\validation\FieldValidation;
 use Ajax\semantic\components\validation\Rule;
@@ -10,7 +9,7 @@ use Ajax\semantic\components\validation\Rule;
  * @version 1.001
  * Generates a JSON form validation string
  */
-class Form extends SimpleExtComponent {
+class Form extends SimpleSemExtComponent {
 
 	/**
 	 * @var array
@@ -65,5 +64,9 @@ class Form extends SimpleExtComponent {
 		$this->jquery_code_for_compile []="$( \"".$this->attachTo."\" ).{$this->uiName}(".$this->getParamsAsJSON($allParams).");";
 		$this->compileEvents();
 		return $this->compileJQueryCode();
+	}
+
+	public function onValid($jsCode){
+		$this->addComponentEvent("onValid", $jsCode);
 	}
 }

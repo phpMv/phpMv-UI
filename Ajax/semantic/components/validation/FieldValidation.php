@@ -1,5 +1,7 @@
 <?php
 namespace Ajax\semantic\components\validation;
+use Ajax\service\JArray;
+
 /**
  * @author jc
  * @version 1.001
@@ -43,7 +45,12 @@ class FieldValidation implements \JsonSerializable{
 	public function addRule($type,$prompt=NULL,$value=NULL){
 		if($type instanceof  Rule)
 			$this->rules[]=$type;
-		else
+		else if(\is_array($type)){
+			$value=JArray::getValue($type, "value", 2);
+			$prompt=JArray::getValue($type, "prompt", 1);
+			$type=JArray::getValue($type, "type", 0);
+			$this->rules[]=new Rule($type,$prompt,$value);
+		}else
 			$this->rules[]=new Rule($type,$prompt,$value);
 	}
 

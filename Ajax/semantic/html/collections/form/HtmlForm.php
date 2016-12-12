@@ -9,6 +9,7 @@ use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\collections\form\traits\FieldsTrait;
 use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
+use Ajax\service\AjaxCall;
 
 /**
  * Semantic Form component
@@ -125,6 +126,14 @@ class HtmlForm extends HtmlSemCollection {
 		return $this;
 	}
 
+	public function addFieldRules($index,$rules){
+		$field=$this->getItem($index);
+		if(isset($field)){
+			$field->addRules($rules);
+		}
+		return $this;
+	}
+
 	/**
 	 *
 	 * @param string $identifier
@@ -145,20 +154,41 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->addItem($message);
 	}
 
+	private function addCompoValidation($js,$compo,$field){
+		$validation=$field->getValidation();
+		if(isset($validation)){
+			if(isset($compo)===false){
+				$compo=$js->semantic()->form("#".$this->identifier);
+			}
+			$validation->setIdentifier($field->getField()->getIdentifier());
+			$compo->addFieldValidation($validation);
+		}
+		return $compo;
+	}
+
 	public function run(JsUtils $js) {
 		$compo=NULL;
 		foreach ($this->_fields as $field){
-			$validation=$field->getValidation();
-			if(isset($validation)){
-				if(isset($compo)===false){
-					$compo=$js->semantic()->form("#".$this->identifier);
+			$compo=$this->addCompoValidation($js, $compo, $field);
+		}
+		foreach ($this->content as $field){
+			if($field instanceof HtmlFormFields){
+				$items=$field->getItems();
+				foreach ($items as $_field){
+					$compo=$this->addCompoValidation($js, $compo, $_field);
 				}
-				$validation->setIdentifier($field->getField()->getIdentifier());
-				$compo->addFieldValidation($validation);
 			}
 		}
 		if(isset($compo)===false){
 			return parent::run($js);
+		}
+		if(isset($this->_validationParams["_ajaxSubmit"])){
+			if($this->_validationParams["_ajaxSubmit"] instanceof AjaxCall){
+				$compilation=$this->_validationParams["_ajaxSubmit"]->compile($js);
+				$compilation=str_ireplace("\"","%quote%", $compilation);
+				$this->onSuccess($compilation);
+				unset($this->_validationParams["_ajaxSubmit"]);
+			}
 		}
 		$compo->addParams($this->_validationParams);
 		$this->_bsComponent=$compo;
@@ -180,6 +210,35 @@ class HtmlForm extends HtmlSemCollection {
 
 	public function setValidationParams(array $_validationParams) {
 		$this->_validationParams=$_validationParams;
+		return $this;
+	}
+
+	public function submitOn($event,$identifier,$url,$responseElement){
+		$elem=$this->getElementById($identifier, $this->content);
+		if(isset($elem)){
+			$elem->addEvent($event, "$('#".$this->identifier."').form('validate form');");
+			$this->_validationParams["_ajaxSubmit"]=new AjaxCall("postForm", ["form"=>$this->identifier,"responseElement"=>$responseElement,"url"=>$url]);
+		}
+		return $this;
+	}
+
+	/**
+	 * Callback on each valid field
+	 * @param string $jsCode
+	 * @return \Ajax\semantic\html\collections\form\HtmlForm
+	 */
+	public function onValid($jsCode){
+		$this->_validationParams["onValid"]="%function(){".$jsCode."}%";
+		return $this;
+	}
+
+	/**
+	 * Callback if a form is all valid
+	 * @param string $jsCode can use event and fields parameters
+	 * @return HtmlForm
+	 */
+	public function onSuccess($jsCode){
+		$this->_validationParams["onSuccess"]="%function(evt,fields){".$jsCode."}%";
 		return $this;
 	}
 

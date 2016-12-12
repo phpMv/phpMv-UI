@@ -62,12 +62,37 @@ class Rule implements \JsonSerializable{
 		return $result;
 	}
 
+	/**
+	 * A field should match the value of another validation field, for example to confirm passwords
+	 * @param string $name
+	 * @param string $prompt
+	 * @return \Ajax\semantic\components\validation\Rule
+	 */
 	public static function match($name,$prompt=NULL){
 		return new Rule("match[".$name."]",$prompt);
 	}
 
-	public static function integer($min=0,$max=100,$prompt=NULL){
-		return new Rule("integer[{$min}..{$max}]",$prompt);
+	/**
+	 * A field should be different than another specified field
+	 * @param string $name
+	 * @param string $prompt
+	 * @return \Ajax\semantic\components\validation\Rule
+	 */
+	public static function different($name,$prompt=NULL){
+		return new Rule("different[".$name."]",$prompt);
+	}
+
+	/**
+	 * A field is an integer value, or matches an integer range
+	 * @param int|NULL $min
+	 * @param int|NULL $max
+	 * @param string $prompt
+	 * @return \Ajax\semantic\components\validation\Rule
+	 */
+	public static function integer($min=NULL,$max=NULL,$prompt=NULL){
+		if(\is_int($min) && \is_int($max))
+			return new Rule("integer[{$min}..{$max}]",$prompt);
+		return new Rule("integer",$prompt);
 	}
 
 	public static function decimal($prompt=NULL){
@@ -124,6 +149,18 @@ class Rule implements \JsonSerializable{
 
 	public static function email($prompt=NULL){
 		return new Rule("email",$prompt);
+	}
+
+	public static function url($prompt=NULL){
+		return new Rule("url",$prompt);
+	}
+
+	public static function regExp($value,$prompt=NULL){
+		return new Rule("regExp",$prompt,$value);
+	}
+
+	public static function custom($name,$jsFunction){
+		return "$.fn.form.settings.rules.".$name." =".$jsFunction ;
 	}
 
 }

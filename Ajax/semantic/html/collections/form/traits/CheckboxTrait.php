@@ -30,4 +30,8 @@ trait CheckboxTrait {
 	public function attachEvents($events=array()) {
 		return $this->getField()->attachEvents($events);
 	}
+
+	public function getField(){
+		return $this->content["field"]->getField();
+	}
 }
