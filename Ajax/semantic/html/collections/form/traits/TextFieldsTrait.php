@@ -6,10 +6,12 @@ trait TextFieldsTrait {
 
 	public abstract function getField();
 	public function setPlaceholder($value){
-		return $this->getField()->setPlaceholder($value);
+		$this->getField()->setPlaceholder($value);
+		return $this;
 	}
 
 	public function setValue($value){
-		return $this->getField()->setValue($value);
+		$this->getField()->setValue($value);
+		return $this;
 	}
 }

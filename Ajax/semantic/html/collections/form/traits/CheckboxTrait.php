@@ -12,6 +12,7 @@ trait CheckboxTrait {
 		return $this->getHtmlCk()->addToPropertyCtrl("class", $checkboxType, CheckboxType::getConstants());
 	}
 
+
 	/**
 	 * Attach $this to $selector and fire $action
 	 * @param string $selector jquery selector of the associated element
