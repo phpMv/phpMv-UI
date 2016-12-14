@@ -61,6 +61,14 @@ class HtmlFormField extends HtmlSemDoubleElement {
 	}
 
 	/**
+	 * Return the field with data
+	 * @return mixed
+	 */
+	public function getDataField(){
+		return $this->content["field"];
+	}
+
+	/**
 	 * puts the label before or behind
 	 */
 	public function swapLabel(){
@@ -111,7 +119,7 @@ class HtmlFormField extends HtmlSemDoubleElement {
 	}
 
 	public function addRule($type,$prompt=NULL,$value=NULL){
-		$field=$this->getField();
+		$field=$this->getDataField();
 		if(isset($field)){
 			if(!isset($this->_validation)){
 				$this->_validation=new FieldValidation($field->getIdentifier());

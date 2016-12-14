@@ -22,6 +22,10 @@ class HtmlInput extends HtmlSemDoubleElement {
 		return $this->content["field"];
 	}
 
+	public function getDataField() {
+		return $this->getField();
+	}
+
 	public static function outline($identifier, $icon, $value="", $placeholder="") {
 		$result=new HtmlInput($identifier, "text", $value, $placeholder);
 		$result->addToProperty("class", "transparent");

@@ -56,7 +56,7 @@ trait FieldTrait {
 	}
 
 	public function setReadonly(){
-		$this->getField()->setProperty("readonly", "");
+		$this->getDataField()->setProperty("readonly", "");
 	}
 
 }

@@ -160,7 +160,7 @@ class HtmlForm extends HtmlSemCollection {
 			if(isset($compo)===false){
 				$compo=$js->semantic()->form("#".$this->identifier);
 			}
-			$validation->setIdentifier($field->getField()->getIdentifier());
+			$validation->setIdentifier($field->getDataField()->getIdentifier());
 			$compo->addFieldValidation($validation);
 		}
 		return $compo;

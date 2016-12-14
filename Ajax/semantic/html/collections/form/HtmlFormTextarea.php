@@ -22,4 +22,8 @@ class HtmlFormTextarea extends HtmlFormField {
 	public function setRows($count){
 		$this->getField()->setRows($count);
 	}
+
+	public function getDataField() {
+		return $this->content["field"];
+	}
 }
