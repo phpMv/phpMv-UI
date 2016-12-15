@@ -8,6 +8,8 @@ use Ajax\semantic\html\collections\form\HtmlFormDropdown;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
+use Ajax\semantic\html\collections\form\HtmlFormField;
+
 trait FieldsTrait {
 	public abstract function addFields($fields=NULL,$label=NULL);
 	public abstract function addItem($item);
@@ -16,8 +18,15 @@ trait FieldsTrait {
 		if(\is_array($value)){
 			$itemO=new HtmlFormInput(JArray::getDefaultValue($value, "id",""),JArray::getDefaultValue($value, "label",null),JArray::getDefaultValue($value, "type", "text"),JArray::getDefaultValue($value, "value",""),JArray::getDefaultValue($value, "placeholder",JArray::getDefaultValue($value, "label",null)));
 			return $itemO;
+		}elseif(\is_object($value)){
+			$itemO=new HtmlFormField("field-".$this->identifier, $value);
+			return $itemO;
 		}else
 			return new HtmlFormInput($value);
+	}
+
+	protected function createCondition($value){
+		return \is_object($value)===false || $value instanceof \Ajax\semantic\html\elements\HtmlInput;
 	}
 
 	public function addInputs($inputs,$fieldslabel=null){
