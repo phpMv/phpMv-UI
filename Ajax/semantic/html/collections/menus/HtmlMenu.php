@@ -50,7 +50,7 @@ class HtmlMenu extends HtmlSemCollection {
 
 	private function getItemToInsert($item) {
 		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButton || ($item instanceof HtmlDropdown && $this->propertyContains("class", "vertical")===false)) {
-			$itemO=new HtmlMenuItem("item-" . $this->identifier, $item);
+			$itemO=new HtmlMenuItem("item-" . $this->identifier . "-" . \sizeof($this->content) , $item);
 			$item=$itemO;
 		}
 		return $item;
@@ -134,7 +134,7 @@ class HtmlMenu extends HtmlSemCollection {
 	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
-		$itemO=new HtmlMenuItem($this->identifier."item" . \sizeof($this->content),"");
+		$itemO=new HtmlMenuItem($this->identifier."-item-" . \sizeof($this->content),"");
 		$itemO->setTagName("a");
 		$itemO->setContent($value);
 		return $itemO;
