@@ -27,7 +27,7 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 
 ##Resources
 * [API](https://codedocs.xyz/phpMv/phpMv-UI/)
-* [Documentation](http://phpmv-ui.kobject.net/)
+* [Documentation/demo](http://phpmv-ui.kobject.net/)
 
 ##I - Installation
 
