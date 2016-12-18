@@ -48,9 +48,12 @@ class HtmlGrid extends HtmlSemCollection {
 	 * @param int $wide
 	 */
 	public function setWide($wide) {
-		$wide=Wide::getConstants()["W" . $wide];
-		$this->addToPropertyCtrl("class", $wide, Wide::getConstants());
-		return $this->addToPropertyCtrl("class", "column", array ("column" ));
+		if(isset(Wide::getConstants()["W" . $wide])){
+			$wide=Wide::getConstants()["W" . $wide];
+			$this->addToPropertyCtrl("class", $wide, Wide::getConstants());
+			return $this->addToPropertyCtrl("class", "column", array ("column" ));
+		}
+		return $this;
 	}
 
 	/**

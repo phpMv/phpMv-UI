@@ -9,6 +9,7 @@ class HtmlTextarea extends HtmlDoubleElement {
 
 	public function __construct($identifier,$value=NULL,$placeholder=NULL,$rows=NULL) {
 		parent::__construct($identifier, "textarea");
+		$this->setProperty("name", $identifier);
 		$this->setValue($value);
 		$this->setPlaceholder($placeholder);
 		if(isset($rows))
