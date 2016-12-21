@@ -17,6 +17,15 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 			$this->setLabel($label);
 	}
 
+	public function setChecked($value=true){
+		if($value===true){
+			$this->getField()->setProperty("checked", "checked");
+		}else{
+			$this->getField()->removeProperty("checked");
+		}
+		return $this;
+	}
+
 	public function setType($checkboxType) {
 		return $this->addToPropertyCtrl("class", $checkboxType, CheckboxType::getConstants());
 	}

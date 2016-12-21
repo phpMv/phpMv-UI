@@ -108,9 +108,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 		$this->addToProperty("class", "labeled");
 		$this->content=new HtmlButton("button-" . $this->identifier, $this->content);
 		$this->content->setTagName("div");
-		$label=new HtmlLabel("label-" . $this->identifier, $label, "a");
-		if(isset($icon))
-			$label->addIcon($icon);
+		$label=new HtmlLabel("label-" . $this->identifier, $label, $icon,"a");
 		$label->setBasic();
 		$this->addContent($label, $before);
 		return $label;

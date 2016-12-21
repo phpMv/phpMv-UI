@@ -3,6 +3,7 @@
 namespace Ajax\semantic\html\collections\form\traits;
 
 use Ajax\semantic\html\base\constants\CheckboxType;
+use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
 
 trait CheckboxTrait {
 
@@ -38,6 +39,27 @@ trait CheckboxTrait {
 
 	public function getHtmlCk(){
 		return $this->content["field"];
+	}
+
+	public function getDataField(){
+		$field= $this->getField();
+		if($field instanceof AbstractCheckbox)
+			$field=$field->getField();
+			return $field;
+	}
+
+	/**
+	 * Check the checkbox
+	 * @param boolean $value
+	 * @return \Ajax\semantic\html\collections\form\traits\CheckboxTrait
+	 */
+	public function setChecked($value=true){
+		if($value===true){
+			$this->getDataField()->setProperty("checked", "checked");
+		}else{
+			$this->getDataField()->removeProperty("checked");
+		}
+		return $this;
 	}
 
 }
