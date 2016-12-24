@@ -118,22 +118,6 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->addItem($field);
 	}
 
-	public function addFieldRule($index,$type,$prompt=NULL,$value=NULL){
-		$field=$this->getItem($index);
-		if(isset($field)){
-			$field->addRule($type,$prompt,$value);
-		}
-		return $this;
-	}
-
-	public function addFieldRules($index,$rules){
-		$field=$this->getItem($index);
-		if(isset($field)){
-			$field->addRules($rules);
-		}
-		return $this;
-	}
-
 	/**
 	 *
 	 * @param string $identifier

@@ -40,6 +40,22 @@ trait FieldsTrait {
 		return $this->addFields($fields,$fieldslabel);
 	}
 
+	public function addFieldRule($index,$type,$prompt=NULL,$value=NULL){
+		$field=$this->getItem($index);
+		if(isset($field)){
+			$field->addRule($type,$prompt,$value);
+		}
+		return $this;
+	}
+
+	public function addFieldRules($index,$rules){
+		$field=$this->getItem($index);
+		if(isset($field)){
+			$field->addRules($rules);
+		}
+		return $this;
+	}
+
 	/**
 	 * @param string $identifier
 	 * @param array $items
@@ -52,6 +68,14 @@ trait FieldsTrait {
 		return $this->addItem(new HtmlFormDropdown($identifier,$items,$label,$value,$multiple));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param string $label
+	 * @param string $type
+	 * @param string $value
+	 * @param string $placeholder
+	 * @return HtmlFormInput
+	 */
 	public function addInput($identifier, $label=NULL,$type="text",$value=NULL,$placeholder=NULL){
 		return $this->addItem(new HtmlFormInput($identifier,$label,$type,$value,$placeholder));
 	}
