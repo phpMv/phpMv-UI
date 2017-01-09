@@ -7,7 +7,7 @@ use Ajax\common\html\html5\HtmlList;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Style;
-use Ajax\common\html\HtmlDoubleElement;
+use Ajax\semantic\html\base\traits\AttachedTrait;
 /**
  * Semantic Message component
  * @see http://semantic-ui.com/collections/message.html
@@ -15,6 +15,7 @@ use Ajax\common\html\HtmlDoubleElement;
  * @version 1.001
  */
 class HtmlMessage extends HtmlSemDoubleElement {
+	use AttachedTrait;
 	protected $icon;
 	protected $close;
 	public function __construct($identifier, $content="") {
@@ -24,6 +25,11 @@ class HtmlMessage extends HtmlSemDoubleElement {
 		$this->setContent($content);
 	}
 
+	/**
+	 * Adds an header to the message
+	 * @param string|HtmlSemDoubleElement $header
+	 * @return \Ajax\semantic\html\collections\HtmlMessage
+	 */
 	public function addHeader($header){
 		$headerO=$header;
 		if(\is_string($header)){
@@ -88,12 +94,5 @@ class HtmlMessage extends HtmlSemDoubleElement {
 
 	public function setError(){
 		return $this->setStyle("error");
-	}
-
-	public function setAttached(HtmlDoubleElement $toElement=NULL){
-		if(isset($toElement)){
-			$toElement->addToProperty("class", "attached");
-		}
-		return $this->addToProperty("class", "attached");
 	}
 }
