@@ -6,11 +6,14 @@ use Ajax\common\html\HtmlDoubleElement;
 
 class Widget extends HtmlDoubleElement {
 
+	protected $_model;
 	protected $_modelInstance;
+	protected $_instanceViewer;
 
-	public function __construct($identifier,$modelInstance=NULL) {
+	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier);
 		$this->_template="%wrapContentBefore%%content%%wrapContentAfter%";
+		$this->setModel($model);
 		if(isset($modelInstance));
 			$this->show($modelInstance);
 	}
@@ -19,14 +22,13 @@ class Widget extends HtmlDoubleElement {
 		$this->_modelInstance=$modelInstance;
 	}
 
-	public function getInstanceClassName(){
-		if(\is_array($this->_modelInstance)){
-			if(\sizeof($this->_modelInstance)>0){
-				return \get_class($this->_modelInstance[0]);
-			}
-		}else{
-			return \get_class($this->_modelInstance);
-		}
-		return false;
+	public function getModel() {
+		return $this->_model;
 	}
+
+	public function setModel($_model) {
+		$this->_model=$_model;
+		return $this;
+	}
+
 }
