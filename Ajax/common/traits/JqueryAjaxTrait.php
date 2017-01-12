@@ -69,7 +69,12 @@ trait JqueryAjaxTrait {
 	protected function _getOnAjaxDone($responseElement,$jsCallback){
 		$retour="";
 		if ($responseElement!=="") {
-			$retour="\t$({$responseElement}).html( data );\n";
+			if(JString::startswith($responseElement, "-")){
+				$responseElement=\substr($responseElement, 0);
+				$retour="\t$({$responseElement}).replaceWith( data );\n";
+			}else{
+				$retour="\t$({$responseElement}).html( data );\n";
+			}
 		}
 		$retour.="\t".$jsCallback."\n";
 		return $retour;
