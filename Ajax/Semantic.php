@@ -18,11 +18,11 @@ use Ajax\semantic\html\modules\HtmlSticky;
 use Ajax\semantic\traits\SemanticHtmlCollectionsTrait;
 use Ajax\semantic\traits\SemanticHtmlModulesTrait;
 use Ajax\semantic\traits\SemanticHtmlViewsTrait;
-use function Composer\Autoload\includeFile;
+use Ajax\semantic\traits\SemanticWidgetsTrait;
 
 class Semantic extends BaseGui {
 	use SemanticComponentsTrait,SemanticHtmlElementsTrait,SemanticHtmlCollectionsTrait,
-	SemanticHtmlModulesTrait,SemanticHtmlViewsTrait;
+	SemanticHtmlModulesTrait,SemanticHtmlViewsTrait,SemanticWidgetsTrait;
 
 	private $language;
 
