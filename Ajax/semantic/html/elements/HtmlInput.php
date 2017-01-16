@@ -7,6 +7,7 @@ use Ajax\semantic\html\base\constants\Variation;
 use Ajax\semantic\html\base\traits\IconTrait;
 use Ajax\semantic\html\collections\form\traits\TextFieldsTrait;
 use Ajax\semantic\html\collections\form\traits\FieldTrait;
+use Ajax\JsUtils;
 
 class HtmlInput extends HtmlSemDoubleElement {
 	use IconTrait,TextFieldsTrait,FieldTrait;
@@ -31,5 +32,15 @@ class HtmlInput extends HtmlSemDoubleElement {
 		$result->addToProperty("class", "transparent");
 		$result->addIcon($icon)->setOutline();
 		return $result;
+	}
+
+	public function run(JsUtils $js) {
+		$result=parent::run($js);
+		$result->attach("#" . $this->getDataField()->getIdentifier());
+		return $result;
+	}
+
+	public function setTransparent(){
+		return $this->addToProperty("class", "transparent");
 	}
 }

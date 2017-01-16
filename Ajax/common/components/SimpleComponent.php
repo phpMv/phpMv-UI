@@ -11,6 +11,7 @@ use Ajax\JsUtils;
  */
 abstract class SimpleComponent extends BaseComponent {
 	protected $attachTo;
+	protected $itemSelector;
 	protected $uiName;
 	protected $events;
 
@@ -25,8 +26,13 @@ abstract class SimpleComponent extends BaseComponent {
 				$this->jquery_code_for_compile []=$jsCode;
 			}else if($event=="beforeExecute"){
 				\array_unshift($this->jquery_code_for_compile, $jsCode);
-			}else
-				$this->jquery_code_for_compile []="$( \"".$this->attachTo."\" ).on(\"".$event."\" , function( event, data ) {".$jsCode."});";
+			}else{
+				$selector=$this->attachTo;
+				if(isset($this->itemSelector)){
+					$selector.=" ".$this->itemSelector;
+				}
+				$this->jquery_code_for_compile []="$( \"".$selector."\" ).on(\"".$event."\" , function( event, data ) {".$jsCode."});";
+			}
 		}
 	}
 
@@ -82,4 +88,14 @@ abstract class SimpleComponent extends BaseComponent {
 	public function getAttachTo() {
 		return $this->attachTo;
 	}
+
+	public function getItemSelector() {
+		return $this->itemSelector;
+	}
+
+	public function setItemSelector($itemSelector) {
+		$this->itemSelector=$itemSelector;
+		return $this;
+	}
+
 }

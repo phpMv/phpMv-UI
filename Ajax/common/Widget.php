@@ -4,7 +4,7 @@ namespace Ajax\common;
 
 use Ajax\common\html\HtmlDoubleElement;
 
-class Widget extends HtmlDoubleElement {
+abstract class Widget extends HtmlDoubleElement {
 
 	protected $_model;
 	protected $_modelInstance;
@@ -31,4 +31,18 @@ class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	public function getInstanceViewer() {
+		return $this->_instanceViewer;
+	}
+
+	public function setInstanceViewer($_instanceViewer) {
+		$this->_instanceViewer=$_instanceViewer;
+		return $this;
+	}
+
+	public abstract function getHtmlComponent();
+
+	public function setColor($color){
+		return $this->getHtmlComponent()->setColor($color);
+	}
 }

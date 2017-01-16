@@ -58,9 +58,11 @@ trait JqueryAjaxTrait {
 		if(JString::endswith($url, "/")===true)
 			$slash="";
 		if(JString::isNotNull($attr)){
-			if ($attr=="value")
+			if ($attr==="value")
 				$retour.="url=url+'".$slash."'+$(this).val();\n";
-				else if($attr!=null && $attr!=="")
+			elseif ($attr==="html")
+			$retour.="url=url+'".$slash."'+$(this).html();\n";
+			elseif($attr!=null && $attr!=="")
 					$retour.="url=url+'".$slash."'+($(this).attr('".$attr."')||'');\n";
 		}
 		return $retour;
@@ -69,8 +71,8 @@ trait JqueryAjaxTrait {
 	protected function _getOnAjaxDone($responseElement,$jsCallback){
 		$retour="";
 		if ($responseElement!=="") {
-			if(JString::startswith($responseElement, "-")){
-				$responseElement=\substr($responseElement, 0);
+			if(JString::startswith($responseElement, "\"-")===true){
+				$responseElement=\str_replace("\"-", "\"", $responseElement);
 				$retour="\t$({$responseElement}).replaceWith( data );\n";
 			}else{
 				$retour="\t$({$responseElement}).html( data );\n";

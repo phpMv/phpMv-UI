@@ -11,5 +11,13 @@ class Checkbox extends SimpleExtComponent {
 		parent::__construct($js);
 		$this->uiName="checkbox";
 	}
+
+	public function setOnChecked($value) {
+		$this->params["onChecked"]="%function(){".$value."}%";
+	}
+
+	public function setOnUnchecked($value) {
+		$this->params["onUnchecked"]="%function(){".$value."}%";
+	}
 	//TODO other events implementation
 }

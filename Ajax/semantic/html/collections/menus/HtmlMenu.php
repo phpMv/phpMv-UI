@@ -15,6 +15,7 @@ use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\traits\AttachedTrait;
 use Ajax\semantic\html\content\HtmlMenuItem;
+use Ajax\JsUtils;
 
 /**
  * Semantic Menu component
@@ -72,7 +73,10 @@ class HtmlMenu extends HtmlSemCollection {
 	 * @see \Ajax\common\html\html5\HtmlCollection::addItem()
 	 */
 	public function addItem($item) {
+		$number=$item;
 		$item=parent::addItem($this->getItemToInsert($item));
+		if(\is_int($number))
+			$item->setProperty("data-page", $number);
 		return $this->afterInsert($item);
 	}
 
@@ -227,5 +231,10 @@ class HtmlMenu extends HtmlSemCollection {
 
 	public function getItemHeader() {
 		return $this->_itemHeader;
+	}
+
+	public function run(JsUtils $js){
+		$result= parent::run($js);
+		return $result->setItemSelector(".item");
 	}
 }

@@ -61,4 +61,8 @@ trait MenuItemTrait {
 			$this->addIcon($icon,Direction::LEFT);
 			return $this;
 	}
+
+	public function setPosition($direction){
+		$this->addToProperty("class",$direction);
+	}
 }

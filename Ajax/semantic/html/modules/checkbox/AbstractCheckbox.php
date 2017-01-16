@@ -4,6 +4,7 @@ namespace Ajax\semantic\html\modules\checkbox;
 
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\CheckboxType;
+use Ajax\JsUtils;
 
 abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 	protected $_params=array ();
@@ -107,5 +108,18 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 
 	public function setFitted() {
 		return $this->addToProperty("class", "fitted");
+	}
+
+	public function setOnChecked($jsCode){
+		$this->_params["onChecked"]=$jsCode;
+	}
+
+	public function setOnUnchecked($jsCode){
+		$this->_params["onUnchecked"]=$jsCode;
+	}
+
+	public function run(JsUtils $js) {
+			$this->_bsComponent=$js->semantic()->checkbox("#" . $this->identifier, $this->_params);
+			return parent::run($js);
 	}
 }

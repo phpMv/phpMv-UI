@@ -1,7 +1,7 @@
 <?php
 namespace Ajax\semantic\traits;
 
-use Ajax\semantic\widgets\ListView;
+use Ajax\semantic\widgets\datatable\DataTable;
 
 trait SemanticWidgetsTrait {
 
@@ -11,9 +11,9 @@ trait SemanticWidgetsTrait {
 	 * @param string $identifier
 	 * @param string $model
 	 * @param array $instances
-	 * @return ListView
+	 * @return DataTable
 	 */
-	public function listView($identifier,$model, $instances){
-		return $this->addHtmlComponent(new ListView($identifier,$model,$instances));
+	public function dataTable($identifier,$model, $instances){
+		return $this->addHtmlComponent(new DataTable($identifier,$model,$instances));
 	}
 }

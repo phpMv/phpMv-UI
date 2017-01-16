@@ -16,12 +16,15 @@ use Ajax\service\JArray;
  */
 class HtmlTable extends HtmlSemDoubleElement {
 	private $_colCount;
+	private $_compileParts;
+	private $_footer;
 
 	public function __construct($identifier, $rowCount, $colCount) {
 		parent::__construct($identifier, "table", "ui table");
 		$this->content=array ();
 		$this->setRowCount($rowCount, $colCount);
 		$this->_variations=[ Variation::CELLED,Variation::PADDED,Variation::COMPACT ];
+		$this->_compileParts=["thead","tbody","tfoot"];
 	}
 
 	/**
@@ -29,7 +32,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 * @param string $key
 	 * @return HtmlTableContent
 	 */
-	private function getPart($key) {
+	public function getPart($key) {
 		if (\array_key_exists($key, $this->content) === false) {
 			$this->content[$key]=new HtmlTableContent("", $key);
 			if ($key !== "tbody") {
@@ -254,10 +257,15 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::compile()
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
-		$this->content=JArray::sortAssociative($this->content, [ "thead","tbody","tfoot" ]);
-		if ($this->propertyContains("class", "sortable")) {
-			$this->addEvent("execute", "$('#" . $this->identifier . "').tablesort();");
+		if(\sizeof($this->_compileParts)<3){
+			$this->_template="%content%";
+			$this->refresh();
+		}else{
+			if ($this->propertyContains("class", "sortable")) {
+				$this->addEvent("execute", "$('#" . $this->identifier . "').tablesort();");
+			}
 		}
+		$this->content=JArray::sortAssociative($this->content, $this->_compileParts);
 		return parent::compile($js, $view);
 	}
 
@@ -275,4 +283,26 @@ class HtmlTable extends HtmlSemDoubleElement {
 			return $this->getBody()->_addRow($result);
 		}
 	}
+
+	/**
+	 * @param array $parts
+	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 */
+	public function setCompileParts($parts=["tbody"]) {
+		$this->_compileParts=$parts;
+		return $this;
+	}
+
+	public function refresh(){
+		$this->_footer=$this->getFooter();
+		$this->addEvent("execute", '$("#'.$this->identifier.' tfoot").replaceWith("'.\addslashes($this->_footer).'");');
+	}
+
+	public function run(JsUtils $js){
+		$result= parent::run($js);
+		if(isset($this->_footer))
+			$this->_footer->run($js);
+		return $result;
+	}
+
 }
