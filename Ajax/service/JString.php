@@ -19,4 +19,16 @@ class JString {
 	public static function isNotNull($s){
 		return (isset($s) && NULL!==$s && ""!==$s);
 	}
+
+	public static function isBoolean($value){
+		return \is_bool($value) || $value==1 || $value==0;
+	}
+
+	public static function isBooleanTrue($value){
+		return $value==1 || $value;
+	}
+
+	public static function isBooleanFalse($value){
+		return $value==0 || !$value;
+	}
 }

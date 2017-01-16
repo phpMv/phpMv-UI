@@ -12,13 +12,18 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
+use Ajax\semantic\html\elements\HtmlImage;
+use Ajax\semantic\html\base\constants\Size;
+use Ajax\semantic\html\modules\HtmlDropdown;
+use Ajax\service\JString;
+use Ajax\semantic\html\modules\checkbox\HtmlRadio;
 
 class DataTable extends Widget {
 
 	protected $_searchField;
-	protected $_searchUrl;
+	protected $_urls;
 	protected $_pagination;
-	protected $_hasCheckboxes=true;
+	protected $_hasCheckboxes;
 	protected $_toolbar;
 	protected $_compileParts;
 	protected $_toolbarPosition;
@@ -41,19 +46,11 @@ class DataTable extends Widget {
 	}
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
-		if(isset($this->_toolbar) && isset($this->_compileParts)===false){
-			if($this->_toolbarPosition===PositionInTable::BEFORETABLE){
-				$this->content["before"]=$this->_toolbar;
-			}elseif($this->_toolbarPosition===PositionInTable::BEFORETABLE){
-				$this->content["after"]=$this->_toolbar;
-			}
-		}
-
 		$this->_instanceViewer->setInstance($this->_model);
 		$captions=$this->_instanceViewer->getCaptions();
 
 		$table=$this->content["table"];
-		//$table=new HtmlTable($identifier, 0, 0);
+
 		if($this->_hasCheckboxes){
 			$ck=new HtmlCheckbox("main-ck-".$this->identifier,"");
 			$ck->setOnChecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',true);");
@@ -67,9 +64,27 @@ class DataTable extends Widget {
 			$table->setCompileParts($this->_compileParts);
 		if(isset($this->_searchField)){
 			if(isset($js))
-				$this->_searchField->postOn("change", $this->_searchUrl,"{'s':$(this).val()}","-#".$this->identifier." tbody",["preventDefault"=>false]);
+				$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","-#".$this->identifier." tbody",["preventDefault"=>false]);
 		}
 
+		$this->_generateContent($table);
+
+		if($this->_hasCheckboxes){
+			if($table->hasPart("thead"))
+				$table->getHeader()->getCell(0, 0)->addToProperty("class","no-sort");
+		}
+
+		if(isset($this->_pagination) && $this->_pagination->getVisible()){
+			$this->_generatePagination($table);
+		}
+		if(isset($this->_toolbar)){
+			$this->_setToolbarPosition($table, $captions);
+		}
+		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
+		return parent::compile($js,$view);
+	}
+
+	private function _generateContent($table){
 		$objects=$this->_modelInstance;
 		if(isset($this->_pagination)){
 			$objects=$this->_pagination->getObjects($this->_modelInstance);
@@ -81,35 +96,47 @@ class DataTable extends Widget {
 			if($this->_hasCheckboxes){
 				$ck=new HtmlCheckbox("ck-".$this->identifier,"");
 				$field=$ck->getField();
-				$field->setProperty("value",$this->_instanceViewer->getCkValue());
+				$field->setProperty("value",$this->_instanceViewer->getIdentifier());
 				$field->setProperty("name", "selection[]");
 				\array_unshift($result, $ck);
 			}
 			return $result;
 		});
-			if($this->_hasCheckboxes){
-				if($table->hasPart("thead"))
-					$table->getHeader()->getCell(0, 0)->addToProperty("class","no-sort");
-			}
+	}
 
-		if(isset($this->_pagination) && $this->_pagination->getVisible()){
-			$footer=$table->getFooter();
-			$footer->mergeCol();
-			$menu=new HtmlPaginationMenu("pagination-".$this->identifier,$this->_pagination->getPagesNumbers());
-			$menu->floatRight();
-			$menu->setActiveItem($this->_pagination->getPage()-1);
-			$footer->setValues($menu);
-			$menu->postOnClick($this->_searchUrl,"{'p':$(this).attr('data-page')}","-#".$this->identifier." tbody",["preventDefault"=>false]);
+	private function _generatePagination($table){
+		$footer=$table->getFooter();
+		$footer->mergeCol();
+		$menu=new HtmlPaginationMenu("pagination-".$this->identifier,$this->_pagination->getPagesNumbers());
+		$menu->floatRight();
+		$menu->setActiveItem($this->_pagination->getPage()-1);
+		$footer->setValues($menu);
+		$menu->postOnClick($this->_urls,"{'p':$(this).attr('data-page')}","-#".$this->identifier." tbody",["preventDefault"=>false]);
+	}
+
+	private function _setToolbarPosition($table,$captions){
+		switch ($this->_toolbarPosition){
+			case PositionInTable::BEFORETABLE:case PositionInTable::AFTERTABLE:
+				if(isset($this->_compileParts)===false){
+					$this->content[$this->_toolbarPosition]=$this->_toolbar;
+				}
+				break;
+			case PositionInTable::HEADER:case PositionInTable::FOOTER: case PositionInTable::BODY:
+				$this->addToolbarRow($this->_toolbarPosition,$table, $captions);
+				break;
 		}
-		if(isset($this->_toolbar)){
-			if($this->_toolbarPosition===PositionInTable::FOOTER)
-				$this->addToolbarRow("tfoot",$table, $captions);
-			elseif($this->_toolbarPosition===PositionInTable::HEADER){
-				$this->addToolbarRow("thead",$table, $captions);
-			}
-		}
-		$this->content=JArray::sortAssociative($this->content, ["before","table","after"]);
-		return parent::compile($js,$view);
+	}
+
+	/**
+	 * Associates a $callback function after the compilation of the field at $index position
+	 * The $callback function can take the following arguments : $field=>the compiled field, $index: the field position, $instance : the active instance of the object
+	 * @param int $index postion of the compiled field
+	 * @param callable $callback function called after the field compilation
+	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 */
+	public function afterCompile($index,$callback){
+		$this->_instanceViewer->afterCompile($index,$callback);
+		return $this;
 	}
 
 	private function addToolbarRow($part,$table,$captions){
@@ -157,8 +184,8 @@ class DataTable extends Widget {
 		return $this;
 	}
 
-	public function setCkValueFunction($callback){
-		$this->_instanceViewer->setCkValueFunction($callback);
+	public function setIdentifierFunction($callback){
+		$this->_instanceViewer->setIdentifierFunction($callback);
 		return $this;
 	}
 
@@ -166,12 +193,12 @@ class DataTable extends Widget {
 		return $this->content["table"];
 	}
 
-	public function getSearchUrl() {
-		return $this->_searchUrl;
+	public function getUrls() {
+		return $this->_urls;
 	}
 
-	public function setSearchUrl($_searchUrl) {
-		$this->_searchUrl=$_searchUrl;
+	public function setUrls($urls) {
+		$this->_urls=$urls;
 		return $this;
 	}
 
@@ -224,7 +251,7 @@ class DataTable extends Widget {
 	 */
 	private function getFieldButton($caption){
 			$bt=new HtmlButton("",$caption);
-			$bt->setProperty("data-ajax",$this->_instanceViewer->getCkValue());
+			$bt->setProperty("data-ajax",$this->_instanceViewer->getIdentifier());
 			return $bt;
 	}
 
@@ -289,6 +316,13 @@ class DataTable extends Widget {
 
 	public function addEditButton($callback=null){
 		return $this->addDefaultButton("edit","edit basic",$callback);
+	}
+
+	public function addEditDeleteButtons($callbackEdit=null,$callbackDelete=null){
+		$this->addEditButton($callbackEdit);
+		$index=$this->_instanceViewer->visiblePropertiesCount()-1;
+		$this->insertDeleteButtonIn($index,$callbackDelete);
+		return $this;
 	}
 
 	public function insertDeleteButtonIn($index,$callback=null){
@@ -357,5 +391,74 @@ class DataTable extends Widget {
 	public function setSortable($colIndex=NULL) {
 		$this->content["table"]->setSortable($colIndex);
 		return $this;
+	}
+
+	public function fieldAsImage($index,$size=Size::SMALL,$circular=false){
+		$this->setValueFunction($index,function($img) use($size,$circular){
+			$image=new HtmlImage($this->_getFieldIdentifier("image"),$img);$image->setSize($size);if($circular)$image->setCircular();
+			return $image;
+			}
+		);
+		return $this;
+	}
+
+	public function fieldAsAvatar($index){
+		$this->setValueFunction($index,function($img){return (new HtmlImage("",$img))->asAvatar();});
+		return $this;
+	}
+
+	public function fieldAsRadio($index,$name=NULL){
+		$this->setValueFunction($index,function($value)use ($index,$name){
+			if(isset($name)===false){
+				$name=$this->_instanceViewer->getCaption($index)."[]";
+			}
+			$radio=new HtmlRadio($this->_getFieldIdentifier("radio"),$name,$value,$value);
+			return $radio;
+			}
+		);
+		return $this;
+	}
+
+	public function fieldAsInput($index,$name=NULL,$type="text",$placeholder=""){
+		$this->setValueFunction($index,function($value) use($index,$name,$type,$placeholder){
+			$input=new HtmlInput($this->_getFieldIdentifier("input"),$type,$value,$placeholder);
+			if(isset($name)===false){
+				$name=$this->_instanceViewer->getCaption($index)."[]";
+			}
+			$input->getField()->setProperty("name", $name);
+			$input->setFluid();
+			return $input;
+			}
+		);
+		return $this;
+	}
+
+	public function fieldAsCheckbox($index,$name=NULL){
+		$this->setValueFunction($index,function($value) use($index,$name){
+			$checkbox=new HtmlCheckbox($this->_getFieldIdentifier("ck"),"",$value);
+			$checkbox->setChecked(JString::isBooleanTrue($value));
+			if(isset($name)===false){
+				$name=$this->_instanceViewer->getCaption($index)."[]";
+			}
+			$checkbox->getField()->setProperty("name", $name);
+			return $checkbox;}
+		);
+		return $this;
+	}
+
+	public function fieldAsDropDown($index,$elements=[],$multiple=false,$name=NULL){
+		$this->setValueFunction($index,function($value) use($index,$elements,$multiple,$name){
+			$dd=new HtmlDropdown($this->_getFieldIdentifier("dd"),$value,$elements);
+			if(isset($name)===false){
+				$name=$this->_instanceViewer->getCaption($index)."[]";
+			}
+			$dd->asSelect($name,$multiple);
+			return $dd;}
+		);
+		return $this;
+	}
+
+	private function _getFieldIdentifier($prefix){
+		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
 	}
 }

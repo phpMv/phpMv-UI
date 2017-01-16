@@ -9,17 +9,22 @@ class InstanceViewer {
 	private $captions;
 	private $visibleProperties;
 	private $values;
+	private $afterCompile;
 	private static $index=0;
 
 	public function __construct($instance=NULL,$captions=NULL){
 		$this->values=[];
+		$this->afterCompile=[];
 		if(isset($instance))
 			$this->setInstance($instance);
 		$this->setCaptions($captions);
 	}
 
 	public function getCaption($index){
-		return $this->properties[$index]->getName();
+		if($this->properties[$index] instanceof \ReflectionProperty)
+			return $this->properties[$index]->getName();
+		else
+			return $this->properties[$index];
 	}
 
 	public function getCaptions(){
@@ -49,10 +54,10 @@ class InstanceViewer {
 		return $values;
 	}
 
-	public function getCkValue(){
+	public function getIdentifier(){
 		$value=self::$index;
-		if(isset($this->values["ck"]))
-			$value=$this->values["ck"](self::$index,$this->instance);
+		if(isset($this->values["identifier"]))
+			$value=$this->values["identifier"](self::$index,$this->instance);
 		self::$index++;
 		return $value;
 	}
@@ -77,6 +82,11 @@ class InstanceViewer {
 				$value=\implode("", $values);
 			}else
 				$value=$property;
+		}
+		if(isset($this->afterCompile[$index])){
+			if(\is_callable($this->afterCompile[$index])){
+				$this->afterCompile[$index]($value,$this->instance,$index);
+			}
 		}
 		return $value;
 	}
@@ -107,6 +117,10 @@ class InstanceViewer {
 
 	public function count(){
 		return \sizeof($this->properties);
+	}
+
+	public function visiblePropertiesCount(){
+		return \sizeof($this->visibleProperties);
 	}
 
 	private function showableProperty(\ReflectionProperty $rProperty){
@@ -174,8 +188,8 @@ class InstanceViewer {
 		return $this;
 	}
 
-	public function setCkValueFunction($callback){
-		$this->values["ck"]=$callback;
+	public function setIdentifierFunction($callback){
+		$this->values["identifier"]=$callback;
 		return $this;
 	}
 
@@ -187,7 +201,15 @@ class InstanceViewer {
 		return $this->properties;
 	}
 
-
-
-
+	/**
+	 * Associates a $callback function after the compilation of the field at $index position
+	 * The $callback function can take the following arguments : $field=>the compiled field, $index: the field position, $instance : the active instance of the object
+	 * @param int $index postion of the compiled field
+	 * @param callable $callback function called after the field compilation
+	 * @return \Ajax\semantic\widgets\datatable\InstanceViewer
+	 */
+	public function afterCompile($index,$callback){
+		$this->afterCompile[$index]=$callback;
+		return $this;
+	}
 }
