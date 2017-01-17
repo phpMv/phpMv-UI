@@ -12,13 +12,15 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
-use Ajax\semantic\html\elements\HtmlImage;
-use Ajax\semantic\html\base\constants\Size;
-use Ajax\semantic\html\modules\HtmlDropdown;
-use Ajax\service\JString;
-use Ajax\semantic\html\modules\checkbox\HtmlRadio;
+use Ajax\semantic\widgets\base\FieldAsTrait;
 
+/**
+ * DataTable widget for displaying list of objects
+ * @author jc
+ *
+ */
 class DataTable extends Widget {
+	use FieldAsTrait;
 
 	protected $_searchField;
 	protected $_urls;
@@ -393,72 +395,7 @@ class DataTable extends Widget {
 		return $this;
 	}
 
-	public function fieldAsImage($index,$size=Size::SMALL,$circular=false){
-		$this->setValueFunction($index,function($img) use($size,$circular){
-			$image=new HtmlImage($this->_getFieldIdentifier("image"),$img);$image->setSize($size);if($circular)$image->setCircular();
-			return $image;
-			}
-		);
-		return $this;
-	}
-
-	public function fieldAsAvatar($index){
-		$this->setValueFunction($index,function($img){return (new HtmlImage("",$img))->asAvatar();});
-		return $this;
-	}
-
-	public function fieldAsRadio($index,$name=NULL){
-		$this->setValueFunction($index,function($value)use ($index,$name){
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
-			}
-			$radio=new HtmlRadio($this->_getFieldIdentifier("radio"),$name,$value,$value);
-			return $radio;
-			}
-		);
-		return $this;
-	}
-
-	public function fieldAsInput($index,$name=NULL,$type="text",$placeholder=""){
-		$this->setValueFunction($index,function($value) use($index,$name,$type,$placeholder){
-			$input=new HtmlInput($this->_getFieldIdentifier("input"),$type,$value,$placeholder);
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
-			}
-			$input->getField()->setProperty("name", $name);
-			$input->setFluid();
-			return $input;
-			}
-		);
-		return $this;
-	}
-
-	public function fieldAsCheckbox($index,$name=NULL){
-		$this->setValueFunction($index,function($value) use($index,$name){
-			$checkbox=new HtmlCheckbox($this->_getFieldIdentifier("ck"),"",$value);
-			$checkbox->setChecked(JString::isBooleanTrue($value));
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
-			}
-			$checkbox->getField()->setProperty("name", $name);
-			return $checkbox;}
-		);
-		return $this;
-	}
-
-	public function fieldAsDropDown($index,$elements=[],$multiple=false,$name=NULL){
-		$this->setValueFunction($index,function($value) use($index,$elements,$multiple,$name){
-			$dd=new HtmlDropdown($this->_getFieldIdentifier("dd"),$value,$elements);
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
-			}
-			$dd->asSelect($name,$multiple);
-			return $dd;}
-		);
-		return $this;
-	}
-
-	private function _getFieldIdentifier($prefix){
+	protected function _getFieldIdentifier($prefix){
 		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
 	}
 }
