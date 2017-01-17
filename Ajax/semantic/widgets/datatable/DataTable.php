@@ -131,7 +131,7 @@ class DataTable extends Widget {
 
 	/**
 	 * Associates a $callback function after the compilation of the field at $index position
-	 * The $callback function can take the following arguments : $field=>the compiled field, $index: the field position, $instance : the active instance of the object
+	 * The $callback function can take the following arguments : $field=>the compiled field, $instance : the active instance of the object, $index: the field position
 	 * @param int $index postion of the compiled field
 	 * @param callable $callback function called after the field compilation
 	 * @return \Ajax\semantic\widgets\datatable\DataTable
@@ -352,7 +352,8 @@ class DataTable extends Widget {
 	}
 
 	/**
-	 * @param unknown $element
+	 * Adds a new element in toolbar
+	 * @param mixed $element
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
 	public function addInToolbar($element){

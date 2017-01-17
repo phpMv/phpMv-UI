@@ -8,6 +8,7 @@ use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\modules\checkbox\HtmlRadio;
 use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\widgets\datatable\InstanceViewer;
+use Ajax\semantic\html\elements\HtmlLabel;
 
 /**
  * @author jc
@@ -18,6 +19,20 @@ trait FieldAsTrait{
 
 	protected abstract function _getFieldIdentifier($prefix);
 	public abstract function setValueFunction($index,$callback);
+
+	private function _getLabelField($caption,$icon=NULL){
+		$label=new HtmlLabel($this->_getFieldIdentifier("lbl"),$caption,$icon);
+		return $label;
+	}
+
+	public function fieldAsLabel($index,$icon=NULL){
+		$this->setValueFunction($index,function($caption) use($icon){
+			$lbl=$this->_getLabelField($caption,$icon);
+			return $lbl;
+		}
+		);
+			return $this;
+	}
 
 	public function fieldAsImage($index,$size=Size::SMALL,$circular=false){
 		$this->setValueFunction($index,function($img) use($size,$circular){
@@ -52,7 +67,6 @@ trait FieldAsTrait{
 				$name=$this->_instanceViewer->getCaption($index)."[]";
 			}
 			$input->getField()->setProperty("name", $name);
-			$input->setFluid();
 			return $input;
 		}
 		);

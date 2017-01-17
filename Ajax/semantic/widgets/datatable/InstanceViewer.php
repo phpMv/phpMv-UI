@@ -23,6 +23,8 @@ class InstanceViewer {
 	public function getCaption($index){
 		if($this->properties[$index] instanceof \ReflectionProperty)
 			return $this->properties[$index]->getName();
+		elseif(\is_callable($this->properties[$index]))
+			return "";
 		else
 			return $this->properties[$index];
 	}
@@ -203,7 +205,7 @@ class InstanceViewer {
 
 	/**
 	 * Associates a $callback function after the compilation of the field at $index position
-	 * The $callback function can take the following arguments : $field=>the compiled field, $index: the field position, $instance : the active instance of the object
+	 * The $callback function can take the following arguments : $field=>the compiled field, $instance : the active instance of the object, $index: the field position
 	 * @param int $index postion of the compiled field
 	 * @param callable $callback function called after the field compilation
 	 * @return \Ajax\semantic\widgets\datatable\InstanceViewer
