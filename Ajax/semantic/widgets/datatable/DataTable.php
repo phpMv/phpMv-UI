@@ -13,6 +13,7 @@ use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\FieldAsTrait;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * DataTable widget for displaying list of objects
@@ -94,6 +95,7 @@ class DataTable extends Widget {
 		InstanceViewer::setIndex(0);
 		$table->fromDatabaseObjects($objects, function($instance){
 			$this->_instanceViewer->setInstance($instance);
+			InstanceViewer::$index++;
 			$result= $this->_instanceViewer->getValues();
 			if($this->_hasCheckboxes){
 				$ck=new HtmlCheckbox("ck-".$this->identifier,"");
@@ -227,7 +229,7 @@ class DataTable extends Widget {
 	 * @return callable
 	 */
 	private function getFieldButtonCallable($caption,$callback=null){
-		return $this->getCallable($this->getFieldButton($caption),$callback);
+		return $this->getCallable("getFieldButton",[$caption],$callback);
 	}
 
 	/**
@@ -235,12 +237,16 @@ class DataTable extends Widget {
 	 * @param callable $callback
 	 * @return callable
 	 */
-	private function getCallable($object,$callback=null){
-		$result=function($instance) use($object,$callback){
+	private function getCallable($thisCallback,$parameters,$callback=null){
+		$result=function($instance) use($thisCallback,$parameters,$callback){
+			$object=call_user_func_array(array($this,$thisCallback), $parameters);
 			if(isset($callback)){
 				if(\is_callable($callback)){
 					$callback($object,$instance);
 				}
+			}
+			if($object instanceof HtmlSemDoubleElement){
+				$object->setProperty("data-ajax",$this->_instanceViewer->getIdentifier());
 			}
 			return $object;
 		};
@@ -252,9 +258,7 @@ class DataTable extends Widget {
 	 * @return HtmlButton
 	 */
 	private function getFieldButton($caption){
-			$bt=new HtmlButton("",$caption);
-			$bt->setProperty("data-ajax",$this->_instanceViewer->getIdentifier());
-			return $bt;
+		return new HtmlButton("",$caption);
 	}
 
 	/**
@@ -264,7 +268,7 @@ class DataTable extends Widget {
 	 * @return \Ajax\semantic\widgets\datatable\DataTable
 	 */
 	public function addFieldButton($caption,$callback=null){
-		$this->addField($this->getFieldButtonCallable($caption,$callback));
+		$this->addField($this->getCallable("getFieldButton",[$caption],$callback));
 		return $this;
 	}
 
@@ -293,14 +297,12 @@ class DataTable extends Widget {
 	}
 
 	private function addDefaultButton($icon,$class=null,$callback=null){
-		$bt=$this->getDefaultButton($icon,$class);
-		$this->addField($this->getCallable($bt,$callback));
+		$this->addField($this->getCallable("getDefaultButton",[$icon,$class],$callback));
 		return $this;
 	}
 
 	private function insertDefaultButtonIn($index,$icon,$class=null,$callback=null){
-		$bt=$this->getDefaultButton($icon,$class);
-		$this->insertInField($index,$this->getCallable($bt,$callback));
+		$this->insertInField($index,$this->getCallable("getDefaultButton",[$icon,$class],$callback));
 		return $this;
 	}
 
@@ -398,5 +400,16 @@ class DataTable extends Widget {
 
 	protected function _getFieldIdentifier($prefix){
 		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
+	}
+
+	/**
+	 * The callback function called after the insertion of each row when fromDatabaseObjects is called
+	 * callback function takes the parameters $row : the row inserted and $object: the instance of model used
+	 * @param callable $callback
+	 * @return DataTable
+	 */
+	public function onNewRow($callback) {
+		$this->content["table"]->onNewRow($callback);
+		return $this;
 	}
 }

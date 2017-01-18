@@ -8,6 +8,7 @@ use Ajax\semantic\html\base\constants\Variation;
 use Ajax\JsUtils;
 
 use Ajax\service\JArray;
+use Ajax\semantic\html\content\table\HtmlTR;
 
 /**
  * Semantic HTML Table component
@@ -18,6 +19,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	private $_colCount;
 	private $_compileParts;
 	private $_footer;
+	private $_afterCompileEvents;
 
 	public function __construct($identifier, $rowCount, $colCount) {
 		parent::__construct($identifier, "table", "ui table");
@@ -25,6 +27,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 		$this->setRowCount($rowCount, $colCount);
 		$this->_variations=[ Variation::CELLED,Variation::PADDED,Variation::COMPACT ];
 		$this->_compileParts=["thead","tbody","tfoot"];
+		$this->_afterCompileEvents=[];
 	}
 
 	/**
@@ -108,12 +111,12 @@ class HtmlTable extends HtmlSemDoubleElement {
 	/**
 	 * Adds a new row and sets $values to his cols
 	 * @param array $values
-	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 * @return HtmlTR
 	 */
 	public function addRow($values=array()) {
 		$row=$this->getBody()->addRow($this->_colCount);
 		$row->setValues(\array_values($values));
-		return $this;
+		return $row;
 	}
 
 	/**
@@ -278,10 +281,15 @@ class HtmlTable extends HtmlSemDoubleElement {
 	public function fromDatabaseObject($object, $function) {
 		$result=$function($object);
 		if (\is_array($result)) {
-			return $this->addRow($function($object));
+			$result= $this->addRow($function($object));
 		} else {
-			return $this->getBody()->_addRow($result);
+			$result= $this->getBody()->_addRow($result);
 		}
+		if(isset($this->_afterCompileEvents["onNewRow"])){
+			if(\is_callable($this->_afterCompileEvents["onNewRow"]))
+				$this->_afterCompileEvents["onNewRow"]($result,$object);
+		}
+		return $result;
 	}
 
 	/**
@@ -305,4 +313,14 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $result;
 	}
 
+	/**
+	 * The callback function called after the insertion of each row when fromDatabaseObjects is called
+	 * callback function takes the parameters $row : the row inserted and $object: the instance of model used
+	 * @param callable $callback
+	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 */
+	public function onNewRow($callback) {
+		$this->_afterCompileEvents["onNewRow"]=$callback;
+		return $this;
+	}
 }

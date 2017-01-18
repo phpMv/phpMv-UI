@@ -10,7 +10,7 @@ class InstanceViewer {
 	private $visibleProperties;
 	private $values;
 	private $afterCompile;
-	private static $index=0;
+	public static $index=0;
 
 	public function __construct($instance=NULL,$captions=NULL){
 		$this->values=[];
@@ -60,7 +60,6 @@ class InstanceViewer {
 		$value=self::$index;
 		if(isset($this->values["identifier"]))
 			$value=$this->values["identifier"](self::$index,$this->instance);
-		self::$index++;
 		return $value;
 	}
 
