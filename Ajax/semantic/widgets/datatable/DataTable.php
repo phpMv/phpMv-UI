@@ -9,15 +9,17 @@ use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\collections\menus\HtmlPaginationMenu;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\semantic\html\elements\HtmlButton;
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\FieldAsTrait;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\semantic\widgets\base\InstanceViewerCaption;
 
 /**
  * DataTable widget for displaying list of objects
+ * @version 1.0
  * @author jc
+ * @since 2.2
  *
  */
 class DataTable extends Widget {
@@ -27,9 +29,7 @@ class DataTable extends Widget {
 	protected $_urls;
 	protected $_pagination;
 	protected $_hasCheckboxes;
-	protected $_toolbar;
 	protected $_compileParts;
-	protected $_toolbarPosition;
 
 	public function run(JsUtils $js){
 		if($this->_hasCheckboxes && isset($js)){
@@ -43,7 +43,7 @@ class DataTable extends Widget {
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier, $model,$modelInstance);
-		$this->_instanceViewer=new InstanceViewer();
+		$this->_instanceViewer=new InstanceViewerCaption();
 		$this->content=["table"=>new HtmlTable($identifier, 0,0)];
 		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
 	}
@@ -92,10 +92,10 @@ class DataTable extends Widget {
 		if(isset($this->_pagination)){
 			$objects=$this->_pagination->getObjects($this->_modelInstance);
 		}
-		InstanceViewer::setIndex(0);
+		InstanceViewerCaption::setIndex(0);
 		$table->fromDatabaseObjects($objects, function($instance){
 			$this->_instanceViewer->setInstance($instance);
-			InstanceViewer::$index++;
+			InstanceViewerCaption::$index++;
 			$result= $this->_instanceViewer->getValues();
 			if($this->_hasCheckboxes){
 				$ck=new HtmlCheckbox("ck-".$this->identifier,"");
@@ -341,45 +341,6 @@ class DataTable extends Widget {
 		$this->content["table"]->setSelectable();
 		return $this;
 	}
-
-	/**
-	 * @return \Ajax\semantic\html\collections\menus\HtmlMenu
-	 */
-	public function getToolbar(){
-		if(isset($this->_toolbar)===false){
-			$this->_toolbar=new HtmlMenu("toolbar-".$this->identifier);
-			$this->_toolbar->setSecondary();
-		}
-		return $this->_toolbar;
-	}
-
-	/**
-	 * Adds a new element in toolbar
-	 * @param mixed $element
-	 * @return \Ajax\common\html\HtmlDoubleElement
-	 */
-	public function addInToolbar($element){
-		$tb=$this->getToolbar();
-		return $tb->addItem($element);
-	}
-
-	public function addItemInToolbar($caption,$icon=NULL){
-		$result=$this->addInToolbar($caption);
-		$result->addIcon($icon);
-		return $result;
-	}
-
-	public function addButtonInToolbar($caption){
-		$bt=new HtmlButton("",$caption);
-		return $this->addInToolbar($bt);
-	}
-
-	public function addLabelledIconButtonInToolbar($caption,$icon,$before=true,$labeled=false){
-		$bt=new HtmlButton("",$caption);
-		$bt->addIcon($icon,$before,$labeled);
-		return $this->addInToolbar($bt);
-	}
-
 
 	public function addSearchInToolbar(){
 		return $this->addInToolbar($this->getSearchField())->setPosition("right");
