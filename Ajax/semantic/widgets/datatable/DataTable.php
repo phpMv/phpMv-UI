@@ -14,6 +14,7 @@ use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\FieldAsTrait;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\widgets\base\InstanceViewerCaption;
+use Ajax\semantic\widgets\base\InstanceViewer;
 
 /**
  * DataTable widget for displaying list of objects
@@ -43,7 +44,7 @@ class DataTable extends Widget {
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier, $model,$modelInstance);
-		$this->_instanceViewer=new InstanceViewerCaption();
+		$this->_instanceViewer=new InstanceViewer();
 		$this->content=["table"=>new HtmlTable($identifier, 0,0)];
 		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
 	}
@@ -87,15 +88,15 @@ class DataTable extends Widget {
 		return parent::compile($js,$view);
 	}
 
-	private function _generateContent($table){
+	protected function _generateContent($table){
 		$objects=$this->_modelInstance;
 		if(isset($this->_pagination)){
 			$objects=$this->_pagination->getObjects($this->_modelInstance);
 		}
-		InstanceViewerCaption::setIndex(0);
+		InstanceViewer::setIndex(0);
 		$table->fromDatabaseObjects($objects, function($instance){
 			$this->_instanceViewer->setInstance($instance);
-			InstanceViewerCaption::$index++;
+			InstanceViewer::$index++;
 			$result= $this->_instanceViewer->getValues();
 			if($this->_hasCheckboxes){
 				$ck=new HtmlCheckbox("ck-".$this->identifier,"");
@@ -118,7 +119,7 @@ class DataTable extends Widget {
 		$menu->postOnClick($this->_urls,"{'p':$(this).attr('data-page')}","-#".$this->identifier." tbody",["preventDefault"=>false]);
 	}
 
-	private function _setToolbarPosition($table,$captions){
+	protected function _setToolbarPosition($table,$captions=NULL){
 		switch ($this->_toolbarPosition){
 			case PositionInTable::BEFORETABLE:case PositionInTable::AFTERTABLE:
 				if(isset($this->_compileParts)===false){

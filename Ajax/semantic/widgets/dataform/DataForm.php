@@ -16,4 +16,11 @@ class DataForm extends Widget {
 	public function getHtmlComponent() {
 		// TODO Auto-generated method stub
 	}
+	/**
+	 * {@inheritdoc}
+	 * @see \Ajax\common\Widget::_setToolbarPosition()
+	 */
+	protected function _setToolbarPosition($table, $captions=NULL) {
+		// TODO: Auto-generated method stub
+	}
 }
