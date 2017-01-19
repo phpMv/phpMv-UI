@@ -7,8 +7,8 @@ use Ajax\semantic\html\modules\HtmlDropdown;
 use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\modules\checkbox\HtmlRadio;
 use Ajax\semantic\html\base\constants\Size;
-use Ajax\semantic\widgets\datatable\InstanceViewer;
 use Ajax\semantic\html\elements\HtmlLabel;
+use Ajax\semantic\html\modules\HtmlProgress;
 
 /**
  * @author jc
@@ -25,12 +25,20 @@ trait FieldAsTrait{
 		return $label;
 	}
 
+
+	public function fieldAsProgress($index,$label=NULL, $attributes=array()){
+		$this->setValueFunction($index,function($value) use($label,$attributes){
+			$pb=new HtmlProgress($this->_getFieldIdentifier("pb"),$value,$label,$attributes);
+			return $pb;
+		});
+			return $this;
+	}
+
 	public function fieldAsLabel($index,$icon=NULL){
 		$this->setValueFunction($index,function($caption) use($icon){
 			$lbl=$this->_getLabelField($caption,$icon);
 			return $lbl;
-		}
-		);
+		});
 			return $this;
 	}
 
@@ -38,8 +46,7 @@ trait FieldAsTrait{
 		$this->setValueFunction($index,function($img) use($size,$circular){
 			$image=new HtmlImage($this->_getFieldIdentifier("image"),$img);$image->setSize($size);if($circular)$image->setCircular();
 			return $image;
-		}
-		);
+		});
 			return $this;
 	}
 
@@ -55,8 +62,7 @@ trait FieldAsTrait{
 			}
 			$radio=new HtmlRadio($this->_getFieldIdentifier("radio"),$name,$value,$value);
 			return $radio;
-		}
-		);
+		});
 			return $this;
 	}
 
@@ -68,8 +74,7 @@ trait FieldAsTrait{
 			}
 			$input->getField()->setProperty("name", $name);
 			return $input;
-		}
-		);
+		});
 			return $this;
 	}
 
@@ -81,8 +86,8 @@ trait FieldAsTrait{
 				$name=$this->_instanceViewer->getCaption($index)."[]";
 			}
 			$checkbox->getField()->setProperty("name", $name);
-			return $checkbox;}
-			);
+			return $checkbox;
+		});
 			return $this;
 	}
 
@@ -93,8 +98,8 @@ trait FieldAsTrait{
 				$name=$this->_instanceViewer->getCaption($index)."[]";
 			}
 			$dd->asSelect($name,$multiple);
-			return $dd;}
-			);
+			return $dd;
+		});
 			return $this;
 	}
 }

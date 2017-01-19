@@ -11,9 +11,7 @@ use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
-use Ajax\semantic\widgets\base\FieldAsTrait;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
-use Ajax\semantic\widgets\base\InstanceViewerCaption;
 use Ajax\semantic\widgets\base\InstanceViewer;
 
 /**
@@ -24,7 +22,6 @@ use Ajax\semantic\widgets\base\InstanceViewer;
  *
  */
 class DataTable extends Widget {
-	use FieldAsTrait;
 
 	protected $_searchField;
 	protected $_urls;
@@ -148,50 +145,6 @@ class DataTable extends Widget {
 		$row=$table->getPart($part)->addRow(\sizeof($captions));
 		$row->mergeCol();
 		$row->setValues([$this->_toolbar]);
-	}
-
-	public function getInstanceViewer() {
-		return $this->_instanceViewer;
-	}
-
-	public function setInstanceViewer($_instanceViewer) {
-		$this->_instanceViewer=$_instanceViewer;
-		return $this;
-	}
-
-	public function setCaptions($captions){
-		$this->_instanceViewer->setCaptions($captions);
-		return $this;
-	}
-
-	public function setFields($fields){
-		$this->_instanceViewer->setVisibleProperties($fields);
-		return $this;
-	}
-
-	public function addField($field){
-		$this->_instanceViewer->addField($field);
-		return $this;
-	}
-
-	public function insertField($index,$field){
-		$this->_instanceViewer->insertField($index, $field);
-		return $this;
-	}
-
-	public function insertInField($index,$field){
-		$this->_instanceViewer->insertInField($index, $field);
-		return $this;
-	}
-
-	public function setValueFunction($index,$callback){
-		$this->_instanceViewer->setValueFunction($index, $callback);
-		return $this;
-	}
-
-	public function setIdentifierFunction($callback){
-		$this->_instanceViewer->setIdentifierFunction($callback);
-		return $this;
 	}
 
 	public function getHtmlComponent(){
@@ -358,10 +311,6 @@ class DataTable extends Widget {
 	public function setSortable($colIndex=NULL) {
 		$this->content["table"]->setSortable($colIndex);
 		return $this;
-	}
-
-	protected function _getFieldIdentifier($prefix){
-		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
 	}
 
 	/**

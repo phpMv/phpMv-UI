@@ -6,8 +6,10 @@ use Ajax\common\html\HtmlDoubleElement;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
+use Ajax\semantic\widgets\base\FieldAsTrait;
 
 abstract class Widget extends HtmlDoubleElement {
+	use FieldAsTrait;
 
 	/**
 	 * @var string classname
@@ -35,6 +37,12 @@ abstract class Widget extends HtmlDoubleElement {
 		if(isset($modelInstance));
 			$this->show($modelInstance);
 	}
+
+	protected function _getFieldIdentifier($prefix){
+		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
+	}
+
+	protected abstract function _setToolbarPosition($table,$captions=NULL);
 
 	public function show($modelInstance){
 		$this->_modelInstance=$modelInstance;
@@ -64,6 +72,42 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->getHtmlComponent()->setColor($color);
 	}
 
+
+	public function setCaptions($captions){
+		$this->_instanceViewer->setCaptions($captions);
+		return $this;
+	}
+
+	public function setFields($fields){
+		$this->_instanceViewer->setVisibleProperties($fields);
+		return $this;
+	}
+
+	public function addField($field){
+		$this->_instanceViewer->addField($field);
+		return $this;
+	}
+
+	public function insertField($index,$field){
+		$this->_instanceViewer->insertField($index, $field);
+		return $this;
+	}
+
+	public function insertInField($index,$field){
+		$this->_instanceViewer->insertInField($index, $field);
+		return $this;
+	}
+
+	public function setValueFunction($index,$callback){
+		$this->_instanceViewer->setValueFunction($index, $callback);
+		return $this;
+	}
+
+	public function setIdentifierFunction($callback){
+		$this->_instanceViewer->setIdentifierFunction($callback);
+		return $this;
+	}
+
 	/**
 	 * @return \Ajax\semantic\html\collections\menus\HtmlMenu
 	 */
@@ -78,10 +122,16 @@ abstract class Widget extends HtmlDoubleElement {
 	/**
 	 * Adds a new element in toolbar
 	 * @param mixed $element
+	 * @param callable $callback function to call on $element
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
-	public function addInToolbar($element){
+	public function addInToolbar($element,$callback=NULL){
 		$tb=$this->getToolbar();
+		if(isset($callback)){
+			if(\is_callable($callback)){
+				$callback($element);
+			}
+		}
 		return $tb->addItem($element);
 	}
 
@@ -91,9 +141,9 @@ abstract class Widget extends HtmlDoubleElement {
 		return $result;
 	}
 
-	public function addButtonInToolbar($caption){
+	public function addButtonInToolbar($caption,$callback=NULL){
 		$bt=new HtmlButton("",$caption);
-		return $this->addInToolbar($bt);
+		return $this->addInToolbar($bt,$callback);
 	}
 
 	public function addLabelledIconButtonInToolbar($caption,$icon,$before=true,$labeled=false){
