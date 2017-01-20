@@ -1,3 +1,4 @@
 filter:
     excluded_paths:
         - Ajax/JsUtils.php
+        - Ajax/php/yii/URI.php
