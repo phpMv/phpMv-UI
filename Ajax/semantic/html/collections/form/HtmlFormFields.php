@@ -57,7 +57,8 @@ class HtmlFormFields extends HtmlSemCollection {
 
 	public function addItem($item) {
 		$item=parent::addItem($item);
-		$item->setContainer($this);
+		if($item instanceof HtmlFormField)
+			$item->setContainer($this);
 		return $item;
 	}
 

@@ -3,6 +3,7 @@ namespace Ajax\semantic\traits;
 
 use Ajax\semantic\widgets\datatable\DataTable;
 use Ajax\semantic\widgets\dataelement\DataElement;
+use Ajax\semantic\widgets\dataform\DataForm;
 
 trait SemanticWidgetsTrait {
 
@@ -25,5 +26,14 @@ trait SemanticWidgetsTrait {
 	 */
 	public function dataElement($identifier, $instance){
 		return $this->addHtmlComponent(new DataElement($identifier,$instance));
+	}
+
+	/**
+	 * @param string $identifier
+	 * @param object $instance
+	 * @return DataForm
+	 */
+	public function dataForm($identifier, $instance){
+		return $this->addHtmlComponent(new DataForm($identifier,$instance));
 	}
 }

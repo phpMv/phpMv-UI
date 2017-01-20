@@ -44,12 +44,22 @@ class InstanceViewer {
 		return $this->_getValue($property, $index);
 	}
 
-	private function _getValue($property,$index){
+	protected function _beforeAddProperty($index,&$field){
+
+	}
+
+	protected function _getDefaultValue($name,$value,$index){
+		return $value;
+	}
+
+	protected function _getValue($property,$index){
 		if($property instanceof \ReflectionProperty){
 			$property->setAccessible(true);
 			$value=$property->getValue($this->instance);
 			if(isset($this->values[$index])){
-				$value= $this->values[$index]($value);
+				$value= $this->values[$index]($value,$this->instance,$index);
+			}else{
+				$value=$this->_getDefaultValue($property->getName(),$value, $index);
 			}
 		}else{
 			if(\is_callable($property))
@@ -100,7 +110,11 @@ class InstanceViewer {
 		return \sizeof($this->visibleProperties);
 	}
 
-	private function showableProperty(\ReflectionProperty $rProperty){
+	public function getProperty($index){
+		return $this->properties[$index];
+	}
+
+	protected function showableProperty(\ReflectionProperty $rProperty){
 		return JString::startswith($rProperty->getName(),"_")===false;
 	}
 
@@ -119,9 +133,11 @@ class InstanceViewer {
 					$this->properties[]=$property;
 				}elseif(\is_string($property)){
 					try{
+						$this->_beforeAddProperty(\sizeof($this->properties), $property);
 						$rProperty=$this->reflect->getProperty($property);
 						$this->properties[]=$rProperty;
 					}catch(\Exception $e){
+						$this->_beforeAddProperty(\sizeof($this->properties), $property);
 						$this->properties[]=$property;
 					}
 				}elseif(\is_int($property)){
@@ -138,7 +154,7 @@ class InstanceViewer {
 		return $this;
 	}
 
-	private function getDefaultProperties(){
+	protected function getDefaultProperties(){
 		$result=[];
 		$properties=$this->reflect->getProperties();
 		foreach ($properties as $property){

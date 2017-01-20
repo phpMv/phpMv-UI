@@ -42,7 +42,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
 	}
 
-	protected abstract function _setToolbarPosition($table,$captions=NULL);
+	abstract protected  function _setToolbarPosition($table,$captions=NULL);
 
 	public function show($modelInstance){
 		$this->_modelInstance=$modelInstance;
