@@ -9,6 +9,8 @@ use Ajax\semantic\html\modules\checkbox\HtmlRadio;
 use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\modules\HtmlProgress;
+use Ajax\semantic\html\modules\HtmlRating;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * @author jc
@@ -17,12 +19,27 @@ use Ajax\semantic\html\modules\HtmlProgress;
 
 trait FieldAsTrait{
 
-	protected abstract function _getFieldIdentifier($prefix);
-	public abstract function setValueFunction($index,$callback);
+	abstract protected function _getFieldIdentifier($prefix);
+	abstract public function setValueFunction($index,$callback);
 
 	private function _getLabelField($caption,$icon=NULL){
 		$label=new HtmlLabel($this->_getFieldIdentifier("lbl"),$caption,$icon);
 		return $label;
+	}
+
+	/**
+	 * @param HtmlSemDoubleElement $element
+	 * @param array $attributes
+	 */
+	protected function _applyAttributes($element,&$attributes,$index){
+		if(isset($attributes["callback"])){
+			$callback=$attributes["callback"];
+			if(\is_callable($callback)){
+				$callback($element,$this->_modelInstance,$index);
+				unset($attributes["callback"]);
+			}
+		}
+		$element->fromArray($attributes);
 	}
 
 
@@ -30,6 +47,14 @@ trait FieldAsTrait{
 		$this->setValueFunction($index,function($value) use($label,$attributes){
 			$pb=new HtmlProgress($this->_getFieldIdentifier("pb"),$value,$label,$attributes);
 			return $pb;
+		});
+			return $this;
+	}
+
+	public function fieldAsRating($index,$max=5, $icon=""){
+		$this->setValueFunction($index,function($value) use($max,$icon){
+			$rating=new HtmlRating($this->_getFieldIdentifier("rat"),$value,$max,$icon);
+			return $rating;
 		});
 			return $this;
 	}
@@ -55,49 +80,54 @@ trait FieldAsTrait{
 		return $this;
 	}
 
-	public function fieldAsRadio($index,$name=NULL){
-		$this->setValueFunction($index,function($value)use ($index,$name){
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
+
+	public function fieldAsRadio($index,$attributes=NULL){
+		$this->setValueFunction($index,function($value)use ($index,$attributes){
+			if(isset($attributes["name"])===false){
+				$attributes["name"]=$this->_instanceViewer->getCaption($index)."[]";
 			}
-			$radio=new HtmlRadio($this->_getFieldIdentifier("radio"),$name,$value,$value);
+			$radio=new HtmlRadio($this->_getFieldIdentifier("radio"),$attributes["name"],$value,$value);
+			$this->_applyAttributes($radio, $attributes, $index);
 			return $radio;
 		});
 			return $this;
 	}
 
-	public function fieldAsInput($index,$name=NULL,$type="text",$placeholder=""){
-		$this->setValueFunction($index,function($value) use($index,$name,$type,$placeholder){
-			$input=new HtmlInput($this->_getFieldIdentifier("input"),$type,$value,$placeholder);
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
+	public function fieldAsInput($index,$attributes=NULL){
+		$this->setValueFunction($index,function($value) use($index,$attributes){
+			$input=new HtmlInput($this->_getFieldIdentifier("input"),"text",$value);
+			if(isset($attributes["name"])===false){
+				$attributes["name"]=$this->_instanceViewer->getCaption($index)."[]";
 			}
-			$input->getField()->setProperty("name", $name);
+			$input->getField()->setProperty("name", $attributes["name"]);
+			$this->_applyAttributes($input, $attributes, $index);
 			return $input;
 		});
 			return $this;
 	}
 
-	public function fieldAsCheckbox($index,$name=NULL){
-		$this->setValueFunction($index,function($value) use($index,$name){
+	public function fieldAsCheckbox($index,$attributes=NULL){
+		$this->setValueFunction($index,function($value) use($index,$attributes){
 			$checkbox=new HtmlCheckbox($this->_getFieldIdentifier("ck"),"",$value);
 			$checkbox->setChecked(JString::isBooleanTrue($value));
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
+			if(isset($attributes["name"])===false){
+				$attributes["name"]=$this->_instanceViewer->getCaption($index)."[]";
 			}
-			$checkbox->getField()->setProperty("name", $name);
+			$checkbox->getField()->setProperty("name", $attributes["name"]);
+			$this->_applyAttributes($checkbox, $attributes, $index);
 			return $checkbox;
 		});
 			return $this;
 	}
 
-	public function fieldAsDropDown($index,$elements=[],$multiple=false,$name=NULL){
-		$this->setValueFunction($index,function($value) use($index,$elements,$multiple,$name){
+	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
+		$this->setValueFunction($index,function($value) use($index,$elements,$multiple,$attributes){
 			$dd=new HtmlDropdown($this->_getFieldIdentifier("dd"),$value,$elements);
-			if(isset($name)===false){
-				$name=$this->_instanceViewer->getCaption($index)."[]";
+			if(isset($attributes["name"])===false){
+				$attributes["name"]=$this->_instanceViewer->getCaption($index)."[]";
 			}
-			$dd->asSelect($name,$multiple);
+			$dd->asSelect($attributes["name"],$multiple);
+			$this->_applyAttributes($dd, $attributes, $index);
 			return $dd;
 		});
 			return $this;
