@@ -212,10 +212,16 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->submitOn("click", $identifier, $url, $responseElement);
 	}
 
-	public function addSubmit($identifier,$value,$CssStyle=NULL,$url=NULL,$responseElement=NULL){
-		$bt=$this->addButton($identifier, $value,$CssStyle);
+	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
+		$bt=$this->addButton($identifier, $value,$cssStyle);
 		if(isset($url) && isset($responseElement))
 			$this->submitOnClick($identifier, $url, $responseElement);
+		return $bt;
+	}
+
+	public function addReset($identifier,$value,$cssStyle=NULL){
+		$bt=$this->addButton($identifier, $value,$cssStyle);
+		$bt->setProperty("type", "reset");
 		return $bt;
 	}
 

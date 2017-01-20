@@ -29,14 +29,7 @@ trait FormFieldAsTrait{
 	 * @param array $attributes
 	 */
 	protected function _applyAttributes($element,&$attributes,$index){
-		if(isset($attributes["rules"])){
-			$rules=$attributes["rules"];
-			if(\is_array($rules))
-				$element->addRules($rules);
-			else
-				$element->addRule($rules);
-			unset($attributes["rules"]);
-		}
+		$this->_addRules($element, $attributes);
 		if(isset($attributes["callback"])){
 			$callback=$attributes["callback"];
 			if(\is_callable($callback)){
@@ -47,7 +40,18 @@ trait FormFieldAsTrait{
 		$element->fromArray($attributes);
 	}
 
-	protected function _fieldAs($elementCallback,$index,$attributes=NULL){
+	protected function _addRules($element,$attributes){
+		if(isset($attributes["rules"])){
+			$rules=$attributes["rules"];
+			if(\is_array($rules))
+				$element->addRules($rules);
+				else
+					$element->addRule($rules);
+				unset($attributes["rules"]);
+		}
+	}
+
+	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$identifier=null){
 		$this->setValueFunction($index,function($value)use ($index,&$attributes,$elementCallback){
 			$caption=$this->_instanceViewer->getCaption($index);
 			$name=$this->_instanceViewer->getFieldName($index);

@@ -87,4 +87,8 @@ class DataForm extends Widget {
 	public function setValidationParams(array $_validationParams){
 		return $this->getHtmlComponent()->setValidationParams($_validationParams);
 	}
+
+	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
+		return $this->getHtmlComponent()->addSubmit($identifier, $value,$cssStyle,$url,$responseElement);
+	}
 }
