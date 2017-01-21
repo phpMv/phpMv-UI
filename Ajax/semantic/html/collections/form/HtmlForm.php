@@ -10,6 +10,7 @@ use Ajax\semantic\html\collections\form\traits\FieldsTrait;
 use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
 use Ajax\service\AjaxCall;
+use Ajax\semantic\html\collections\form\traits\FormTrait;
 
 /**
  * Semantic Form component
@@ -19,7 +20,7 @@ use Ajax\service\AjaxCall;
  */
 class HtmlForm extends HtmlSemCollection {
 
-	use FieldsTrait;
+	use FieldsTrait,FormTrait;
 	/**
 	 * @var array
 	 */
@@ -37,6 +38,10 @@ class HtmlForm extends HtmlSemCollection {
 		$this->_fields=array ();
 		$this->_validationParams=[];
 		$this->addItems($elements);
+	}
+
+	protected function getForm(){
+		return $this;
 	}
 
 	/**
@@ -182,67 +187,13 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->_bsComponent;
 	}
 
-	public function setLoading() {
-		return $this->addToProperty("class", "loading");
-	}
-
-	public function addErrorMessage(){
-		return $this->addContent((new HtmlMessage(""))->setError());
-	}
-
-	public function jsState($state) {
-		return $this->jsDoJquery("addClass", $state);
+	public function addValidationParam($paramName,$paramValue){
+		$this->_validationParams[$paramName]=$paramValue;
+		return $this;
 	}
 
 	public function setValidationParams(array $_validationParams) {
 		$this->_validationParams=$_validationParams;
 		return $this;
 	}
-
-	public function submitOn($event,$identifier,$url,$responseElement){
-		$elem=$this->getElementById($identifier, $this->content);
-		if(isset($elem)){
-			$elem->addEvent($event, "$('#".$this->identifier."').form('validate form');");
-			$this->_validationParams["_ajaxSubmit"]=new AjaxCall("postForm", ["form"=>$this->identifier,"responseElement"=>$responseElement,"url"=>$url]);
-		}
-		return $this;
-	}
-
-	public function submitOnClick($identifier,$url,$responseElement){
-		return $this->submitOn("click", $identifier, $url, $responseElement);
-	}
-
-	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
-		$bt=$this->addButton($identifier, $value,$cssStyle);
-		if(isset($url) && isset($responseElement))
-			$this->submitOnClick($identifier, $url, $responseElement);
-		return $bt;
-	}
-
-	public function addReset($identifier,$value,$cssStyle=NULL){
-		$bt=$this->addButton($identifier, $value,$cssStyle);
-		$bt->setProperty("type", "reset");
-		return $bt;
-	}
-
-	/**
-	 * Callback on each valid field
-	 * @param string $jsCode
-	 * @return \Ajax\semantic\html\collections\form\HtmlForm
-	 */
-	public function onValid($jsCode){
-		$this->_validationParams["onValid"]="%function(){".$jsCode."}%";
-		return $this;
-	}
-
-	/**
-	 * Callback if a form is all valid
-	 * @param string $jsCode can use event and fields parameters
-	 * @return HtmlForm
-	 */
-	public function onSuccess($jsCode){
-		$this->_validationParams["onSuccess"]="%function(evt,fields){".$jsCode."}%";
-		return $this;
-	}
-
 }

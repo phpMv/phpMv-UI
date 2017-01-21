@@ -28,12 +28,12 @@ trait FieldAsTrait{
 	protected function _addRules($element,$attributes){}
 
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
-		$this->setValueFunction($index,function($value)use ($index,&$attributes,$elementCallback,$prefix){
+		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback,$prefix){
 			$name=$this->_instanceViewer->getCaption($index)."[]";
 			if(isset($attributes["name"])===true){
 				$name=$attributes["name"];
 			}
-			$element=$elementCallback($this->_getFieldIdentifier($prefix),$value,$name);
+			$element=$elementCallback($this->_getFieldIdentifier($prefix),$name,$value,"");
 			if(\is_array($attributes))
 				$this->_applyAttributes($element, $attributes,$index);
 			return $element;
@@ -75,22 +75,23 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsAvatar($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$value,$name){
-			$img= (new HtmlImage($id,$value))->asAvatar();
+		return $this->_fieldAs(function($id,$name,$value){
+			$img=new HtmlImage($id,$value);
+			$img->asAvatar();
 			return $img;
 		}, $index,$attributes,"avatar");
 	}
 
 
 	public function fieldAsRadio($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$value,$name){
+		return $this->_fieldAs(function($id,$name,$value){
 			$input= new HtmlRadio($id,$name,$value,$value);
 			return $input;
 		}, $index,$attributes,"radio");
 	}
 
 	public function fieldAsInput($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$value,$name){
+		return $this->_fieldAs(function($id,$name,$value){
 			$input= new HtmlInput($id,"text",$value);
 			$input->getField()->setProperty("name", $name);
 			return $input;
@@ -98,7 +99,7 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsCheckbox($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$value,$name){
+		return $this->_fieldAs(function($id,$name,$value){
 			$input=new HtmlCheckbox($id,"",$this->_instanceViewer->getIdentifier());
 			$input->setChecked(JString::isBooleanTrue($value));
 			$input->getField()->setProperty("name", $name);
@@ -107,7 +108,7 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
-		return $this->_fieldAs(function($id,$value,$name) use($elements,$multiple){
+		return $this->_fieldAs(function($id,$name,$value) use($elements,$multiple){
 			$dd=new HtmlDropdown($id,$value,$elements);
 			$dd->asSelect($name,$multiple);
 			return $dd;

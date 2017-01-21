@@ -7,6 +7,8 @@ use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\service\JArray;
 use Ajax\JsUtils;
+use Ajax\semantic\html\collections\form\traits\FormTrait;
+use Ajax\semantic\html\elements\HtmlButton;
 
 /**
  * DataForm widget for editing model objects
@@ -15,7 +17,7 @@ use Ajax\JsUtils;
  * @since 2.2
  */
 class DataForm extends Widget {
-	use FormFieldAsTrait;
+	use FormFieldAsTrait,FormTrait;
 
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
@@ -54,6 +56,13 @@ class DataForm extends Widget {
 		}
 	}
 
+	/**
+	 * @return HtmlForm
+	 */
+	protected function getForm(){
+		return $this->content["form"];
+	}
+
 	public function addSeparatorAfter($fieldNum){
 		$this->_instanceViewer->addSeparatorAfter($fieldNum);
 		return $this;
@@ -66,6 +75,20 @@ class DataForm extends Widget {
 	public function setSeparators($separators) {
 		$this->_instanceViewer->setSeparators($separators);
 		return $this;
+	}
+
+	public function addSubmitInToolbar($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
+		$button=new HtmlButton($identifier,$value,$cssStyle);
+		$this->_buttonAsSubmit($button,"click",$url,$responseElement);
+		return $this->addInToolbar($button);
+	}
+
+	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle){
+			$button=new HtmlButton($id,$value,$cssStyle);
+			$this->_buttonAsSubmit($button,"click",$url,$responseElement);
+			return $button;
+		}, $index,$attributes);
 	}
 
 	/**
@@ -84,11 +107,8 @@ class DataForm extends Widget {
 		$this->content[$this->_toolbarPosition]=$this->_toolbar;
 	}
 
-	public function setValidationParams(array $_validationParams){
-		return $this->getHtmlComponent()->setValidationParams($_validationParams);
-	}
-
-	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
-		return $this->getHtmlComponent()->addSubmit($identifier, $value,$cssStyle,$url,$responseElement);
+	public function setValidationParams(array $_validationParams) {
+		$this->getForm()->setValidationParams($_validationParams);
+		return $this;
 	}
 }

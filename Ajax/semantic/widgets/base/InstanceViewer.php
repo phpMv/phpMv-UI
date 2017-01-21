@@ -67,8 +67,13 @@ class InstanceViewer {
 			elseif(\is_array($property)){
 				$values=\array_map(function($v) use ($index){return $this->_getValue($v, $index);}, $property);
 				$value=\implode("", $values);
-			}else
-				$value=$property;
+			}else{
+				if(isset($this->values[$index])){
+					$value= $this->values[$index]($property,$this->instance,$index);
+				}else{
+					$value=$property;
+				}
+			}
 		}
 		if(isset($this->afterCompile[$index])){
 			if(\is_callable($this->afterCompile[$index])){

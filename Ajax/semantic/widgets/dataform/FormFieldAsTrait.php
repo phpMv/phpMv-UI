@@ -52,10 +52,10 @@ trait FormFieldAsTrait{
 	}
 
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$identifier=null){
-		$this->setValueFunction($index,function($value)use ($index,&$attributes,$elementCallback){
+		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback){
 			$caption=$this->_instanceViewer->getCaption($index);
 			$name=$this->_instanceViewer->getFieldName($index);
-			$element=$elementCallback($name,$caption,$value);
+			$element=$elementCallback($name,$name,$value,$caption);
 			if(\is_array($attributes))
 				$this->_applyAttributes($element, $attributes,$index);
 			return $element;
@@ -65,32 +65,32 @@ trait FormFieldAsTrait{
 
 
 	public function fieldAsRadio($index,$attributes=NULL){
-		return $this->_fieldAs(function($name,$caption,$value){
-			return new HtmlFormRadio($name,$name,$caption,$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			return new HtmlFormRadio($id,$name,$caption,$value);
 		}, $index,$attributes);
 	}
 
 	public function fieldAsTextarea($index,$attributes=NULL){
-		return $this->_fieldAs(function($name,$caption,$value){
-			return new HtmlFormTextarea($name,$caption,$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			return new HtmlFormTextarea($id,$caption,$value);
 		}, $index,$attributes);
 	}
 
 	public function fieldAsInput($index,$attributes=NULL){
-		return $this->_fieldAs(function($name,$caption,$value){
-			return new HtmlFormInput($name,$caption,"text",$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			return new HtmlFormInput($id,$caption,"text",$value);
 		}, $index,$attributes);
 	}
 
 	public function fieldAsCheckbox($index,$attributes=NULL){
-		return $this->_fieldAs(function($name,$caption,$value){
-			return new HtmlFormCheckbox($name,$caption,$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			return new HtmlFormCheckbox($id,$caption,$value);
 		}, $index,$attributes);
 	}
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
-		return $this->_fieldAs(function($name,$caption,$value) use ($elements,$multiple){
-			return new HtmlFormDropdown($name,$elements,$caption,$value,$multiple);
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($elements,$multiple){
+			return new HtmlFormDropdown($id,$elements,$caption,$value,$multiple);
 		}, $index,$attributes);
 	}
 }
