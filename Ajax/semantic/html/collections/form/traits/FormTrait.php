@@ -52,7 +52,7 @@ trait FormTrait{
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
 			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');");
-			$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", ["form"=>$this->identifier,"responseElement"=>$responseElement,"url"=>$url]));
+			$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", ["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url]));
 		}
 		return $button;
 	}

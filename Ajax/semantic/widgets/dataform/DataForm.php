@@ -46,13 +46,20 @@ class DataForm extends Widget {
 		$values= $this->_instanceViewer->getValues();
 		$count=$this->_instanceViewer->count();
 		$separators=$this->_instanceViewer->getSeparators();
-		$separators[]=$count;
-		for($i=0;$i<\sizeof($separators)-1;$i++){
-			$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
-			if(\sizeof($fields)===1){
-				$form->addField($fields[0]);
-			}else
-				$form->addFields($fields);
+		$size=\sizeof($separators);
+		if($size===1){
+			foreach ($values as $v){
+				$form->addField($v);
+			}
+		}else{
+			$separators[]=$count;
+			for($i=0;$i<$size-1;$i++){
+				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
+				if(\sizeof($fields)===1){
+					$form->addField($fields[0]);
+				}else
+					$form->addFields($fields);
+			}
 		}
 	}
 
@@ -87,6 +94,14 @@ class DataForm extends Widget {
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle){
 			$button=new HtmlButton($id,$value,$cssStyle);
 			$this->_buttonAsSubmit($button,"click",$url,$responseElement);
+			return $button;
+		}, $index,$attributes);
+	}
+
+	public function fieldAsReset($index,$cssStyle=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($cssStyle){
+			$button=new HtmlButton($id,$value,$cssStyle);
+			$button->setProperty("type", "reset");
 			return $button;
 		}, $index,$attributes);
 	}
