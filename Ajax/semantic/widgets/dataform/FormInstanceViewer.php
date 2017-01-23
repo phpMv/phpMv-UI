@@ -37,7 +37,7 @@ class FormInstanceViewer extends InstanceViewer {
 		}elseif(\is_callable($property)){
 			$result=$this->visibleProperties[$index];
 		}else{
-			$result=\strtolower($this->getCaption($index));
+			$result=$property;
 		}
 		return $result;
 	}

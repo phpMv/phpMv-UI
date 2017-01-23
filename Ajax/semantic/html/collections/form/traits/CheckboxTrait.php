@@ -45,7 +45,7 @@ trait CheckboxTrait {
 		$field= $this->getField();
 		if($field instanceof AbstractCheckbox)
 			$field=$field->getField();
-			return $field;
+		return $field;
 	}
 
 	/**

@@ -20,11 +20,12 @@ class HtmlInput extends HtmlSemDoubleElement {
 	}
 
 	public function getField() {
-		return $this->content["field"];
+		return $this;
+		//return $this->content["field"];
 	}
 
 	public function getDataField() {
-		return $this->getField();
+		return $this->content["field"];
 	}
 
 	public static function outline($identifier, $icon, $value="", $placeholder="") {

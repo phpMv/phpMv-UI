@@ -20,4 +20,8 @@ class HtmlFormDropdown extends HtmlFormField {
 	public static function multipleDropdown($identifier,$items=array(), $label=NULL,$value=NULL){
 		return new HtmlFormDropdown($identifier,$items,$label,$value,true);
 	}
+
+	public function getDataField(){
+		return $this->getField()->getInput();
+	}
 }

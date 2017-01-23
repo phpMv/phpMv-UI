@@ -119,7 +119,8 @@ class HtmlFormFields extends HtmlSemCollection {
 		foreach ( $items as $val => $caption ) {
 			$itemO=new HtmlFormCheckbox($name."-".$i++, $name, $caption, $val, $type);
 			if (\array_search($val, $values)!==false) {
-				$itemO->getField()->getField()->setProperty("checked", "");
+				//TODO check getField
+				$itemO->getField()->getDataField()->setProperty("checked", "");
 			}
 			$fields[]=$itemO;
 		}

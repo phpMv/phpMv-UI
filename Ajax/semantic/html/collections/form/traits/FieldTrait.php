@@ -9,11 +9,12 @@ use Ajax\semantic\html\base\constants\State;
 
 trait FieldTrait {
 
-	public abstract function addToProperty($name, $value, $separator=" ");
-	public abstract function addLabel($caption, $style="label-default", $leftSeparator="&nbsp;");
-	public abstract function addContent($content,$before=false);
+	abstract public function addToProperty($name, $value, $separator=" ");
+	abstract public function addLabel($caption, $style="label-default", $leftSeparator="&nbsp;");
+	abstract public function addContent($content,$before=false);
+	abstract public function getField();
 	public function setFocus() {
-		$this->addToProperty("class", State::FOCUS);
+		$this->getField()->addToProperty("class", State::FOCUS);
 	}
 
 	public function addLoading() {
@@ -24,8 +25,9 @@ trait FieldTrait {
 	}
 
 	public function labeled($label, $direction=Direction::LEFT, $icon=NULL) {
-		$labelO=$this->addLabel($label,$direction===Direction::LEFT,$icon);
-		$this->addToProperty("class", $direction . " labeled");
+		$field=$this->getField();
+		$labelO=$field->addLabel($label,$direction===Direction::LEFT,$icon);
+		$field->addToProperty("class", $direction . " labeled");
 		return $labelO;
 	}
 
@@ -34,14 +36,15 @@ trait FieldTrait {
 	}
 
 	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {
+		$field=$this->getField();
 		$actionO=$action;
 		if (\is_object($action) === false) {
 			$actionO=new HtmlButton("action-" . $this->identifier, $action);
 			if (isset($icon))
 				$actionO->addIcon($icon, true, $labeled);
 		}
-		$this->addToProperty("class", $direction . " action");
-		$this->addContent($actionO, \strstr($direction, Direction::LEFT) !== false);
+		$field->addToProperty("class", $direction . " action");
+		$field->addContent($actionO, \strstr($direction, Direction::LEFT) !== false);
 		return $actionO;
 	}
 
@@ -52,11 +55,15 @@ trait FieldTrait {
 	}
 
 	public function setTransparent() {
-		return $this->addToProperty("class", "transparent");
+		return $this->getField()->addToProperty("class", "transparent");
 	}
 
 	public function setReadonly(){
 		$this->getDataField()->setProperty("readonly", "");
+	}
+
+	public function setName($name){
+		$this->getDataField()->setProperty("name",$name);
 	}
 
 }

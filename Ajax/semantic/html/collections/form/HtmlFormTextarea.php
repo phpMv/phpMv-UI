@@ -26,4 +26,8 @@ class HtmlFormTextarea extends HtmlFormField {
 	public function getDataField() {
 		return $this->content["field"];
 	}
+
+	public function setName($name){
+		$this->getDataField()->setProperty("name",$name);
+	}
 }

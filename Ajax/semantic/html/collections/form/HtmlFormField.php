@@ -8,8 +8,10 @@ use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\components\validation\FieldValidation;
+use Ajax\semantic\html\collections\form\traits\FieldTrait;
 
 class HtmlFormField extends HtmlSemDoubleElement {
+	use FieldTrait;
 	protected $_container;
 	protected $_validation;
 	public function __construct($identifier, $field,$label=NULL) {
@@ -123,6 +125,9 @@ class HtmlFormField extends HtmlSemDoubleElement {
 		if(isset($field)){
 			if(!isset($this->_validation)){
 				$this->_validation=new FieldValidation($field->getIdentifier());
+			}
+			if($type==="empty"){
+				$this->addToProperty("class","required");
 			}
 			$this->_validation->addRule($type,$prompt,$value);
 		}

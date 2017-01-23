@@ -10,6 +10,7 @@ use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\modules\HtmlProgress;
 use Ajax\semantic\html\modules\HtmlRating;
+use Ajax\semantic\html\collections\HtmlMessage;
 /**
  * @author jc
  * @property InstanceViewer $_instanceViewer
@@ -82,7 +83,6 @@ trait FieldAsTrait{
 		}, $index,$attributes,"avatar");
 	}
 
-
 	public function fieldAsRadio($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value){
 			$input= new HtmlRadio($id,$name,$value,$value);
@@ -93,9 +93,18 @@ trait FieldAsTrait{
 	public function fieldAsInput($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value){
 			$input= new HtmlInput($id,"text",$value);
-			$input->getField()->setProperty("name", $name);
+			//TODO check getField
+			$input->setName($name);
 			return $input;
 		}, $index,$attributes,"input");
+	}
+
+	public function fieldAsHidden($index,$attributes=NULL){
+		if(\is_array($attributes)===false){
+			$attributes=[];
+		}
+		$attributes["imputType"]="hidden";
+		return $this->fieldAsInput($index,$attributes);
 	}
 
 	public function fieldAsCheckbox($index,$attributes=NULL){

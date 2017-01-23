@@ -3,11 +3,10 @@
 namespace Ajax\semantic\html\collections\form;
 
 use Ajax\semantic\html\collections\form\traits\TextFieldsTrait;
-use Ajax\semantic\html\collections\form\traits\FieldTrait;
 use Ajax\semantic\html\elements\HtmlInput;
 
 class HtmlFormInput extends HtmlFormField {
-	use TextFieldsTrait,FieldTrait;
+	use TextFieldsTrait;
 
 	public function __construct($identifier, $label=NULL,$type="text",$value=NULL,$placeholder=NULL) {
 		if(!isset($placeholder) && $type==="text")
@@ -17,8 +16,9 @@ class HtmlFormInput extends HtmlFormField {
 
 	public function getDataField(){
 		$field= $this->getField();
+		//TODO check getField
 		if($field instanceof HtmlInput)
-			$field=$field->getField();
+			$field=$field->getDataField();
 		return $field;
 	}
 }

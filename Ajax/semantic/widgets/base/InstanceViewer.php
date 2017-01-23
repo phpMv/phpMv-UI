@@ -195,12 +195,15 @@ class InstanceViewer {
 	}
 
 	public function getCaption($index){
+		if(isset($this->captions[$index])){
+			return $this->captions[$index];
+		}
 		if($this->properties[$index] instanceof \ReflectionProperty)
 			return $this->properties[$index]->getName();
-			elseif(\is_callable($this->properties[$index]))
+		elseif(\is_callable($this->properties[$index]))
 			return "";
-			else
-				return $this->properties[$index];
+		else
+			return $this->properties[$index];
 	}
 
 	public function getCaptions(){
@@ -218,6 +221,13 @@ class InstanceViewer {
 			$captions[]=$this->getCaption($index++);
 		}
 		return $captions;
+	}
+
+	public function setCaption($index,$caption){
+		if(isset($this->captions)===false)
+			$this->captions=[];
+		$this->captions[$index]=$caption;
+		return $this;
 	}
 
 	public function setCaptions($captions) {

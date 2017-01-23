@@ -10,9 +10,10 @@ use Ajax\service\JArray;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\base\traits\LabeledIconTrait;
 use Ajax\JsUtils;
+use Ajax\semantic\html\collections\form\traits\FieldTrait;
 
 class HtmlDropdown extends HtmlSemDoubleElement {
-	use LabeledIconTrait {
+	use FieldTrait,LabeledIconTrait {
 		addIcon as addIconP;
 	}
 	protected $mClass="menu";
@@ -33,6 +34,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->content=array($content);
 		$this->tagName="div";
 		$this->addItems($items);
+	}
+
+	public function getField(){
+		return $this->input;
 	}
 
 	public function addItem($item,$value=NULL,$image=NULL,$description=NULL){
@@ -286,4 +291,9 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->applyValue();
 		return parent::compile($js,$view);
 	}
+
+	public function getInput() {
+		return $this->input;
+	}
+
 }

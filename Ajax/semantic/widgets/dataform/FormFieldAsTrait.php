@@ -7,6 +7,8 @@ use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\HtmlFormInput;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormDropdown;
+use Ajax\semantic\html\collections\form\HtmlFormFields;
+use Ajax\semantic\html\collections\HtmlMessage;
 
 /**
  * @author jc
@@ -55,7 +57,7 @@ trait FormFieldAsTrait{
 		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback){
 			$caption=$this->_instanceViewer->getCaption($index);
 			$name=$this->_instanceViewer->getFieldName($index);
-			$element=$elementCallback($name,$name,$value,$caption);
+			$element=$elementCallback($this->getIdentifier()."-".$name,$name,$value,$caption);
 			if(\is_array($attributes))
 				$this->_applyAttributes($element, $attributes,$index);
 			return $element;
@@ -70,15 +72,25 @@ trait FormFieldAsTrait{
 		}, $index,$attributes);
 	}
 
+	public function fieldAsRadios($index,$elements=[],$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption,$elements){
+			return HtmlFormFields::radios($name,$elements,$caption,$value);
+		}, $index,$attributes);
+	}
+
 	public function fieldAsTextarea($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption){
-			return new HtmlFormTextarea($id,$caption,$value);
+			$textarea=new HtmlFormTextarea($id,$caption,$value);
+			$textarea->setName($name);
+			return $textarea;
 		}, $index,$attributes);
 	}
 
 	public function fieldAsInput($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption){
-			return new HtmlFormInput($id,$caption,"text",$value);
+			$input= new HtmlFormInput($id,$caption,"text",$value);
+			$input->setName($name);
+			return $input;
 		}, $index,$attributes);
 	}
 
@@ -90,7 +102,17 @@ trait FormFieldAsTrait{
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($elements,$multiple){
-			return new HtmlFormDropdown($id,$elements,$caption,$value,$multiple);
+			$dd=new HtmlFormDropdown($id,$elements,$caption,$value,$multiple);
+			$dd->setName($name);
+			return $dd;
 		}, $index,$attributes);
+	}
+
+	public function fieldAsMessage($index,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			$mess= new HtmlMessage($id,$value);
+			$mess->addHeader($caption);
+			return $mess;
+		}, $index,$attributes,"message");
 	}
 }

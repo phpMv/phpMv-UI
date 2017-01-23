@@ -8,6 +8,7 @@ use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Style;
 use Ajax\semantic\html\base\traits\AttachedTrait;
+use Ajax\common\html\HtmlDoubleElement;
 /**
  * Semantic Message component
  * @see http://semantic-ui.com/collections/message.html
@@ -94,5 +95,12 @@ class HtmlMessage extends HtmlSemDoubleElement {
 
 	public function setError(){
 		return $this->setStyle("error");
+	}
+
+	public function setMessage($message){
+		if(\is_array($this->content)){
+			$this->content[\sizeof($this->content)-1]=$message;
+		}else
+			$this->setContent($message);
 	}
 }
