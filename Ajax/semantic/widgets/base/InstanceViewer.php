@@ -3,6 +3,7 @@ namespace Ajax\semantic\widgets\base;
 use Ajax\service\JString;
 
 class InstanceViewer {
+	protected $widgetIdentifier;
 	protected $instance;
 	protected $reflect;
 	protected $properties;
@@ -14,7 +15,8 @@ class InstanceViewer {
 
 	public static $index=0;
 
-	public function __construct($instance=NULL,$captions=NULL){
+	public function __construct($identifier,$instance=NULL,$captions=NULL){
+		$this->widgetIdentifier=$identifier;
 		$this->values=[];
 		$this->afterCompile=[];
 		if(isset($instance))

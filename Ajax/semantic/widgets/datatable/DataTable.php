@@ -41,7 +41,7 @@ class DataTable extends Widget {
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier, $model,$modelInstance);
-		$this->_instanceViewer=new InstanceViewer();
+		$this->_instanceViewer=new InstanceViewer($identifier);
 		$this->content=["table"=>new HtmlTable($identifier, 0,0)];
 		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
 	}

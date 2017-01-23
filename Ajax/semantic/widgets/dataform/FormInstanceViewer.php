@@ -9,8 +9,8 @@ use Ajax\semantic\html\collections\form\HtmlFormInput;
 class FormInstanceViewer extends InstanceViewer {
 	protected $separators;
 
-	public function __construct($instance=NULL, $captions=NULL) {
-		parent::__construct($instance=NULL, $captions=NULL);
+	public function __construct($identifier,$instance=NULL, $captions=NULL) {
+		parent::__construct($identifier,$instance=NULL, $captions=NULL);
 		$this->separators=[-1];
 	}
 
@@ -26,7 +26,8 @@ class FormInstanceViewer extends InstanceViewer {
 
 	protected function _getDefaultValue($name,$value,$index){
 		$caption=$this->getCaption($index);
-		$input=new HtmlFormInput($name,$caption,"text",$value);
+		$input=new HtmlFormInput($this->widgetIdentifier."-".$name,$caption,"text",$value);
+		$input->setName($name);
 		return $input;
 	}
 
