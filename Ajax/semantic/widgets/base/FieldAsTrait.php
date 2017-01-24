@@ -10,7 +10,6 @@ use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\modules\HtmlProgress;
 use Ajax\semantic\html\modules\HtmlRating;
-use Ajax\semantic\html\collections\HtmlMessage;
 /**
  * @author jc
  * @property InstanceViewer $_instanceViewer
@@ -26,7 +25,7 @@ trait FieldAsTrait{
 		return $label;
 	}
 
-	protected function _addRules($element,$attributes){}
+	protected function _addRules($element,&$attributes){}
 
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
 		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback,$prefix){

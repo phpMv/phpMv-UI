@@ -42,14 +42,15 @@ trait FormFieldAsTrait{
 		$element->fromArray($attributes);
 	}
 
-	protected function _addRules($element,$attributes){
+	protected function _addRules($element,&$attributes){
 		if(isset($attributes["rules"])){
 			$rules=$attributes["rules"];
-			if(\is_array($rules))
+			if(\is_array($rules)){
 				$element->addRules($rules);
-				else
-					$element->addRule($rules);
-				unset($attributes["rules"]);
+			}
+			else
+				$element->addRule($rules);
+			unset($attributes["rules"]);
 		}
 	}
 
@@ -58,8 +59,9 @@ trait FormFieldAsTrait{
 			$caption=$this->_instanceViewer->getCaption($index);
 			$name=$this->_instanceViewer->getFieldName($index);
 			$element=$elementCallback($this->getIdentifier()."-".$name,$name,$value,$caption);
-			if(\is_array($attributes))
+			if(\is_array($attributes)){
 				$this->_applyAttributes($element, $attributes,$index);
+			}
 			return $element;
 		});
 			return $this;
@@ -110,7 +112,7 @@ trait FormFieldAsTrait{
 
 	public function fieldAsMessage($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption){
-			$mess= new HtmlMessage($id,$value);
+			$mess= new HtmlMessage("message-".$id,$value);
 			$mess->addHeader($caption);
 			return $mess;
 		}, $index,$attributes,"message");
