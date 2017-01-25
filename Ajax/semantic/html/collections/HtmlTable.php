@@ -253,6 +253,10 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "selectable");
 	}
 
+	public function setStriped() {
+		return $this->addToProperty("class", "striped");
+	}
+
 	/**
 	 *
 	 * {@inheritDoc}

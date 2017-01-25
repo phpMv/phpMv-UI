@@ -144,7 +144,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	}
 
 	public function addItems($items){
-		if(JArray::isAssociative($items)){
+		if(\is_array($items) && JArray::isAssociative($items)){
 			foreach ($items as $k=>$v){
 				$this->addItem($v)->setData($k);
 			}

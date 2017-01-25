@@ -10,6 +10,7 @@ use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\modules\HtmlProgress;
 use Ajax\semantic\html\modules\HtmlRating;
+use Ajax\semantic\html\elements\HtmlHeader;
 /**
  * @author jc
  * @property InstanceViewer $_instanceViewer
@@ -66,7 +67,17 @@ trait FieldAsTrait{
 			return $this;
 	}
 
-	public function fieldAsImage($index,$size=Size::SMALL,$circular=false){
+	public function fieldAsHeader($index,$niveau=1,$icon=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value) use($niveau,$icon){
+			$header=new HtmlHeader($id,$niveau,$value);
+			if(isset($icon))
+				$header->asIcon($icon, $value);
+			return $header;
+		}, $index,$attributes,"header");
+	}
+
+
+	public function fieldAsImage($index,$size=Size::MINI,$circular=false){
 		$this->setValueFunction($index,function($img) use($size,$circular){
 			$image=new HtmlImage($this->_getFieldIdentifier("image"),$img);$image->setSize($size);if($circular)$image->setCircular();
 			return $image;

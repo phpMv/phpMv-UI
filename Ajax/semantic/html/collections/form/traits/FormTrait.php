@@ -48,7 +48,7 @@ trait FormTrait{
 		return $this->_buttonAsSubmit($bt, "click",$url,$responseElement);
 	}
 
-	protected function _buttonAsSubmit($button,$event,$url,$responseElement=NULL){
+	protected function _buttonAsSubmit(&$button,$event,$url,$responseElement=NULL){
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
 			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');");

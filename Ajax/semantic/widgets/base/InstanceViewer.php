@@ -11,6 +11,7 @@ class InstanceViewer {
 	protected $values;
 	protected $afterCompile;
 	protected $captions;
+	protected $captionCallback;
 
 
 	public static $index=0;
@@ -22,6 +23,7 @@ class InstanceViewer {
 		if(isset($instance))
 			$this->setInstance($instance);
 		$this->setCaptions($captions);
+		$this->captionCallback=NULL;
 	}
 
 	public function getValues(){
@@ -210,17 +212,21 @@ class InstanceViewer {
 
 	public function getCaptions(){
 		if(isset($this->captions)){
-			$result= $this->captions;
-			for($i=\sizeof($result);$i<$this->count();$i++){
-				$result[]="";
+			$captions= $this->captions;
+			for($i=\sizeof($captions);$i<$this->count();$i++){
+				$captions[]="";
 			}
-			return $result;
+		}else{
+			$captions=[];
+			$index=0;
+			$count=$this->count();
+			while($index<$count){
+				$captions[]=$this->getCaption($index++);
+			}
 		}
-		$captions=[];
-		$index=0;
-		$count=$this->count();
-		while($index<$count){
-			$captions[]=$this->getCaption($index++);
+		if(isset($this->captionCallback) && \is_callable($this->captionCallback)){
+			$callback=$this->captionCallback;
+			$callback($captions,$this->instance);
 		}
 		return $captions;
 	}
@@ -248,4 +254,16 @@ class InstanceViewer {
 		$this->afterCompile[$index]=$callback;
 		return $this;
 	}
+
+	/**
+	 * Defines a callback function to call for modifying captions
+	 * function parameters are $captions: the captions to modify and $instance: the active model instance
+	 * @param callable $captionCallback
+	 * @return \Ajax\semantic\widgets\base\InstanceViewer
+	 */
+	public function setCaptionCallback($captionCallback) {
+		$this->captionCallback=$captionCallback;
+		return $this;
+	}
+
 }

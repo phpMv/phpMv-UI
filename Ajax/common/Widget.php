@@ -7,6 +7,7 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\widgets\base\FieldAsTrait;
+use Ajax\semantic\html\elements\HtmlButtonGroups;
 
 abstract class Widget extends HtmlDoubleElement {
 	use FieldAsTrait;
@@ -114,7 +115,7 @@ abstract class Widget extends HtmlDoubleElement {
 	public function getToolbar(){
 		if(isset($this->_toolbar)===false){
 			$this->_toolbar=new HtmlMenu("toolbar-".$this->identifier);
-			$this->_toolbar->setSecondary();
+			//$this->_toolbar->setSecondary();
 		}
 		return $this->_toolbar;
 	}
@@ -135,8 +136,8 @@ abstract class Widget extends HtmlDoubleElement {
 		return $tb->addItem($element);
 	}
 
-	public function addItemInToolbar($caption,$icon=NULL){
-		$result=$this->addInToolbar($caption);
+	public function addItemInToolbar($caption,$icon=NULL,$callback=NULL){
+		$result=$this->addInToolbar($caption,$callback);
 		$result->addIcon($icon);
 		return $result;
 	}
@@ -146,9 +147,25 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->addInToolbar($bt,$callback);
 	}
 
+	public function addButtonsInToolbar(array $captions,$asIcon=false,$callback=NULL){
+		$bts=new HtmlButtonGroups("",$captions,$asIcon);
+		return $this->addInToolbar($bts,$callback);
+	}
+
 	public function addLabelledIconButtonInToolbar($caption,$icon,$before=true,$labeled=false){
 		$bt=new HtmlButton("",$caption);
 		$bt->addIcon($icon,$before,$labeled);
 		return $this->addInToolbar($bt);
+	}
+
+	/**
+	 * Defines a callback function to call for modifying captions
+	 * function parameters are $captions: the captions to modify and $instance: the active model instance
+	 * @param callable $captionCallback
+	 * @return Widget
+	 */
+	public function setCaptionCallback($captionCallback) {
+		$this->_instanceViewer->setCaptionCallback($captionCallback);
+		return $this;
 	}
 }
