@@ -1,7 +1,7 @@
 <?php
 namespace Ajax\semantic\traits;
 
-use Ajax\semantic\html\collections\HtmlTable;
+use Ajax\semantic\html\collections\table\HtmlTable;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\collections\form\HtmlForm;

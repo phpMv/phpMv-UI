@@ -4,7 +4,7 @@ namespace Ajax\semantic\widgets\datatable;
 
 use Ajax\common\Widget;
 use Ajax\JsUtils;
-use Ajax\semantic\html\collections\HtmlTable;
+use Ajax\semantic\html\collections\table\HtmlTable;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\collections\menus\HtmlPaginationMenu;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
@@ -13,6 +13,7 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\widgets\base\InstanceViewer;
+use Ajax\semantic\html\collections\table\traits\TableTrait;
 
 /**
  * DataTable widget for displaying list of objects
@@ -22,7 +23,7 @@ use Ajax\semantic\widgets\base\InstanceViewer;
  *
  */
 class DataTable extends Widget {
-
+	use TableTrait;
 	protected $_searchField;
 	protected $_urls;
 	protected $_pagination;
@@ -45,6 +46,15 @@ class DataTable extends Widget {
 		$this->content=["table"=>new HtmlTable($identifier, 0,0)];
 		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\semantic\html\collections\table\TableTrait::getTable()
+	 */
+	protected function getTable() {
+		return $this->content["table"];
+	}
+
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
 		$this->_instanceViewer->setInstance($this->_model);
@@ -291,13 +301,8 @@ class DataTable extends Widget {
 		return $this->insertDefaultButtonIn($index,"edit","edit basic",$callback);
 	}
 
-	public function setSelectable(){
-		$this->content["table"]->setSelectable();
-		return $this;
-	}
-
-	public function addSearchInToolbar(){
-		return $this->addInToolbar($this->getSearchField())->setPosition("right");
+	public function addSearchInToolbar($position=Direction::RIGHT){
+		return $this->addInToolbar($this->getSearchField())->setPosition($position);
 	}
 
 	public function getSearchField(){
@@ -306,11 +311,6 @@ class DataTable extends Widget {
 			$this->_searchField->addIcon("search",Direction::RIGHT);
 		}
 		return $this->_searchField;
-	}
-
-	public function setSortable($colIndex=NULL) {
-		$this->content["table"]->setSortable($colIndex);
-		return $this;
 	}
 
 	/**
