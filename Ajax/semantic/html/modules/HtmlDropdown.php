@@ -22,8 +22,9 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	protected $_params=array("action"=>"nothing","on"=>"hover");
 	protected $input;
 	protected $value;
+	protected $_associative;
 
-	public function __construct($identifier, $value="", $items=array()) {
+	public function __construct($identifier, $value="", $items=array(),$associative=true) {
 		parent::__construct($identifier, "div");
 		$this->_template=include dirname(__FILE__).'/../templates/tplDropdown.php';
 		$this->setProperty("class", "ui dropdown");
@@ -33,6 +34,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$content->wrap("",new HtmlIcon("", "dropdown"));
 		$this->content=array($content);
 		$this->tagName="div";
+		$this->_associative=$associative;
 		$this->addItems($items);
 	}
 
@@ -144,7 +146,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	}
 
 	public function addItems($items){
-		if(\is_array($items) && JArray::isAssociative($items)){
+		if(\is_array($items) && $this->_associative){
 			foreach ($items as $k=>$v){
 				$this->addItem($v)->setData($k);
 			}

@@ -74,4 +74,29 @@ class JArray {
 		}
 		return $newArray;
 	}
+
+	public static function modelArray($objects,$identifierFunction=NULL,$modelFunction=NULL){
+		$result=[];
+		if(isset($modelFunction)===false){
+			$modelFunction="__toString";
+		}
+		if(isset($identifierFunction)===false){
+			foreach ($objects as $object){
+				$result[]=self::callFunction($object, $modelFunction);
+			}
+		}else{
+			foreach ($objects as $object){
+				$result[self::callFunction($object, $identifierFunction)]=self::callFunction($object, $modelFunction);
+			}
+		}
+		return $result;
+	}
+
+	private static function callFunction($object,$callback){
+		if(\is_string($callback))
+			return \call_user_func(array($object, $callback),[]);
+		else if (\is_callable($callback)){
+			return $callback($object);
+		}
+	}
 }
