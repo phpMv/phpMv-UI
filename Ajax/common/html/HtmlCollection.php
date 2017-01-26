@@ -49,7 +49,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 
 	/**
 	 * adds and returns an item
-	 * @param HtmlDoubleElement|string $item
+	 * @param HtmlDoubleElement|string|array $item
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
 	public function addItem($item){

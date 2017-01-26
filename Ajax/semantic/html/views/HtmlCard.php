@@ -88,7 +88,7 @@ class HtmlCard extends HtmlSemDoubleElement {
 
 	/**
 	 * @param array $elements
-	 * @param string $asIcons
+	 * @param boolean $asIcons
 	 * @return \Ajax\semantic\html\elements\HtmlButtonGroups
 	 */
 	public function addButtons($elements=array(), $asIcons=false){

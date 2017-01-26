@@ -8,6 +8,7 @@ use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\widgets\base\FieldAsTrait;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
+use Ajax\semantic\widgets\base\InstanceViewer;
 
 abstract class Widget extends HtmlDoubleElement {
 	use FieldAsTrait;

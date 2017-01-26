@@ -5,6 +5,10 @@ namespace Ajax\semantic\html\collections\form\traits;
 use Ajax\semantic\html\base\constants\CheckboxType;
 use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
 
+/**
+ * @author jc
+ * @property mixed $content
+ */
 trait CheckboxTrait {
 
 	public abstract function addToPropertyCtrl($name, $value, $typeCtrl);

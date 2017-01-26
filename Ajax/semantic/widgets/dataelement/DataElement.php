@@ -5,9 +5,9 @@ namespace Ajax\semantic\widgets\dataelement;
 use Ajax\common\Widget;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\widgets\datatable\PositionInTable;
-use Ajax\semantic\html\collections\HtmlTable;
 use Ajax\JsUtils;
 use Ajax\service\JArray;
+use Ajax\semantic\html\collections\table\HtmlTable;
 
 /**
  * DataElement widget for displaying an instance of model

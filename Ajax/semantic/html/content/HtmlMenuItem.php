@@ -24,7 +24,7 @@ class HtmlMenuItem extends HtmlSemDoubleElement {
 				$desc=@$content["description"];
 			}
 			if(isset($icon)===true){
-				$this->setIcon($icon);
+				$this->addIcon($icon);
 			}
 			if(isset($title)===true){
 				$this->setTitle($title,$desc);

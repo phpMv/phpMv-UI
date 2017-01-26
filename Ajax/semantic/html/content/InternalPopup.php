@@ -5,6 +5,7 @@ namespace Ajax\semantic\html\content;
 use Ajax\JsUtils;
 use Ajax\service\JString;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+
 class InternalPopup {
 	protected $title;
 	protected $content;
@@ -12,6 +13,7 @@ class InternalPopup {
 	protected $variation;
 	protected $params;
 	protected $semElement;
+
 	public function __construct($semElement,$title="",$content="",$variation=NULL,$params=array()){
 		$this->semElement=$semElement;
 		$this->title=$title;
@@ -46,9 +48,11 @@ class InternalPopup {
 				\array_walk($html, function(&$item) use($js){
 					if($item instanceof HtmlSemDoubleElement){
 						$comp=$item->compile($js);
-						$bs=$item->run($js);
-						if(isset($bs))
-							$this->params['onShow']=$bs->getScript();
+						if(isset($js)){
+							$bs=$item->run($js);
+							if(isset($bs))
+								$this->params['onShow']=$bs->getScript();
+						}
 						$item=$comp;
 					}
 				});

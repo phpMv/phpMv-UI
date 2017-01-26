@@ -17,7 +17,12 @@ use Ajax\semantic\components\Modal;
 use Ajax\semantic\components\Tab;
 use Ajax\semantic\components\Shape;
 use Ajax\semantic\components\Form;
+use Ajax\JsUtils;
 
+/**
+ * @author jc
+ * @property JsUtils $js
+ */
 trait SemanticComponentsTrait {
 
 	/**

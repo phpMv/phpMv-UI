@@ -7,6 +7,11 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\base\constants\State;
 
+/**
+ * @author jc
+ * @property boolean $_hasIcon
+ * @property string $identifier
+ */
 trait FieldTrait {
 
 	abstract public function addToProperty($name, $value, $separator=" ");

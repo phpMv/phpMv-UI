@@ -10,6 +10,10 @@ use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
 use Ajax\semantic\html\collections\form\HtmlFormField;
 
+/**
+ * @author jc
+ * @property string $identifier
+ */
 trait FieldsTrait {
 	public abstract function addFields($fields=NULL,$label=NULL);
 	public abstract function addItem($item);

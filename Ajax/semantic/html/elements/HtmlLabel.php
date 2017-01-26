@@ -68,7 +68,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	 * Adds an image to emphasize
 	 * @param string $src
 	 * @param string $alt
-	 * @param string $before
+	 * @param boolean $before
 	 * @return \Ajax\semantic\html\elements\html5\HtmlImg
 	 */
 	public function addEmphasisImage($src, $alt="", $before=true) {
@@ -80,7 +80,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	 * Adds an avatar image
 	 * @param string $src
 	 * @param string $alt
-	 * @param string $before
+	 * @param boolean $before
 	 * @return \Ajax\semantic\html\elements\html5\HtmlImg
 	 */
 	public function addAvatarImage($src, $alt="", $before=true) {

@@ -37,13 +37,6 @@ class HtmlTableContent extends HtmlSemCollection {
 		for($i=$count; $i < $rowCount; $i++) {
 			$this->addItem($colCount);
 		}
-		/*
-		 * for($i=0; $i < $rowCount; $i++) {
-		 * $item=$this->content[$i];
-		 * $item->setTdTagName($this->_tdTagNames[$this->tagName]);
-		 * $this->content[$i]->setColCount($colCount);
-		 * }
-		 */
 		return $this;
 	}
 

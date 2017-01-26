@@ -13,7 +13,7 @@ use Ajax\semantic\html\collections\HtmlMessage;
 /**
  * @author jc
  * @property FormInstanceViewer $_instanceViewer
- * @property object $_modelInstance;
+ * @property object $_modelInstance
  */
 
 trait FormFieldAsTrait{

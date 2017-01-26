@@ -6,6 +6,12 @@ use Ajax\service\JString;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\base\constants\Direction;
 
+/**
+ * @author jc
+ * @property string $identifier
+ * @property mixed $content
+ * @property string $tagName
+ */
 trait MenuItemTrait {
 
 	public function setContent($content){
