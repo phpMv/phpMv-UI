@@ -23,13 +23,13 @@ class HtmlStepItem extends HtmlAbsractItem {
 				$desc=@$content["description"];
 				$status=@$content["status"];
 			}
-			if(isset($icon)===true){
+			if(isset($icon)){
 				$this->setIcon($icon);
 			}
-			if(isset($status)===true){
+			if(isset($status)){
 				$this->setStatus($status);
 			}
-			if(isset($title)===true){
+			if(isset($title)){
 				$this->setTitle($title,$desc);
 			}
 		}else{

@@ -149,7 +149,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 		}
 		foreach ($values as $value){
 			$c=$this->content[$i++];
-			if(isset($c)===true){
+			if(isset($c)){
 				$c->setProperty($property,$value);
 			}
 			else{

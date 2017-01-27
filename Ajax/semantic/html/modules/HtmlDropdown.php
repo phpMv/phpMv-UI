@@ -53,6 +53,13 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		return $this->getElementById("text-".$this->identifier, $this->content)->setWrapAfter("");
 	}
 
+	public function addIcons($icons){
+		$count=$this->count();
+		for ($i=0;$i<\sizeof($icons) && $i<$count;$i++){
+			$this->getItem($i)->addIcon($icons[$i]);
+		}
+	}
+
 	/**
 	 * Insert an item at a position
 	 * @param mixed $item

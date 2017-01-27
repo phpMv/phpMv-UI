@@ -206,7 +206,7 @@ class HtmlTab extends HtmlSemCollection{
 	public function setMenu($menu){
 		for($i=0;$i<\sizeof($this->content);$i++){
 			if($menu->getItem($i)!==NULL){
-				if(isset($this->content[$i])===true){
+				if(isset($this->content[$i])){
 					$menu->getItem($i)->addToProperty("data-tab",$this->content[$i]->getProperty("data-tab"));
 				}
 			}

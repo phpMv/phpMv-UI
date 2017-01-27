@@ -3,7 +3,7 @@
 namespace Ajax\common\html;
 
 /**
- * BaseWidget for Twitter Bootstrap or Semantic components
+ * BaseWidget for Twitter Bootstrap, jQuery UI or Semantic rich components
  * @author jc
  * @version 1.001
  */

@@ -2,13 +2,14 @@
 
 namespace Ajax\common\traits;
 
+use Ajax\service\Javascript;
+
 /**
  * @author jc
  * @property array $jquery_code_for_compile
  */
 
 trait JqueryEventsTrait {
-	public abstract function _prep_element($element);
 	public abstract function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
 
 	/**
@@ -124,7 +125,7 @@ trait JqueryEventsTrait {
 	 * @return string
 	 */
 	public function _hover($element='this', $over, $out) {
-		$event="\n\t$(".$this->_prep_element($element).").hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
+		$event="\n\t$(".Javascript::prep_element($element).").hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
 
 		$this->jquery_code_for_compile[]=$event;
 

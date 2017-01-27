@@ -3,21 +3,21 @@
 namespace Ajax\common\html;
 
 
-use Ajax\service\AjaxCall;
 use Ajax\service\JString;
 use Ajax\common\components\SimpleExtComponent;
 use Ajax\JsUtils;
+use Ajax\common\html\traits\BaseHtmlEventsTrait;
 
 /**
  * BaseHtml for HTML components
  * @author jc
- * @version 1.001
+ * @version 1.2
  */
 abstract class BaseHtml extends BaseWidget {
+	use BaseHtmlEventsTrait;
 	protected $_template;
 	protected $tagName;
 	protected $properties=array ();
-	protected $_events=array ();
 	protected $_wrapBefore=array ();
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
@@ -263,113 +263,7 @@ abstract class BaseHtml extends BaseWidget {
 		return $this;
 	}
 
-	public function addEvent($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
-		if ($stopPropagation === true) {
-			$jsCode="event.stopPropagation();" . $jsCode;
-		}
-		if ($preventDefault === true) {
-			$jsCode="event.preventDefault();" . $jsCode;
-		}
-		return $this->_addEvent($event, $jsCode);
-	}
 
-	public function _addEvent($event, $jsCode) {
-		if (array_key_exists($event, $this->_events)) {
-			if (is_array($this->_events[$event])) {
-				$this->_events[$event][]=$jsCode;
-			} else {
-				$this->_events[$event]=array ($this->_events[$event],$jsCode );
-			}
-		} else {
-			$this->_events[$event]=$jsCode;
-		}
-		return $this;
-	}
-
-	public function on($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
-		return $this->addEvent($event, $jsCode, $stopPropagation, $preventDefault);
-	}
-
-	public function onClick($jsCode, $stopPropagation=false, $preventDefault=true) {
-		return $this->on("click", $jsCode, $stopPropagation, $preventDefault);
-	}
-
-	public function setClick($jsCode) {
-		return $this->onClick($jsCode);
-	}
-
-	public function onCreate($jsCode){
-		if(isset($this->_events["_create"])){
-			$this->_events["_create"][]=$jsCode;
-		}else{
-			$this->_events["_create"]=[$jsCode];
-		}
-		return $this;
-	}
-
-	public function addEventsOnRun(JsUtils $js) {
-		if(isset($this->_events["_create"])){
-			$create=$this->_events["_create"];
-			if(\is_array($create)){
-				$create=\implode("", $create);
-			}
-			if($create!=="")
-				$js->exec($create,true);
-			unset($this->_events["_create"]);
-		}
-		if (isset($this->_bsComponent)) {
-			foreach ( $this->_events as $event => $jsCode ) {
-				$code=$jsCode;
-				if (is_array($jsCode)) {
-					$code="";
-					foreach ( $jsCode as $jsC ) {
-						if ($jsC instanceof AjaxCall) {
-							$code.="\n" . $jsC->compile($js);
-						} else {
-							$code.="\n" . $jsC;
-						}
-					}
-				} elseif ($jsCode instanceof AjaxCall) {
-					$code=$jsCode->compile($js);
-				}
-				$this->_bsComponent->addEvent($event, $code);
-			}
-			$this->_events=array ();
-		}
-	}
-
-	public function _ajaxOn($operation, $event, $url, $responseElement="", $parameters=array()) {
-		$params=array ("url" => $url,"responseElement" => $responseElement );
-		$params=array_merge($params, $parameters);
-		$this->_addEvent($event, new AjaxCall($operation, $params));
-		return $this;
-	}
-
-	public function getOn($event, $url, $responseElement="", $parameters=array()) {
-		return $this->_ajaxOn("get", $event, $url, $responseElement, $parameters);
-	}
-
-	public function getOnClick($url, $responseElement="", $parameters=array()) {
-		return $this->getOn("click", $url, $responseElement, $parameters);
-	}
-
-	public function postOn($event, $url, $params="{}", $responseElement="", $parameters=array()) {
-		$parameters["params"]=$params;
-		return $this->_ajaxOn("post", $event, $url, $responseElement, $parameters);
-	}
-
-	public function postOnClick($url, $params="{}", $responseElement="", $parameters=array()) {
-		return $this->postOn("click", $url, $params, $responseElement, $parameters);
-	}
-
-	public function postFormOn($event, $url, $form, $responseElement="", $parameters=array()) {
-		$parameters["form"]=$form;
-		return $this->_ajaxOn("postForm", $event, $url, $responseElement, $parameters);
-	}
-
-	public function postFormOnClick($url, $form, $responseElement="", $parameters=array()) {
-		return $this->postFormOn("click", $url, $form, $responseElement, $parameters);
-	}
 
 	public function getElementById($identifier, $elements) {
 		if (is_array($elements)) {
@@ -409,44 +303,6 @@ abstract class BaseHtml extends BaseWidget {
 
 	public function __toString() {
 		return $this->compile();
-	}
-
-	/**
-	 * Puts HTML values in quotes for use in jQuery code
-	 * unless the supplied value contains the Javascript 'this' or 'event'
-	 * object, in which case no quotes are added
-	 *
-	 * @param string $value
-	 * @return string
-	 */
-	public function _prep_value($value) {
-		if (is_array($value)) {
-			$value=implode(",", $value);
-		}
-		if (strrpos($value, 'this') === false && strrpos($value, 'event') === false) {
-			$value='"' . $value . '"';
-		}
-		return $value;
-	}
-
-	public function jsDoJquery($jqueryCall, $param="") {
-		return "$('#" . $this->identifier . "')." . $jqueryCall . "(" . $this->_prep_value($param) . ");";
-	}
-
-	public function executeOnRun($jsCode) {
-		return $this->_addEvent("execute", $jsCode);
-	}
-
-	public function jsHtml($content="") {
-		return $this->jsDoJquery("html", $content);
-	}
-
-	public function jsShow() {
-		return $this->jsDoJquery("show");
-	}
-
-	public function jsHide() {
-		return $this->jsDoJquery("hide");
 	}
 
 	protected function setWrapBefore($wrapBefore) {

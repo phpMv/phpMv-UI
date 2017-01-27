@@ -10,7 +10,7 @@ class JsUtils extends \Ajax\JsUtils{
 	public function getUrl($url){
 		//$request = Request::createFromGlobals();
 		$router=$this->getInjected();
-		if(isset($router)===true){
+		if(isset($router)){
 			try {
 			$url=$router->generate($url);
 			}catch (\Exception $e){

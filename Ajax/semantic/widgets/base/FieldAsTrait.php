@@ -31,7 +31,7 @@ trait FieldAsTrait{
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
 		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback,$prefix){
 			$name=$this->_instanceViewer->getCaption($index)."[]";
-			if(isset($attributes["name"])===true){
+			if(isset($attributes["name"])){
 				$name=$attributes["name"];
 			}
 			$element=$elementCallback($this->_getFieldIdentifier($prefix),$name,$value,"");

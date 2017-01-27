@@ -1,6 +1,8 @@
 <?php
 
 namespace Ajax\common\traits;
+use Ajax\service\Javascript;
+
 /**
  *
  * @author jc
@@ -9,8 +11,6 @@ namespace Ajax\common\traits;
 
 trait JqueryActionsTrait {
 	public abstract function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
-	public abstract function _prep_element($element);
-	public abstract function _prep_value($value);
 
 	/**
 	 * Get or set the value of an attribute for the first element in the set of matched elements or set one or more attributes for every matched element.
@@ -20,9 +20,9 @@ trait JqueryActionsTrait {
 	 * @param boolean $immediatly delayed if false
 	 */
 	public function _attr($element='this', $attributeName, $value="", $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		if (isset($value)) {
-			$value=$this->_prep_value($value);
+			$value=Javascript::prep_value($value);
 			$str="$({$element}).attr(\"$attributeName\",{$value});";
 		} else
 			$str="$({$element}).attr(\"$attributeName\");";
@@ -39,8 +39,8 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function after($element='this', $value='', $immediatly=false){
-		$element=$this->_prep_element($element);
-		$value=$this->_prep_value($value);
+		$element=Javascript::prep_element($element);
+		$value=Javascript::prep_value($value);
 		$str="$({$element}).after({$value});";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$str;
@@ -58,7 +58,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _animate($element='this', $params=array(), $speed='', $extra='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		$animations="\t\t\t";
@@ -96,7 +96,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _fadeIn($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -122,7 +122,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _fadeOut($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -148,7 +148,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _hide($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -176,7 +176,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _slideUp($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -202,7 +202,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _slideDown($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -228,7 +228,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _slideToggle($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -252,7 +252,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _toggle($element='this', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$str="$({$element}).toggle();";
 
 		if ($immediatly)
@@ -269,7 +269,7 @@ trait JqueryActionsTrait {
 	 * @param boolean $immediatly delayed if false
 	 */
 	public function _trigger($element='this', $event='click', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$str="$({$element}).trigger(\"$event\");";
 
 		if ($immediatly)
@@ -289,7 +289,7 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _show($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		$speed=$this->_validate_speed($speed);
 
 		if ($callback!='') {
@@ -333,11 +333,11 @@ trait JqueryActionsTrait {
 	 * @return string
 	 */
 	public function _doJQuery($element, $jqueryCall, $param="", $jsCallback="", $immediatly=false) {
-		$param=$this->_prep_value($param);
+		$param=Javascript::prep_value($param);
 		$callback="";
 		if ($jsCallback!="")
 			$callback=", function(event){\n{$jsCallback}\n}";
-			$script="$(".$this->_prep_element($element).").".$jqueryCall."(".$param.$callback.");\n";
+			$script="$(".Javascript::prep_element($element).").".$jqueryCall."(".$param.$callback.");\n";
 			if ($immediatly)
 				$this->jquery_code_for_compile[]=$script;
 				return $script;

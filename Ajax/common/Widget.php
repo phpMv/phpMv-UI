@@ -9,6 +9,8 @@ use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\widgets\base\FieldAsTrait;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
 use Ajax\semantic\widgets\base\InstanceViewer;
+use Ajax\semantic\html\modules\HtmlDropdown;
+use Ajax\service\JArray;
 
 abstract class Widget extends HtmlDoubleElement {
 	use FieldAsTrait;
@@ -139,8 +141,30 @@ abstract class Widget extends HtmlDoubleElement {
 
 	public function addItemInToolbar($caption,$icon=NULL,$callback=NULL){
 		$result=$this->addInToolbar($caption,$callback);
-		$result->addIcon($icon);
+		if(isset($icon))
+			$result->addIcon($icon);
 		return $result;
+	}
+
+	public function addItemsInToolbar(array $items,$callback=NULL){
+		if(JArray::isAssociative($items)){
+			foreach ($items as $icon=>$item){
+				$this->addItemInToolbar($item,$icon,$callback);
+			}
+		}else{
+			foreach ($items as $item){
+				$this->addItemInToolbar($item,null,$callback);
+			}
+		}
+		return $this;
+	}
+
+	public function addDropdownInToolbar($value,$items=NULL,$callback=NULL){
+		$dd=$value;
+		if (\is_string($value)) {
+			$dd=new HtmlDropdown("dropdown-". $this->identifier."-".$value, $value, $items);
+		}
+		return $this->addInToolbar($dd,$callback);
 	}
 
 	public function addButtonInToolbar($caption,$callback=NULL){

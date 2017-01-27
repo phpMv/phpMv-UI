@@ -25,18 +25,18 @@ class HtmlListItem extends HtmlAbsractItem {
 				$desc=@$content["description"];
 				$items=@$content["items"];
 			}
-			if(isset($icon)===true){
+			if(isset($icon)){
 				$this->setIcon($icon);
 			}
 			if(isset($image)){
 				$this->setImage($image);
 			}
-			if(isset($title)===true){
+			if(isset($title)){
 				$this->setTitle($title,$desc);
 			}elseif (isset($header)===true){
 				$this->setTitle($header,$desc,"header");
 			}
-			if(isset($items)===true){
+			if(isset($items)){
 				$this->addList($items);
 			}
 		}else{

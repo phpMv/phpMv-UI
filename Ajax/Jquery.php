@@ -5,29 +5,21 @@ namespace Ajax;
 use Ajax\common\traits\JqueryEventsTrait;
 use Ajax\common\traits\JqueryAjaxTrait;
 use Ajax\common\traits\JqueryActionsTrait;
+use Ajax\service\Javascript;
 
 /**
- * JQuery Phalcon library
+ * jQuery Class
  *
  * @author jcheron
  * @version 1.002
  * @license Apache 2 http://www.apache.org/licenses/
- */
-/**
- * jQuery Class
- */
+ **/
 class Jquery {
 	use JqueryEventsTrait,JqueryAjaxTrait,JqueryActionsTrait;
 	protected $_ui;
 	protected $_bootstrap;
 	protected $_semantic;
-	protected $libraryFile;
-	protected $_javascript_folder='js';
-	protected $jquery_code_for_load=array ();
 	protected $jquery_code_for_compile=array ();
-	protected $jquery_corner_active=FALSE;
-	protected $jquery_table_sorter_active=FALSE;
-	protected $jquery_table_sorter_pager_active=FALSE;
 	protected $jsUtils;
 	protected $params;
 
@@ -109,10 +101,6 @@ class Jquery {
 		return "</script>{$extra}";
 	}
 
-	public function setLibraryFile($name) {
-		$this->libraryFile=$name;
-	}
-
 	public function _setAjaxLoader($loader) {
 		$this->ajaxLoader=$loader;
 	}
@@ -144,9 +132,9 @@ class Jquery {
 	 * @param boolean $immediatly delayed if false
 	 */
 	public function _genericCallValue($jQueryCall,$element='this', $param="", $immediatly=false) {
-		$element=$this->_prep_element($element);
+		$element=Javascript::prep_element($element);
 		if (isset($param)) {
-			$param=$this->_prep_value($param);
+			$param=Javascript::prep_value($param);
 			$str="$({$element}).{$jQueryCall}({$param});";
 		} else
 			$str="$({$element}).{$jQueryCall}();";
@@ -163,8 +151,8 @@ class Jquery {
 	 * @return string
 	 */
 	public function _genericCallElement($jQueryCall,$to='this', $element, $immediatly=false) {
-		$to=$this->_prep_element($to);
-		$element=$this->_prep_element($element);
+		$to=Javascript::prep_element($to);
+		$element=Javascript::prep_element($element);
 		$str="$({$to}).{$jQueryCall}({$element});";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$str;
@@ -189,7 +177,7 @@ class Jquery {
 			$sort_options='';
 		}
 
-		return "$(".$this->_prep_element($element).").sortable({".$sort_options."\n\t});";
+		return "$(".Javascript::prep_element($element).").sortable({".$sort_options."\n\t});";
 	}
 
 	/**
@@ -200,7 +188,7 @@ class Jquery {
 	 * @return string
 	 */
 	public function tablesorter($table='', $options='') {
-		$this->jquery_code_for_compile[]="\t$(".$this->_prep_element($table).").tablesorter($options);\n";
+		$this->jquery_code_for_compile[]="\t$(".Javascript::prep_element($table).").tablesorter($options);\n";
 	}
 
 	/**
@@ -224,9 +212,9 @@ class Jquery {
 			$js="event.stopPropagation();\n".$js;
 		}
 		if (array_search($event, $this->jquery_events)===false)
-			$event="\n\t$(".$this->_prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
+			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
 		else
-			$event="\n\t$(".$this->_prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
+			$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
 		if($immediatly)
 			$this->jquery_code_for_compile[]=$event;
 		return $event;
@@ -242,36 +230,13 @@ class Jquery {
 	 */
 	public function _compile(&$view=NULL, $view_var='script_foot', $script_tags=TRUE) {
 		// Components UI
-		$ui=$this->ui();
-		if ($this->ui()!=NULL) {
-			if ($ui->isAutoCompile()) {
-				$ui->compile(true);
-			}
-		}
-
+		$this->_compileLibrary($this->ui());
 		// Components BS
-		$bootstrap=$this->bootstrap();
-		if ($this->bootstrap()!=NULL) {
-			if ($bootstrap->isAutoCompile()) {
-				$bootstrap->compile(true);
-			}
-		}
-
+		$this->_compileLibrary($this->bootstrap());
 		// Components Semantic
-		$semantic=$this->semantic();
-		if ($semantic!=NULL) {
-			if ($semantic->isAutoCompile()) {
-				$semantic->compile(true);
-			}
-		}
+		$this->_compileLibrary($this->semantic());
 
-		// External references
-		$external_scripts=implode('', $this->jquery_code_for_load);
-		extract(array (
-				'library_src' => $external_scripts
-		));
-
-		if (count($this->jquery_code_for_compile)==0) {
+		if (\sizeof($this->jquery_code_for_compile)==0) {
 			// no inline references, let's just return
 			return;
 		}
@@ -291,6 +256,14 @@ class Jquery {
 			$this->jsUtils->createScriptVariable($view,$view_var, $output);
 		}
 		return $output;
+	}
+
+	private function _compileLibrary($library){
+		if ($library!=NULL) {
+			if ($library->isAutoCompile()) {
+				$library->compile(true);
+			}
+		}
 	}
 
 	public function _addToCompile($jsScript) {
@@ -320,39 +293,6 @@ class Jquery {
 		foreach ( $js as $script ) {
 			$this->jquery_code_for_compile[]=$script;
 		}
-	}
-
-	/**
-	 * Puts HTML element in quotes for use in jQuery code
-	 * unless the supplied element is the Javascript 'this'
-	 * object, in which case no quotes are added
-	 *
-	 * @param string $element
-	 * @return string
-	 */
-	public function _prep_element($element) {
-		if (strrpos($element, 'this')===false&&strrpos($element, 'event')===false&&strrpos($element, 'self')===false) {
-			$element='"'.addslashes($element).'"';
-		}
-		return $element;
-	}
-
-	/**
-	 * Puts HTML values in quotes for use in jQuery code
-	 * unless the supplied value contains the Javascript 'this' or 'event'
-	 * object, in which case no quotes are added
-	 *
-	 * @param string $value
-	 * @return string
-	 */
-	public function _prep_value($value) {
-		if (is_array($value)) {
-			$value=implode(",", $value);
-		}
-		if (strrpos($value, 'this')===false&&strrpos($value, 'event')===false&&strrpos($value, 'self')===false) {
-			$value='"'.$value.'"';
-		}
-		return $value;
 	}
 
 	private function minify($input) {
