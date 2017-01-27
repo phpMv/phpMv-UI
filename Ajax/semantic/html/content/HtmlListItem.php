@@ -28,7 +28,7 @@ class HtmlListItem extends HtmlAbsractItem {
 			if(isset($icon)===true){
 				$this->setIcon($icon);
 			}
-			if(isset($image)===true){
+			if(isset($image)){
 				$this->setImage($image);
 			}
 			if(isset($title)===true){
