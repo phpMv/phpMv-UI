@@ -63,25 +63,20 @@ class DataTable extends Widget {
 		$table=$this->content["table"];
 
 		if($this->_hasCheckboxes){
-			$ck=new HtmlCheckbox("main-ck-".$this->identifier,"");
-			$ck->setOnChecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',true);");
-			$ck->setOnUnchecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',false);");
-			\array_unshift($captions, $ck);
+			$this->_generateMainCheckbox($captions);
 		}
 
 		$table->setRowCount(0, \sizeof($captions));
 		$table->setHeaderValues($captions);
 		if(isset($this->_compileParts))
 			$table->setCompileParts($this->_compileParts);
-		if(isset($this->_searchField)){
-			if(isset($js))
-				$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","-#".$this->identifier." tbody",["preventDefault"=>false]);
+		if(isset($this->_searchField) && isset($js)){
+			$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","-#".$this->identifier." tbody",["preventDefault"=>false]);
 		}
 
 		$this->_generateContent($table);
 
-		if($this->_hasCheckboxes){
-			if($table->hasPart("thead"))
+		if($this->_hasCheckboxes && $table->hasPart("thead")){
 				$table->getHeader()->getCell(0, 0)->addToProperty("class","no-sort");
 		}
 
@@ -93,6 +88,13 @@ class DataTable extends Widget {
 		}
 		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 		return parent::compile($js,$view);
+	}
+
+	private function _generateMainCheckbox(&$captions){
+		$ck=new HtmlCheckbox("main-ck-".$this->identifier,"");
+		$ck->setOnChecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',true);");
+		$ck->setOnUnchecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',false);");
+		\array_unshift($captions, $ck);
 	}
 
 	protected function _generateContent($table){

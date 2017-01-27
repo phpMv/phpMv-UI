@@ -179,18 +179,20 @@ class HtmlForm extends HtmlSemCollection {
 		if(isset($compo)===false){
 			return parent::run($js);
 		}
-		if(isset($this->_validationParams["_ajaxSubmit"])){
-			if($this->_validationParams["_ajaxSubmit"] instanceof AjaxCall){
-				$compilation=$this->_validationParams["_ajaxSubmit"]->compile($js);
-				$compilation=str_ireplace("\"","%quote%", $compilation);
-				$this->onSuccess($compilation);
-				unset($this->_validationParams["_ajaxSubmit"]);
-			}
+		$this->_runValidationParams($compo,$js);
+		return $this->_bsComponent;
+	}
+
+	private function _runValidationParams(&$compo,JsUtils $js=NULL){
+		if(isset($this->_validationParams["_ajaxSubmit"]) && $this->_validationParams["_ajaxSubmit"] instanceof AjaxCall){
+			$compilation=$this->_validationParams["_ajaxSubmit"]->compile($js);
+			$compilation=str_ireplace("\"","%quote%", $compilation);
+			$this->onSuccess($compilation);
+			unset($this->_validationParams["_ajaxSubmit"]);
 		}
 		$compo->addParams($this->_validationParams);
 		$this->_bsComponent=$compo;
 		$this->addEventsOnRun($js);
-		return $this->_bsComponent;
 	}
 
 	public function addValidationParam($paramName,$paramValue){

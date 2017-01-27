@@ -213,6 +213,7 @@ abstract class BaseHtml extends BaseWidget {
 
 	public function fromArray($array) {
 		foreach ( $this as $key => $value ) {
+			$this->_callSetter("set" . ucfirst($key), $key, $value, $array);
 			if (array_key_exists($key, $array) && !JString::startswith($key, "_")) {
 				$setter="set" . ucfirst($key);
 				$this->$setter($array[$key]);
@@ -220,26 +221,25 @@ abstract class BaseHtml extends BaseWidget {
 			}
 		}
 		foreach ( $array as $key => $value ) {
-			if (method_exists($this, $key)) {
-				try {
-					$this->$key($value);
-					unset($array[$key]);
-				} catch ( \Exception $e ) {
-					// Nothing to do
-				}
-			} else {
-				$setter="set" . ucfirst($key);
-				if (method_exists($this, $setter)) {
-					try {
-						$this->$setter($value);
-						unset($array[$key]);
-					} catch ( \Exception $e ) {
-						// Nothing to do
-					}
-				}
+			if($this->_callSetter($key, $key, $value, $array)===false){
+				$this->_callSetter("set" . ucfirst($key), $key, $value, $array);
 			}
 		}
 		return $array;
+	}
+
+	private function _callSetter($setter,$key,$value,&$array){
+		$result=false;
+		if (method_exists($this, $setter) && !JString::startswith($key, "_")) {
+			try {
+				$this->$setter($value);
+				unset($array[$key]);
+				$result=true;
+			} catch ( \Exception $e ) {
+				$result=false;
+			}
+		}
+		return $result;
 	}
 
 	public function fromDatabaseObjects($objects, $function) {
@@ -257,7 +257,6 @@ abstract class BaseHtml extends BaseWidget {
 	public function wrap($before, $after="") {
 		if (isset($before)) {
 			array_unshift($this->_wrapBefore, $before);
-			// $this->_wrapBefore[]=$before;
 		}
 		$this->_wrapAfter[]=$after;
 		return $this;

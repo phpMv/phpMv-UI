@@ -59,15 +59,7 @@ trait BaseHtmlEventsTrait{
 	}
 
 	public function addEventsOnRun(JsUtils $js) {
-		if(isset($this->_events["_create"])){
-			$create=$this->_events["_create"];
-			if(\is_array($create)){
-				$create=\implode("", $create);
-			}
-			if($create!=="")
-				$js->exec($create,true);
-				unset($this->_events["_create"]);
-		}
+		$this->_eventsOnCreate($js);
 		if (isset($this->_bsComponent)) {
 			foreach ( $this->_events as $event => $jsCode ) {
 				$code=$jsCode;
@@ -86,6 +78,18 @@ trait BaseHtmlEventsTrait{
 				$this->_bsComponent->addEvent($event, $code);
 			}
 			$this->_events=array ();
+		}
+	}
+
+	protected function _eventsOnCreate(JsUtils $js){
+		if(isset($this->_events["_create"])){
+			$create=$this->_events["_create"];
+			if(\is_array($create)){
+				$create=\implode("", $create);
+			}
+			if($create!=="")
+				$js->exec($create,true);
+			unset($this->_events["_create"]);
 		}
 	}
 
