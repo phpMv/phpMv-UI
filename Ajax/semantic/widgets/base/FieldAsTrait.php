@@ -14,6 +14,7 @@ use Ajax\semantic\html\elements\HtmlHeader;
 /**
  * @author jc
  * @property InstanceViewer $_instanceViewer
+ * @property boolean $_edition
  */
 
 trait FieldAsTrait{
@@ -37,6 +38,7 @@ trait FieldAsTrait{
 			$element=$elementCallback($this->_getFieldIdentifier($prefix),$name,$value,"");
 			if(\is_array($attributes))
 				$this->_applyAttributes($element, $attributes,$index);
+			$element->setDisabled($this->_edition);
 			return $element;
 		});
 			return $this;

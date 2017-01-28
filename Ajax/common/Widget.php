@@ -33,6 +33,8 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	protected $_toolbarPosition;
 
+	protected $_edition;
+
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier);
@@ -40,6 +42,13 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->setModel($model);
 		if(isset($modelInstance));
 			$this->show($modelInstance);
+	}
+
+	protected function _init($instanceViewer,$contentKey,$content,$edition){
+		$this->_instanceViewer=$instanceViewer;
+		$this->content=[$contentKey=>$content];
+		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
+		$this->_edition=$edition;
 	}
 
 	protected function _getFieldIdentifier($prefix){
@@ -193,4 +202,10 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_instanceViewer->setCaptionCallback($captionCallback);
 		return $this;
 	}
+
+	public function setEdition($_edition) {
+		$this->_edition=$_edition;
+		return $this;
+	}
+
 }

@@ -24,7 +24,9 @@ trait TableElementTrait {
 		return $this->addState(State::ERROR);
 	}
 
-	public function setDisabled() {
-		return $this->addState(State::DISABLED);
+	public function setDisabled($disable=true) {
+		if($disable)
+			$this->addState(State::DISABLED);
+		return $this;
 	}
 }

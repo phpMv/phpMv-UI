@@ -20,10 +20,8 @@ class DataElement extends Widget {
 
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
-		$this->_instanceViewer=new InstanceViewer($identifier);
-		$this->content=["table"=>new HtmlTable($identifier, 0,2)];
+		$this->_init(new InstanceViewer($identifier), "table", new HtmlTable($identifier, 0,2), false);
 		$this->content["table"]->setDefinition();
-		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
 	}
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){

@@ -107,10 +107,13 @@ trait BaseTrait {
 
 	/**
 	 * show it is currently unable to be interacted with
+	 * @param boolean $disable
 	 * @return \Ajax\semantic\html\elements\HtmlSemDoubleElement
 	 */
-	public function setDisabled() {
-		return $this->addToProperty("class", "disabled");
+	public function setDisabled($disable=true) {
+		if($disable)
+			$this->addToProperty("class", "disabled");
+		return $this;
 	}
 
 	/**
