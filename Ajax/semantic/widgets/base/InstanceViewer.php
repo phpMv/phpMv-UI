@@ -138,29 +138,33 @@ class InstanceViewer {
 			$this->properties=$this->getDefaultProperties();
 		}else{
 			foreach ($this->visibleProperties as $property){
-				if(\is_callable($property)){
-					$this->properties[]=$property;
-				}elseif(\is_string($property)){
-					try{
-						$this->_beforeAddProperty(\sizeof($this->properties), $property);
-						$rProperty=$this->reflect->getProperty($property);
-						$this->properties[]=$rProperty;
-					}catch(\Exception $e){
-						$this->_beforeAddProperty(\sizeof($this->properties), $property);
-						$this->properties[]=$property;
-					}
-				}elseif(\is_int($property)){
-					$props=$this->getDefaultProperties();
-					if(isset($props[$property]))
-						$this->properties[]=$props[$property];
-					else
-						$this->properties[]=$property;
-				}else{
-					$this->properties[]=$property;
-				}
+				$this->setInstanceProperty($property);
 			}
 		}
 		return $this;
+	}
+
+	private function setInstanceProperty($property){
+		if(\is_callable($property)){
+			$this->properties[]=$property;
+		}elseif(\is_string($property)){
+			try{
+				$this->_beforeAddProperty(\sizeof($this->properties), $property);
+				$rProperty=$this->reflect->getProperty($property);
+				$this->properties[]=$rProperty;
+			}catch(\Exception $e){
+				$this->_beforeAddProperty(\sizeof($this->properties), $property);
+				$this->properties[]=$property;
+			}
+		}elseif(\is_int($property)){
+			$props=$this->getDefaultProperties();
+			if(isset($props[$property]))
+				$this->properties[]=$props[$property];
+				else
+					$this->properties[]=$property;
+		}else{
+			$this->properties[]=$property;
+		}
 	}
 
 	protected function getDefaultProperties(){
