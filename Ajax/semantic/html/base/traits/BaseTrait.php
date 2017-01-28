@@ -16,15 +16,19 @@ trait BaseTrait {
 	protected $_states=[ ];
 	protected $_baseClass;
 
-	protected abstract function setPropertyCtrl($name, $value, $typeCtrl);
+	abstract protected function setPropertyCtrl($name, $value, $typeCtrl);
 
-	protected abstract function addToPropertyCtrl($name, $value, $typeCtrl);
+	abstract protected function addToPropertyCtrl($name, $value, $typeCtrl);
 
-	protected abstract function addToPropertyCtrlCheck($name, $value, $typeCtrl);
+	abstract protected function addToPropertyCtrlCheck($name, $value, $typeCtrl);
 
-	public abstract function addToProperty($name, $value, $separator=" ");
+	abstract public function addToProperty($name, $value, $separator=" ");
 
-	public abstract function setProperty($name, $value);
+	abstract public function setProperty($name, $value);
+
+	abstract public function addContent($content,$before=false);
+
+	abstract public function onCreate($jsCode);
 
 	public function addVariation($variation) {
 		return $this->addToPropertyCtrlCheck("class", $variation, $this->_variations);

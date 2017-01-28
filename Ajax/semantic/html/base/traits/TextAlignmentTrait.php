@@ -6,6 +6,8 @@ use Ajax\semantic\html\base\constants\TextAlignment;
 
 trait TextAlignmentTrait {
 
+	abstract public function addToPropertyCtrl($name, $value, $typeCtrl);
+
 	/**
 	 * @param string $value
 	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement

@@ -12,6 +12,9 @@ use Ajax\semantic\html\base\constants\Direction;
  */
 trait LabeledIconTrait {
 
+	abstract public function addToProperty($name, $value, $separator=" ");
+	abstract public function addContent($content,$before=false);
+
 	/**
 	 * Adds an icon before or after
 	 * @param string|HtmlIcon $icon

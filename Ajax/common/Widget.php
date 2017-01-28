@@ -25,7 +25,7 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	protected $_instanceViewer;
 	/**
-	 * @var boolean
+	 * @var HtmlMenu
 	 */
 	protected $_toolbar;
 	/**

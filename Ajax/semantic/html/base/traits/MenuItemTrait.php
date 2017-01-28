@@ -13,6 +13,9 @@ use Ajax\semantic\html\base\constants\Direction;
  * @property string $tagName
  */
 trait MenuItemTrait {
+	abstract public function addToProperty($name, $value, $separator=" ");
+	abstract public function setClass($classNames);
+	abstract public function addIcon($icon, $before=true);
 
 	public function setContent($content){
 		if($content==="-"){

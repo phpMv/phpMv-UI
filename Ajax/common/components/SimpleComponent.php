@@ -15,7 +15,7 @@ abstract class SimpleComponent extends BaseComponent {
 	protected $uiName;
 	protected $events;
 
-	public function __construct(JsUtils $js) {
+	public function __construct(JsUtils $js=NULL) {
 		parent::__construct($js);
 		$this->events=array ();
 	}
