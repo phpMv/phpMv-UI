@@ -213,12 +213,8 @@ abstract class BaseHtml extends BaseWidget {
 
 	public function fromArray($array) {
 		foreach ( $this as $key => $value ) {
-			$this->_callSetter("set" . ucfirst($key), $key, $value, $array);
-			if (array_key_exists($key, $array) && !JString::startswith($key, "_")) {
-				$setter="set" . ucfirst($key);
-				$this->$setter($array[$key]);
-				unset($array[$key]);
-			}
+			if(array_key_exists($key, $array)===true)
+				$this->_callSetter("set" . ucfirst($key), $key, $array[$key], $array);
 		}
 		foreach ( $array as $key => $value ) {
 			if($this->_callSetter($key, $key, $value, $array)===false){
