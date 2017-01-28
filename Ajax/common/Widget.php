@@ -148,6 +148,12 @@ abstract class Widget extends HtmlDoubleElement {
 		return $tb->addItem($element);
 	}
 
+	/**
+	 * @param string $caption
+	 * @param string $icon
+	 * @param callable $callback function($element)
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
 	public function addItemInToolbar($caption,$icon=NULL,$callback=NULL){
 		$result=$this->addInToolbar($caption,$callback);
 		if(isset($icon))
@@ -155,6 +161,11 @@ abstract class Widget extends HtmlDoubleElement {
 		return $result;
 	}
 
+	/**
+	 * @param array $items
+	 * @param callable $callback function($element)
+	 * @return \Ajax\common\Widget
+	 */
 	public function addItemsInToolbar(array $items,$callback=NULL){
 		if(JArray::isAssociative($items)){
 			foreach ($items as $icon=>$item){
@@ -168,6 +179,12 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	/**
+	 * @param string $value
+	 * @param array|NULL $items
+	 * @param callable $callback function($element)
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
 	public function addDropdownInToolbar($value,$items=NULL,$callback=NULL){
 		$dd=$value;
 		if (\is_string($value)) {
@@ -176,16 +193,34 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->addInToolbar($dd,$callback);
 	}
 
+	/**
+	 * @param unknown $caption
+	 * @param callable $callback function($element)
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
 	public function addButtonInToolbar($caption,$callback=NULL){
 		$bt=new HtmlButton("",$caption);
 		return $this->addInToolbar($bt,$callback);
 	}
 
+	/**
+	 * @param array $captions
+	 * @param boolean $asIcon
+	 * @param callable $callback function($element)
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
 	public function addButtonsInToolbar(array $captions,$asIcon=false,$callback=NULL){
 		$bts=new HtmlButtonGroups("",$captions,$asIcon);
 		return $this->addInToolbar($bts,$callback);
 	}
 
+	/**
+	 * @param string $caption
+	 * @param string $icon
+	 * @param boolean $before
+	 * @param boolean $labeled
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
 	public function addLabelledIconButtonInToolbar($caption,$icon,$before=true,$labeled=false){
 		$bt=new HtmlButton("",$caption);
 		$bt->addIcon($icon,$before,$labeled);
@@ -203,8 +238,23 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
-	public function setEdition($_edition) {
+	/**
+	 * Makes the input fields editable
+	 * @param boolean $_edition
+	 * @return \Ajax\common\Widget
+	 */
+	public function setEdition($_edition=true) {
 		$this->_edition=$_edition;
+		return $this;
+	}
+
+	/**
+	 * Defines the default function which displays fields value
+	 * @param callable $defaultValueFunction
+	 * @return \Ajax\common\Widget
+	 */
+	public function setDefaultValueFunction($defaultValueFunction){
+		$this->_instanceViewer->setDefaultValueFunction($defaultValueFunction);
 		return $this;
 	}
 

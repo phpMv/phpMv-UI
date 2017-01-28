@@ -12,6 +12,12 @@ class FormInstanceViewer extends InstanceViewer {
 	public function __construct($identifier,$instance=NULL, $captions=NULL) {
 		parent::__construct($identifier,$instance=NULL, $captions=NULL);
 		$this->separators=[-1];
+		$this->defaultValueFunction=function($name,$value,$index){
+			$caption=$this->getCaption($index);
+			$input=new HtmlFormInput($this->widgetIdentifier."-".$name,$caption,"text",$value);
+			$input->setName($name);
+			return $input;
+		};
 	}
 
 	protected function _beforeAddProperty($index,&$field){
@@ -22,13 +28,6 @@ class FormInstanceViewer extends InstanceViewer {
 			$this->addSeparatorAfter($index-1);
 		}
 		$field=\str_replace("\n", "", $field);
-	}
-
-	protected function _getDefaultValue($name,$value,$index){
-		$caption=$this->getCaption($index);
-		$input=new HtmlFormInput($this->widgetIdentifier."-".$name,$caption,"text",$value);
-		$input->setName($name);
-		return $input;
 	}
 
 	public function getFieldName($index){

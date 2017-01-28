@@ -12,6 +12,7 @@ class InstanceViewer {
 	protected $afterCompile;
 	protected $captions;
 	protected $captionCallback;
+	protected $defaultValueFunction;
 
 
 	public static $index=0;
@@ -24,6 +25,7 @@ class InstanceViewer {
 			$this->setInstance($instance);
 		$this->setCaptions($captions);
 		$this->captionCallback=NULL;
+		$this->defaultValueFunction=function($name,$value,$index){return $value;};
 	}
 
 	public function getValues(){
@@ -53,7 +55,8 @@ class InstanceViewer {
 	}
 
 	protected function _getDefaultValue($name,$value,$index){
-		return $value;
+		$func=$this->defaultValueFunction;
+		return $func($name,$value,$index);
 	}
 
 	protected function _getValue($property,$index){
@@ -269,5 +272,11 @@ class InstanceViewer {
 		$this->captionCallback=$captionCallback;
 		return $this;
 	}
+
+	public function setDefaultValueFunction($defaultValueFunction) {
+		$this->defaultValueFunction=$defaultValueFunction;
+		return $this;
+	}
+
 
 }

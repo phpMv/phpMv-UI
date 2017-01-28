@@ -22,6 +22,22 @@ trait FieldAsTrait{
 	abstract protected function _getFieldIdentifier($prefix);
 	abstract public function setValueFunction($index,$callback);
 
+	/**
+	 * @param HtmlFormField $element
+	 * @param array $attributes
+	 */
+	protected function _applyAttributes($element,&$attributes,$index){
+		$this->_addRules($element, $attributes);
+		if(isset($attributes["callback"])){
+			$callback=$attributes["callback"];
+			if(\is_callable($callback)){
+				$callback($element,$this->_modelInstance,$index);
+				unset($attributes["callback"]);
+			}
+		}
+		$element->fromArray($attributes);
+	}
+
 	private function _getLabelField($caption,$icon=NULL){
 		$label=new HtmlLabel($this->_getFieldIdentifier("lbl"),$caption,$icon);
 		return $label;
@@ -38,7 +54,7 @@ trait FieldAsTrait{
 			$element=$elementCallback($this->_getFieldIdentifier($prefix),$name,$value,"");
 			if(\is_array($attributes))
 				$this->_applyAttributes($element, $attributes,$index);
-			$element->setDisabled($this->_edition);
+			$element->setDisabled(!$this->_edition);
 			return $element;
 		});
 			return $this;
