@@ -18,4 +18,10 @@ class HtmlImg extends \Ajax\common\html\html5\HtmlImg {
 			$this->wrap("", $caption);
 			return $this->addToProperty("class", "avatar");
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\semantic\html\base\traits\BaseTrait::addContent()
+	 */
+	public function addContent($content, $before=false) {}
 }

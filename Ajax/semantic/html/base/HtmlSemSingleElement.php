@@ -18,4 +18,11 @@ class HtmlSemSingleElement extends HtmlSingleElement {
 		$this->_baseClass=$baseClass;
 		$this->setClass($baseClass);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\semantic\html\base\traits\BaseTrait::addContent()
+	 */
+	public function addContent($content, $before=false) {}
+
 }
