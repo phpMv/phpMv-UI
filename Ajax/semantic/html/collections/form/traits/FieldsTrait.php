@@ -15,8 +15,8 @@ use Ajax\semantic\html\collections\form\HtmlFormField;
  * @property string $identifier
  */
 trait FieldsTrait {
-	public abstract function addFields($fields=NULL,$label=NULL);
-	public abstract function addItem($item);
+	abstract public function addFields($fields=NULL,$label=NULL);
+	abstract public function addItem($item);
 
 	protected function createItem($value){
 		if(\is_array($value)){

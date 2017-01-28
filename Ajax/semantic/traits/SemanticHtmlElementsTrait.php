@@ -25,7 +25,7 @@ use Ajax\semantic\html\elements\HtmlLabelGroups;
 
 trait SemanticHtmlElementsTrait {
 
-	public abstract function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent($htmlComponent);
 
 	public function addState($state, $elements) {
 		State::add($state, $elements);

@@ -7,7 +7,7 @@ use Ajax\semantic\widgets\dataform\DataForm;
 
 trait SemanticWidgetsTrait {
 
-	public abstract function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent($htmlComponent);
 
 	/**
 	 * @param string $identifier

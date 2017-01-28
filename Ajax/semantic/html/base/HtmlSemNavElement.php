@@ -82,7 +82,7 @@ abstract class HtmlSemNavElement extends HtmlSemCollection {
 		}
 	}
 
-	public abstract function fromDispatcher(JsUtils $js,$dispatcher, $startIndex=0);
+	abstract public function fromDispatcher(JsUtils $js,$dispatcher, $startIndex=0);
 
 
 	public function setContentDivider($divider,$index=NULL) {

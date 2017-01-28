@@ -6,7 +6,7 @@ use Ajax\semantic\html\base\constants\State;
 
 trait TableElementTrait {
 
-	public abstract function addState($state);
+	abstract public function addState($state);
 
 	public function setPositive() {
 		return $this->addState(State::POSITIVE);

@@ -17,7 +17,7 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 		$this->initContent($content);
 	}
 
-	protected abstract function initContent($content);
+	abstract protected function initContent($content);
 
 	public function setIcon($icon){
 		$this->content["icon"]=new HtmlIcon("icon-".$this->identifier, $icon);

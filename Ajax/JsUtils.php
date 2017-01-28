@@ -55,9 +55,9 @@ abstract class JsUtils{
 			$this->js->setDi($di);
 	}
 
-	public abstract function getUrl($url);
-	public abstract function addViewElement($identifier,$content,&$view);
-	public abstract function createScriptVariable(&$view,$view_var, $output);
+	abstract public function getUrl($url);
+	abstract public function addViewElement($identifier,$content,&$view);
+	abstract public function createScriptVariable(&$view,$view_var, $output);
 	/**
 	 * render the content of $controller::$action and set the response to the modal content
 	 * @param Controller $initialController
@@ -65,21 +65,21 @@ abstract class JsUtils{
 	 * @param string $action a Phalcon action
 	 * @param array $params
 	 */
-	public abstract function forward($initialController,$controller,$action,$params);
+	abstract public function forward($initialController,$controller,$action,$params);
 	/**
 	 * render the content of an existing view : $viewName and set the response to the modal content
  	 * @param Controller $initialControllerInstance
 	 * @param View $viewName
 	 * @param $params The parameters to pass to the view
 	 */
-	public abstract function renderContent($initialControllerInstance,$viewName, $params=NULL);
+	abstract public function renderContent($initialControllerInstance,$viewName, $params=NULL);
 
 	/**
 	 * Collect url parts from the request dispatcher : controllerName, actionName, parameters
 	 * @param mixed $dispatcher
 	 * @return array
 	 */
-	public abstract function fromDispatcher($dispatcher);
+	abstract public function fromDispatcher($dispatcher);
 
 	/**
 	 *

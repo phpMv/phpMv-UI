@@ -70,7 +70,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
-	public abstract function getHtmlComponent();
+	abstract public function getHtmlComponent();
 
 	public function setColor($color){
 		return $this->getHtmlComponent()->setColor($color);

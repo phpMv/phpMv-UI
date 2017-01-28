@@ -10,7 +10,7 @@ use Ajax\service\Javascript;
  */
 
 trait JqueryEventsTrait {
-	public abstract function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
+	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
 
 	/**
 	 * Blur

@@ -13,5 +13,5 @@ abstract class AbstractSearchResult {
 		return $this;
 	}
 
-	protected abstract function fromDatabaseObject($object, $function);
+	abstract protected function fromDatabaseObject($object, $function);
 }

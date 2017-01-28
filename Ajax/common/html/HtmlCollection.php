@@ -117,7 +117,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	 * The item factory
 	 * @param mixed $value
 	 */
-	protected abstract function createItem($value);
+	abstract protected function createItem($value);
 
 	protected function createCondition($value){
 		return \is_object($value)===false;

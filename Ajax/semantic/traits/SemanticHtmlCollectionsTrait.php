@@ -13,7 +13,7 @@ use Ajax\semantic\html\collections\menus\HtmlLabeledIconMenu;
 
 trait SemanticHtmlCollectionsTrait {
 
-	public abstract function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent($htmlComponent);
 
 	/**
 	 * @param string $identifier

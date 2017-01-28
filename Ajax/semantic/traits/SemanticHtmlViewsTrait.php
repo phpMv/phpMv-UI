@@ -7,7 +7,7 @@ use Ajax\semantic\html\views\HtmlCardGroups;
 
 trait SemanticHtmlViewsTrait {
 
-	public abstract function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent($htmlComponent);
 
 	/**
 	 *

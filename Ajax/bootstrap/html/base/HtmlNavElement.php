@@ -78,6 +78,6 @@ abstract class HtmlNavElement extends HtmlBsDoubleElement {
 		}
 	}
 
-	public abstract function fromDispatcher(JsUtils $js,$dispatcher,$startIndex=0);
+	abstract public function fromDispatcher(JsUtils $js,$dispatcher,$startIndex=0);
 
 }

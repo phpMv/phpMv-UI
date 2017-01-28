@@ -200,7 +200,7 @@ abstract class BaseHtml extends BaseWidget {
 	 * @param JsUtils $js
 	 * @return SimpleExtComponent
 	 */
-	public abstract function run(JsUtils $js);
+	abstract public function run(JsUtils $js);
 
 	public function getTagName() {
 		return $this->tagName;

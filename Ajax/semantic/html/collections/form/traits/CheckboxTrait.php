@@ -11,7 +11,7 @@ use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
  */
 trait CheckboxTrait {
 
-	public abstract function addToPropertyCtrl($name, $value, $typeCtrl);
+	abstract public function addToPropertyCtrl($name, $value, $typeCtrl);
 
 	public function setType($checkboxType) {
 		return $this->getHtmlCk()->addToPropertyCtrl("class", $checkboxType, CheckboxType::getConstants());

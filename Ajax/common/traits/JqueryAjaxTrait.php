@@ -15,7 +15,7 @@ trait JqueryAjaxTrait {
 
 	protected $ajaxLoader='<span></span><span></span><span></span><span></span><span></span>';
 
-	public abstract function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
+	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
 	protected function addLoading(&$retour, $responseElement) {
 		$loading_notifier='<div class="ajax-loader">';
 		if ($this->ajaxLoader=='') {
