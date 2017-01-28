@@ -12,10 +12,10 @@ class HtmlProgress extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $value=NULL, $label=NULL, $attributes=array()) {
 		parent::__construct($identifier, "div", "ui progress");
-		if (isset($value) === true)
+		if (isset($value))
 			$this->setProperty("data-percent", $value);
 		$this->createBar();
-		if (isset($label) === true)
+		if (isset($label))
 			$this->setLabel($label);
 		$this->_states=[ State::SUCCESS,State::WARNING,State::ERROR,State::ACTIVE,State::DISABLED ];
 		$this->addToProperty("class", $attributes);

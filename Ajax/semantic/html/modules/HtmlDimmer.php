@@ -47,7 +47,7 @@ class HtmlDimmer extends HtmlSemDoubleElement {
 	}
 
 	public function jsShow() {
-		if (isset($this->_container) === true)
+		if (isset($this->_container))
 			return '$("#.' . $this->_container->getIdentifier() . ').dimmer("show");';
 	}
 

@@ -9,7 +9,7 @@ class HtmlCheckbox extends AbstractCheckbox {
 
 	public function __construct($identifier, $label=NULL, $value=NULL, $checkboxType=NULL) {
 		parent::__construct($identifier, $identifier, $label, $value, "checkbox", "checkbox");
-		if (isset($checkboxType)===true) {
+		if (isset($checkboxType)) {
 			$this->setType($checkboxType);
 		}
 	}

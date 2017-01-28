@@ -57,7 +57,7 @@ class HtmlGridRow extends HtmlBsDoubleElement {
 				break;
 			}
 		}
-		if(!$result || isset($result)==false){
+		if(!$result || isset($result)===false){
 			$result=$this->getCol($offset,$force);
 		}
 		return $result;

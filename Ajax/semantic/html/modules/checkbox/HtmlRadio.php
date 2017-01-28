@@ -9,7 +9,7 @@ class HtmlRadio extends AbstractCheckbox {
 
 	public function __construct($identifier, $name=NULL, $label=NULL, $value=NULL, $checkboxType=NULL) {
 		parent::__construct($identifier, $name, $label, $value, "radio", "radio checkbox");
-		if (isset($checkboxType)===true) {
+		if (isset($checkboxType)) {
 			$this->setType($checkboxType);
 		}
 	}
