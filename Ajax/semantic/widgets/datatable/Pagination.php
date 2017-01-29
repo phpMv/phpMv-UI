@@ -18,7 +18,7 @@ class Pagination {
 	public function getObjects($objects){
 		$offset = ($this->page - 1) * $this->items_per_page;
 		$os=$objects;
-		if(\is_array($os)===false){
+		if(!\is_array($os)){
 			$os=[];
 			foreach ($objects as $o){
 				$os[]=$o;

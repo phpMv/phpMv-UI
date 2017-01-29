@@ -57,7 +57,7 @@ class JArray {
 	}
 
 	public static function dimension($array) {
-		if (is_array(reset($array))) {
+		if (\is_array(reset($array))) {
 			$return=self::dimension(reset($array)) + 1;
 		} else {
 			$return=1;

@@ -80,7 +80,7 @@ abstract class BaseHtml extends BaseWidget {
 		$result=$this->getTemplate($js);
 		foreach ( $this as $key => $value ) {
 			if (JString::startswith($key, "_") === false && $key !== "events") {
-				if (is_array($value)) {
+				if (\is_array($value)) {
 					$v=PropertyWrapper::wrap($value, $js);
 				} else {
 					$v=$value;
@@ -98,7 +98,7 @@ abstract class BaseHtml extends BaseWidget {
 	}
 
 	protected function ctrl($name, $value, $typeCtrl) {
-		if (is_array($typeCtrl)) {
+		if (\is_array($typeCtrl)) {
 			if (array_search($value, $typeCtrl) === false) {
 				throw new \Exception("La valeur passée `" . $value . "` à la propriété `" . $name . "` ne fait pas partie des valeurs possibles : {" . implode(",", $typeCtrl) . "}");
 			}
@@ -132,7 +132,7 @@ abstract class BaseHtml extends BaseWidget {
 	}
 
 	protected function addToMemberUnique(&$name, $value, $typeCtrl, $separator=" ") {
-		if (is_array($typeCtrl)) {
+		if (\is_array($typeCtrl)) {
 			$this->removeOldValues($name, $typeCtrl);
 			$name.=$separator . $value;
 		}
@@ -157,7 +157,7 @@ abstract class BaseHtml extends BaseWidget {
 
 	protected function addToMemberCtrl(&$name, $value, $typeCtrl, $separator=" ") {
 		if ($this->ctrl($name, $value, $typeCtrl) === true) {
-			if (is_array($typeCtrl)) {
+			if (\is_array($typeCtrl)) {
 				$this->removeOldValues($name, $typeCtrl);
 			}
 			$name.=$separator . $value;
@@ -173,7 +173,7 @@ abstract class BaseHtml extends BaseWidget {
 	protected function addToPropertyUnique($name, $value, $typeCtrl) {
 		if (@class_exists($typeCtrl, true))
 			$typeCtrl=$typeCtrl::getConstants();
-		if (is_array($typeCtrl)) {
+		if (\is_array($typeCtrl)) {
 			$this->removeOldValues($this->properties[$name], $typeCtrl);
 		}
 		return $this->addToProperty($name, $value);
@@ -261,7 +261,7 @@ abstract class BaseHtml extends BaseWidget {
 
 
 	public function getElementById($identifier, $elements) {
-		if (is_array($elements)) {
+		if (\is_array($elements)) {
 			$flag=false;
 			$index=0;
 			while ( !$flag && $index < sizeof($elements) ) {
@@ -279,7 +279,7 @@ abstract class BaseHtml extends BaseWidget {
 	}
 
 	protected function getElementByPropertyValue($propertyName,$value, $elements) {
-		if (is_array($elements)) {
+		if (\is_array($elements)) {
 			$flag=false;
 			$index=0;
 			while ( !$flag && $index < sizeof($elements) ) {

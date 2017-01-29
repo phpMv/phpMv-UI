@@ -129,7 +129,7 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsHidden($index,$attributes=NULL){
-		if(\is_array($attributes)===false){
+		if(!\is_array($attributes)){
 			$attributes=[];
 		}
 		$attributes["imputType"]="hidden";

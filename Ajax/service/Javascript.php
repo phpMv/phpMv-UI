@@ -31,7 +31,7 @@ class Javascript {
 	 * @return string
 	 */
 	public static function prep_value($value) {
-		if (is_array($value)) {
+		if (\is_array($value)) {
 			$value=implode(",", $value);
 		}
 		if (self::containsCode($value)===false) {

@@ -97,7 +97,7 @@ abstract class HtmlSemNavElement extends HtmlSemCollection {
 
 	protected function setDivider($divider,$index){
 		if(isset($index)){
-			if(\is_array($this->_contentSeparator)===false)
+			if(!\is_array($this->_contentSeparator))
 				$this->_contentSeparator=array_fill (0, $this->count()-1,$this->_contentSeparator);
 			$this->_contentSeparator[$index]=$divider;
 		}else{
@@ -107,7 +107,7 @@ abstract class HtmlSemNavElement extends HtmlSemCollection {
 	}
 
 	protected function getContentDivider($index){
-		if(\is_array($this->_contentSeparator)===true){
+		if(\is_array($this->_contentSeparator)){
 			return @$this->_contentSeparator[$index];
 		}
 		return $this->_contentSeparator;

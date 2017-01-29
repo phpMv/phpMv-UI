@@ -74,7 +74,7 @@ abstract class SimpleComponent extends BaseComponent {
 	}
 
 	protected function setParamCtrl($key, $value, $typeCtrl) {
-		if (is_array($typeCtrl)) {
+		if (\is_array($typeCtrl)) {
 			if (array_search($value, $typeCtrl)===false)
 				throw new \Exception("La valeur passée a propriété `".$key."` pour le composant `".$this->uiName."` ne fait pas partie des valeurs possibles : {".implode(",", $typeCtrl)."}");
 		} else {

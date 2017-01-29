@@ -29,7 +29,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 	}
 
 	public function setActive($value) {
-		if(is_array($this->content)){
+		if(\is_array($this->content)){
 			foreach ($this->content as $pb){
 				$pb->setActive($value);
 			}
@@ -43,7 +43,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 	}
 
 	public function setStriped($value) {
-		if(is_array($this->content)){
+		if(\is_array($this->content)){
 			foreach ($this->content as $pb){
 				$pb->setStriped($value);
 			}
@@ -57,7 +57,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 	}
 
 	public function showCaption($value) {
-		if(is_array($this->content)){
+		if(\is_array($this->content)){
 			foreach ($this->content as $pb){
 				$pb->showCaption($value);
 			}
@@ -80,7 +80,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 		$progressBar->showCaption($this->caption=="%value%%");
 		$progressBar->setStriped($this->striped!=="" || $progressBar->isStriped());
 		$progressBar->setActive($this->active==="active" || $progressBar->isActive());
-		if (is_array($this->content)===false) {
+		if (!is_array($this->content)) {
 			$this->content=array ();
 		}
 		$this->content []=$progressBar;

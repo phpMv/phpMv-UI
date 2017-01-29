@@ -28,7 +28,7 @@ class HtmlDoubleElement extends HtmlSingleElement {
 	}
 
 	public function addContent($content,$before=false) {
-		if (is_array($this->content)===false) {
+		if (!\is_array($this->content)) {
 			if(isset($this->content))
 				$this->content=array ($this->content);
 			else
@@ -49,7 +49,7 @@ class HtmlDoubleElement extends HtmlSingleElement {
 		parent::run($js);
 		if ($this->content instanceof HtmlDoubleElement) {
 			$this->content->run($js);
-		} else if (is_array($this->content)) {
+		} else if (\is_array($this->content)) {
 			foreach ( $this->content as $itemContent ) {
 				if ($itemContent instanceof HtmlDoubleElement) {
 					$itemContent->run($js);

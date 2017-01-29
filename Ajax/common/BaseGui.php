@@ -58,7 +58,7 @@ class BaseGui {
 		if (isset($attachTo))
 			$component->attach($attachTo);
 		if (isset($params))
-			if (is_array($params))
+			if (\is_array($params))
 				$component->setParams($params);
 		return $component;
 	}

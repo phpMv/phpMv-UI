@@ -74,7 +74,7 @@ class HtmlButtongroups extends HtmlBsDoubleElement {
 			$this->elements[]=$element;
 		} elseif ($element instanceof HtmlButton) {
 			$this->elements[]=$element;
-		} elseif (is_array($element)) {
+		} elseif (\is_array($element)) {
 			if (array_key_exists("glyph", $element))
 				$bt=new HtmlGlyphButton($this->identifier."-button-".$iid);
 			elseif (array_key_exists("btnCaption", $element)) {

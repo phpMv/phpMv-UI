@@ -62,7 +62,7 @@ trait JqueryActionsTrait {
 		$speed=$this->_validate_speed($speed);
 
 		$animations="\t\t\t";
-		if (is_array($params)) {
+		if (\is_array($params)) {
 			foreach ( $params as $param => $value ) {
 				$animations.=$param.': \''.$value.'\', ';
 			}

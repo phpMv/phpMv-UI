@@ -65,7 +65,7 @@ class HtmlTR extends HtmlSemCollection {
 	 */
 	public function setValues($values=array()) {
 		$count=$this->count();
-		if (\is_array($values) === false) {
+		if (!\is_array($values)) {
 			$values=\array_fill(0, $count, $values);
 		} else {
 			if (JArray::isAssociative($values) === true) {
@@ -73,7 +73,7 @@ class HtmlTR extends HtmlSemCollection {
 			}
 		}
 		$count=\min(\sizeof($values), $count);
-		
+
 		for($i=0; $i < $count; $i++) {
 			$cell=$this->content[$i];
 			$cell->setValue($values[$i]);

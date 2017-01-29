@@ -13,7 +13,7 @@ class HtmlSingleElement extends BaseHtml {
 	}
 
 	public function setClass($classNames) {
-		if(is_array($classNames)){
+		if(\is_array($classNames)){
 			$classNames=implode(" ", $classNames);
 		}
 		$this->setProperty("class", $classNames);

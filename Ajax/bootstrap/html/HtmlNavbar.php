@@ -106,7 +106,7 @@ class HtmlNavbar extends BaseHtml {
 	}
 
 	public function setNavZones($navZones) {
-		if (is_array($navZones)) {
+		if (\is_array($navZones)) {
 			foreach ( $navZones as $zoneType => $zoneArray ) {
 				if (is_string($zoneType)) {
 					$zone=$this->addZone($zoneType);

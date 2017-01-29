@@ -62,7 +62,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 	 */
 	public function addElement($element,$href="",$glyph=NULL){
 		$size=sizeof($this->content);
-		if(is_array($element)){
+		if(\is_array($element)){
 			$elm=new HtmlLink("lnk-".$this->identifier."-".$size);
 			$elm->fromArray($element);
 		}else if($element instanceof HtmlLink){

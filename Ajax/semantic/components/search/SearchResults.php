@@ -31,7 +31,7 @@ class SearchResults extends AbstractSearchResult implements ISearch {
 	}
 
 	public function addResults($objects) {
-		if (\is_array($objects) === false) {
+		if (!\is_array($objects)) {
 			return $this->addResult($objects);
 		}
 		if (JArray::dimension($objects) === 1) {

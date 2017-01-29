@@ -56,7 +56,7 @@ class HtmlTabs extends HtmlBsDoubleElement {
 		if (is_string($element)) {
 			$tab=new HtmlTabItem("tab-".$this->identifier."-".$iid, $element);
 			$this->addTab_($tab, $index);
-		} elseif (is_array($element)) {
+		} elseif (\is_array($element)) {
 			$tab=new HtmlTabItem("tab-".$this->identifier."-".$iid);
 			$tab->fromArray($element);
 			$this->addTab_($tab, $index);

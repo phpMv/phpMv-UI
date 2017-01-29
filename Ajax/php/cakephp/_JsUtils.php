@@ -36,7 +36,7 @@ class _JsUtils extends \Ajax\JsUtils{
 	 */
 	public function forward($initialControllerInstance,$controllerName,$actionName,$params=array()){
 		\ob_start();
-		if(isset($params) && \is_array($params)===false){
+		if(isset($params) && !\is_array($params)){
 			$params=[$params];
 		}
 		$url=h(Router::url(\array_merge([

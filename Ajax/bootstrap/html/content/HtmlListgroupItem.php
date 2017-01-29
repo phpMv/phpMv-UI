@@ -59,7 +59,7 @@ class HtmlListgroupItem extends HtmlElementAsContent {
 	}
 
 	public function setHeadingAndContent($title, $content="", $niveau="1") {
-		if (is_array($title)) {
+		if (\is_array($title)) {
 			$array=$title;
 			$title=JArray::getValue($array, "title", 0);
 			$content=JArray::getValue($array, "content", 1);

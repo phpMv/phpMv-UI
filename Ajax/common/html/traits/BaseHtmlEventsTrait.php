@@ -32,7 +32,7 @@ trait BaseHtmlEventsTrait{
 	 */
 	public function _addEvent($event, $jsCode) {
 		if (array_key_exists($event, $this->_events)) {
-			if (is_array($this->_events[$event])) {
+			if (\is_array($this->_events[$event])) {
 				$this->_events[$event][]=$jsCode;
 			} else {
 				$this->_events[$event]=array ($this->_events[$event],$jsCode );
@@ -69,7 +69,7 @@ trait BaseHtmlEventsTrait{
 		if (isset($this->_bsComponent)) {
 			foreach ( $this->_events as $event => $jsCode ) {
 				$code=$jsCode;
-				if (is_array($jsCode)) {
+				if (\is_array($jsCode)) {
 					$code="";
 					foreach ( $jsCode as $jsC ) {
 						if ($jsC instanceof AjaxCall) {

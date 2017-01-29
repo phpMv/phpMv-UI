@@ -53,7 +53,7 @@ class JsUtils extends \Ajax\JsUtils{
 	}
 
 	public function controller($controller, $name = '', $db_conn = FALSE){
-		if (is_array($controller)){
+		if (\is_array($controller)){
 			foreach ($controller as $babe){
 				$this->controller($babe);
 			}

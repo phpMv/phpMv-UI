@@ -43,7 +43,7 @@ class HtmlNavzone extends BaseHtml {
 			$this->addLink($element);
 		} else if (is_object($element)) {
 			$this->elements []=$element;
-		} else if (is_array($element)) {
+		} else if (\is_array($element)) {
 			$this->addLink(array_pop($element), array_pop($element));
 		} else {
 			$this->addLink($element);
@@ -58,12 +58,12 @@ class HtmlNavzone extends BaseHtml {
 	}
 
 	public function addElements($elements) {
-		if (is_array($elements)) {
+		if (\is_array($elements)) {
 			foreach ( $elements as $key => $element ) {
 				$iid=$this->getElementsCount()+1;
 				if ($element instanceof HtmlDropdownItem)
 					$this->elements []=$element;
-				else if (is_array($element)) {
+				else if (\is_array($element)) {
 					if (is_string($key)===true) {
 						$dropdown=new HtmlDropdown($this->identifier."-dropdown-".$iid);
 						$dropdown->addItems($element);

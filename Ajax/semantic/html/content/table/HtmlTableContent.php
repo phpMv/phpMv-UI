@@ -127,7 +127,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	public function setValues($values=array()) {
 		$count=$this->count();
 		$isArray=true;
-		if (\is_array($values) === false) {
+		if (!\is_array($values)) {
 			$values=\array_fill(0, $count, $values);
 			$isArray=false;
 		}
@@ -145,7 +145,7 @@ class HtmlTableContent extends HtmlSemCollection {
 
 	public function setColValues($colIndex, $values=array()) {
 		$count=$this->count();
-		if (\is_array($values) === false) {
+		if (!\is_array($values)) {
 			$values=\array_fill(0, $count, $values);
 		}
 		$count=\min(\sizeof($values), $count);
@@ -165,7 +165,7 @@ class HtmlTableContent extends HtmlSemCollection {
 
 	public function setRowValues($rowIndex, $values=array()) {
 		$count=$this->count();
-		if (\is_array($values) === false) {
+		if (!\is_array($values)) {
 			$values=\array_fill(0, $count, $values);
 		}
 		$this->getItem($rowIndex)->setValues($values);

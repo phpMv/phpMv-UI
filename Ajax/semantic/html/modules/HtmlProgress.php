@@ -90,7 +90,7 @@ class HtmlProgress extends HtmlSemDoubleElement {
 	 * @return HtmlProgress
 	 */
 	public function setTextValues($active=false, $error=false, $success=false, $warning=false, $percent="{percent}%", $ratio="{value} of {total}") {
-		if (\is_array($active) == true) {
+		if (\is_array($active)) {
 			$array=$active;
 			$active=JArray::getDefaultValue($array, "active", false);
 			$success=JArray::getDefaultValue($array, "success", $success);

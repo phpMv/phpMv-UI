@@ -108,11 +108,11 @@ class HtmlDropdown extends HtmlButton {
 
 	public function addItems($items) {
 		$iid=$this->getItemsCount()+1;
-		if (is_array($items)) {
+		if (\is_array($items)) {
 			foreach ( $items as $item ) {
 				if (is_string($item)) {
 					$this->addItem($item);
-				} else if (is_array($item)) {
+				} else if (\is_array($item)) {
 					$dropDownItem=new HtmlDropdownItem($this->identifier."-dropdown-item-".$iid);
 					$dropDownItem->fromArray($item);
 					$this->items []=$dropDownItem;

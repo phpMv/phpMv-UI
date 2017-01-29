@@ -155,7 +155,7 @@ abstract class JsUtils{
 			if ($this->config===NULL) {
 				$this->config=new DefaultConfig();
 			}
-		} elseif (is_array($config)) {
+		} elseif (\is_array($config)) {
 			$this->config=new Config($config);
 		} elseif ($config instanceof Config) {
 			$this->config=$config;
@@ -306,7 +306,7 @@ abstract class JsUtils{
 		if (!is_null($result)) {
 			if (is_object($result)) {
 				$json_result=$result->result_array();
-			} elseif (is_array($result)) {
+			} elseif (\is_array($result)) {
 				$json_result=$result;
 			} else {
 				return $this->_prep_args($result);
@@ -378,7 +378,7 @@ abstract class JsUtils{
 	}
 
 	public function setCDNs($cdns) {
-		if (is_array($cdns)===false) {
+		if (!\is_array($cdns)) {
 			$cdns=array (
 					$cdns
 			);

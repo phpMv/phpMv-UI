@@ -9,7 +9,7 @@ abstract class State extends BaseEnum {
 	const ACTIVE="active", DISABLED="disabled", ERROR="error", FOCUS="focus", LOADING="loading", NEGATIVE="negative", POSITIVE="positive", SUCCESS="success", WARNING="warning";
 
 	public static function add($state, $elements) {
-		if (\is_array($state) === false) {
+		if (!\is_array($state)) {
 			$state=\explode(" ", $state);
 		}
 		if (\is_array($elements)) {

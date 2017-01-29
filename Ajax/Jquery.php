@@ -202,7 +202,7 @@ class Jquery {
 	 * @return string
 	 */
 	public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true) {
-		if (is_array($js)) {
+		if (\is_array($js)) {
 			$js=implode("\n\t\t", $js);
 		}
 		if ($preventDefault===true) {

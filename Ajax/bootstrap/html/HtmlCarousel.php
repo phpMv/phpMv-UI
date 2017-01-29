@@ -27,7 +27,7 @@ class HtmlCarousel extends BaseHtml {
 		parent::__construct($identifier);
 		$this->_template=include 'templates/tplCarousel.php';
 		if ($images!=NULL) {
-			if (is_array($images)) {
+			if (\is_array($images)) {
 				$this->fromArray($images);
 			}
 		}
@@ -93,7 +93,7 @@ class HtmlCarousel extends BaseHtml {
 	}
 
 	public function addImage($imageSrc, $imageAlt="", $caption=NULL, $description=NULL) {
-		if(is_array($imageSrc)){
+		if(\is_array($imageSrc)){
 			$this->addImage($imageSrc[0],@$imageSrc[1],@$imageSrc[2],@$imageSrc[3]);
 		}else{
 			$image=new HtmlCarouselItem("item-".$this->identifier);
@@ -117,9 +117,9 @@ class HtmlCarousel extends BaseHtml {
 	 * @see \Ajax\bootstrap\html\base\BaseHtml::fromArray()
 	 */
 	public function fromArray($array) {
-		if (is_array($array) && sizeof($array)>0) {
+		if (\is_array($array) && sizeof($array)>0) {
 			foreach ( $array as $value ) {
-				if (is_array($value)) {
+				if (\is_array($value)) {
 					$this->addImage($value ["src"], @$value ["alt"], @$value ["caption"], @$value ["description"]);
 				} else {
 					$this->addImage($value);

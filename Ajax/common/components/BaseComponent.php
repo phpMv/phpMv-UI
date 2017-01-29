@@ -56,7 +56,7 @@ abstract class BaseComponent {
 	}
 
 	protected function setParamCtrl($key, $value, $typeCtrl) {
-		if (is_array($typeCtrl)) {
+		if (\is_array($typeCtrl)) {
 			if (array_search($value, $typeCtrl)===false)
 				throw new \Exception("La valeur passée a propriété `".$key."` ne fait pas partie des valeurs possibles : {".implode(",", $typeCtrl)."}");
 		} else {

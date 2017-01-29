@@ -11,7 +11,7 @@ class PropertyWrapper {
 		if (is_string($input)) {
 			$output=$input;
 		}
-		if (is_array($input)) {
+		if (\is_array($input)) {
 			if (sizeof($input) > 0) {
 				if (self::containsElement($input) === false) {
 					$output=self::wrapStrings($input, $js, $separator=' ', $valueQuote='"');
@@ -25,7 +25,7 @@ class PropertyWrapper {
 
 	private static function containsElement($input) {
 		foreach ( $input as $v ) {
-			if (\is_object($v) === true || \is_array($v))
+			if (\is_object($v) || \is_array($v))
 				return true;
 		}
 		return false;

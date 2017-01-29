@@ -23,7 +23,7 @@ class HtmlFormFields extends HtmlSemCollection {
 
 	public function addFields($fields=NULL, $label=NULL) {
 		if (!$fields instanceof HtmlFormFields) {
-			if (\is_array($fields)===false) {
+			if (!\is_array($fields)) {
 				$fields=\func_get_args();
 				$end=\end($fields);
 				if (\is_string($end)) {

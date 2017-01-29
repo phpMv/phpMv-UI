@@ -37,7 +37,7 @@ class HtmlListgroup extends HtmlBsDoubleElement {
 		}
 
 		$item=new HtmlListgroupItem($element);
-		if (is_array($text)===true) {
+		if (\is_array($text)) {
 			$item->setHeadingAndContent($text);
 		}
 		$this->content []=$item;
