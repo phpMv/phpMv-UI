@@ -11,6 +11,7 @@ use Ajax\semantic\html\elements\HtmlButtonGroups;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\modules\HtmlDropdown;
 use Ajax\service\JArray;
+use Ajax\service\Javascript;
 
 abstract class Widget extends HtmlDoubleElement {
 	use FieldAsTrait;
@@ -181,11 +182,11 @@ abstract class Widget extends HtmlDoubleElement {
 
 	/**
 	 * @param string $value
-	 * @param array|NULL $items
+	 * @param array $items
 	 * @param callable $callback function($element)
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
-	public function addDropdownInToolbar($value,$items=NULL,$callback=NULL){
+	public function addDropdownInToolbar($value,$items,$callback=NULL){
 		$dd=$value;
 		if (\is_string($value)) {
 			$dd=new HtmlDropdown("dropdown-". $this->identifier."-".$value, $value, $items);
@@ -256,6 +257,22 @@ abstract class Widget extends HtmlDoubleElement {
 	public function setDefaultValueFunction($defaultValueFunction){
 		$this->_instanceViewer->setDefaultValueFunction($defaultValueFunction);
 		return $this;
+	}
+
+	public function jsDisabled($disable=true){
+		return "$('#".$this->identifier." .ui.input').toggleClass('disabled',".$disable.");";
+	}
+
+	/**
+	 * @param unknown $caption
+	 * @param callable $callback function($element)
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
+	public function addEditButtonInToolbar($caption,$callback=NULL){
+		$bt=new HtmlButton($this->identifier."-editBtn",$caption);
+		$bt->setToggle();
+		$bt->onClick($this->jsDisabled(Javascript::prep_value("$(event.target).hasClass('active')")));
+		return $this->addInToolbar($bt,$callback);
 	}
 
 }

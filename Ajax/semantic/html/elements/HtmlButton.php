@@ -147,6 +147,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * @return \Ajax\semantic\html\elements\HtmlButton
 	 */
 	public function setToggle() {
+		$this->onCreate("$('#".$this->identifier."').state();");
 		return $this->addToProperty("class", "toggle");
 	}
 

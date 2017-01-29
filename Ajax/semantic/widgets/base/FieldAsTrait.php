@@ -15,6 +15,7 @@ use Ajax\semantic\html\elements\HtmlHeader;
  * @author jc
  * @property InstanceViewer $_instanceViewer
  * @property boolean $_edition
+ * @property mixed _modelInstance
  */
 
 trait FieldAsTrait{

@@ -25,7 +25,7 @@ class InstanceViewer {
 			$this->setInstance($instance);
 		$this->setCaptions($captions);
 		$this->captionCallback=NULL;
-		$this->defaultValueFunction=function($name,$value,$index){return $value;};
+		$this->defaultValueFunction=function($name,$value){return $value;};
 	}
 
 	public function getValues(){
