@@ -79,7 +79,8 @@ class HtmlTab extends HtmlSemCollection{
 	 * @return \Ajax\semantic\html\modules\HtmlTab
 	 */
 	public function setTabsContent($contents){
-		for($i=0;$i<\sizeof($contents);$i++){
+		$size=\sizeof($contents);
+		for($i=0;$i<$size;$i++){
 			$this->setTabContent($i, $contents[$i]);
 		}
 		return $this;
@@ -204,14 +205,16 @@ class HtmlTab extends HtmlSemCollection{
 	 * @return \Ajax\semantic\html\modules\HtmlTab
 	 */
 	public function setMenu($menu){
-		for($i=0;$i<\sizeof($this->content);$i++){
+		$contentSize=\sizeof($this->content);
+		for($i=0;$i<$contentSize;$i++){
 			if($menu->getItem($i)!==NULL){
 				if(isset($this->content[$i])){
 					$menu->getItem($i)->addToProperty("data-tab",$this->content[$i]->getProperty("data-tab"));
 				}
 			}
 		}
-		for($i=0;$i<$menu->count();$i++){
+		$menuSize=$menu->count();
+		for($i=0;$i<$menuSize;$i++){
 			$menu->getItem($i)->removeProperty("href");
 			if(isset($this->content[$i])===false){
 				$this->content[$i]=$this->createSegment($i, "New content", $menu->getItem($i)->getIdentifier());

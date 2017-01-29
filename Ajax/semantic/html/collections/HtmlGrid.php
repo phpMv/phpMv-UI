@@ -286,13 +286,14 @@ class HtmlGrid extends HtmlSemCollection {
 	 */
 	public function setValues($values, $force=true) {
 		$count=$this->count();
+		$valuesSize=\sizeof($values);
 		if ($this->_createCols === false || $force === true) {
-			for($i=$count; $i < \sizeof($values); $i++) {
+			for($i=$count; $i < $valuesSize; $i++) {
 				$colSize=\sizeof($values[$i]);
 				$this->addItem(new HtmlGridRow($this->identifier . "-row-" . ($this->count() + 1), $colSize, $this->_colSizing, $this->_implicitRows));
 			}
 		}
-		$count=\min(array ($this->count(),\sizeof($values) ));
+		$count=\min(array ($this->count(),$valuesSize ));
 		for($i=0; $i < $count; $i++) {
 			$this->content[$i]->setValues($values[$i], $this->_createCols === false);
 		}

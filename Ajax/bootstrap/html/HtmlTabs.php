@@ -40,7 +40,8 @@ class HtmlTabs extends HtmlBsDoubleElement {
 	}
 
 	public function setActive($index){
-		for ($i=0;$i<sizeof($this->tabs);$i++){
+		$size=\sizeof($this->tabs);
+		for ($i=0;$i<$size;$i++){
 			$this->tabs[$i]->setActive($i==$index);
 		}
 	}
@@ -159,7 +160,7 @@ class HtmlTabs extends HtmlBsDoubleElement {
 			}
 		}
 	}
-	
+
 	public function on($event, $jsCode,$stopPropagation=false,$preventDefault=false){
 		foreach ($this->tabs as $tab){
 			$tab->on($event,$jsCode,$stopPropagation,$preventDefault);

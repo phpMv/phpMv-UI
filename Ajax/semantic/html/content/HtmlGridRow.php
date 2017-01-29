@@ -101,12 +101,13 @@ class HtmlGridRow extends HtmlSemCollection{
 
 	public function setValues($values,$force=false){
 		$count=$this->count();
+		$valuesSize=\sizeof($values);
 		if($force===true){
-			for($i=$count;$i<\sizeof($values);$i++){
+			for($i=$count;$i<$valuesSize;$i++){
 				$this->addItem(new HtmlGridCol($this->identifier."-col-".($this->count()+1),null));
 			}
 		}
-		$count=\min(array($this->count(),\sizeof($values)));
+		$count=\min(array($this->count(),$valuesSize));
 		for($i=0;$i<$count;$i++){
 			$this->content[$i]->setValue($values[$i]);
 		}
