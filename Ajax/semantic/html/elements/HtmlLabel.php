@@ -14,7 +14,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	public function __construct($identifier, $caption="", $icon=NULL, $tagName="div") {
 		parent::__construct($identifier, $tagName, "ui label");
 		$this->content=$caption;
-		if (isset($icon)===true)
+		if (isset($icon))
 			$this->addIcon($icon);
 	}
 

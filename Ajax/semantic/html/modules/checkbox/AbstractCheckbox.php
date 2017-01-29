@@ -83,7 +83,7 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
 	 */
 	public function attachEvent($selector, $action=NULL) {
-		if (isset($action)!==false||\is_numeric($action)===true) {
+		if (isset($action)||\is_numeric($action)===true) {
 			$js='$("#%identifier%").checkbox("attach events", "'.$selector.'", "'.$action.'");';
 		} else {
 			$js='$("#%identifier%").checkbox("attach events", "'.$selector.'");';

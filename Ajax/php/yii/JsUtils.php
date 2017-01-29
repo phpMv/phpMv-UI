@@ -13,7 +13,7 @@ class JsUtils extends \Ajax\JsUtils{
 
 	public function addViewElement($identifier,$content,&$view){
 		$params=$view->params;
-		if (\array_key_exists("q", $params)==false) {
+		if (\array_key_exists("q", $params)===false) {
 			$view->params["q"]=array();
 		}
 		$view->params["q"][$identifier]=$content;

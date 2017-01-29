@@ -247,7 +247,7 @@ class Jquery {
 		$script.='});';
 
 		$this->jquery_code_for_compile=array();
-		if($this->params["debug"]==false){
+		if($this->params["debug"]===false){
 			$script=$this->minify($script);
 		}
 		$output=($script_tags===FALSE) ? $script : $this->inline($script);
