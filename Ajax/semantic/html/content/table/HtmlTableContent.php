@@ -74,8 +74,12 @@ class HtmlTableContent extends HtmlSemCollection {
 		return $this->addItem($colCount);
 	}
 
+	/**
+	 * @param mixed $row
+	 * @return HtmlTR
+	 */
 	public function _addRow($row) {
-		$this->addItem($row);
+		return $this->addItem($row);
 	}
 
 	/**

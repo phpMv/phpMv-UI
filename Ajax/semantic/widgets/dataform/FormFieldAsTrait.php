@@ -20,6 +20,7 @@ trait FormFieldAsTrait{
 	abstract protected function _getFieldIdentifier($prefix);
 	abstract public function setValueFunction($index,$callback);
 	abstract protected function _applyAttributes($element,&$attributes,$index);
+	abstract public function getIdentifier();
 
 	private function _getLabelField($caption,$icon=NULL){
 		$label=new HtmlLabel($this->_getFieldIdentifier("lbl"),$caption,$icon);

@@ -4,6 +4,7 @@ namespace Ajax\semantic\html\collections\form\traits;
 
 use Ajax\semantic\html\base\constants\CheckboxType;
 use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
+use Ajax\semantic\html\collections\form\HtmlFormField;
 
 /**
  * @author jc
@@ -22,7 +23,7 @@ trait CheckboxTrait {
 	 * Attach $this to $selector and fire $action
 	 * @param string $selector jquery selector of the associated element
 	 * @param string $action action to execute : check, uncheck or NULL for toggle
-	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
+	 * @return HtmlFormField
 	 */
 	public function attachEvent($selector, $action=NULL) {
 		return $this->getHtmlCk()->attachEvent($selector, $action);
@@ -31,7 +32,7 @@ trait CheckboxTrait {
 	/**
 	 * Attach $this to an array of $action=>$selector
 	 * @param array $events associative array of events to attach ex : ["#bt-toggle","check"=>"#bt-check","uncheck"=>"#bt-uncheck"]
-	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
+	 * @return HtmlFormField
 	 */
 	public function attachEvents($events=array()) {
 		return $this->getHtmlCk()->attachEvents($events);
@@ -55,7 +56,7 @@ trait CheckboxTrait {
 	/**
 	 * Check the checkbox
 	 * @param boolean $value
-	 * @return \Ajax\semantic\html\collections\form\traits\CheckboxTrait
+	 * @return HtmlFormField
 	 */
 	public function setChecked($value=true){
 		if($value===true){

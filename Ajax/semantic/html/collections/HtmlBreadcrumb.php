@@ -63,9 +63,8 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 
 	/**
 	 * Associate an ajax get to the breadcrumb elements, displayed in $targetSelector
-	 * $attr member is used to build each element url
+	 * $this->attr member is used to build each element url
 	 * @param string $targetSelector the target of the get
-	 * @param string $attr the html attribute used to build the elements url
 	 * @return HtmlBreadcrumbs
 	 */
 	public function autoGetOnClick($targetSelector) {

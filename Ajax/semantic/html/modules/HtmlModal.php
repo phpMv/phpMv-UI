@@ -142,10 +142,10 @@ class HtmlModal extends HtmlSemDoubleElement {
 	/**
 	 * render the content of $controller::$action and set the response to the modal content
 	 * @param JsUtils $js
-	 * @param string $title The panel title
 	 * @param Controller $initialControllerInstance
 	 * @param string $controllerName the controller name
 	 * @param string $actionName the action name
+	 * @param array $params
 	 */
 	public function forward(JsUtils $js,$initialControllerInstance,$controllerName,$actionName,$params=NULL){
 		return $this->setContent($js->forward($initialControllerInstance, $controllerName, $actionName,$params));

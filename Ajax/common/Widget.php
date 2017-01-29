@@ -259,12 +259,16 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	/**
+	 * @param string|boolean $disable
+	 * @return string
+	 */
 	public function jsDisabled($disable=true){
 		return "$('#".$this->identifier." .ui.input').toggleClass('disabled',".$disable.");";
 	}
 
 	/**
-	 * @param unknown $caption
+	 * @param string $caption
 	 * @param callable $callback function($element)
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */

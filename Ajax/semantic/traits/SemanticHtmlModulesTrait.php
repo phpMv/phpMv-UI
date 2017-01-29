@@ -37,8 +37,9 @@ trait SemanticHtmlModulesTrait {
 	/**
 	 *
 	 * @param string $identifier
-	 * @param int $rowCount
-	 * @param int $colCount
+	 * @param int $value
+	 * @param int $max
+	 * @param string $icon
 	 * @return HtmlRating
 	 */
 	public function htmlRating($identifier, $value, $max, $icon="") {

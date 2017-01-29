@@ -33,7 +33,7 @@ class HtmlListItem extends HtmlAbsractItem {
 			}
 			if(isset($title)){
 				$this->setTitle($title,$desc);
-			}elseif (isset($header)===true){
+			}elseif (isset($header)){
 				$this->setTitle($header,$desc,"header");
 			}
 			if(isset($items)){

@@ -20,7 +20,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 
 	/**
 	 *
-	 * @param string $side
+	 * @param string $value
 	 * @return \Ajax\semantic\html\elements\HtmlLabel
 	 */
 	public function setPointing($value=Direction::NONE) {

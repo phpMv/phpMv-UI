@@ -98,7 +98,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 
 	/**
 	 * Add and return a button label
-	 * @param string $caption
+	 * @param string $label
 	 * @param boolean $before
 	 * @param string $icon
 	 * @return \Ajax\semantic\html\elements\HtmlLabel

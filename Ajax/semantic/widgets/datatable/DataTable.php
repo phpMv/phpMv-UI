@@ -197,7 +197,8 @@ class DataTable extends Widget {
 	}
 
 	/**
-	 * @param mixed $object
+	 * @param callable $thisCallback
+	 * @param array $parameters
 	 * @param callable $callback
 	 * @return callable
 	 */

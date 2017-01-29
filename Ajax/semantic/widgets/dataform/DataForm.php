@@ -15,6 +15,7 @@ use Ajax\semantic\html\elements\HtmlButton;
  * @version 1.0
  * @author jc
  * @since 2.2
+ * @property FormInstanceViewer $_instanceViewer
  */
 class DataForm extends Widget {
 	use FormFieldAsTrait,FormTrait;

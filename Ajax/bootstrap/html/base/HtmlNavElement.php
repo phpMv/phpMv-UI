@@ -27,7 +27,7 @@ abstract class HtmlNavElement extends HtmlBsDoubleElement {
 
 	/**
 	 * Associate an ajax get to the elements, displayed in $targetSelector
-	 * $attr member is used to build each element url
+	 * $this->attr member is used to build each element url
 	 * @param string $targetSelector the target of the get
 	 * @param string $attr the html attribute used to build the elements url
 	 * @return HtmlNavElement
