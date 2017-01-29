@@ -42,6 +42,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		return $this->input;
 	}
 
+	public function getDataField(){
+		return $this->input;
+	}
+
 	public function addItem($item,$value=NULL,$image=NULL,$description=NULL){
 		$itemO=$this->beforeAddItem($item,$value,$image,$description);
 		$this->items[]=$itemO;

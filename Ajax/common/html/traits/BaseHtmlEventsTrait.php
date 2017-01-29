@@ -27,7 +27,7 @@ trait BaseHtmlEventsTrait{
 
 	/**
 	 * @param string $event
-	 * @param string $jsCode
+	 * @param string|AjaxCall $jsCode
 	 * @return BaseHtml
 	 */
 	public function _addEvent($event, $jsCode) {

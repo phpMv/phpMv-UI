@@ -18,7 +18,6 @@ trait FieldTrait {
 	abstract public function addLabel($caption, $style="label-default", $leftSeparator="&nbsp;");
 	abstract public function addContent($content,$before=false);
 	abstract public function getField();
-	abstract public function getItem($index);
 	abstract public function getDataField();
 
 	public function setFocus() {
