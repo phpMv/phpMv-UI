@@ -15,6 +15,13 @@ trait BaseHtmlEventsTrait{
 
 	protected $_events=array ();
 
+	/**
+	 * @param string $event
+	 * @param string|AjaxCall $jsCode
+	 * @param boolean $stopPropagation
+	 * @param boolean $preventDefault
+	 * @return \Ajax\common\html\BaseHtml
+	 */
 	public function addEvent($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
 		if ($stopPropagation === true) {
 			$jsCode="event.stopPropagation();" . $jsCode;
@@ -43,6 +50,13 @@ trait BaseHtmlEventsTrait{
 		return $this;
 	}
 
+	/**
+	 * @param string $event
+	 * @param string $jsCode
+	 * @param boolean $stopPropagation
+	 * @param boolean $preventDefault
+	 * @return \Ajax\common\html\BaseHtml
+	 */
 	public function on($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
 		return $this->addEvent($event, $jsCode, $stopPropagation, $preventDefault);
 	}
