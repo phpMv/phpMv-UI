@@ -11,6 +11,9 @@ use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\modules\HtmlProgress;
 use Ajax\semantic\html\modules\HtmlRating;
 use Ajax\semantic\html\elements\HtmlHeader;
+use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
+use Ajax\semantic\html\collections\form\HtmlFormInput;
+use Ajax\semantic\html\collections\form\HtmlFormDropdown;
 /**
  * @author jc
  * @property InstanceViewer $_instanceViewer
@@ -121,8 +124,7 @@ trait FieldAsTrait{
 
 	public function fieldAsInput($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value){
-			$input= new HtmlInput($id,"text",$value);
-			//TODO check getField
+			$input= new HtmlFormInput($id,"","text",$value);
 			$input->setName($name);
 			return $input;
 		}, $index,$attributes,"input");
@@ -138,7 +140,7 @@ trait FieldAsTrait{
 
 	public function fieldAsCheckbox($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value){
-			$input=new HtmlCheckbox($id,"",$this->_instanceViewer->getIdentifier());
+			$input=new HtmlFormCheckbox($id,NULL,$this->_instanceViewer->getIdentifier());
 			$input->setChecked(JString::isBooleanTrue($value));
 			$input->getField()->setProperty("name", $name);
 			return $input;
@@ -147,7 +149,8 @@ trait FieldAsTrait{
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value) use($elements,$multiple){
-			$dd=new HtmlDropdown($id,$value,$elements);
+			//$dd=new HtmlDropdown($id,$value,$elements);
+			$dd=new HtmlFormDropdown($id,$elements,NULL,$value);
 			$dd->asSelect($name,$multiple);
 			return $dd;
 		}, $index,$attributes,"dd");

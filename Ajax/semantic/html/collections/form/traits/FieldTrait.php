@@ -67,10 +67,23 @@ trait FieldTrait {
 
 	public function setReadonly(){
 		$this->getDataField()->setProperty("readonly", "");
+		return $this;
 	}
 
 	public function setName($name){
 		$this->getDataField()->setProperty("name",$name);
+		return $this;
 	}
 
+	public function setFluid(){
+		$this->getField()->addToProperty("class","fluid");
+		return $this;
+	}
+
+	public function setDisabled($disable=true) {
+		$field=$this->getField();
+		if($disable)
+			$field->addToProperty("class", "disabled");
+		return $this;
+	}
 }

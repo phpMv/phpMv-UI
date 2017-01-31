@@ -128,12 +128,15 @@ class DataTable extends Widget {
 
 	protected function _setToolbarPosition($table,$captions=NULL){
 		switch ($this->_toolbarPosition){
-			case PositionInTable::BEFORETABLE:case PositionInTable::AFTERTABLE:
+			case PositionInTable::BEFORETABLE:
+			case PositionInTable::AFTERTABLE:
 				if(isset($this->_compileParts)===false){
 					$this->content[$this->_toolbarPosition]=$this->_toolbar;
 				}
 				break;
-			case PositionInTable::HEADER:case PositionInTable::FOOTER: case PositionInTable::BODY:
+			case PositionInTable::HEADER:
+			case PositionInTable::FOOTER:
+			case PositionInTable::BODY:
 				$this->addToolbarRow($this->_toolbarPosition,$table, $captions);
 				break;
 		}

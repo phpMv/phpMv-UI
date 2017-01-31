@@ -264,7 +264,7 @@ abstract class Widget extends HtmlDoubleElement {
 	 * @return string
 	 */
 	public function jsDisabled($disable=true){
-		return "$('#".$this->identifier." .ui.input').toggleClass('disabled',".$disable.");";
+		return "$('#".$this->identifier." .ui.input,#".$this->identifier." .ui.dropdown,#".$this->identifier." .ui.checkbox').toggleClass('disabled',".$disable.");";
 	}
 
 	/**
@@ -275,7 +275,8 @@ abstract class Widget extends HtmlDoubleElement {
 	public function addEditButtonInToolbar($caption,$callback=NULL){
 		$bt=new HtmlButton($this->identifier."-editBtn",$caption);
 		$bt->setToggle();
-		$bt->onClick($this->jsDisabled(Javascript::prep_value("$(event.target).hasClass('active')")));
+		$bt->setActive($this->_edition);
+		$bt->onClick($this->jsDisabled(Javascript::prep_value("!$(event.target).hasClass('active')")));
 		return $this->addInToolbar($bt,$callback);
 	}
 

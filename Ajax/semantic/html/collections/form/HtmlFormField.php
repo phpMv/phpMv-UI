@@ -141,9 +141,12 @@ class HtmlFormField extends HtmlSemDoubleElement {
 		return $this;
 	}
 
+	public function addIcon($icon,$direction=Direction::LEFT){
+		$field=$this->getField();
+		return $field->addIcon($icon,$direction);
+	}
+
 	public function getValidation() {
 		return $this->_validation;
 	}
-
-
 }

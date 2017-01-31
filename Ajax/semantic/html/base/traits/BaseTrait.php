@@ -146,7 +146,9 @@ trait BaseTrait {
 	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
 	 */
 	public function setActive($value=true){
-		return $this->addToProperty("class", "active");
+		if($value)
+			$this->addToProperty("class", "active");
+		return $this;
 	}
 
 	/**

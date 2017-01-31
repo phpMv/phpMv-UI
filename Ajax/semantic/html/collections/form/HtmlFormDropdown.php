@@ -24,4 +24,8 @@ class HtmlFormDropdown extends HtmlFormField {
 	public function getDataField(){
 		return $this->getField()->getInput();
 	}
+	public function asSelect($name=NULL,$multiple=false,$selection=true){
+		$this->getField()->asSelect($name,$multiple,$selection);
+		return $this;
+	}
 }

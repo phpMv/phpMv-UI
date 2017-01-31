@@ -21,7 +21,6 @@ class HtmlInput extends HtmlSemDoubleElement {
 
 	public function getField() {
 		return $this;
-		//return $this->content["field"];
 	}
 
 	public function getDataField() {
