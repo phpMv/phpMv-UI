@@ -62,5 +62,5 @@ git clone https://github.com/phpMv/phpMv-UI.git
 ```
 
 ##II PHP framework configuration
-![](http://angular.kobject.net/git/images/phalcon.png =50x50)
+![](http://angular.kobject.net/git/images/phalcon.png)
 
