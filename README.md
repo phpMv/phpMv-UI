@@ -110,6 +110,19 @@ class ExempleController extends Controller{
 	}
 }
 ```
-### ![](http://angular.kobject.net/git/images/laravel.png){: .avatar} Laravel configuration
+### ![](http://angular.kobject.net/git/images/laravel.png) Laravel configuration
 
 ####Library loading
+If you do not use the **composer** autoload file, you can also load phpMv-UI with composer.json :
+
+```json
+"autoload": {
+    "classmap": [
+        ...
+    ],
+    "psr-4": {
+        "Ajax\\": "vendor/phpmv/php-mv-ui/Ajax"
+    }
+},
+```
+
