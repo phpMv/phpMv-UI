@@ -94,7 +94,7 @@ $di->set("jquery",function(){
 ```
 
 ####Use in controllers
-Example of creating a button
+Example of creating a Semantic-UI button
 
 ```php
 use Phalcon\Mvc\Controller;
@@ -110,3 +110,8 @@ class ExempleController extends Controller{
 	}
 }
 ```
+###Laravel configuration
+
+<img src="http://angular.kobject.net/git/images/laravel.png" width="50">
+
+####Library loading
