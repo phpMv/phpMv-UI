@@ -94,6 +94,7 @@ $di->set("jquery",function(){
 ```
 
 ####Use in controllers
+Example of creating a button
 
 ```php
 use Phalcon\Mvc\Controller;
