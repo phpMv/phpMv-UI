@@ -110,6 +110,6 @@ class ExempleController extends Controller{
 	}
 }
 ```
-### <img class="avatar" src="http://angular.kobject.net/git/images/laravel.png" width="30"> Laravel configuration
+### <img src="http://angular.kobject.net/git/images/laravel.png" width="30" style="vertical-align: middle;"> Laravel configuration
 
 ####Library loading
