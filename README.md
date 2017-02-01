@@ -102,8 +102,10 @@ use Ajax\php\phalcon\JsUtils;
  * @property JsUtils $jquery
 **/
 class ExempleController extends Controller{
-	$semantic=$this->jquery->semantic();
-	$button=$semantic->htmlButton("btTest","Test Button");
-	echo $button;
+	public function indexAction(){
+		$semantic=$this->jquery->semantic();
+		$button=$semantic->htmlButton("btTest","Test Button");
+		echo $button;
+	}
 }
 ```
