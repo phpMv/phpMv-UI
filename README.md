@@ -92,3 +92,18 @@ $di->set("jquery",function(){
     return $jquery;
 });
 ```
+
+####Use in controllers
+
+```php
+use Phalcon\Mvc\Controller;
+use Ajax\php\phalcon\JsUtils;
+/**
+ * @property JsUtils $jquery
+**/
+class ExempleController extends Controller{
+	$semantic=$this->jquery->semantic();
+	$button=$semantic->htmlButton("btTest","Test Button");
+	echo $button;
+}
+```
