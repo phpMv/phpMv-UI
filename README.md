@@ -68,10 +68,7 @@ Whatever the php framework used, with "composer", it is enough to integrate the 
 ```php
 require_once("vendor/autoload.php");
 ```
-###Phalcon configuration
-
-<img src="http://angular.kobject.net/git/images/phalcon.png" width="30">
-
+### <img src="http://angular.kobject.net/git/images/phalcon.png" width="30"> Phalcon configuration
 ####Library loading
 Without **composer**, It is possible to load the library with the **app/config/loader.php** file :
 
