@@ -13,7 +13,7 @@
 
 
 ##What's phpMv-UI ?
-phpMv-UI is a library for php : a php wrapper for jQuery and UI components (jQuery, Twitter Bootstrap, Semantic-UI).
+phpMv-UI is a visual components library for php : a php wrapper for jQuery and UI components (jQuery, Twitter Bootstrap, Semantic-UI).
 
 Using the dependency injection, the jQuery object can be injected into **php framework container**, allowing for the generation of jQuery scripts in controllers, respecting the MVC design pattern.
 
