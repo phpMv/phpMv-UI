@@ -70,7 +70,7 @@ require_once("vendor/autoload.php");
 ```
 ###Phalcon configuration
 
-<img src="http://angular.kobject.net/git/images/phalcon.png" width="50">
+<img src="http://angular.kobject.net/git/images/phalcon.png" width="30">
 
 ####Library loading
 Without **composer**, It is possible to load the library with the **app/config/loader.php** file :
@@ -112,6 +112,6 @@ class ExempleController extends Controller{
 ```
 ###Laravel configuration
 
-<img src="http://angular.kobject.net/git/images/laravel.png" width="50">
+<img src="http://angular.kobject.net/git/images/laravel.png" width="30">
 
 ####Library loading
