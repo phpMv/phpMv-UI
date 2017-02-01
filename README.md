@@ -74,6 +74,7 @@ require_once("vendor/autoload.php");
 
 ####Library loading
 Without **composer**, It is possible to load the library with the **app/config/loader.php** file :
+
 ```php app/config/loader.php
 $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(array(
