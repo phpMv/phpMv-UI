@@ -128,7 +128,6 @@ abstract class Widget extends HtmlDoubleElement {
 	public function getToolbar(){
 		if(isset($this->_toolbar)===false){
 			$this->_toolbar=new HtmlMenu("toolbar-".$this->identifier);
-			//$this->_toolbar->setSecondary();
 		}
 		return $this->_toolbar;
 	}
@@ -278,6 +277,16 @@ abstract class Widget extends HtmlDoubleElement {
 		$bt->setActive($this->_edition);
 		$bt->onClick($this->jsDisabled(Javascript::prep_value("!$(event.target).hasClass('active')")));
 		return $this->addInToolbar($bt,$callback);
+	}
+
+	public function setToolbar(HtmlMenu $_toolbar) {
+		$this->_toolbar=$_toolbar;
+		return $this;
+	}
+
+	public function setToolbarPosition($_toolbarPosition) {
+		$this->_toolbarPosition=$_toolbarPosition;
+		return $this;
 	}
 
 }

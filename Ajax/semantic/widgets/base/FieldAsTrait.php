@@ -1,9 +1,6 @@
 <?php
 namespace Ajax\semantic\widgets\base;
-use Ajax\semantic\html\elements\HtmlInput;
-use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\service\JString;
-use Ajax\semantic\html\modules\HtmlDropdown;
 use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\modules\checkbox\HtmlRadio;
 use Ajax\semantic\html\base\constants\Size;
@@ -14,13 +11,13 @@ use Ajax\semantic\html\elements\HtmlHeader;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormInput;
 use Ajax\semantic\html\collections\form\HtmlFormDropdown;
+
 /**
  * @author jc
  * @property InstanceViewer $_instanceViewer
  * @property boolean $_edition
  * @property mixed _modelInstance
  */
-
 trait FieldAsTrait{
 
 	abstract protected function _getFieldIdentifier($prefix);

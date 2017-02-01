@@ -155,7 +155,12 @@ class DataTable extends Widget {
 	}
 
 	private function addToolbarRow($part,$table,$captions){
-		$row=$table->getPart($part)->addRow(\sizeof($captions));
+		$hasPart=$table->hasPart($part);
+		if($hasPart){
+			$row=$table->getPart($part)->addRow(\sizeof($captions));
+		}else{
+			$row=$table->getPart($part)->getRow(0);
+		}
 		$row->mergeCol();
 		$row->setValues([$this->_toolbar]);
 	}
