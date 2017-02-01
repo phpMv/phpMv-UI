@@ -60,3 +60,6 @@ Just clone the repository in a common location or inside your project:
 ```
 git clone https://github.com/phpMv/phpMv-UI.git
 ```
+
+##II PHP framework configuration
+![php-mv-UI](http://angular.kobject.net/git/images/phalcon.png "phpMv-UI")
