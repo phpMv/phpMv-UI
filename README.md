@@ -62,5 +62,13 @@ git clone https://github.com/phpMv/phpMv-UI.git
 ```
 
 ##II PHP framework configuration
+###Library loading
+phpMv-UI complies with [PSR-4 recommendations](http://www.php-fig.org/psr/psr-4/) for auto-loading classes.
+Whatever the php framework used, with "composer", it is enough to integrate the composer autoload file.
+```php
+require_once("vendor/autoload.php");
+```
+###Phalcon configuration
+
 <img src="http://angular.kobject.net/git/images/phalcon.png" width="50">
 
