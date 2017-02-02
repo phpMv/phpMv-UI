@@ -61,7 +61,7 @@ Just clone the repository in a common location or inside your project:
 git clone https://github.com/phpMv/phpMv-UI.git
 ```
 
-##II PHP framework configuration
+##II PHP frameworks configuration
 ###Library loading
 phpMv-UI complies with [PSR-4 recommendations](http://www.php-fig.org/psr/psr-4/) for auto-loading classes.
 Whatever the php framework used, with "composer", it is enough to integrate the Composer autoload file.
@@ -161,4 +161,22 @@ require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
 In the same file, register a new dependency :
 ```php
 \Yii::$container->setSingleton("Ajax\php\yii\JsUtils",["bootstrap"=>new Ajax\Semantic()]);
+```
+####Injection of the service
+The **JsUtils** singleton can then be injected into controllers
+
+```php
+namespace app\controllers;
+
+use yii\web\Controller;
+use Ajax\php\yii\JsUtils;
+
+class SiteController extends Controller{
+	protected $jquery;
+
+	public function __construct($id, $module,JsUtils $js){
+		parent::__construct($id, $module);
+		$this->jquery=$js;
+	}
+}
 ```
