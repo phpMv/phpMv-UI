@@ -33,7 +33,7 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 
 ### Installing via Composer
 
-Install composer in a common location or in your project:
+Install Composer in a common location or in your project:
 
 ```bash
 curl -s http://getcomposer.org/installer | php
@@ -64,13 +64,13 @@ git clone https://github.com/phpMv/phpMv-UI.git
 ##II PHP framework configuration
 ###Library loading
 phpMv-UI complies with [PSR-4 recommendations](http://www.php-fig.org/psr/psr-4/) for auto-loading classes.
-Whatever the php framework used, with "composer", it is enough to integrate the composer autoload file.
+Whatever the php framework used, with "composer", it is enough to integrate the Composer autoload file.
 ```php
 require_once("vendor/autoload.php");
 ```
 ### <img src="http://angular.kobject.net/git/images/phalcon.png" width="30"> Phalcon configuration
 ####Library loading
-Without **composer**, It is possible to load the library with the **app/config/loader.php** file :
+Without Composer, It is possible to load the library with the **app/config/loader.php** file :
 
 ```php
 $loader = new \Phalcon\Loader();
@@ -110,7 +110,7 @@ class ExempleController extends Controller{
 ### ![](http://angular.kobject.net/git/images/laravel.png) Laravel configuration
 
 ####Library loading
-If you do not use the **composer** autoloader file, you can also load phpMv-UI with composer.json :
+If you do not use the Composer autoloader file, you can also load phpMv-UI with composer.json :
 
 ```json
 "autoload": {
@@ -150,7 +150,7 @@ class Controller extends BaseController{
     }
 }
 ```
-### ![](http://angular.kobject.net/git/images/yii.png) Yii configuration
+### <img src="http://angular.kobject.net/git/images/yii.png" width="30"> Yii configuration
 
 ####Library loading
 The classes in the installed Composer packages can be autoloaded using the Composer autoloader. Make sure the entry script of your application contains the following lines to install the Composer autoloader:
