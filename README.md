@@ -195,3 +195,21 @@ $loader = new Psr4ClassLoader();
 $loader->addPrefix('Ajax\\', __DIR__.'/lib/phpmv/php-mv-ui/Ajax');
 $loader->register();
 ```
+####Injection of the service
+Create 2 services in the **app/config/services.yml** file :
+  * The first for the JsUtils instance
+  * The second for the controller
+  
+```yml
+parameters:
+    jquery.params:
+        semantic: true
+services:
+    jquery:
+        class: Ajax\php\symfony\JsUtils 
+        arguments: [%jquery.params%,'@router']
+        scope: request
+    app.default_controller:
+        class: AppBundle\Controller\DefaultController 
+        arguments: ['@service_container','@jquery']
+```
