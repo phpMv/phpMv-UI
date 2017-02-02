@@ -136,6 +136,7 @@ $app->singleton(Ajax\php\laravel\JsUtils::class, function($app){
 Then it is possible to inject the **JsUtils** class in the base class controllers constructor :
 
 ```php
+use Ajax\php\laravel\JsUtils;
 class Controller extends BaseController{
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
     protected $jquery;
