@@ -195,7 +195,7 @@ $loader = new Psr4ClassLoader();
 $loader->addPrefix('Ajax\\', __DIR__.'/lib/phpmv/php-mv-ui/Ajax');
 $loader->register();
 ```
-####Injection of the service
+####Library loading
 Create 2 services in the **app/config/services.yml** file :
   * The first for the JsUtils instance
   * The second for the controller
@@ -212,4 +212,31 @@ services:
     app.default_controller:
         class: AppBundle\Controller\DefaultController 
         arguments: ['@service_container','@jquery']
+```
+####Injection of the service
+It is then possible to inject the Symfony container and the JsUtils service in the controller constructor :
+
+```php
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Ajax\php\symfony\JsUtils;
+use AppBundle\AppBundle;
+
+/**
+ * @Route(service="app.default_controller")
+ */
+class DefaultController extends Controller{
+	/**
+	 * @var Ajax\php\symfony\JsUtils
+	 */
+	protected $jquery;
+
+	public function __construct(ContainerInterface $container,JsUtils $js){
+		$this->container=$container;
+		$this->jquery= $js;
+	}
+}
 ```
