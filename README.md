@@ -181,7 +181,17 @@ class SiteController extends Controller{
 }
 ```
 
-### ![](http://angular.kobject.net/git/images/symfony.png) Symfony configuration
+### <img src="http://angular.kobject.net/git/images/symfony.png" width="30"> Symfony configuration
 
 ####Library loading
 If you do not use the Composer autoloader file, you can also load phpMv-UI with [Ps4ClassLoader](http://symfony.com/doc/current/components/class_loader/psr4_class_loader.html) :
+
+```php
+use Symfony\Component\ClassLoader\Psr4ClassLoader;
+
+require __DIR__.'/lib/ClassLoader/Psr4ClassLoader.php';
+
+$loader = new Psr4ClassLoader();
+$loader->addPrefix('Ajax\\', __DIR__.'/lib/phpmv/php-mv-ui/Ajax');
+$loader->register();
+```
