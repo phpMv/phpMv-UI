@@ -180,3 +180,8 @@ class SiteController extends Controller{
 	}
 }
 ```
+
+### ![](http://angular.kobject.net/git/images/symfony.png) Symfony configuration
+
+####Library loading
+If you do not use the Composer autoloader file, you can also load phpMv-UI with [Ps4ClassLoader](http://symfony.com/doc/current/components/class_loader/psr4_class_loader.html) :
