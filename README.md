@@ -268,7 +268,7 @@ class DefaultController extends Controller{
 	}
 }
 ```
-### <img src="http://angular.kobject.net/git/images/cake.png" width="30"> CakePhp configuration
+### <img src="http://angular.kobject.net/git/images/cakephp.png" width="30"> CakePhp configuration
 
 ####Component creation
 Copy the file **JsUtilsComponent.php** located in **vendor/phpmv/php-mv-ui/Ajax/php/cakephp** to the **src/controller/component** folder of your project
