@@ -109,9 +109,9 @@ class ExempleController extends Controller{
 ```
 ### <img src="http://angular.kobject.net/git/images/ci.png" width="30"> CodeIgniter configuration
 ####Library loading
-Additionally, if you want CodeIgniter to use a Composer auto-loader, just set `$config['composer_autoload']` to TRUE or a custom path in **application/config/config.php**.
+If you want CodeIgniter to use a Composer auto-loader, just set `$config['composer_autoload']` to `TRUE` or a custom path in **application/config/config.php**.
 
-It's necessary to create a library for the JsUtils class
+Then, it's necessary to create a library for the JsUtils class
 
 #####Library creation
 Create the library **XsUtils** (the name is free) in the folder **application/libraries**
@@ -124,14 +124,17 @@ class XsUtils extends Ajax\php\ci\JsUtils{
 	}
 }
 ```
-#####Library loading
+####Injection of the service
 Add the loading of the **XsUtils** library in the file **application/config/autoload.php**
 
 The jquery member will be accessible in the controllers
 ```php
 $autoload['libraries'] = array('XsUtils' => 'jquery');
 ```
-####Injection of the service
+Once loaded you can access your class in controllers using the **$jquery** member:
+```php
+$this->jquery->some_method();
+```
 
 ### ![](http://angular.kobject.net/git/images/laravel.png) Laravel configuration
 
