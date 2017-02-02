@@ -110,7 +110,7 @@ class ExempleController extends Controller{
 ### ![](http://angular.kobject.net/git/images/laravel.png) Laravel configuration
 
 ####Library loading
-If you do not use the **composer** autoload file, you can also load phpMv-UI with composer.json :
+If you do not use the **composer** autoloader file, you can also load phpMv-UI with composer.json :
 
 ```json
 "autoload": {
@@ -122,4 +122,30 @@ If you do not use the **composer** autoload file, you can also load phpMv-UI wit
     }
 },
 ```
+####Injection of the service
+Register a Singleton in **bootstrap/app.php** file :
 
+```php
+$app->singleton(Ajax\php\laravel\JsUtils::class, function($app){
+	$result= new Ajax\php\laravel\JsUtils();
+	$result->semantic(new Ajax\Semantic());
+	return $result;
+});
+```
+
+Then it is possible to inject the **JsUtils** class in the base class controllers constructor :
+
+```php
+class Controller extends BaseController{
+    use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
+    protected $jquery;
+
+    public function __construct(JsUtils $js){
+    	$this->jquery = $js;
+    }
+
+    public function getJquery() {
+    	return $this->jquery;
+    }
+}
+```
