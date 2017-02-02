@@ -150,3 +150,15 @@ class Controller extends BaseController{
     }
 }
 ```
+### ![](http://angular.kobject.net/git/images/yii.png) Yii configuration
+
+####Library loading
+The classes in the installed Composer packages can be autoloaded using the Composer autoloader. Make sure the entry script of your application contains the following lines to install the Composer autoloader:
+```php
+require(__DIR__ . '/../vendor/autoload.php');
+require(__DIR__ . '/../vendor/yiisoft/yii2/Yii.php');
+```
+In the same file, register a new dependency :
+```php
+\Yii::$container->setSingleton("Ajax\php\yii\JsUtils",["bootstrap"=>new Ajax\Semantic()]);
+```
