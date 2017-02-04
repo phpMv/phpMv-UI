@@ -4,6 +4,7 @@ namespace Ajax\semantic\html\elements;
 
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\HtmlSemCollection;
+use Ajax\JsUtils;
 
 /**
  * Semantic UI Buttongroups component
@@ -112,5 +113,10 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	 */
 	public function fromDatabaseObject($object, $function) {
 		$this->addElement($function($object));
+	}
+
+	public function run(JsUtils $js){
+		$result= parent::run($js);
+		return $result->setItemSelector(".ui.button");
 	}
 }

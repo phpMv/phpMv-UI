@@ -28,14 +28,14 @@ trait JqueryAjaxTrait {
 		$retour.="\t\t$({$responseElement}).prepend('{$loading_notifier}');\n";
 	}
 
-	public function _get($url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$immediatly=false) {
-		return $this->_ajax("get", $url,$params,$responseElement,$jsCallback,$attr,$hasLoader,$immediatly);
+	public function _get($url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$immediatly=false) {
+		return $this->_ajax("get", $url,$params,$responseElement,$jsCallback,$attr,$hasLoader,$jqueryDone,$immediatly);
 	}
-	public function _post($url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$immediatly=false) {
-		return $this->_ajax("post", $url,$params,$responseElement,$jsCallback,$attr,$hasLoader,$immediatly);
+	public function _post($url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$immediatly=false) {
+		return $this->_ajax("post", $url,$params,$responseElement,$jsCallback,$attr,$hasLoader,$jqueryDone,$immediatly);
 	}
 
-	protected function _ajax($method,$url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$immediatly=false) {
+	protected function _ajax($method,$url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$immediatly=false) {
 		if(JString::isNull($params)){$params="{}";}
 		$jsCallback=isset($jsCallback) ? $jsCallback : "";
 		$retour=$this->_getAjaxUrl($url, $attr);
@@ -45,7 +45,7 @@ trait JqueryAjaxTrait {
 			$this->addLoading($retour, $responseElement);
 		}
 		$retour.="$.".$method."(url,".$params.").done(function( data ) {\n";
-		$retour.=$this->_getOnAjaxDone($responseElement, $jsCallback)."});\n";
+		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$jsCallback)."});\n";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$retour;
 			return $retour;
@@ -68,15 +68,10 @@ trait JqueryAjaxTrait {
 		return $retour;
 	}
 
-	protected function _getOnAjaxDone($responseElement,$jsCallback){
+	protected function _getOnAjaxDone($responseElement,$jqueryDone,$jsCallback){
 		$retour="";
 		if ($responseElement!=="") {
-			if(JString::startswith($responseElement, "\"-")===true){
-				$responseElement=\str_replace("\"-", "\"", $responseElement);
-				$retour="\t$({$responseElement}).replaceWith( data );\n";
-			}else{
-				$retour="\t$({$responseElement}).html( data );\n";
-			}
+			$retour="\t$({$responseElement}).{$jqueryDone}( data );\n";
 		}
 		$retour.="\t".$jsCallback."\n";
 		return $retour;
@@ -189,7 +184,7 @@ trait JqueryAjaxTrait {
 		return $this->_add_event($element, $this->_jsonArray($maskSelector,$url,$method, $params,$jsCallback, $attr, $context), $event, $preventDefault, $stopPropagation,$immediatly);
 	}
 
-	public function _postForm($url, $form, $responseElement, $validation=false, $jsCallback=NULL, $attr="id", $hasLoader=true,$immediatly=false) {
+	public function _postForm($url, $form, $responseElement, $validation=false, $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$immediatly=false) {
 		$jsCallback=isset($jsCallback) ? $jsCallback : "";
 		$retour=$this->_getAjaxUrl($url, $attr);
 		$retour.="\nvar params=$('#".$form."').serialize();\n";
@@ -199,7 +194,7 @@ trait JqueryAjaxTrait {
 			$this->addLoading($retour, $responseElement);
 		}
 		$retour.="$.post(url,params).done(function( data ) {\n";
-		$retour.=$this->_getOnAjaxDone($responseElement, $jsCallback)."});\n";
+		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$jsCallback)."});\n";
 
 		if ($validation) {
 			$retour="$('#".$form."').validate({submitHandler: function(form) {
@@ -220,7 +215,7 @@ trait JqueryAjaxTrait {
 	 * @param string $url
 	 * @param string $params queryString parameters (JSON format). default : {}
 	 * @param string $responseElement
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"jqueryDone"=>"html")
 	 */
 	public function _getOn($event,$element, $url, $params="{}", $responseElement="", $parameters=array()) {
 		$preventDefault=true;
@@ -229,8 +224,9 @@ trait JqueryAjaxTrait {
 		$attr="id";
 		$hasLoader=true;
 		$immediatly=true;
+		$jqueryDone="html";
 		extract($parameters);
-		return $this->_add_event($element, $this->_get($url, $params, $responseElement, $jsCallback, $attr,$hasLoader), $event, $preventDefault, $stopPropagation,$immediatly);
+		return $this->_add_event($element, $this->_get($url, $params, $responseElement, $jsCallback, $attr,$hasLoader,$jqueryDone), $event, $preventDefault, $stopPropagation,$immediatly);
 	}
 
 	/**
@@ -250,8 +246,9 @@ trait JqueryAjaxTrait {
 		$attr="id";
 		$hasLoader=true;
 		$immediatly=true;
+		$jqueryDone="html";
 		extract($parameters);
-		return $this->_add_event($element, $this->_post($url, $params, $responseElement, $jsCallback, $attr,$hasLoader), $event, $preventDefault, $stopPropagation,$immediatly);
+		return $this->_add_event($element, $this->_post($url, $params, $responseElement, $jsCallback, $attr,$hasLoader,$jqueryDone), $event, $preventDefault, $stopPropagation,$immediatly);
 	}
 
 	/**
@@ -272,7 +269,8 @@ trait JqueryAjaxTrait {
 		$attr="id";
 		$hasLoader=true;
 		$immediatly=true;
+		$jqueryDone="html";
 		extract($parameters);
-		return $this->_add_event($element, $this->_postForm($url, $form, $responseElement, $validation, $jsCallback, $attr,$hasLoader), $event, $preventDefault, $stopPropagation,$immediatly);
+		return $this->_add_event($element, $this->_postForm($url, $form, $responseElement, $validation, $jsCallback, $attr,$hasLoader,$jqueryDone), $event, $preventDefault, $stopPropagation,$immediatly);
 	}
 }

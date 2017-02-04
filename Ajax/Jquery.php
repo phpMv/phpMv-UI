@@ -229,23 +229,22 @@ class Jquery {
 	 * @return string
 	 */
 	public function _compile(&$view=NULL, $view_var='script_foot', $script_tags=TRUE) {
-		// Components UI
 		$this->_compileLibrary($this->ui());
-		// Components BS
 		$this->_compileLibrary($this->bootstrap());
-		// Components Semantic
 		$this->_compileLibrary($this->semantic());
 
 		if (\sizeof($this->jquery_code_for_compile)==0) {
-			// no inline references, let's just return
 			return;
 		}
 
 		// Inline references
 		$script='$(document).ready(function() {'."\n";
 		$script.=implode('', $this->jquery_code_for_compile);
-		$script.='});';
-
+		$script.='})';
+		if($this->params["defer"]){
+			$script=$this->defer($script);
+		}
+		$script.=";";
 		$this->jquery_code_for_compile=array();
 		if($this->params["debug"]===false){
 			$script=$this->minify($script);
@@ -256,6 +255,12 @@ class Jquery {
 			$this->jsUtils->createScriptVariable($view,$view_var, $output);
 		}
 		return $output;
+	}
+
+	private function defer($script){
+		$result="window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { defer(method) }, 50);};";
+		$result.="window.defer(function(){".$script."})";
+		return $result;
 	}
 
 	private function _compileLibrary($library){
