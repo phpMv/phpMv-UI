@@ -69,6 +69,7 @@ class DataTable extends Widget {
 		if(isset($this->_compileParts))
 			$table->setCompileParts($this->_compileParts);
 		if(isset($this->_searchField) && isset($js)){
+			$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 		}
 
 		$this->_generateContent($table);
@@ -122,6 +123,7 @@ class DataTable extends Widget {
 		$menu->floatRight();
 		$menu->setActiveItem($this->_pagination->getPage()-1);
 		$footer->setValues($menu);
+		$menu->postOnClick($this->_urls,"{'p':$(this).attr('data-page')}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 	}
 
 	protected function _setToolbarPosition($table,$captions=NULL){

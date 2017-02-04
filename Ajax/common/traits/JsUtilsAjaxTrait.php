@@ -3,10 +3,11 @@
 namespace Ajax\common\traits;
 
 use Ajax\service\JArray;
+use Ajax\JsUtils;
 
 /**
  * @author jc
- * @property Ajax\JsUtils $js
+ * @property JsUtils $js
  */
 trait JsUtilsAjaxTrait {
 
@@ -21,9 +22,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement selector of the HTML element displaying the answer
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
-	public function get($url, $responseElement="", $params="{}", $jsCallback=NULL,$hasLoader=true) {
-		return $this->js->_get($url, $params, $responseElement, $jsCallback, NULL, $hasLoader,true);
+	public function get($url, $responseElement="", $params="{}", $jsCallback=NULL,$hasLoader=true,$jqueryDone="html") {
+		return $this->js->_get($url, $params, $responseElement, $jsCallback, NULL, $hasLoader,$jqueryDone,true);
 	}
 
 	/**
@@ -68,7 +70,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $jsCallback javascript code to execute after the request
 	 */
 	public function jsonArray($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
-		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback, NULL, true);
+		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback, NULL,true);
 	}
 
 	/**
@@ -78,6 +80,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $params JSON parameters
 	 * @param string $method Method used
 	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
 	public function jsonArrayDeferred($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
 		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback, NULL, false);
@@ -102,9 +105,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement selector of the HTML element displaying the answer
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param string $attr the html attribute added to the request
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
-	public function getDeferred($url, $responseElement="", $params="{}", $jsCallback=NULL,$attr="id") {
-		return $this->js->_get($url, $params, $responseElement, $jsCallback, $attr, false);
+	public function getDeferred($url, $responseElement="", $params="{}", $jsCallback=NULL,$attr="id",$jqueryDone="html") {
+		return $this->js->_get($url, $params, $responseElement, $jsCallback, $attr, false,$jqueryDone);
 	}
 
 	/**
@@ -114,7 +118,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $element
 	 * @param string $url The url of the request
 	 * @param string $responseElement The selector of the HTML element displaying the answer
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
 	 */
 	public function getOn($event, $element, $url, $responseElement="", $parameters=array()) {
 		$params=JArray::getDefaultValue($parameters, "params", "{}");
@@ -127,7 +131,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $element
 	 * @param string $url The url of the request
 	 * @param string $responseElement The selector of the HTML element displaying the answer
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
 	 */
 	public function getOnClick($element, $url, $responseElement="", $parameters=array()) {
 		return $this->getOn("click", $element, $url, $responseElement, $parameters);
@@ -140,9 +144,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement selector of the HTML element displaying the answer
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
-	public function post($url, $responseElement="", $params="{}", $jsCallback=NULL,$hasLoader=true) {
-		return $this->js->_post($url, $params, $responseElement, $jsCallback, NULL, $hasLoader,true);
+	public function post($url, $responseElement="", $params="{}", $jsCallback=NULL,$hasLoader=true,$jqueryDone="html") {
+		return $this->js->_post($url, $params, $responseElement, $jsCallback, NULL, $hasLoader,$jqueryDone,true);
 	}
 
 	/**
@@ -154,9 +159,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement selector of the HTML element displaying the answer
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
-	public function postDeferred($url, $responseElement="", $params="{}", $jsCallback=NULL, $attr="id",$hasLoader=true) {
-		return $this->js->_post($url, $params, $responseElement, $jsCallback, $attr, $hasLoader,false);
+	public function postDeferred($url, $responseElement="", $params="{}", $jsCallback=NULL, $attr="id",$hasLoader=true,$jqueryDone="html") {
+		return $this->js->_post($url, $params, $responseElement, $jsCallback, $attr, $hasLoader,$jqueryDone,false);
 	}
 
 	/**
@@ -167,7 +173,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $url The url of the request
 	 * @param string $params The parameters to send
 	 * @param string $responseElement selector of the HTML element displaying the answer
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
 	 */
 	public function postOn($event, $element, $url, $params="{}", $responseElement="", $parameters=array()) {
 		return $this->js->_postOn($event, $element,  $url, $params, $responseElement, $parameters);
@@ -180,7 +186,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $url The url of the request
 	 * @param string $params The parameters to send
 	 * @param string $responseElement selector of the HTML element displaying the answer
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
 	 */
 	public function postOnClick($element, $url, $params="{}", $responseElement="", $parameters=array()) {
 		return $this->postOn("click", $element, $url, $params, $responseElement, $parameters);
@@ -193,9 +199,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement selector of the HTML element displaying the answer
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
-	public function postForm($url, $form, $responseElement, $validation=false, $jsCallback=NULL,$hasLoader=true) {
-		return $this->js->_postForm($url, $form, $responseElement, $validation, $jsCallback, NULL, $hasLoader,true);
+	public function postForm($url, $form, $responseElement, $validation=false, $jsCallback=NULL,$hasLoader=true,$jqueryDone="html") {
+		return $this->js->_postForm($url, $form, $responseElement, $validation, $jsCallback, NULL, $hasLoader,$jqueryDone,true);
 	}
 
 	/**
@@ -207,9 +214,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param string $attr the html attribute added to the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
-	public function postFormDeferred($url, $form, $responseElement, $validation=false, $jsCallback=NULL,$attr="id",$hasLoader=true) {
-		return $this->js->_postForm($url, $form, $responseElement, $validation, $jsCallback, $attr, $hasLoader,false);
+	public function postFormDeferred($url, $form, $responseElement, $validation=false, $jsCallback=NULL,$attr="id",$hasLoader=true,$jqueryDone="html") {
+		return $this->js->_postForm($url, $form, $responseElement, $validation, $jsCallback, $attr, $hasLoader,$jqueryDone,false);
 	}
 
 	/**
@@ -220,7 +228,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $url
 	 * @param string $form
 	 * @param string $responseElement selector of the HTML element displaying the answer
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
 	 */
 	public function postFormOn($event, $element, $url, $form, $responseElement="", $parameters=array()) {
 		return $this->js->_postFormOn($event,$element, $url, $form, $responseElement, $parameters);
@@ -233,7 +241,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $url
 	 * @param string $form
 	 * @param string $responseElement selector of the HTML element displaying the answer
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
 	 */
 	public function postFormOnClick($element, $url, $form, $responseElement="", $parameters=array()) {
 		return $this->postFormOn("click", $element, $url, $form, $responseElement, $parameters);

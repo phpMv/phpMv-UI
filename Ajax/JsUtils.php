@@ -166,7 +166,8 @@ abstract class JsUtils{
 	public function __construct($params=array(),$injected=NULL) {
 		$defaults=array (
 				'driver' => 'Jquery',
-				'debug' => true
+				'debug' => true,
+				'defer' => false
 		);
 		foreach ( $defaults as $key => $val ) {
 			if (isset($params[$key])===false || $params[$key]==="") {
