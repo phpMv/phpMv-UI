@@ -1,6 +1,6 @@
 ![php-mv-UI](http://angular.kobject.net/git/phalconist/php-mv-ui-.png "phpMv-UI")
 
-**A JQuery and UI library** (JQuery UI, Twitter Bootstrap, Semantic-UI) for php and php MVC frameworks
+**Visual components library** (JQuery UI, Twitter Bootstrap, Semantic-UI) for php and php MVC frameworks
 
 [phpMv-UI website](http://phpmv-ui.kobject.net/)
 
