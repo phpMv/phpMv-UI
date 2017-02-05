@@ -250,7 +250,7 @@ abstract class Widget extends HtmlDoubleElement {
 
 	/**
 	 * Defines the default function which displays fields value
-	 * @param callable $defaultValueFunction
+	 * @param callable $defaultValueFunction. function parameters are : $name : the field name, $value : the field value ,$index : the field index, $instance : the active instance of model
 	 * @return \Ajax\common\Widget
 	 */
 	public function setDefaultValueFunction($defaultValueFunction){

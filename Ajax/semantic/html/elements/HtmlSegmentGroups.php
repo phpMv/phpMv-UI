@@ -5,6 +5,7 @@ namespace Ajax\semantic\html\elements;
 use Ajax\semantic\html\base\constants\SegmentType;
 use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\semantic\html\base\constants\Sens;
+use Ajax\JsUtils;
 
 class HtmlSegmentGroups extends HtmlSemCollection{
 
@@ -34,6 +35,11 @@ class HtmlSegmentGroups extends HtmlSemCollection{
 
 	public function setSens($sens=Sens::VERTICAL){
 		return $this->addToPropertyCtrl("class", $sens, Sens::getConstants());
+	}
+
+	public function run(JsUtils $js){
+		$result= parent::run($js);
+		return $result->setItemSelector(".ui.segment");
 	}
 
 	public static function group($identifier,$items=array(),$type="",$sens=Sens::VERTICAL){

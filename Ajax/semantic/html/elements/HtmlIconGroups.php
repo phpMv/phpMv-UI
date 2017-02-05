@@ -4,6 +4,7 @@ namespace Ajax\semantic\html\elements;
 
 use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\service\JArray;
+use Ajax\JsUtils;
 
 /**
  * Semantic Icons group component
@@ -38,6 +39,11 @@ class HtmlIconGroups extends HtmlSemCollection {
 
 	public function getIcon($index) {
 		return $this->content[$index];
+	}
+
+	public function run(JsUtils $js){
+		$result= parent::run($js);
+		return $result->setItemSelector("i");
 	}
 
 	public function toCorner($index=1) {

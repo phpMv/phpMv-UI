@@ -80,7 +80,6 @@ trait JsUtilsAjaxTrait {
 	 * @param string $params JSON parameters
 	 * @param string $method Method used
 	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 */
 	public function jsonArrayDeferred($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
 		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback, NULL, false);

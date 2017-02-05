@@ -56,7 +56,7 @@ class InstanceViewer {
 
 	protected function _getDefaultValue($name,$value,$index){
 		$func=$this->defaultValueFunction;
-		return $func($name,$value,$index);
+		return $func($name,$value,$index,$this->instance);
 	}
 
 	protected function _getValue($property,$index){
