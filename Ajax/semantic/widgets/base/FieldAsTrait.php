@@ -11,6 +11,7 @@ use Ajax\semantic\html\elements\HtmlHeader;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormInput;
 use Ajax\semantic\html\collections\form\HtmlFormDropdown;
+use Ajax\semantic\html\collections\form\HtmlFormTextarea;
 
 /**
  * @author jc
@@ -48,7 +49,7 @@ trait FieldAsTrait{
 
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
 		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback,$prefix){
-			$name=$this->_instanceViewer->getCaption($index)."[]";
+			$name=$this->_instanceViewer->getFieldName($index)."[]";
 			if(isset($attributes["name"])){
 				$name=$attributes["name"];
 			}
@@ -125,6 +126,14 @@ trait FieldAsTrait{
 			$input->setName($name);
 			return $input;
 		}, $index,$attributes,"input");
+	}
+
+	public function fieldAsTextarea($index,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value){
+			$textarea=new HtmlFormTextarea($id,null,$value);
+			$textarea->setName($name);
+			return $textarea;
+		}, $index,$attributes,"textarea");
 	}
 
 	public function fieldAsHidden($index,$attributes=NULL){

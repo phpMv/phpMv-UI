@@ -32,7 +32,8 @@ class HtmlGrid extends HtmlSemCollection {
 			// }
 			$this->setWide($numCols);
 		}
-		$this->setRowsCount($numRows, $numCols);
+		if($createCols)
+			$this->setRowsCount($numRows, $numCols);
 	}
 
 	public function asSegment() {

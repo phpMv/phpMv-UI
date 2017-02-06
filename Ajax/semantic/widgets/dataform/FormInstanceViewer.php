@@ -30,17 +30,7 @@ class FormInstanceViewer extends InstanceViewer {
 		$field=\str_replace("\n", "", $field);
 	}
 
-	public function getFieldName($index){
-		$property=$this->getProperty($index);
-		if($property instanceof \ReflectionProperty){
-			$result=$property->getName();
-		}elseif(\is_callable($property)){
-			$result=$this->visibleProperties[$index];
-		}else{
-			$result=$property;
-		}
-		return $result;
-	}
+
 
 	public function addSeparatorAfter($fieldNum){
 		if(\array_search($fieldNum, $this->separators)===false)

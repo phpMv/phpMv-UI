@@ -126,6 +126,19 @@ class InstanceViewer {
 		return $this->properties[$index];
 	}
 
+	public function getFieldName($index){
+		$property=$this->getProperty($index);
+		if($property instanceof \ReflectionProperty){
+			$result=$property->getName();
+		}elseif(\is_callable($property)){
+			$result=$this->visibleProperties[$index];
+		}else{
+			$result=$property;
+		}
+		return $result;
+	}
+
+
 	protected function showableProperty(\ReflectionProperty $rProperty){
 		return JString::startswith($rProperty->getName(),"_")===false;
 	}
