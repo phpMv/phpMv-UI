@@ -55,10 +55,13 @@ class DataForm extends Widget {
 			$separators[]=$count;
 			for($i=0;$i<$size;$i++){
 				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
+				//TODO check why $fields is empty
 				if(\sizeof($fields)===1){
 					$form->addField($fields[0]);
-				}else
-					$form->addFields($fields);
+				}elseif(\sizeof($fields)>1){
+					$form->addFields($fields,"grouped");
+					$i+=\sizeof($fields)-1;
+				}
 			}
 		}
 	}

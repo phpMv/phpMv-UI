@@ -4,12 +4,41 @@ namespace Ajax\semantic\html\collections\form\traits;
 use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\service\AjaxCall;
+use Ajax\JsUtils;
 
 trait FormTrait{
+
 	/**
 	 * @return HtmlForm
 	 */
 	abstract protected function getForm();
+
+	protected function addCompoValidation($js,$compo,$field){
+		$form=$this->getForm();
+		$validation=$field->getValidation();
+		if(isset($validation)){
+			if(isset($compo)===false){
+				$compo=$js->semantic()->form("#".$form->getIdentifier());
+			}
+			$validation->setIdentifier($field->getDataField()->getIdentifier());
+			$compo->addFieldValidation($validation);
+		}
+		return $compo;
+	}
+
+	protected function _runValidationParams(&$compo,JsUtils $js=NULL){
+		$form=$this->getForm();
+		$params=$form->getValidationParams();
+		if(isset($params["_ajaxSubmit"]) && $params["_ajaxSubmit"] instanceof AjaxCall){
+			$compilation=$params["_ajaxSubmit"]->compile($js);
+			$compilation=str_ireplace("\"","%quote%", $compilation);
+			$this->onSuccess($compilation);
+			unset($params["_ajaxSubmit"]);
+		}
+		$compo->addParams($params);
+		$form->setBsComponent($compo);
+		$form->addEventsOnRun($js);
+	}
 
 	public function setLoading() {
 		return $this->getForm()->addToProperty("class", "loading");

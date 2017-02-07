@@ -9,7 +9,6 @@ use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\collections\form\traits\FieldsTrait;
 use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
-use Ajax\service\AjaxCall;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
 
 /**
@@ -36,7 +35,6 @@ class HtmlForm extends HtmlSemCollection {
 		$this->_states=[ State::ERROR,State::SUCCESS,State::WARNING,State::DISABLED ];
 		$this->setProperty("name", $this->identifier);
 		$this->_fields=array ();
-		$this->_validationParams=[];
 		$this->addItems($elements);
 	}
 
@@ -143,17 +141,7 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->addItem($message);
 	}
 
-	private function addCompoValidation($js,$compo,$field){
-		$validation=$field->getValidation();
-		if(isset($validation)){
-			if(isset($compo)===false){
-				$compo=$js->semantic()->form("#".$this->identifier);
-			}
-			$validation->setIdentifier($field->getDataField()->getIdentifier());
-			$compo->addFieldValidation($validation);
-		}
-		return $compo;
-	}
+
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
 		if(\sizeof($this->_validationParams)>0)
@@ -183,18 +171,6 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->_bsComponent;
 	}
 
-	private function _runValidationParams(&$compo,JsUtils $js=NULL){
-		if(isset($this->_validationParams["_ajaxSubmit"]) && $this->_validationParams["_ajaxSubmit"] instanceof AjaxCall){
-			$compilation=$this->_validationParams["_ajaxSubmit"]->compile($js);
-			$compilation=str_ireplace("\"","%quote%", $compilation);
-			$this->onSuccess($compilation);
-			unset($this->_validationParams["_ajaxSubmit"]);
-		}
-		$compo->addParams($this->_validationParams);
-		$this->_bsComponent=$compo;
-		$this->addEventsOnRun($js);
-	}
-
 	public function addValidationParam($paramName,$paramValue){
 		$this->_validationParams[$paramName]=$paramValue;
 		return $this;
@@ -204,4 +180,9 @@ class HtmlForm extends HtmlSemCollection {
 		$this->_validationParams=$_validationParams;
 		return $this;
 	}
+
+	public function getValidationParams() {
+		return $this->_validationParams;
+	}
+
 }
