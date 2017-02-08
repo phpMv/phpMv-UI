@@ -126,6 +126,14 @@ class DataTable extends Widget {
 		$menu->postOnClick($this->_urls,"{'p':$(this).attr('data-page')}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 	}
 
+	protected function _getFieldName($index){
+		return parent::_getFieldName($index)."[]";
+	}
+
+	protected function _getFieldCaption($index){
+		return null;
+	}
+
 	protected function _setToolbarPosition($table,$captions=NULL){
 		switch ($this->_toolbarPosition){
 			case PositionInTable::BEFORETABLE:

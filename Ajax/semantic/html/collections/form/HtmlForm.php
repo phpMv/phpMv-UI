@@ -36,6 +36,7 @@ class HtmlForm extends HtmlSemCollection {
 		$this->setProperty("name", $this->identifier);
 		$this->_fields=array ();
 		$this->addItems($elements);
+		$this->_validationParams=[];
 	}
 
 	protected function getForm(){

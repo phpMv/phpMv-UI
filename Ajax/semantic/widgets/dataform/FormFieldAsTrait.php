@@ -39,7 +39,7 @@ trait FormFieldAsTrait{
 		}
 	}
 
-	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$identifier=null){
+	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
 		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback){
 			$caption=$this->_instanceViewer->getCaption($index);
 			$name=$this->_instanceViewer->getFieldName($index);
@@ -60,7 +60,7 @@ trait FormFieldAsTrait{
 	}
 
 	public function fieldAsRadios($index,$elements=[],$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption,$elements){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($elements){
 			return HtmlFormFields::radios($name,$elements,$caption,$value);
 		}, $index,$attributes);
 	}

@@ -49,6 +49,14 @@ class DataElement extends Widget {
 		}
 	}
 
+	protected function _getFieldName($index){
+		return $this->_instanceViewer->getFieldName($index);
+	}
+
+	protected function _getFieldCaption($index){
+		return null;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see \Ajax\common\Widget::getHtmlComponent()

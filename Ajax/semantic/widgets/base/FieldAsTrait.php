@@ -12,6 +12,8 @@ use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormInput;
 use Ajax\semantic\html\collections\form\HtmlFormDropdown;
 use Ajax\semantic\html\collections\form\HtmlFormTextarea;
+use Ajax\semantic\html\collections\form\HtmlFormFields;
+use Ajax\semantic\html\collections\HtmlMessage;
 
 /**
  * @author jc
@@ -21,8 +23,10 @@ use Ajax\semantic\html\collections\form\HtmlFormTextarea;
  */
 trait FieldAsTrait{
 
-	abstract protected function _getFieldIdentifier($prefix);
+	abstract protected function _getFieldIdentifier($prefix,$name="");
 	abstract public function setValueFunction($index,$callback);
+	abstract protected function _getFieldName($index);
+	abstract protected function _getFieldCaption($index);
 
 	/**
 	 * @param HtmlFormField $element
@@ -45,17 +49,31 @@ trait FieldAsTrait{
 		return $label;
 	}
 
-	protected function _addRules($element,&$attributes){}
+	protected function _addRules($element,&$attributes){
+		if(isset($attributes["rules"])){
+			$rules=$attributes["rules"];
+			if(\is_array($rules)){
+				$element->addRules($rules);
+			}
+			else
+				$element->addRule($rules);
+				unset($attributes["rules"]);
+		}
+	}
 
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
 		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback,$prefix){
-			$name=$this->_instanceViewer->getFieldName($index)."[]";
+			$caption=$this->_getFieldCaption($index);
+			$name=$this->_getFieldName($index);
+			$id=$this->_getFieldIdentifier($prefix,$name);
 			if(isset($attributes["name"])){
 				$name=$attributes["name"];
+				unset($attributes["name"]);
 			}
-			$element=$elementCallback($this->_getFieldIdentifier($prefix),$name,$value,"");
-			if(\is_array($attributes))
+			$element=$elementCallback($id,$name,$value,$caption);
+			if(\is_array($attributes)){
 				$this->_applyAttributes($element, $attributes,$index);
+			}
 			$element->setDisabled(!$this->_edition);
 			return $element;
 		});
@@ -120,9 +138,15 @@ trait FieldAsTrait{
 		}, $index,$attributes,"radio");
 	}
 
+	public function fieldAsRadios($index,$elements=[],$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($elements){
+			return HtmlFormFields::radios($name,$elements,$caption,$value);
+		}, $index,$attributes,"radios");
+	}
+
 	public function fieldAsInput($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value){
-			$input= new HtmlFormInput($id,"","text",$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			$input= new HtmlFormInput($id,$caption,"text",$value);
 			$input->setName($name);
 			return $input;
 		}, $index,$attributes,"input");
@@ -148,17 +172,24 @@ trait FieldAsTrait{
 		return $this->_fieldAs(function($id,$name,$value){
 			$input=new HtmlFormCheckbox($id,NULL,$this->_instanceViewer->getIdentifier());
 			$input->setChecked(JString::isBooleanTrue($value));
-			$input->getField()->setProperty("name", $name);
+			$input->setName($name);
 			return $input;
 		}, $index,$attributes,"ck");
 	}
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value) use($elements,$multiple){
-			//$dd=new HtmlDropdown($id,$value,$elements);
 			$dd=new HtmlFormDropdown($id,$elements,NULL,$value);
 			$dd->asSelect($name,$multiple);
 			return $dd;
 		}, $index,$attributes,"dd");
+	}
+
+	public function fieldAsMessage($index,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			$mess= new HtmlMessage("message-".$id,$value);
+			$mess->addHeader($caption);
+			return $mess;
+		}, $index,$attributes,"message");
 	}
 }

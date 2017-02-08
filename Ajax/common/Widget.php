@@ -52,8 +52,16 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_edition=$edition;
 	}
 
-	protected function _getFieldIdentifier($prefix){
+	protected function _getFieldIdentifier($prefix,$name=""){
 		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
+	}
+
+	protected function _getFieldName($index){
+		return $this->_instanceViewer->getFieldName($index);
+	}
+
+	protected function _getFieldCaption($index){
+		return $this->_instanceViewer->getCaption($index);
 	}
 
 	abstract protected  function _setToolbarPosition($table,$captions=NULL);

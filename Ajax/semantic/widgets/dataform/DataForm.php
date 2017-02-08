@@ -18,11 +18,15 @@ use Ajax\semantic\html\elements\HtmlButton;
  * @property FormInstanceViewer $_instanceViewer
  */
 class DataForm extends Widget {
-	use FormFieldAsTrait,FormTrait;
+	use FormTrait;
 
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
 		$this->_init(new FormInstanceViewer($identifier), "form", new HtmlForm($identifier), true);
+	}
+
+	protected function _getFieldIdentifier($prefix,$name=""){
+		return $this->identifier."-{$name}-".$this->_instanceViewer->getIdentifier();
 	}
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
@@ -59,7 +63,7 @@ class DataForm extends Widget {
 				if(\sizeof($fields)===1){
 					$form->addField($fields[0]);
 				}elseif(\sizeof($fields)>1){
-					$form->addFields($fields,"grouped");
+					$form->addFields($fields);
 					$i+=\sizeof($fields)-1;
 				}
 			}
