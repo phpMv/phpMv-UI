@@ -66,4 +66,22 @@ class HtmlDoubleElement extends HtmlSingleElement {
 		$this->wrapContentAfter=$after.$this->wrapContentAfter;
 		return $this;
 	}
+
+	public function getContentInstances($class){
+		return $this->_getContentInstances($class,$this->content);
+	}
+
+	protected function _getContentInstances($class,$content){
+		$instances=[];
+		if($content instanceof $class){
+			$instances[]=$content;
+		}elseif($content instanceof HtmlDoubleElement){
+			$instances=\array_merge($instances,$content->getContentInstances($class));
+		}elseif (\is_array($content)){
+			foreach ($content as $element){
+				$instances=\array_merge($instances,$this->_getContentInstances($class, $element));
+			}
+		}
+		return $instances;
+	}
 }

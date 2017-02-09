@@ -12,9 +12,13 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\modules\HtmlDropdown;
 use Ajax\service\JArray;
 use Ajax\service\Javascript;
+use Ajax\semantic\html\collections\form\HtmlForm;
+use Ajax\JsUtils;
+use Ajax\semantic\html\collections\form\HtmlFormField;
+use Ajax\semantic\html\collections\form\traits\FormTrait;
 
 abstract class Widget extends HtmlDoubleElement {
-	use FieldAsTrait;
+	use FieldAsTrait,FormTrait;
 
 	/**
 	 * @var string classname
@@ -34,7 +38,15 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	protected $_toolbarPosition;
 
+	/**
+	 * @var boolean
+	 */
 	protected $_edition;
+
+	/**
+	 * @var HtmlForm
+	 */
+	protected $_form;
 
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
@@ -207,7 +219,7 @@ abstract class Widget extends HtmlDoubleElement {
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
 	public function addButtonInToolbar($caption,$callback=NULL){
-		$bt=new HtmlButton("",$caption);
+		$bt=new HtmlButton("bt-".$caption,$caption);
 		return $this->addInToolbar($bt,$callback);
 	}
 
@@ -233,6 +245,12 @@ abstract class Widget extends HtmlDoubleElement {
 		$bt=new HtmlButton("",$caption);
 		$bt->addIcon($icon,$before,$labeled);
 		return $this->addInToolbar($bt);
+	}
+
+	public function addSubmitInToolbar($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
+		$button=new HtmlButton($identifier,$value,$cssStyle);
+		$this->_buttonAsSubmit($button,"click",$url,$responseElement);
+		return $this->addInToolbar($button);
 	}
 
 	/**
@@ -297,4 +315,33 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	public function getForm() {
+		if(!isset($this->_form)){
+			$this->_form=new HtmlForm("frm-".$this->identifier);
+			$this->setEdition(true);
+		}
+		return $this->_form;
+	}
+
+	public function run(JsUtils $js=NULL){
+		$result=parent::run($js);
+		if(isset($this->_form)){
+			$this->runForm($js);
+		}
+		return $result;
+	}
+
+	protected function runForm(JsUtils $js){
+		$fields=$this->getContentInstances(HtmlFormField::class);
+		foreach ($fields as $field){
+			$this->_form->addField($field);
+		}
+		return $this->_form->run($js);
+	}
+
+	protected function _compileForm(JsUtils $js=NULL,&$view=NULL){
+		if(isset($this->_form)){
+			$this->wrapContent("<form class='ui form' id='frm-".$this->identifier."' name='frm-".$this->identifier."'>","</form>");
+		}
+	}
 }

@@ -153,8 +153,9 @@ class HtmlForm extends HtmlSemCollection {
 	public function run(JsUtils $js) {
 		$compo=NULL;
 		foreach ($this->_fields as $field){
-			if($field instanceof HtmlFormField)
+			if($field instanceof HtmlFormField){
 				$compo=$this->addCompoValidation($js, $compo, $field);
+			}
 		}
 		foreach ($this->content as $field){
 			if($field instanceof HtmlFormFields){

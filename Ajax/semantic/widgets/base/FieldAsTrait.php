@@ -14,6 +14,7 @@ use Ajax\semantic\html\collections\form\HtmlFormDropdown;
 use Ajax\semantic\html\collections\form\HtmlFormTextarea;
 use Ajax\semantic\html\collections\form\HtmlFormFields;
 use Ajax\semantic\html\collections\HtmlMessage;
+use Ajax\semantic\html\elements\HtmlButton;
 
 /**
  * @author jc
@@ -27,13 +28,13 @@ trait FieldAsTrait{
 	abstract public function setValueFunction($index,$callback);
 	abstract protected function _getFieldName($index);
 	abstract protected function _getFieldCaption($index);
+	abstract protected function _buttonAsSubmit(&$button,$event,$url,$responseElement=NULL);
 
 	/**
 	 * @param HtmlFormField $element
 	 * @param array $attributes
 	 */
 	protected function _applyAttributes($element,&$attributes,$index){
-		$this->_addRules($element, $attributes);
 		if(isset($attributes["callback"])){
 			$callback=$attributes["callback"];
 			if(\is_callable($callback)){
@@ -41,6 +42,7 @@ trait FieldAsTrait{
 				unset($attributes["callback"]);
 			}
 		}
+		unset($attributes["rules"]);
 		$element->fromArray($attributes);
 	}
 
@@ -55,10 +57,17 @@ trait FieldAsTrait{
 			if(\is_array($rules)){
 				$element->addRules($rules);
 			}
-			else
+			else{
 				$element->addRule($rules);
-				unset($attributes["rules"]);
+			}
+			unset($attributes["rules"]);
 		}
+	}
+
+	protected function _prepareFormFields(&$field,$name,&$attributes){
+		$field->setName($name);
+		$this->_addRules($field, $attributes);
+		return $field;
 	}
 
 	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
@@ -145,10 +154,9 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsInput($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($attributes){
 			$input= new HtmlFormInput($id,$caption,"text",$value);
-			$input->setName($name);
-			return $input;
+			return $this->_prepareFormFields($input, $name, $attributes);
 		}, $index,$attributes,"input");
 	}
 
@@ -191,5 +199,13 @@ trait FieldAsTrait{
 			$mess->addHeader($caption);
 			return $mess;
 		}, $index,$attributes,"message");
+	}
+
+	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle){
+			$button=new HtmlButton($id,$value,$cssStyle);
+			$this->_buttonAsSubmit($button,"click",$url,$responseElement);
+			return $button;
+		}, $index,$attributes);
 	}
 }

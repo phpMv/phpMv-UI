@@ -7,7 +7,6 @@ use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\service\JArray;
 use Ajax\JsUtils;
-use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\semantic\html\elements\HtmlButton;
 
 /**
@@ -18,11 +17,11 @@ use Ajax\semantic\html\elements\HtmlButton;
  * @property FormInstanceViewer $_instanceViewer
  */
 class DataForm extends Widget {
-	use FormTrait;
 
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
-		$this->_init(new FormInstanceViewer($identifier), "form", new HtmlForm($identifier), true);
+		$this->_form=new HtmlForm($identifier);
+		$this->_init(new FormInstanceViewer($identifier), "form", $this->_form, true);
 	}
 
 	protected function _getFieldIdentifier($prefix,$name=""){
@@ -71,9 +70,10 @@ class DataForm extends Widget {
 	}
 
 	/**
-	 * @return HtmlForm
+	 * {@inheritDoc}
+	 * @see \Ajax\common\Widget::getForm()
 	 */
-	protected function getForm(){
+	public function getForm(){
 		return $this->content["form"];
 	}
 
@@ -89,20 +89,6 @@ class DataForm extends Widget {
 	public function setSeparators($separators) {
 		$this->_instanceViewer->setSeparators($separators);
 		return $this;
-	}
-
-	public function addSubmitInToolbar($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
-		$button=new HtmlButton($identifier,$value,$cssStyle);
-		$this->_buttonAsSubmit($button,"click",$url,$responseElement);
-		return $this->addInToolbar($button);
-	}
-
-	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle){
-			$button=new HtmlButton($id,$value,$cssStyle);
-			$this->_buttonAsSubmit($button,"click",$url,$responseElement);
-			return $button;
-		}, $index,$attributes);
 	}
 
 	public function fieldAsReset($index,$cssStyle=NULL,$attributes=NULL){
@@ -132,5 +118,9 @@ class DataForm extends Widget {
 	public function setValidationParams(array $_validationParams) {
 		$this->getForm()->setValidationParams($_validationParams);
 		return $this;
+	}
+
+	public function run(JsUtils $js=NULL){
+		return parent::run($js);
 	}
 }

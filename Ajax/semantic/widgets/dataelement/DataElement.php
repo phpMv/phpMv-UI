@@ -34,6 +34,7 @@ class DataElement extends Widget {
 			$this->_setToolbarPosition($table);
 		}
 		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
+		$this->_compileForm($js,$view);
 		return parent::compile($js,$view);
 	}
 
@@ -83,5 +84,9 @@ class DataElement extends Widget {
 	public function onNewRow($callback) {
 		$this->content["table"]->onNewRow($callback);
 		return $this;
+	}
+
+	public function asForm(){
+		return $this->getForm();
 	}
 }

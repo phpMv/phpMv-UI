@@ -37,7 +37,7 @@ class DataTable extends Widget {
 		\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
 		if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');}");
 		}
-		parent::run($js);
+		return parent::run($js);
 	}
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
@@ -85,6 +85,7 @@ class DataTable extends Widget {
 			$this->_setToolbarPosition($table, $captions);
 		}
 		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
+		$this->_compileForm($js,$view);
 		return parent::compile($js,$view);
 	}
 
@@ -339,5 +340,9 @@ class DataTable extends Widget {
 	public function onNewRow($callback) {
 		$this->content["table"]->onNewRow($callback);
 		return $this;
+	}
+
+	public function asForm(){
+		return $this->getForm();
 	}
 }
