@@ -115,11 +115,6 @@ class DataForm extends Widget {
 		$this->content[$this->_toolbarPosition]=$this->_toolbar;
 	}
 
-	public function setValidationParams(array $_validationParams) {
-		$this->getForm()->setValidationParams($_validationParams);
-		return $this;
-	}
-
 	public function run(JsUtils $js=NULL){
 		return parent::run($js);
 	}

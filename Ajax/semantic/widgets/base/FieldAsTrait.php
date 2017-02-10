@@ -15,6 +15,7 @@ use Ajax\semantic\html\collections\form\HtmlFormTextarea;
 use Ajax\semantic\html\collections\form\HtmlFormFields;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\elements\HtmlButton;
+use Ajax\service\JArray;
 
 /**
  * @author jc
@@ -199,6 +200,35 @@ trait FieldAsTrait{
 			$mess->addHeader($caption);
 			return $mess;
 		}, $index,$attributes,"message");
+	}
+
+	/**Change fields type
+	 * @param array $types an array or associative array $type=>$attribute
+	 */
+	public function fieldsAs(array $types){
+		$i=0;
+		if(JArray::isAssociative($types)){
+			foreach ($types as $type=>$attributes){
+				$this->fieldAs($i++,$type,$attributes);
+			}
+		}else{
+			foreach ($types as $type){
+				$this->fieldAs($i++,$type);
+			}
+		}
+	}
+
+	public function fieldAs($index,$type,$attributes=NULL){
+		$method="fieldAs".\ucfirst($type);
+
+		if(\method_exists($this, $method)){
+			if(!\is_array($attributes)){
+				$attributes=[$index];
+			}else{
+				\array_unshift($attributes, $index);
+			}
+			\call_user_func_array([$this,$method], $attributes);
+		}
 	}
 
 	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){

@@ -341,7 +341,15 @@ abstract class Widget extends HtmlDoubleElement {
 
 	protected function _compileForm(JsUtils $js=NULL,&$view=NULL){
 		if(isset($this->_form)){
-			$this->wrapContent("<form class='ui form' id='frm-".$this->identifier."' name='frm-".$this->identifier."'>","</form>");
+			$noValidate="";
+			if(\sizeof($this->_form->getValidationParams())>0)
+				$noValidate="novalidate";
+			$this->wrapContent("<form class='ui form' id='frm-".$this->identifier."' name='frm-".$this->identifier."' ".$noValidate.">","</form>");
 		}
+	}
+
+	public function setValidationParams(array $_validationParams) {
+		$this->getForm()->setValidationParams($_validationParams);
+		return $this;
 	}
 }
