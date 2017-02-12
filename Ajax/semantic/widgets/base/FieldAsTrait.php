@@ -209,7 +209,10 @@ trait FieldAsTrait{
 		$i=0;
 		if(JArray::isAssociative($types)){
 			foreach ($types as $type=>$attributes){
-				$this->fieldAs($i++,$type,$attributes);
+				if(\is_int($type))
+					$this->fieldAs($i++,$attributes,[]);
+				else
+					$this->fieldAs($i++,$type,$attributes);
 			}
 		}else{
 			foreach ($types as $type){
@@ -220,7 +223,6 @@ trait FieldAsTrait{
 
 	public function fieldAs($index,$type,$attributes=NULL){
 		$method="fieldAs".\ucfirst($type);
-
 		if(\method_exists($this, $method)){
 			if(!\is_array($attributes)){
 				$attributes=[$index];

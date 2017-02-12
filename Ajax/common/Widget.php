@@ -122,6 +122,16 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	public function addMessage($attributes=NULL,$fieldName="message"){
+		$this->_instanceViewer->addField($fieldName);
+		$count=$this->_instanceViewer->visiblePropertiesCount();
+		return $this->fieldAsMessage($count-1,$attributes);
+	}
+
+	public function addErrorMessage(){
+		return $this->addMessage(["error"=>true],"message");
+	}
+
 	public function insertField($index,$field){
 		$this->_instanceViewer->insertField($index, $field);
 		return $this;
@@ -331,7 +341,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $result;
 	}
 
-	protected function runForm(JsUtils $js){
+	protected function runForm(JsUtils $js=NULL){
 		$fields=$this->getContentInstances(HtmlFormField::class);
 		foreach ($fields as $field){
 			$this->_form->addField($field);
@@ -339,7 +349,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->_form->run($js);
 	}
 
-	protected function _compileForm(JsUtils $js=NULL,&$view=NULL){
+	protected function _compileForm(){
 		if(isset($this->_form)){
 			$noValidate="";
 			if(\sizeof($this->_form->getValidationParams())>0)

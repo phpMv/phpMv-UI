@@ -85,7 +85,7 @@ class DataTable extends Widget {
 			$this->_setToolbarPosition($table, $captions);
 		}
 		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
-		$this->_compileForm($js,$view);
+		$this->_compileForm();
 		return parent::compile($js,$view);
 	}
 

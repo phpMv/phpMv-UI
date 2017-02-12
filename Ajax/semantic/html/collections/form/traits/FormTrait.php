@@ -13,13 +13,9 @@ trait FormTrait{
 	 */
 	abstract protected function getForm();
 
-	protected function addCompoValidation($js,$compo,$field){
-		$form=$this->getForm();
+	protected function addCompoValidation($compo,$field){
 		$validation=$field->getValidation();
 		if(isset($validation)){
-			if(isset($compo)===false){
-				$compo=$js->semantic()->form("#".$form->getIdentifier());
-			}
 			$validation->setIdentifier($field->getDataField()->getIdentifier());
 			$compo->addFieldValidation($validation);
 		}

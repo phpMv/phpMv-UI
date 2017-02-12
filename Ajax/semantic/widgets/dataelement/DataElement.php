@@ -34,7 +34,7 @@ class DataElement extends Widget {
 			$this->_setToolbarPosition($table);
 		}
 		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
-		$this->_compileForm($js,$view);
+		$this->_compileForm();
 		return parent::compile($js,$view);
 	}
 

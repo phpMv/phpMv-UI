@@ -10,6 +10,7 @@ use Ajax\semantic\html\collections\form\traits\FieldsTrait;
 use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
+use Ajax\semantic\components\Form;
 
 /**
  * Semantic Form component
@@ -151,10 +152,15 @@ class HtmlForm extends HtmlSemCollection {
 	}
 
 	public function run(JsUtils $js) {
-		$compo=NULL;
+		if(isset($js)){
+			$compo=$js->semantic()->form("#".$this->identifier);
+		}else{
+			$compo=new Form();
+			$compo->attach("#".$this->identifier);
+		}
 		foreach ($this->_fields as $field){
 			if($field instanceof HtmlFormField){
-				$compo=$this->addCompoValidation($js, $compo, $field);
+				$compo=$this->addCompoValidation($compo, $field);
 			}
 		}
 		foreach ($this->content as $field){
@@ -162,12 +168,9 @@ class HtmlForm extends HtmlSemCollection {
 				$items=$field->getItems();
 				foreach ($items as $_field){
 					if($_field instanceof HtmlFormField)
-						$compo=$this->addCompoValidation($js, $compo, $_field);
+						$compo=$this->addCompoValidation($compo, $_field);
 				}
 			}
-		}
-		if(isset($compo)===false){
-			return parent::run($js);
 		}
 		$this->_runValidationParams($compo,$js);
 		return $this->_bsComponent;
