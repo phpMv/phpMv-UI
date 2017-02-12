@@ -333,7 +333,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->_form;
 	}
 
-	public function run(JsUtils $js=NULL){
+	public function run(JsUtils $js){
 		$result=parent::run($js);
 		if(isset($this->_form)){
 			$this->runForm($js);
@@ -341,7 +341,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $result;
 	}
 
-	protected function runForm(JsUtils $js=NULL){
+	protected function runForm(JsUtils $js){
 		$fields=$this->getContentInstances(HtmlFormField::class);
 		foreach ($fields as $field){
 			$this->_form->addField($field);

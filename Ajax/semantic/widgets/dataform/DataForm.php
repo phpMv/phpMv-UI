@@ -115,7 +115,7 @@ class DataForm extends Widget {
 		$this->content[$this->_toolbarPosition]=$this->_toolbar;
 	}
 
-	public function run(JsUtils $js=NULL){
+	public function run(JsUtils $js){
 		return parent::run($js);
 	}
 }
