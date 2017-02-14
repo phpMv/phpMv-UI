@@ -29,6 +29,7 @@ class DataTable extends Widget {
 	protected $_pagination;
 	protected $_hasCheckboxes;
 	protected $_compileParts;
+	protected $_visibleHover=false;
 
 	public function run(JsUtils $js){
 		if($this->_hasCheckboxes && isset($js)){
@@ -36,6 +37,10 @@ class DataTable extends Widget {
 		var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
 		\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
 		if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');}");
+		}
+		if($this->_visibleHover){
+			$js->execOn("mouseover", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'visible');",["preventDefault"=>false,"stopPropagation"=>true]);
+			$js->execOn("mouseout", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'hidden');",["preventDefault"=>false,"stopPropagation"=>true]);
 		}
 		return parent::run($js);
 	}
@@ -102,17 +107,20 @@ class DataTable extends Widget {
 			$objects=$this->_pagination->getObjects($this->_modelInstance);
 		}
 		InstanceViewer::setIndex(0);
-		$table->fromDatabaseObjects($objects, function($instance){
+		$table->fromDatabaseObjects($objects, function($instance) use($table){
 			$this->_instanceViewer->setInstance($instance);
 			InstanceViewer::$index++;
-			$result= $this->_instanceViewer->getValues();
+			$values= $this->_instanceViewer->getValues();
 			if($this->_hasCheckboxes){
 				$ck=new HtmlCheckbox("ck-".$this->identifier,"");
 				$field=$ck->getField();
 				$field->setProperty("value",$this->_instanceViewer->getIdentifier());
 				$field->setProperty("name", "selection[]");
-				\array_unshift($result, $ck);
+				\array_unshift($values, $ck);
 			}
+			$result=$table->newRow();
+			$result->setIdentifier($this->identifier."-tr-".$this->_instanceViewer->getIdentifier());
+			$result->setValues($values);
 			return $result;
 		});
 	}
@@ -207,10 +215,11 @@ class DataTable extends Widget {
 	/**
 	 * @param string $caption
 	 * @param callable $callback
+	 * @param boolean $visibleHover
 	 * @return callable
 	 */
-	private function getFieldButtonCallable($caption,$callback=null){
-		return $this->getCallable("getFieldButton",[$caption],$callback);
+	private function getFieldButtonCallable($caption,$visibleHover=true,$callback=null){
+		return $this->getCallable("getFieldButton",[$caption,$visibleHover],$callback);
 	}
 
 	/**
@@ -229,6 +238,10 @@ class DataTable extends Widget {
 			}
 			if($object instanceof HtmlSemDoubleElement){
 				$object->setProperty("data-ajax",$this->_instanceViewer->getIdentifier());
+				if($object->propertyContains("class","visibleover")){
+					$this->_visibleHover=true;
+					$object->setProperty("style","visibility:hidden;");
+				}
 			}
 			return $object;
 		};
@@ -239,18 +252,22 @@ class DataTable extends Widget {
 	 * @param string $caption
 	 * @return HtmlButton
 	 */
-	private function getFieldButton($caption){
-		return new HtmlButton("",$caption);
+	private function getFieldButton($caption,$visibleHover=true){
+		$bt= new HtmlButton("",$caption);
+		if($visibleHover)
+			$this->_visibleOver($bt);
+		return $bt;
 	}
 
 	/**
 	 * Inserts a new Button for each row
 	 * @param string $caption
 	 * @param callable $callback
+	 * @param boolean $visibleHover
 	 * @return \Ajax\semantic\widgets\datatable\DataTable
 	 */
-	public function addFieldButton($caption,$callback=null){
-		$this->addField($this->getCallable("getFieldButton",[$caption],$callback));
+	public function addFieldButton($caption,$visibleHover=true,$callback=null){
+		$this->addField($this->getCallable("getFieldButton",[$caption,$visibleHover],$callback));
 		return $this;
 	}
 
@@ -261,8 +278,8 @@ class DataTable extends Widget {
 	 * @param callable $callback
 	 * @return \Ajax\semantic\widgets\datatable\DataTable
 	 */
-	public function insertFieldButton($index,$caption,$callback=null){
-		$this->insertField($index, $this->getFieldButtonCallable($caption,$callback));
+	public function insertFieldButton($index,$caption,$visibleHover=true,$callback=null){
+		$this->insertField($index, $this->getFieldButtonCallable($caption,$visibleHover,$callback));
 		return $this;
 	}
 
@@ -273,50 +290,50 @@ class DataTable extends Widget {
 	 * @param callable $callback
 	 * @return \Ajax\semantic\widgets\datatable\DataTable
 	 */
-	public function insertInFieldButton($index,$caption,$callback=null){
-		$this->insertInField($index, $this->getFieldButtonCallable($caption,$callback));
+	public function insertInFieldButton($index,$caption,$visibleHover=true,$callback=null){
+		$this->insertInField($index, $this->getFieldButtonCallable($caption,$visibleHover,$callback));
 		return $this;
 	}
 
-	private function addDefaultButton($icon,$class=null,$callback=null){
-		$this->addField($this->getCallable("getDefaultButton",[$icon,$class],$callback));
+	private function addDefaultButton($icon,$class=null,$visibleHover=true,$callback=null){
+		$this->addField($this->getCallable("getDefaultButton",[$icon,$class],$visibleHover,$callback));
 		return $this;
 	}
 
-	private function insertDefaultButtonIn($index,$icon,$class=null,$callback=null){
-		$this->insertInField($index,$this->getCallable("getDefaultButton",[$icon,$class],$callback));
+	private function insertDefaultButtonIn($index,$icon,$class=null,$visibleHover=true,$callback=null){
+		$this->insertInField($index,$this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback));
 		return $this;
 	}
 
-	private function getDefaultButton($icon,$class=null){
-		$bt=$this->getFieldButton("");
+	private function getDefaultButton($icon,$class=null,$visibleHover=true){
+		$bt=$this->getFieldButton("",$visibleHover);
 		$bt->asIcon($icon);
 		if(isset($class))
 			$bt->addToProperty("class", $class);
 		return $bt;
 	}
 
-	public function addDeleteButton($callback=null){
-		return $this->addDefaultButton("remove","delete red basic",$callback);
+	public function addDeleteButton($visibleHover=true,$callback=null){
+		return $this->addDefaultButton("remove","delete red basic",$visibleHover,$callback);
 	}
 
-	public function addEditButton($callback=null){
-		return $this->addDefaultButton("edit","edit basic",$callback);
+	public function addEditButton($visibleHover=true,$callback=null){
+		return $this->addDefaultButton("edit","edit basic",$visibleHover,$callback);
 	}
 
-	public function addEditDeleteButtons($callbackEdit=null,$callbackDelete=null){
-		$this->addEditButton($callbackEdit);
+	public function addEditDeleteButtons($visibleHover=true,$callbackEdit=null,$callbackDelete=null){
+		$this->addEditButton($visibleHover,$callbackEdit);
 		$index=$this->_instanceViewer->visiblePropertiesCount()-1;
-		$this->insertDeleteButtonIn($index,$callbackDelete);
+		$this->insertDeleteButtonIn($index,$visibleHover,$callbackDelete);
 		return $this;
 	}
 
-	public function insertDeleteButtonIn($index,$callback=null){
-		return $this->insertDefaultButtonIn($index,"remove","delete red basic",$callback);
+	public function insertDeleteButtonIn($index,$visibleHover=true,$callback=null){
+		return $this->insertDefaultButtonIn($index,"remove","delete red basic",$visibleHover,$callback);
 	}
 
-	public function insertEditButtonIn($index,$callback=null){
-		return $this->insertDefaultButtonIn($index,"edit","edit basic",$callback);
+	public function insertEditButtonIn($index,$visibleHover=true,$callback=null){
+		return $this->insertDefaultButtonIn($index,"edit","edit basic",$visibleHover,$callback);
 	}
 
 	public function addSearchInToolbar($position=Direction::RIGHT){
@@ -344,5 +361,18 @@ class DataTable extends Widget {
 
 	public function asForm(){
 		return $this->getForm();
+	}
+
+	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index){
+			$button=new HtmlButton($id,$value,$cssStyle);
+			$button->postOnClick($url,"$(event.target).closest('tr').find(':input').serialize()",$responseElement);
+			return $this->_visibleOver($button);
+		}, $index,$attributes);
+	}
+
+	protected function _visibleOver($element){
+		$this->_visibleHover=true;
+		return $element->addToProperty("class", "visibleover")->setProperty("style","visibility:hidden;");
 	}
 }

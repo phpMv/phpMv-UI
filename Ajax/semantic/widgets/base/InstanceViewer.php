@@ -38,10 +38,12 @@ class InstanceViewer {
 		return $values;
 	}
 
-	public function getIdentifier(){
-		$value=self::$index;
+	public function getIdentifier($index=NULL){
+		if(!isset($index))
+			$index=self::$index;
+		$value=$index;
 		if(isset($this->values["identifier"]))
-			$value=$this->values["identifier"](self::$index,$this->instance);
+			$value=$this->values["identifier"]($index,$this->instance);
 		return $value;
 	}
 
