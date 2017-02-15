@@ -48,6 +48,8 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	protected $_form;
 
+	protected $_generated;
+
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier);
@@ -55,6 +57,7 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->setModel($model);
 		if(isset($modelInstance));
 			$this->show($modelInstance);
+		$this->_generated=false;
 	}
 
 	protected function _init($instanceViewer,$contentKey,$content,$edition){
@@ -336,7 +339,7 @@ abstract class Widget extends HtmlDoubleElement {
 	public function run(JsUtils $js){
 		$result=parent::run($js);
 		if(isset($this->_form)){
-			$this->runForm($js);
+			$result=$this->runForm($js);
 		}
 		return $result;
 	}

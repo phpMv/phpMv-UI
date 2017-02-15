@@ -110,7 +110,7 @@ abstract class BaseHtml extends BaseWidget {
 		return true;
 	}
 
-	protected function propertyContains($propertyName, $value) {
+	public function propertyContains($propertyName, $value) {
 		$values=$this->getProperty($propertyName);
 		if (isset($values)) {
 			return JString::contains($values, $value);

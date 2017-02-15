@@ -60,37 +60,40 @@ class DataTable extends Widget {
 
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
-		$this->_instanceViewer->setInstance($this->_model);
-		$captions=$this->_instanceViewer->getCaptions();
+		if(!$this->_generated){
+			$this->_instanceViewer->setInstance($this->_model);
+			$captions=$this->_instanceViewer->getCaptions();
 
-		$table=$this->content["table"];
+			$table=$this->content["table"];
 
-		if($this->_hasCheckboxes){
-			$this->_generateMainCheckbox($captions);
+			if($this->_hasCheckboxes){
+				$this->_generateMainCheckbox($captions);
+			}
+
+			$table->setRowCount(0, \sizeof($captions));
+			$table->setHeaderValues($captions);
+			if(isset($this->_compileParts))
+				$table->setCompileParts($this->_compileParts);
+			if(isset($this->_searchField) && isset($js)){
+				$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+			}
+
+			$this->_generateContent($table);
+
+			if($this->_hasCheckboxes && $table->hasPart("thead")){
+					$table->getHeader()->getCell(0, 0)->addToProperty("class","no-sort");
+			}
+
+			if(isset($this->_pagination) && $this->_pagination->getVisible()){
+				$this->_generatePagination($table);
+			}
+			if(isset($this->_toolbar)){
+				$this->_setToolbarPosition($table, $captions);
+			}
+			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
+			$this->_compileForm();
+			$this->_generated=true;
 		}
-
-		$table->setRowCount(0, \sizeof($captions));
-		$table->setHeaderValues($captions);
-		if(isset($this->_compileParts))
-			$table->setCompileParts($this->_compileParts);
-		if(isset($this->_searchField) && isset($js)){
-			$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
-		}
-
-		$this->_generateContent($table);
-
-		if($this->_hasCheckboxes && $table->hasPart("thead")){
-				$table->getHeader()->getCell(0, 0)->addToProperty("class","no-sort");
-		}
-
-		if(isset($this->_pagination) && $this->_pagination->getVisible()){
-			$this->_generatePagination($table);
-		}
-		if(isset($this->_toolbar)){
-			$this->_setToolbarPosition($table, $captions);
-		}
-		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
-		$this->_compileForm();
 		return parent::compile($js,$view);
 	}
 
@@ -296,7 +299,7 @@ class DataTable extends Widget {
 	}
 
 	private function addDefaultButton($icon,$class=null,$visibleHover=true,$callback=null){
-		$this->addField($this->getCallable("getDefaultButton",[$icon,$class],$visibleHover,$callback));
+		$this->addField($this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback));
 		return $this;
 	}
 

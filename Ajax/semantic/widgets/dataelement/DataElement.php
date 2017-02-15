@@ -25,16 +25,19 @@ class DataElement extends Widget {
 	}
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
-		$this->_instanceViewer->setInstance($this->_modelInstance);
+		if(!$this->_generated){
+			$this->_instanceViewer->setInstance($this->_modelInstance);
 
-		$table=$this->content["table"];
-		$this->_generateContent($table);
+			$table=$this->content["table"];
+			$this->_generateContent($table);
 
-		if(isset($this->_toolbar)){
-			$this->_setToolbarPosition($table);
+			if(isset($this->_toolbar)){
+				$this->_setToolbarPosition($table);
+			}
+			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
+			$this->_compileForm();
+			$this->_generated=true;
 		}
-		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
-		$this->_compileForm();
 		return parent::compile($js,$view);
 	}
 

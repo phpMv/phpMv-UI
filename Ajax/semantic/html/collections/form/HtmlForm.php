@@ -190,4 +190,9 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->_validationParams;
 	}
 
+	public function removeValidationParam($param){
+		unset($this->_validationParams[$param]);
+		return $this;
+	}
+
 }

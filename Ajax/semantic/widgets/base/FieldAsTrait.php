@@ -238,6 +238,6 @@ trait FieldAsTrait{
 			$button=new HtmlButton($id,$value,$cssStyle);
 			$this->_buttonAsSubmit($button,"click",$url,$responseElement);
 			return $button;
-		}, $index,$attributes);
+		}, $index,$attributes,"submit");
 	}
 }

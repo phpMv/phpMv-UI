@@ -29,9 +29,9 @@ trait FormTrait{
 			$compilation=$params["_ajaxSubmit"]->compile($js);
 			$compilation=str_ireplace("\"","%quote%", $compilation);
 			$this->onSuccess($compilation);
-			unset($params["_ajaxSubmit"]);
+			$form->removeValidationParam("_ajaxSubmit");
 		}
-		$compo->addParams($params);
+		$compo->addParams($form->getValidationParams());
 		$form->setBsComponent($compo);
 		$form->addEventsOnRun($js);
 	}
