@@ -14,7 +14,7 @@ trait AttachedTrait {
 	 */
 	public function setAttachment($toElement, $side=Side::BOTH) {
 		if (isset($toElement)) {
-			$toElement->addToPropertyCtrl("class", "attached", array ("attached" ));
+			$toElement->setAttached(true);
 		}
 		return $this->addToPropertyCtrl("class", $side . " attached", Side::getConstantValues("attached"));
 	}

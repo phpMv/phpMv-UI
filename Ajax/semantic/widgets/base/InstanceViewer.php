@@ -79,8 +79,11 @@ class InstanceViewer {
 			}else{
 				if(isset($this->values[$index])){
 					$value= $this->values[$index]($property,$this->instance,$index);
-				}else{
-					$value=$property;
+				}elseif(isset($this->instance->{$property})){
+					$value=$this->instance->{$property};
+				}
+				else{
+					$value=null;
 				}
 			}
 		}

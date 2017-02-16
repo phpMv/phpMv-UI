@@ -40,6 +40,13 @@ trait FormTrait{
 		return $this->getForm()->addToProperty("class", "loading");
 	}
 
+	public function setAttached($value=true){
+		$form=$this->getForm();
+		if($value)
+			$form->addToPropertyCtrl("class", "attached", array ("attached" ));
+		return $form;
+	}
+
 	public function addErrorMessage(){
 		return $this->getForm()->addContent((new HtmlMessage(""))->setError());
 	}
@@ -73,11 +80,14 @@ trait FormTrait{
 		return $this->_buttonAsSubmit($bt, "click",$url,$responseElement);
 	}
 
-	protected function _buttonAsSubmit(&$button,$event,$url,$responseElement=NULL){
+	protected function _buttonAsSubmit(&$button,$event,$url,$responseElement=NULL,$parameters=NULL){
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
 			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');");
-			$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", ["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url]));
+			$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url];
+			if(\is_array($parameters))
+				$params=\array_merge($params,$parameters);
+			$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", $params));
 		}
 		return $button;
 	}

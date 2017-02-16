@@ -367,10 +367,12 @@ class DataTable extends Widget {
 	}
 
 	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index,$attributes){
 			$button=new HtmlButton($id,$value,$cssStyle);
-			$button->postOnClick($url,"$(event.target).closest('tr').find(':input').serialize()",$responseElement);
-			return $this->_visibleOver($button);
+			$button->postOnClick($url,"$(event.target).closest('tr').find(':input').serialize()",$responseElement,$attributes["ajax"]);
+			if(!isset($attributes["visibleHover"]) || $attributes["visibleHover"])
+				$this->_visibleOver($button);
+			return $button;
 		}, $index,$attributes);
 	}
 

@@ -55,8 +55,12 @@ abstract class Widget extends HtmlDoubleElement {
 		parent::__construct($identifier);
 		$this->_template="%wrapContentBefore%%content%%wrapContentAfter%";
 		$this->setModel($model);
-		if(isset($modelInstance));
+		if(isset($modelInstance)){
+			if(\is_array($modelInstance)){
+				$modelInstance=\json_decode(\json_encode($modelInstance), FALSE);
+			}
 			$this->show($modelInstance);
+		}
 		$this->_generated=false;
 	}
 
@@ -104,6 +108,10 @@ abstract class Widget extends HtmlDoubleElement {
 	}
 
 	abstract public function getHtmlComponent();
+
+	public function setAttached($value=true){
+		return $this->getHtmlComponent()->setAttached($value);
+	}
 
 	public function setColor($color){
 		return $this->getHtmlComponent()->setColor($color);
@@ -260,9 +268,9 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->addInToolbar($bt);
 	}
 
-	public function addSubmitInToolbar($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
+	public function addSubmitInToolbar($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$parameters=NULL){
 		$button=new HtmlButton($identifier,$value,$cssStyle);
-		$this->_buttonAsSubmit($button,"click",$url,$responseElement);
+		$this->_buttonAsSubmit($button,"click",$url,$responseElement,$parameters);
 		return $this->addInToolbar($button);
 	}
 

@@ -151,6 +151,12 @@ trait BaseTrait {
 		return $this;
 	}
 
+	public function setAttached($value=true){
+		if($value)
+			$this->addToPropertyCtrl("class", "attached", array ("attached" ));
+		return $this;
+	}
+
 	/**
 	 * can be formatted to appear on dark backgrounds
 	 */

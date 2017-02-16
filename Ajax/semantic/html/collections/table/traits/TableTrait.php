@@ -22,6 +22,13 @@ trait TableTrait{
 		return $table->addToPropertyCtrl("class", "basic", array ("basic" ));
 	}
 
+	public function setCompact($very=false) {
+		$table=$this->getTable();
+		if ($very)
+			$table->addToPropertyCtrl("class", "very", array ("very" ));
+		return $table->addToPropertyCtrl("class", "compact", array ("compact" ));
+	}
+
 	public function setCollapsing() {
 		return $this->addToPropertyTable("class", "collapsing");
 	}
