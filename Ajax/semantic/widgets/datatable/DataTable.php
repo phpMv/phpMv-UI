@@ -29,25 +29,38 @@ class DataTable extends Widget {
 	protected $_pagination;
 	protected $_hasCheckboxes;
 	protected $_compileParts;
+	protected $_hasDelete=false;
+	protected $_hasEdit=false;
 	protected $_visibleHover=false;
+	protected $_targetSelector;
+
+	public function __construct($identifier,$model,$modelInstance=NULL) {
+		parent::__construct($identifier, $model,$modelInstance);
+		$this->_init(new InstanceViewer($identifier), "table", new HtmlTable($identifier, 0,0), false);
+		$this->_urls=[];
+	}
 
 	public function run(JsUtils $js){
 		if($this->_hasCheckboxes && isset($js)){
 			$js->execOn("change", "#".$this->identifier." [name='selection[]']", "
-		var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
-		\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
-		if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');}");
+					var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
+					\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
+					if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');}");
 		}
 		if($this->_visibleHover){
 			$js->execOn("mouseover", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'visible');",["preventDefault"=>false,"stopPropagation"=>true]);
 			$js->execOn("mouseout", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'hidden');",["preventDefault"=>false,"stopPropagation"=>true]);
 		}
+		if($this->_hasDelete)
+			$this->_generateBehavior("delete", $js);
+		if($this->_hasEdit)
+			$this->_generateBehavior("edit", $js);
 		return parent::run($js);
 	}
 
-	public function __construct($identifier,$model,$modelInstance=NULL) {
-		parent::__construct($identifier, $model,$modelInstance);
-		$this->_init(new InstanceViewer($identifier), "table", new HtmlTable($identifier, 0,0), false);
+	protected function _generateBehavior($op,JsUtils $js){
+		if(isset($this->_urls[$op]))
+			$js->getOnClick("#".$this->identifier." .".$op, $this->_urls[$op],$this->getTargetSelector(),["preventDefault"=>false,"attr"=>"data-ajax"]);
 	}
 
 	/**
@@ -74,8 +87,10 @@ class DataTable extends Widget {
 			$table->setHeaderValues($captions);
 			if(isset($this->_compileParts))
 				$table->setCompileParts($this->_compileParts);
+
 			if(isset($this->_searchField) && isset($js)){
-				$this->_searchField->postOn("change", $this->_urls,"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+				if(isset($this->_urls["refresh"]))
+					$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 			}
 
 			$this->_generateContent($table);
@@ -135,7 +150,8 @@ class DataTable extends Widget {
 		$menu->floatRight();
 		$menu->setActiveItem($this->_pagination->getPage()-1);
 		$footer->setValues($menu);
-		$menu->postOnClick($this->_urls,"{'p':$(this).attr('data-page')}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+		if(isset($this->_urls["refresh"]))
+			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 	}
 
 	protected function _getFieldName($index){
@@ -193,8 +209,19 @@ class DataTable extends Widget {
 		return $this->_urls;
 	}
 
+	/**
+	 * Sets the associative array of urls for refreshing, updating or deleting
+	 * @param string|array $urls associative array with keys refresh: for refreshing with search field or pagination, edit : for updating a row, delete: for deleting a row
+	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 */
 	public function setUrls($urls) {
-		$this->_urls=$urls;
+		if(\is_array($urls)){
+			$this->_urls["refresh"]=JArray::getValue($urls, "refresh",0);
+			$this->_urls["edit"]=JArray::getValue($urls, "edit",1);
+			$this->_urls["delete"]=JArray::getValue($urls, "delete",2);
+		}else{
+			$this->_urls=["refresh"=>$urls,"edit"=>$urls,"delete"=>$urls];
+		}
 		return $this;
 	}
 
@@ -316,26 +343,30 @@ class DataTable extends Widget {
 		return $bt;
 	}
 
-	public function addDeleteButton($visibleHover=true,$callback=null){
+	public function addDeleteButton($visibleHover=true,$generateBehavior=true,$callback=null){
+		$this->_hasDelete=$generateBehavior;
 		return $this->addDefaultButton("remove","delete red basic",$visibleHover,$callback);
 	}
 
-	public function addEditButton($visibleHover=true,$callback=null){
+	public function addEditButton($visibleHover=true,$generateBehavior=true,$callback=null){
+		$this->_hasEdit=$generateBehavior;
 		return $this->addDefaultButton("edit","edit basic",$visibleHover,$callback);
 	}
 
-	public function addEditDeleteButtons($visibleHover=true,$callbackEdit=null,$callbackDelete=null){
-		$this->addEditButton($visibleHover,$callbackEdit);
+	public function addEditDeleteButtons($visibleHover=true,$generateBehavior=true,$callbackEdit=null,$callbackDelete=null){
+		$this->addEditButton($visibleHover,$generateBehavior,$callbackEdit);
 		$index=$this->_instanceViewer->visiblePropertiesCount()-1;
-		$this->insertDeleteButtonIn($index,$visibleHover,$callbackDelete);
+		$this->insertDeleteButtonIn($index,$visibleHover,$generateBehavior,$callbackDelete);
 		return $this;
 	}
 
-	public function insertDeleteButtonIn($index,$visibleHover=true,$callback=null){
+	public function insertDeleteButtonIn($index,$visibleHover=true,$generateBehavior=true,$callback=null){
+		$this->_hasDelete=$generateBehavior;
 		return $this->insertDefaultButtonIn($index,"remove","delete red basic",$visibleHover,$callback);
 	}
 
-	public function insertEditButtonIn($index,$visibleHover=true,$callback=null){
+	public function insertEditButtonIn($index,$visibleHover=true,$generateBehavior=true,$callback=null){
+		$this->_hasEdit=$generateBehavior;
 		return $this->insertDefaultButtonIn($index,"edit","edit basic",$visibleHover,$callback);
 	}
 
@@ -366,6 +397,15 @@ class DataTable extends Widget {
 		return $this->getForm();
 	}
 
+	/**
+	 * Creates a submit button at $index position
+	 * @param int $index
+	 * @param string $cssStyle
+	 * @param string $url
+	 * @param string $responseElement
+	 * @param array $attributes
+	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 */
 	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index,$attributes){
 			$button=new HtmlButton($id,$value,$cssStyle);
@@ -380,4 +420,22 @@ class DataTable extends Widget {
 		$this->_visibleHover=true;
 		return $element->addToProperty("class", "visibleover")->setProperty("style","visibility:hidden;");
 	}
+
+	protected function getTargetSelector() {
+		$result=$this->_targetSelector;
+		if(!isset($result))
+			$result="#".$this->identifier;
+		return $result;
+	}
+
+	/**
+	 * Sets the response element selector for Edit and Delete request with ajax
+	 * @param string $_targetSelector
+	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 */
+	public function setTargetSelector($_targetSelector) {
+		$this->_targetSelector=$_targetSelector;
+		return $this;
+	}
+
 }
