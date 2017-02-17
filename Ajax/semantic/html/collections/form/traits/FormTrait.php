@@ -116,7 +116,7 @@ trait FormTrait{
 	 */
 	public function onSuccess($jsCode){
 		$form=$this->getForm();
-		$form->addValidationParam("onSuccess", "%function(evt,fields){".$jsCode."}%");
+		$form->addValidationParam("onSuccess", "%function(event,fields){console.log(fields);".$jsCode."}%");
 		return $form;
 	}
 }

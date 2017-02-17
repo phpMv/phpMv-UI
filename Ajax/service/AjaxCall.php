@@ -27,10 +27,10 @@ class AjaxCall {
 		$hasLoader=true;
 		extract($this->parameters);
 		if ($preventDefault===true) {
-			$result.="\nevent.preventDefault();\n";
+			$result.=Javascript::$preventDefault;
 		}
 		if ($stopPropagation===true) {
-			$result.="event.stopPropagation();\n";
+			$result.=Javascript::$stopPropagation;
 		}
 		switch($this->method) {
 			case "get":

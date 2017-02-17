@@ -206,10 +206,10 @@ class Jquery {
 			$js=implode("\n\t\t", $js);
 		}
 		if ($preventDefault===true) {
-			$js="event.preventDefault();\n".$js;
+			$js=Javascript::$preventDefault.$js;
 		}
 		if ($stopPropagation===true) {
-			$js="event.stopPropagation();\n".$js;
+			$js=Javascript::$stopPropagation.$js;
 		}
 		if (array_search($event, $this->jquery_events)===false)
 			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";

@@ -3,6 +3,9 @@
 namespace Ajax\service;
 
 class Javascript {
+	public static $preventDefault="\nif(event && event.preventDefault) event.preventDefault();\n";
+	public static $stopPropagation="\nif(event && event.stopPropagation) event.stopPropagation();\n";
+
 	public static function containsCode($expression){
 		return strrpos($expression, 'this')!==false||strrpos($expression, 'event')!==false||strrpos($expression, 'self')!==false;
 	}

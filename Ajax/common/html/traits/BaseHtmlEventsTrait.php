@@ -24,10 +24,10 @@ trait BaseHtmlEventsTrait{
 	 */
 	public function addEvent($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
 		if ($stopPropagation === true) {
-			$jsCode="event.stopPropagation();" . $jsCode;
+			$jsCode=Javascript::$stopPropagation . $jsCode;
 		}
 		if ($preventDefault === true) {
-			$jsCode="event.preventDefault();" . $jsCode;
+			$jsCode=Javascript::$preventDefault . $jsCode;
 		}
 		return $this->_addEvent($event, $jsCode);
 	}
