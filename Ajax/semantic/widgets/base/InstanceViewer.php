@@ -61,15 +61,21 @@ class InstanceViewer {
 		return $func($name,$value,$index,$this->instance);
 	}
 
+	protected function _getPropertyValue(\ReflectionProperty $property,$index){
+		$property->setAccessible(true);
+		$value=$property->getValue($this->instance);
+		if(isset($this->values[$index])){
+			$value= $this->values[$index]($value,$this->instance,$index);
+		}else{
+			$value=$this->_getDefaultValue($property->getName(),$value, $index);
+		}
+		return $value;
+	}
+
 	protected function _getValue($property,$index){
+		$value=null;
 		if($property instanceof \ReflectionProperty){
-			$property->setAccessible(true);
-			$value=$property->getValue($this->instance);
-			if(isset($this->values[$index])){
-				$value= $this->values[$index]($value,$this->instance,$index);
-			}else{
-				$value=$this->_getDefaultValue($property->getName(),$value, $index);
-			}
+			$value=$this->_getPropertyValue($property, $index);
 		}else{
 			if(\is_callable($property))
 				$value=$property($this->instance);
@@ -81,9 +87,6 @@ class InstanceViewer {
 					$value= $this->values[$index]($property,$this->instance,$index);
 				}elseif(isset($this->instance->{$property})){
 					$value=$this->instance->{$property};
-				}
-				else{
-					$value=null;
 				}
 			}
 		}
@@ -291,6 +294,11 @@ class InstanceViewer {
 		return $this;
 	}
 
+	/**
+	 * Defines the default function which displays fields value
+	 * @param callable $defaultValueFunction function parameters are : $name : the field name, $value : the field value ,$index : the field index, $instance : the active instance of model
+	 * @return \Ajax\semantic\widgets\base\InstanceViewer
+	 */
 	public function setDefaultValueFunction($defaultValueFunction) {
 		$this->defaultValueFunction=$defaultValueFunction;
 		return $this;
