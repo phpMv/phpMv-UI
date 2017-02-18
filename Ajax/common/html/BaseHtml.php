@@ -12,7 +12,7 @@ use Ajax\common\html\traits\BaseHtmlPropertiesTrait;
 /**
  * BaseHtml for HTML components
  * @author jc
- * @version 1.2
+ * @version 1.3
  */
 abstract class BaseHtml extends BaseWidget {
 	use BaseHtmlEventsTrait,BaseHtmlPropertiesTrait;
@@ -22,38 +22,22 @@ abstract class BaseHtml extends BaseWidget {
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
 
-	public function getBsComponent() {
-		return $this->_bsComponent;
-	}
-
-	public function setBsComponent($bsComponent) {
-		$this->_bsComponent=$bsComponent;
-		return $this;
+	private function _callSetter($setter,$key,$value,&$array){
+		$result=false;
+		if (method_exists($this, $setter) && !JString::startswith($key, "_")) {
+			try {
+				$this->$setter($value);
+				unset($array[$key]);
+				$result=true;
+			} catch ( \Exception $e ) {
+				$result=false;
+			}
+		}
+		return $result;
 	}
 
 	protected function getTemplate(JsUtils $js=NULL) {
 		return PropertyWrapper::wrap($this->_wrapBefore, $js) . $this->_template . PropertyWrapper::wrap($this->_wrapAfter, $js);
-	}
-
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
-		$result=$this->getTemplate($js);
-		foreach ( $this as $key => $value ) {
-			if (JString::startswith($key, "_") === false && $key !== "events") {
-				if (\is_array($value)) {
-					$v=PropertyWrapper::wrap($value, $js);
-				} else {
-					$v=$value;
-				}
-				$result=str_ireplace("%" . $key . "%", $v, $result);
-			}
-		}
-		if (isset($js)===true) {
-			$this->run($js);
-			if (isset($view) === true) {
-				$js->addViewElement($this->identifier, $result, $view);
-			}
-		}
-		return $result;
 	}
 
 	protected function ctrl($name, $value, $typeCtrl) {
@@ -110,6 +94,34 @@ abstract class BaseHtml extends BaseWidget {
 		$oldValue=trim($oldValue);
 	}
 
+	protected function _getElementBy($callback,$elements){
+		if (\is_array($elements)) {
+			$flag=false;
+			$index=0;
+			while ( !$flag && $index < sizeof($elements) ) {
+				if ($elements[$index] instanceof BaseHtml)
+					$flag=($callback($elements[$index]));
+					$index++;
+			}
+			if ($flag === true)
+				return $elements[$index - 1];
+		} elseif ($elements instanceof BaseHtml) {
+			if ($callback($elements))
+				return $elements;
+		}
+		return null;
+	}
+
+	protected function setWrapBefore($wrapBefore) {
+		$this->_wrapBefore=$wrapBefore;
+		return $this;
+	}
+
+	protected function setWrapAfter($wrapAfter) {
+		$this->_wrapAfter=$wrapAfter;
+		return $this;
+	}
+
 	/**
 	 *
 	 * @param JsUtils $js
@@ -139,20 +151,6 @@ abstract class BaseHtml extends BaseWidget {
 		return $array;
 	}
 
-	private function _callSetter($setter,$key,$value,&$array){
-		$result=false;
-		if (method_exists($this, $setter) && !JString::startswith($key, "_")) {
-			try {
-				$this->$setter($value);
-				unset($array[$key]);
-				$result=true;
-			} catch ( \Exception $e ) {
-				$result=false;
-			}
-		}
-		return $result;
-	}
-
 	public function fromDatabaseObjects($objects, $function) {
 		if (isset($objects)) {
 			foreach ( $objects as $object ) {
@@ -179,35 +177,37 @@ abstract class BaseHtml extends BaseWidget {
 		return $this->_getElementBy(function($element) use ($identifier){return $element->getIdentifier()===$identifier;}, $elements);
 	}
 
-	protected function _getElementBy($callback,$elements){
-		if (\is_array($elements)) {
-			$flag=false;
-			$index=0;
-			while ( !$flag && $index < sizeof($elements) ) {
-				if ($elements[$index] instanceof BaseHtml)
-					$flag=($callback($elements[$index]));
-					$index++;
+	public function getBsComponent() {
+		return $this->_bsComponent;
+	}
+
+	public function setBsComponent($bsComponent) {
+		$this->_bsComponent=$bsComponent;
+		return $this;
+	}
+
+	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		$result=$this->getTemplate($js);
+		foreach ( $this as $key => $value ) {
+			if (JString::startswith($key, "_") === false && $key !== "events") {
+				if (\is_array($value)) {
+					$v=PropertyWrapper::wrap($value, $js);
+				} else {
+					$v=$value;
+				}
+				$result=str_ireplace("%" . $key . "%", $v, $result);
 			}
-			if ($flag === true)
-				return $elements[$index - 1];
-		} elseif ($elements instanceof BaseHtml) {
-			if ($callback($elements))
-				return $elements;
 		}
-		return null;
+		if (isset($js)===true) {
+			$this->run($js);
+			if (isset($view) === true) {
+				$js->addViewElement($this->identifier, $result, $view);
+			}
+		}
+		return $result;
 	}
 
 	public function __toString() {
 		return $this->compile();
-	}
-
-	protected function setWrapBefore($wrapBefore) {
-		$this->_wrapBefore=$wrapBefore;
-		return $this;
-	}
-
-	protected function setWrapAfter($wrapAfter) {
-		$this->_wrapAfter=$wrapAfter;
-		return $this;
 	}
 }

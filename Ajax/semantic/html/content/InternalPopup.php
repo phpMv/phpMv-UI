@@ -42,6 +42,13 @@ class InternalPopup {
 		if(JString::isNotNull($this->content)){
 			$this->semElement->addToProperty("data-content", $this->content);
 		}
+		$this->_compileHtml($js);
+		if(JString::isNotNull($this->variation)){
+			$this->semElement->addToProperty("data-variation", $this->variation);
+		}
+	}
+
+	private function _compileHtml(JsUtils $js=NULL){
 		if(JString::isNotNull($this->html)){
 			$html=$this->html;
 			if(\is_array($html)){
@@ -60,9 +67,6 @@ class InternalPopup {
 			}
 			$html=\str_replace("\"", "'", $html);
 			$this->semElement->addToProperty("data-html", $html);
-		}
-		if(JString::isNotNull($this->variation)){
-			$this->semElement->addToProperty("data-variation", $this->variation);
 		}
 	}
 
