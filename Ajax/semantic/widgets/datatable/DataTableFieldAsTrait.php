@@ -8,13 +8,14 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
  * @author jc
  * @property boolean $_hasDelete
  * @property boolean $_hasEdit
- * @property boolean $_visibleHover;
+ * @property boolean $_visibleHover
  * @property InstanceViewer $_instanceViewer
  */
 trait DataTableFieldAsTrait{
 	abstract public function addField($field);
 	abstract public function insertField($index,$field);
 	abstract public function insertInField($index,$field);
+	abstract public function fieldAs($index,$type,$attributes=NULL);
 	/**
 	 * @param string $caption
 	 * @param callable $callback
@@ -140,6 +141,12 @@ trait DataTableFieldAsTrait{
 			return $bt;
 	}
 
+	/**
+	 * @param boolean $visibleHover
+	 * @param boolean $generateBehavior
+	 * @param callable $callback
+	 * @return \Ajax\semantic\widgets\datatable\DataTableFieldAsTrait
+	 */
 	public function addDeleteButton($visibleHover=true,$generateBehavior=true,$callback=null){
 		$this->_hasDelete=$generateBehavior;
 		return $this->addDefaultButton("remove","delete red basic",$visibleHover,$callback);

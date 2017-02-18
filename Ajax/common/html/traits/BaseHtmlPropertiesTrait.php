@@ -2,6 +2,7 @@
 namespace Ajax\common\html\traits;
 
 use Ajax\service\JString;
+use Ajax\common\html\BaseHtml;
 
 /**
  * @author jc
@@ -11,10 +12,15 @@ trait BaseHtmlPropertiesTrait{
 
 	protected $properties=array ();
 	abstract protected function ctrl($name, $value, $typeCtrl);
+	abstract protected function removeOldValues(&$oldValue, $allValues);
 	public function getProperties() {
 		return $this->properties;
 	}
 
+	/**
+	 * @param array|string $properties
+	 * @return BaseHtml
+	 */
 	public function setProperties($properties) {
 		$this->properties=$properties;
 		return $this;
