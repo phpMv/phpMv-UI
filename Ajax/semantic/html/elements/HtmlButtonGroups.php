@@ -101,6 +101,9 @@ class HtmlButtonGroups extends HtmlSemCollection {
 
 	public function addClasses($classes=array()) {
 		$i=0;
+		if(!\is_array($classes)){
+			$classes=array_fill (0,$this->count(),$classes);
+		}
 		foreach ( $this->content as $button ) {
 			$button->addToProperty("class", $classes[$i++]);
 		}

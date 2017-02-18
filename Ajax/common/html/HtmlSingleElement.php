@@ -20,6 +20,14 @@ class HtmlSingleElement extends BaseHtml {
 		return $this;
 	}
 
+	public function addClass($classNames) {
+		if(\is_array($classNames)){
+			$classNames=implode(" ", $classNames);
+		}
+		$this->addToProperty("class", $classNames);
+		return $this;
+	}
+
 	public function setRole($value) {
 		$this->setProperty("role", $value);
 		return $this;

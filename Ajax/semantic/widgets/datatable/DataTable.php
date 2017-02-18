@@ -14,6 +14,7 @@ use Ajax\service\JArray;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
+use Ajax\semantic\html\elements\HtmlLabel;
 
 /**
  * DataTable widget for displaying list of objects
@@ -32,7 +33,9 @@ class DataTable extends Widget {
 	protected $_hasDelete=false;
 	protected $_hasEdit=false;
 	protected $_visibleHover=false;
+	protected $_hasCheckedMessage=false;
 	protected $_targetSelector;
+	protected $_checkedMessage;
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier, $model,$modelInstance);
@@ -42,10 +45,7 @@ class DataTable extends Widget {
 
 	public function run(JsUtils $js){
 		if($this->_hasCheckboxes && isset($js)){
-			$js->execOn("change", "#".$this->identifier." [name='selection[]']", "
-					var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
-					\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
-					if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');}");
+			$this->_runCheckboxes($js);
 		}
 		if($this->_visibleHover){
 			$js->execOn("mouseover", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'visible');",["preventDefault"=>false,"stopPropagation"=>true]);
@@ -56,6 +56,24 @@ class DataTable extends Widget {
 		if($this->_hasEdit)
 			$this->_generateBehavior("edit", $js);
 		return parent::run($js);
+	}
+
+	protected function _runCheckboxes(JsUtils $js){
+		$checkedMessageCall="";
+		if($this->_hasCheckedMessage){
+			$msg=$this->getCheckedMessage();
+			$checkedMessageFunction="function updateChecked(){var msg='".$msg[0]."',count=\$('#{$this->identifier} [name=\"selection[]\"]:checked').length,all=\$('#{$this->identifier} [name=\"selection[]\"]').length;
+			if(count==1) msg='".$msg[1]."';
+						else if(count>1) msg='".$msg["other"]."';
+						\$('#checked-count-".$this->identifier."').contents().filter(function() {return this.nodeType == 3;}).each(function(){this.textContent = msg.replace('{count}',count);});
+								\$('#toolbar-{$this->identifier} .visibleOnChecked').toggle(count>0);}\$('#toolbar-".$this->identifier." .visibleOnChecked').hide();";
+			$checkedMessageCall="updateChecked();";
+			$js->exec($checkedMessageFunction,true);
+		}
+		$js->execOn("change", "#".$this->identifier." [name='selection[]']", "
+				var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
+				\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
+				if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');};".$checkedMessageCall);
 	}
 
 	protected function _generateBehavior($op,JsUtils $js){
@@ -114,8 +132,11 @@ class DataTable extends Widget {
 
 	private function _generateMainCheckbox(&$captions){
 		$ck=new HtmlCheckbox("main-ck-".$this->identifier,"");
-		$ck->setOnChecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',true);");
-		$ck->setOnUnchecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',false);");
+		$checkedMessageCall="";
+		if($this->_hasCheckedMessage)
+			$checkedMessageCall="updateChecked();";
+		$ck->setOnChecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',true);".$checkedMessageCall);
+		$ck->setOnUnchecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',false);".$checkedMessageCall);
 		\array_unshift($captions, $ck);
 	}
 
@@ -437,5 +458,39 @@ class DataTable extends Widget {
 		$this->_targetSelector=$_targetSelector;
 		return $this;
 	}
+
+	protected function getCheckedMessage() {
+		$result= $this->_checkedMessage;
+		if(!isset($result)){
+			$result=[0=>"none selected",1=>"one item selected","other"=>"{count} items selected"];
+		}
+		return $result;
+	}
+
+	/**
+	 * Defines the message displayed when checkboxes are checked or unchecked
+	 * with an associative array 0=>no selection,1=>one item selected, other=>{count} items selected
+	 * @param array $_checkedMessage
+	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 */
+	public function setCheckedMessage(array $_checkedMessage) {
+		$this->_checkedMessage=$_checkedMessage;
+		return $this;
+	}
+
+	/**
+	 * @param array $checkedMessage
+	 * @param callable $callback
+	 */
+	public function addCountCheckedInToolbar(array $checkedMessage=null,$callback=null){
+		if(isset($checkedMessage))
+			$this->_checkedMessage=$checkedMessage;
+		$checkedMessage=$this->getCheckedMessage();
+		$this->_hasCheckboxes=true;
+		$this->_hasCheckedMessage=true;
+		$element=new HtmlLabel("checked-count-".$this->identifier,$checkedMessage[0]);
+		$this->addInToolbar($element,$callback);
+	}
+
 
 }

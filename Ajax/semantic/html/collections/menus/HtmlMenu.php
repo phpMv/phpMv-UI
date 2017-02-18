@@ -17,6 +17,7 @@ use Ajax\semantic\html\base\traits\AttachedTrait;
 use Ajax\semantic\html\content\HtmlMenuItem;
 use Ajax\JsUtils;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
+use Ajax\semantic\html\elements\HtmlLabel;
 
 /**
  * Semantic Menu component
@@ -51,7 +52,7 @@ class HtmlMenu extends HtmlSemCollection {
 	}
 
 	private function getItemToInsert($item) {
-		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButtonGroups || $item instanceof HtmlButton ) {
+		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButtonGroups || $item instanceof HtmlButton || $item instanceof HtmlLabel) {
 			$itemO=new HtmlMenuItem("item-" . $this->identifier . "-" . \sizeof($this->content) , $item);
 			$item=$itemO;
 		}

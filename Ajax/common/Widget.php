@@ -235,12 +235,13 @@ abstract class Widget extends HtmlDoubleElement {
 	}
 
 	/**
-	 * @param unknown $caption
+	 * @param string $caption
+	 * @param string $cssStyle
 	 * @param callable $callback function($element)
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
-	public function addButtonInToolbar($caption,$callback=NULL){
-		$bt=new HtmlButton("bt-".$caption,$caption);
+	public function addButtonInToolbar($caption,$cssStyle=null,$callback=NULL){
+		$bt=new HtmlButton("bt-".$caption,$caption,$cssStyle);
 		return $this->addInToolbar($bt,$callback);
 	}
 
