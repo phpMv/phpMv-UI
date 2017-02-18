@@ -13,12 +13,13 @@ trait BaseHtmlPropertiesTrait{
 	protected $properties=array ();
 	abstract protected function ctrl($name, $value, $typeCtrl);
 	abstract protected function removeOldValues(&$oldValue, $allValues);
+	abstract protected function _getElementBy($callback,$elements);
 	public function getProperties() {
 		return $this->properties;
 	}
 
 	/**
-	 * @param array|string $properties
+	 * @param array $properties
 	 * @return BaseHtml
 	 */
 	public function setProperties($properties) {
@@ -109,20 +110,6 @@ trait BaseHtmlPropertiesTrait{
 	}
 
 	protected function getElementByPropertyValue($propertyName,$value, $elements) {
-		if (\is_array($elements)) {
-			$flag=false;
-			$index=0;
-			while ( !$flag && $index < sizeof($elements) ) {
-				if ($elements[$index] instanceof BaseHtml)
-					$flag=($elements[$index]->propertyContains($propertyName, $value) === true);
-					$index++;
-			}
-			if ($flag === true)
-				return $elements[$index - 1];
-		} elseif ($elements instanceof BaseHtml) {
-			if ($elements->propertyContains($propertyName, $value) === true)
-				return $elements;
-		}
-		return null;
+		return $this->_getElementBy(function($element) use ($propertyName,$value){return $element->propertyContains($propertyName, $value) === true;}, $elements);
 	}
 }

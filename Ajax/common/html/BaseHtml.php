@@ -176,18 +176,22 @@ abstract class BaseHtml extends BaseWidget {
 
 
 	public function getElementById($identifier, $elements) {
+		return $this->_getElementBy(function($element) use ($identifier){return $element->getIdentifier()===$identifier;}, $elements);
+	}
+
+	protected function _getElementBy($callback,$elements){
 		if (\is_array($elements)) {
 			$flag=false;
 			$index=0;
 			while ( !$flag && $index < sizeof($elements) ) {
 				if ($elements[$index] instanceof BaseHtml)
-					$flag=($elements[$index]->getIdentifier() === $identifier);
-				$index++;
+					$flag=($callback($elements[$index]));
+					$index++;
 			}
 			if ($flag === true)
 				return $elements[$index - 1];
 		} elseif ($elements instanceof BaseHtml) {
-			if ($elements->getIdentifier() === $identifier)
+			if ($callback($elements))
 				return $elements;
 		}
 		return null;
