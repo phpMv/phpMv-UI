@@ -7,6 +7,7 @@ use Ajax\service\JString;
 use Ajax\common\components\SimpleExtComponent;
 use Ajax\JsUtils;
 use Ajax\common\html\traits\BaseHtmlEventsTrait;
+use Ajax\common\html\traits\BaseHtmlPropertiesTrait;
 
 /**
  * BaseHtml for HTML components
@@ -14,10 +15,9 @@ use Ajax\common\html\traits\BaseHtmlEventsTrait;
  * @version 1.2
  */
 abstract class BaseHtml extends BaseWidget {
-	use BaseHtmlEventsTrait;
+	use BaseHtmlEventsTrait,BaseHtmlPropertiesTrait;
 	protected $_template;
 	protected $tagName;
-	protected $properties=array ();
 	protected $_wrapBefore=array ();
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
@@ -33,47 +33,6 @@ abstract class BaseHtml extends BaseWidget {
 
 	protected function getTemplate(JsUtils $js=NULL) {
 		return PropertyWrapper::wrap($this->_wrapBefore, $js) . $this->_template . PropertyWrapper::wrap($this->_wrapAfter, $js);
-	}
-
-	public function getProperties() {
-		return $this->properties;
-	}
-
-	public function setProperties($properties) {
-		$this->properties=$properties;
-		return $this;
-	}
-
-	public function setProperty($name, $value) {
-		$this->properties[$name]=$value;
-		return $this;
-	}
-
-	public function getProperty($name) {
-		if (array_key_exists($name, $this->properties))
-			return $this->properties[$name];
-	}
-
-	public function addToProperty($name, $value, $separator=" ") {
-		if (\is_array($value)) {
-			foreach ( $value as $v ) {
-				$this->addToProperty($name, $v, $separator);
-			}
-		} else if ($value !== "" && $this->propertyContains($name, $value) === false) {
-			$v=@$this->properties[$name];
-			if (isset($v) && $v !== "")
-				$v=$v . $separator . $value;
-			else
-				$v=$value;
-
-			return $this->setProperty($name, $v);
-		}
-		return $this;
-	}
-
-	public function addProperties($properties) {
-		$this->properties=array_merge($this->properties, $properties);
-		return $this;
 	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
@@ -110,19 +69,7 @@ abstract class BaseHtml extends BaseWidget {
 		return true;
 	}
 
-	public function propertyContains($propertyName, $value) {
-		$values=$this->getProperty($propertyName);
-		if (isset($values)) {
-			return JString::contains($values, $value);
-		}
-		return false;
-	}
 
-	protected function setPropertyCtrl($name, $value, $typeCtrl) {
-		if ($this->ctrl($name, $value, $typeCtrl) === true)
-			return $this->setProperty($name, $value);
-		return $this;
-	}
 
 	protected function setMemberCtrl(&$name, $value, $typeCtrl) {
 		if ($this->ctrl($name, $value, $typeCtrl) === true) {
@@ -139,21 +86,7 @@ abstract class BaseHtml extends BaseWidget {
 		return $this;
 	}
 
-	protected function removePropertyValue($name, $value) {
-		$this->properties[$name]=\str_replace($value, "", $this->properties[$name]);
-		return $this;
-	}
 
-	protected function removePropertyValues($name, $values) {
-		$this->removeOldValues($this->properties[$name], $values);
-		return $this;
-	}
-
-	public function removeProperty($name) {
-		if (\array_key_exists($name, $this->properties))
-			unset($this->properties[$name]);
-		return $this;
-	}
 
 	protected function addToMemberCtrl(&$name, $value, $typeCtrl, $separator=" ") {
 		if ($this->ctrl($name, $value, $typeCtrl) === true) {
@@ -170,25 +103,7 @@ abstract class BaseHtml extends BaseWidget {
 		return $this;
 	}
 
-	protected function addToPropertyUnique($name, $value, $typeCtrl) {
-		if (@class_exists($typeCtrl, true))
-			$typeCtrl=$typeCtrl::getConstants();
-		if (\is_array($typeCtrl)) {
-			$this->removeOldValues($this->properties[$name], $typeCtrl);
-		}
-		return $this->addToProperty($name, $value);
-	}
 
-	public function addToPropertyCtrl($name, $value, $typeCtrl) {
-		return $this->addToPropertyUnique($name, $value, $typeCtrl);
-	}
-
-	public function addToPropertyCtrlCheck($name, $value, $typeCtrl) {
-		if ($this->ctrl($name, $value, $typeCtrl) === true) {
-			return $this->addToProperty($name, $value);
-		}
-		return $this;
-	}
 
 	protected function removeOldValues(&$oldValue, $allValues) {
 		$oldValue=str_ireplace($allValues, "", $oldValue);
@@ -273,24 +188,6 @@ abstract class BaseHtml extends BaseWidget {
 				return $elements[$index - 1];
 		} elseif ($elements instanceof BaseHtml) {
 			if ($elements->getIdentifier() === $identifier)
-				return $elements;
-		}
-		return null;
-	}
-
-	protected function getElementByPropertyValue($propertyName,$value, $elements) {
-		if (\is_array($elements)) {
-			$flag=false;
-			$index=0;
-			while ( !$flag && $index < sizeof($elements) ) {
-				if ($elements[$index] instanceof BaseHtml)
-					$flag=($elements[$index]->propertyContains($propertyName, $value) === true);
-					$index++;
-			}
-			if ($flag === true)
-				return $elements[$index - 1];
-		} elseif ($elements instanceof BaseHtml) {
-			if ($elements->propertyContains($propertyName, $value) === true)
 				return $elements;
 		}
 		return null;
