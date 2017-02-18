@@ -2,6 +2,7 @@
 namespace Ajax\semantic\widgets\datatable;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\widgets\base\InstanceViewer;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * @author jc
@@ -59,6 +60,30 @@ trait DataTableFieldAsTrait{
 		if($visibleHover)
 			$this->_visibleOver($bt);
 			return $bt;
+	}
+
+	/**
+	 * Creates a submit button at $index position
+	 * @param int $index
+	 * @param string $cssStyle
+	 * @param string $url
+	 * @param string $responseElement
+	 * @param array $attributes associative array (<b>ajax</b> key is for ajax post)
+	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 */
+	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index,$attributes){
+			$button=new HtmlButton($id,$value,$cssStyle);
+			$button->postOnClick($url,"$(event.target).closest('tr').find(':input').serialize()",$responseElement,$attributes["ajax"]);
+			if(!isset($attributes["visibleHover"]) || $attributes["visibleHover"])
+				$this->_visibleOver($button);
+				return $button;
+		}, $index,$attributes);
+	}
+
+	protected function _visibleOver($element){
+		$this->_visibleHover=true;
+		return $element->addToProperty("class", "visibleover")->setProperty("style","visibility:hidden;");
 	}
 
 	/**
