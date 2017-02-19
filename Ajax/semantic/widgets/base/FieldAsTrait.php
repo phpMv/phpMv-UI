@@ -164,8 +164,8 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsTextarea($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value){
-			$textarea=new HtmlFormTextarea($id,null,$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			$textarea=new HtmlFormTextarea($id,$caption,$value);
 			$textarea->setName($name);
 			return $textarea;
 		}, $index,$attributes,"textarea");
@@ -180,8 +180,8 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsCheckbox($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value){
-			$input=new HtmlFormCheckbox($id,NULL,$this->_instanceViewer->getIdentifier());
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			$input=new HtmlFormCheckbox($id,$caption,$this->_instanceViewer->getIdentifier());
 			$input->setChecked(JString::isBooleanTrue($value));
 			$input->setName($name);
 			return $input;
@@ -189,8 +189,8 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value) use($elements,$multiple){
-			$dd=new HtmlFormDropdown($id,$elements,NULL,$value);
+		return $this->_fieldAs(function($id,$name,$value,$caption) use($elements,$multiple){
+			$dd=new HtmlFormDropdown($id,$elements,$caption,$value);
 			$dd->asSelect($name,$multiple);
 			return $dd;
 		}, $index,$attributes,"dd");
@@ -238,8 +238,15 @@ trait FieldAsTrait{
 	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$attributes){
 			$button=new HtmlButton($id,$value,$cssStyle);
-			$this->_buttonAsSubmit($button,"click",$url,$responseElement,$attributes["ajax"]);
+			$this->_buttonAsSubmit($button,"click",$url,$responseElement,@$attributes["ajax"]);
 			return $button;
 		}, $index,$attributes,"submit");
+	}
+
+	public function fieldAsButton($index,$cssStyle=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($cssStyle){
+			$button=new HtmlButton($id,$value,$cssStyle);
+			return $button;
+		}, $index,$attributes,"button");
 	}
 }

@@ -84,7 +84,7 @@ trait FormTrait{
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
 			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');");
-			$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url];
+			$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url,"stopPropagation"=>true];
 			if(\is_array($parameters))
 				$params=\array_merge($params,$parameters);
 			$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", $params));

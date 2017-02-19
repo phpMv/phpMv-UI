@@ -54,6 +54,7 @@ class Jquery {
 				$this->params[$key]=$params[$key];
 		}
 		$this->jsUtils=$jsUtils;
+		$this->setAjaxDataCall();
 	}
 
 	/**

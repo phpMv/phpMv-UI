@@ -35,7 +35,7 @@ class FormInstanceViewer extends InstanceViewer {
 	public function addSeparatorAfter($fieldNum){
 		if(\array_search($fieldNum, $this->separators)===false)
 			$this->separators[]=$fieldNum;
-			return $this;
+		return $this;
 	}
 
 	public function getSeparators() {

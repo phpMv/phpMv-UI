@@ -4,15 +4,17 @@ namespace Ajax\common\traits;
 
 use Ajax\service\JString;
 use Ajax\service\Javascript;
+use Ajax\service\JQueryAjaxEffect;
 
 
 /**
  * @author jc
  * @property array $jquery_code_for_compile
  * @property Ajax\JsUtils $jsUtils
+ * @property array $params
  */
 trait JqueryAjaxTrait {
-
+	protected $ajaxDataCall;
 	protected $ajaxLoader='<span></span><span></span><span></span><span></span><span></span>';
 
 	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
@@ -51,9 +53,15 @@ trait JqueryAjaxTrait {
 			return $retour;
 	}
 
+	protected function setAjaxDataCall(){
+		$this->ajaxDataCall=function ($responseElement,$jqueryDone="html"){
+			return JQueryAjaxEffect::{$this->params["ajaxEffect"]}($responseElement,$jqueryDone);
+		};
+	}
+
 	protected function _getAjaxUrl($url,$attr){
 		$url=$this->_correctAjaxUrl($url);
-		$retour="url='".$url."';\n";
+		$retour="url='".$url."';";
 		$slash="/";
 		if(JString::endswith($url, "/")===true)
 			$slash="";
@@ -69,9 +77,9 @@ trait JqueryAjaxTrait {
 	}
 
 	protected function _getOnAjaxDone($responseElement,$jqueryDone,$jsCallback){
-		$retour="";
+		$retour="";$call=$this->ajaxDataCall;
 		if ($responseElement!=="") {
-			$retour="\t$({$responseElement}).{$jqueryDone}( data );\n";
+			$retour=$call($responseElement,$jqueryDone);
 		}
 		$retour.="\t".$jsCallback."\n";
 		return $retour;

@@ -8,7 +8,6 @@ use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Style;
 use Ajax\semantic\html\base\traits\AttachedTrait;
-use Ajax\common\html\HtmlDoubleElement;
 /**
  * Semantic Message component
  * @see http://semantic-ui.com/collections/message.html

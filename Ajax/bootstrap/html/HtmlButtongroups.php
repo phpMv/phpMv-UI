@@ -81,7 +81,7 @@ class HtmlButtongroups extends HtmlBsDoubleElement {
 		return $result;
 	}
 
-	private function _addArrayElement(array $element,int $iid){
+	private function _addArrayElement(array $element,$iid){
 		if (array_key_exists("glyph", $element))
 			$bt=new HtmlGlyphButton($this->identifier."-button-".$iid);
 		elseif (array_key_exists("btnCaption", $element)) {
@@ -91,9 +91,10 @@ class HtmlButtongroups extends HtmlBsDoubleElement {
 				$bt=new HtmlDropdown($this->identifier."-dropdown-".$iid);
 				$this->dropdownAsButton($bt);
 			}
-		} else
+		} else{
 			$bt=new HtmlButton($this->identifier."-button-".$iid);
-		$bt->fromArray($element);
+			$bt->fromArray($element);
+		}
 		return $bt;
 	}
 

@@ -22,6 +22,13 @@ abstract class BaseHtml extends BaseWidget {
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
 
+	/**
+	 *
+	 * @param JsUtils $js
+	 * @return SimpleExtComponent
+	 */
+	abstract public function run(JsUtils $js);
+
 	private function _callSetter($setter,$key,$value,&$array){
 		$result=false;
 		if (method_exists($this, $setter) && !JString::startswith($key, "_")) {
@@ -121,13 +128,6 @@ abstract class BaseHtml extends BaseWidget {
 		$this->_wrapAfter=$wrapAfter;
 		return $this;
 	}
-
-	/**
-	 *
-	 * @param JsUtils $js
-	 * @return SimpleExtComponent
-	 */
-	abstract public function run(JsUtils $js);
 
 	public function getTagName() {
 		return $this->tagName;

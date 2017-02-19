@@ -167,7 +167,8 @@ abstract class JsUtils{
 		$defaults=array (
 				'driver' => 'Jquery',
 				'debug' => true,
-				'defer' => false
+				'defer' => false,
+				'ajaxEffect'=>'fade'
 		);
 		foreach ( $defaults as $key => $val ) {
 			if (isset($params[$key])===false || $params[$key]==="") {

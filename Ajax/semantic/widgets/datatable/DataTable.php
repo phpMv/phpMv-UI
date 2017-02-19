@@ -77,7 +77,7 @@ class DataTable extends Widget {
 
 	protected function _generateBehavior($op,JsUtils $js){
 		if(isset($this->_urls[$op]))
-			$js->getOnClick("#".$this->identifier." .".$op, $this->_urls[$op],$this->getTargetSelector(),["preventDefault"=>false,"attr"=>"data-ajax"]);
+			$js->getOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector(),["attr"=>"data-ajax"]);
 	}
 
 	/**

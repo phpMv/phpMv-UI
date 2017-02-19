@@ -138,7 +138,7 @@ trait DataTableFieldAsTrait{
 		$bt->asIcon($icon);
 		if(isset($class))
 			$bt->addClass($class);
-			return $bt;
+		return $bt;
 	}
 
 	/**
@@ -149,12 +149,12 @@ trait DataTableFieldAsTrait{
 	 */
 	public function addDeleteButton($visibleHover=true,$generateBehavior=true,$callback=null){
 		$this->_hasDelete=$generateBehavior;
-		return $this->addDefaultButton("remove","delete red basic",$visibleHover,$callback);
+		return $this->addDefaultButton("remove","_delete red basic",$visibleHover,$callback);
 	}
 
 	public function addEditButton($visibleHover=true,$generateBehavior=true,$callback=null){
 		$this->_hasEdit=$generateBehavior;
-		return $this->addDefaultButton("edit","edit basic",$visibleHover,$callback);
+		return $this->addDefaultButton("edit","_edit basic",$visibleHover,$callback);
 	}
 
 	public function addEditDeleteButtons($visibleHover=true,$generateBehavior=true,$callbackEdit=null,$callbackDelete=null){
@@ -166,11 +166,11 @@ trait DataTableFieldAsTrait{
 
 	public function insertDeleteButtonIn($index,$visibleHover=true,$generateBehavior=true,$callback=null){
 		$this->_hasDelete=$generateBehavior;
-		return $this->insertDefaultButtonIn($index,"remove","delete red basic",$visibleHover,$callback);
+		return $this->insertDefaultButtonIn($index,"remove","_delete red basic",$visibleHover,$callback);
 	}
 
 	public function insertEditButtonIn($index,$visibleHover=true,$generateBehavior=true,$callback=null){
 		$this->_hasEdit=$generateBehavior;
-		return $this->insertDefaultButtonIn($index,"edit","edit basic",$visibleHover,$callback);
+		return $this->insertDefaultButtonIn($index,"edit","_edit basic",$visibleHover,$callback);
 	}
 }

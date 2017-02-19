@@ -63,7 +63,6 @@ class DataForm extends Widget {
 					$form->addField($fields[0]);
 				}elseif(\sizeof($fields)>1){
 					$form->addFields($fields);
-					$i+=\sizeof($fields)-1;
 				}
 			}
 		}
