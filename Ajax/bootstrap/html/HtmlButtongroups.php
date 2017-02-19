@@ -71,30 +71,30 @@ class HtmlButtongroups extends HtmlBsDoubleElement {
 		$iid=sizeof($this->elements)+1;
 		if (($element instanceof HtmlDropdown)||($element instanceof HtmlSplitbutton)) {
 			$this->addExistingDropDown($element);
-			$this->elements[]=$element;
-		} elseif ($element instanceof HtmlButton) {
-			$this->elements[]=$element;
 		} elseif (\is_array($element)) {
-			if (array_key_exists("glyph", $element))
-				$bt=new HtmlGlyphButton($this->identifier."-button-".$iid);
-			elseif (array_key_exists("btnCaption", $element)) {
-				if (array_key_exists("split", $element))
-					$bt=new HtmlSplitbutton($this->identifier."-dropdown-".$iid);
-				else
-					$bt=new HtmlDropdown($this->identifier."-dropdown-".$iid);
-				$this->dropdownAsButton($bt);
-			} else
-				$bt=new HtmlButton($this->identifier."-button-".$iid);
-			$bt->fromArray($element);
-			$this->elements[]=$bt;
-			$result=$bt;
+			$result=$this->_addArrayElement($element,$iid);
 		} elseif (is_string($element)) {
-			$bt=new HtmlButton($this->identifier."-button-".$iid);
-			$bt->setValue($element);
-			$this->elements[]=$bt;
-			$result=$bt;
+			$result=new HtmlButton($this->identifier."-button-".$iid,$element);
 		}
+		if($result instanceof HtmlButton)
+			$this->elements[]=$result;
 		return $result;
+	}
+
+	private function _addArrayElement(array $element,int $iid){
+		if (array_key_exists("glyph", $element))
+			$bt=new HtmlGlyphButton($this->identifier."-button-".$iid);
+		elseif (array_key_exists("btnCaption", $element)) {
+			if (array_key_exists("split", $element))
+				$bt=new HtmlSplitbutton($this->identifier."-dropdown-".$iid);
+			else{
+				$bt=new HtmlDropdown($this->identifier."-dropdown-".$iid);
+				$this->dropdownAsButton($bt);
+			}
+		} else
+			$bt=new HtmlButton($this->identifier."-button-".$iid);
+		$bt->fromArray($element);
+		return $bt;
 	}
 
 	public function addElements($elements) {
