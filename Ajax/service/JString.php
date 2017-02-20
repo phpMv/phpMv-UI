@@ -31,4 +31,8 @@ class JString {
 	public static function isBooleanFalse($value){
 		return $value==0 || !$value;
 	}
+
+	public static function camelCaseToSeparated($input,$separator=" "){
+		return strtolower(preg_replace('/(?<!^)[A-Z]/', $separator.'$0', $input));
+	}
 }

@@ -55,7 +55,7 @@ trait JqueryAjaxTrait {
 
 	protected function setAjaxDataCall($params){
 		$result=null;
-		if(!\is_callable($params) && \method_exists("Ajax\service\AjaxTransition",$params)){
+		if(!\is_callable($params)){
 			$result=function ($responseElement,$jqueryDone="html") use($params){
 				return AjaxTransition::{$params}($responseElement,$jqueryDone);
 			};

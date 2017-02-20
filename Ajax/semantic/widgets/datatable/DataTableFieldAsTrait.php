@@ -143,7 +143,7 @@ trait DataTableFieldAsTrait{
 
 	/**
 	 * @param boolean $visibleHover
-	 * @param boolean $generateBehavior
+	 * @param array $deleteBehavior
 	 * @param callable $callback
 	 * @return \Ajax\semantic\widgets\datatable\DataTableFieldAsTrait
 	 */
@@ -164,7 +164,7 @@ trait DataTableFieldAsTrait{
 		return $this;
 	}
 
-	public function insertDeleteButtonIn($index,$visibleHover=true,$deleteBehavior=true,$callback=null){
+	public function insertDeleteButtonIn($index,$visibleHover=true,$deleteBehavior=[],$callback=null){
 		$this->_deleteBehavior=$deleteBehavior;
 		return $this->insertDefaultButtonIn($index,"remove","_delete red basic",$visibleHover,$callback);
 	}
