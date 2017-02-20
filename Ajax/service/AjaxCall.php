@@ -24,6 +24,7 @@ class AjaxCall {
 		$stopPropagation=true;
 		$preventDefault=true;
 		$jqueryDone="html";
+		$ajaxTransition=null;
 		$hasLoader=true;
 		extract($this->parameters);
 		if ($preventDefault===true) {
@@ -34,13 +35,13 @@ class AjaxCall {
 		}
 		switch($this->method) {
 			case "get":
-				$result.=$js->getDeferred($url, $responseElement, $params, $callback, $attr,$jqueryDone);
+				$result.=$js->getDeferred($url, $responseElement, $params, $callback, $attr,$jqueryDone,$ajaxTransition);
 				break;
 			case "post":
-				$result.=$js->postDeferred($url, $responseElement, $params, $callback, $attr,$hasLoader,$jqueryDone);
+				$result.=$js->postDeferred($url, $responseElement, $params, $callback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
 				break;
 			case "postForm":
-				$result.=$js->postFormDeferred($url, $form, $responseElement, $validation, $callback, $attr,$hasLoader,$jqueryDone);
+				$result.=$js->postFormDeferred($url, $form, $responseElement, $validation, $callback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
 				break;
 		}
 		return $result;

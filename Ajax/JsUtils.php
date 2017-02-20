@@ -24,6 +24,9 @@ use Ajax\common\traits\JsUtilsAjaxTrait;
 abstract class JsUtils{
 	use JsUtilsEventsTrait,JsUtilsActionsTrait,JsUtilsAjaxTrait;
 
+	/**
+	 * @var Jquery
+	 */
 	protected $js;
 	protected $cdns;
 	protected $params;
@@ -164,12 +167,7 @@ abstract class JsUtils{
 	}
 
 	public function __construct($params=array(),$injected=NULL) {
-		$defaults=array (
-				'driver' => 'Jquery',
-				'debug' => true,
-				'defer' => false,
-				'ajaxEffect'=>'fade'
-		);
+		$defaults=['driver'=>'Jquery','debug'=>true,'defer'=>false,'ajaxTransition'=>null];
 		foreach ( $defaults as $key => $val ) {
 			if (isset($params[$key])===false || $params[$key]==="") {
 				$params[$key]=$defaults[$key];

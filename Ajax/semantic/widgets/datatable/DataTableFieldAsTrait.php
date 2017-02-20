@@ -6,8 +6,8 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * @author jc
- * @property boolean $_hasDelete
- * @property boolean $_hasEdit
+ * @property array $_deleteBehavior
+ * @property array $_editBehavior
  * @property boolean $_visibleHover
  * @property InstanceViewer $_instanceViewer
  */
@@ -147,30 +147,30 @@ trait DataTableFieldAsTrait{
 	 * @param callable $callback
 	 * @return \Ajax\semantic\widgets\datatable\DataTableFieldAsTrait
 	 */
-	public function addDeleteButton($visibleHover=true,$generateBehavior=true,$callback=null){
-		$this->_hasDelete=$generateBehavior;
+	public function addDeleteButton($visibleHover=true,$deleteBehavior=[],$callback=null){
+		$this->_deleteBehavior=$deleteBehavior;
 		return $this->addDefaultButton("remove","_delete red basic",$visibleHover,$callback);
 	}
 
-	public function addEditButton($visibleHover=true,$generateBehavior=true,$callback=null){
-		$this->_hasEdit=$generateBehavior;
+	public function addEditButton($visibleHover=true,$editBehavior=[],$callback=null){
+		$this->_editBehavior=$editBehavior;
 		return $this->addDefaultButton("edit","_edit basic",$visibleHover,$callback);
 	}
 
-	public function addEditDeleteButtons($visibleHover=true,$generateBehavior=true,$callbackEdit=null,$callbackDelete=null){
-		$this->addEditButton($visibleHover,$generateBehavior,$callbackEdit);
+	public function addEditDeleteButtons($visibleHover=true,$behavior=[],$callbackEdit=null,$callbackDelete=null){
+		$this->addEditButton($visibleHover,$behavior,$callbackEdit);
 		$index=$this->_instanceViewer->visiblePropertiesCount()-1;
-		$this->insertDeleteButtonIn($index,$visibleHover,$generateBehavior,$callbackDelete);
+		$this->insertDeleteButtonIn($index,$visibleHover,$behavior,$callbackDelete);
 		return $this;
 	}
 
-	public function insertDeleteButtonIn($index,$visibleHover=true,$generateBehavior=true,$callback=null){
-		$this->_hasDelete=$generateBehavior;
+	public function insertDeleteButtonIn($index,$visibleHover=true,$deleteBehavior=true,$callback=null){
+		$this->_deleteBehavior=$deleteBehavior;
 		return $this->insertDefaultButtonIn($index,"remove","_delete red basic",$visibleHover,$callback);
 	}
 
-	public function insertEditButtonIn($index,$visibleHover=true,$generateBehavior=true,$callback=null){
-		$this->_hasEdit=$generateBehavior;
+	public function insertEditButtonIn($index,$visibleHover=true,$editBehavior=[],$callback=null){
+		$this->_editBehavior=$editBehavior;
 		return $this->insertDefaultButtonIn($index,"edit","_edit basic",$visibleHover,$callback);
 	}
 }

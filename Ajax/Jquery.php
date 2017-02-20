@@ -54,7 +54,8 @@ class Jquery {
 				$this->params[$key]=$params[$key];
 		}
 		$this->jsUtils=$jsUtils;
-		$this->setAjaxDataCall();
+		if(isset($params["ajaxTransition"]))
+			$this->ajaxTransition=$this->setAjaxDataCall($params["ajaxTransition"]);
 	}
 
 	/**

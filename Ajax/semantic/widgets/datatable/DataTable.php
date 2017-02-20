@@ -8,7 +8,6 @@ use Ajax\semantic\html\collections\table\HtmlTable;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\collections\menus\HtmlPaginationMenu;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
-use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\InstanceViewer;
@@ -29,8 +28,8 @@ class DataTable extends Widget {
 	protected $_pagination;
 	protected $_hasCheckboxes;
 	protected $_compileParts;
-	protected $_hasDelete=false;
-	protected $_hasEdit=false;
+	protected $_deleteBehavior;
+	protected $_editBehavior;
 	protected $_visibleHover=false;
 	protected $_hasCheckedMessage=false;
 	protected $_targetSelector;
@@ -50,10 +49,10 @@ class DataTable extends Widget {
 			$js->execOn("mouseover", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'visible');",["preventDefault"=>false,"stopPropagation"=>true]);
 			$js->execOn("mouseout", "#".$this->identifier." tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'hidden');",["preventDefault"=>false,"stopPropagation"=>true]);
 		}
-		if($this->_hasDelete)
-			$this->_generateBehavior("delete", $js);
-		if($this->_hasEdit)
-			$this->_generateBehavior("edit", $js);
+		if(\is_array($this->_deleteBehavior))
+			$this->_generateBehavior("delete",$this->_deleteBehavior, $js);
+		if(\is_array($this->_editBehavior))
+			$this->_generateBehavior("edit",$this->_editBehavior,$js);
 		return parent::run($js);
 	}
 
@@ -75,9 +74,11 @@ class DataTable extends Widget {
 				if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');};".$checkedMessageCall);
 	}
 
-	protected function _generateBehavior($op,JsUtils $js){
-		if(isset($this->_urls[$op]))
-			$js->getOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector(),["attr"=>"data-ajax"]);
+	protected function _generateBehavior($op,$params,JsUtils $js){
+		if(isset($this->_urls[$op])){
+			$params=\array_merge($params,["attr"=>"data-ajax"]);
+			$js->getOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector(),$params);
+		}
 	}
 
 	/**
