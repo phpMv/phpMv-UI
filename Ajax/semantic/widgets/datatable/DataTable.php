@@ -34,6 +34,7 @@ class DataTable extends Widget {
 	protected $_hasCheckedMessage=false;
 	protected $_targetSelector;
 	protected $_checkedMessage;
+	protected $_checkedClass;
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier, $model,$modelInstance);
@@ -66,6 +67,9 @@ class DataTable extends Widget {
 						\$('#checked-count-".$this->identifier."').contents().filter(function() {return this.nodeType == 3;}).each(function(){this.textContent = msg.replace('{count}',count);});
 								\$('#toolbar-{$this->identifier} .visibleOnChecked').toggle(count>0);}\$('#toolbar-".$this->identifier." .visibleOnChecked').hide();";
 			$checkedMessageCall="updateChecked();";
+			if(isset($this->_checkedClass)){
+				$checkedMessageCall.="$(this).closest('tr').toggleClass('".$this->_checkedClass."',$(this).prop('checked'));";
+			}
 			$js->exec($checkedMessageFunction,true);
 		}
 		$js->execOn("change", "#".$this->identifier." [name='selection[]']", "
@@ -135,9 +139,18 @@ class DataTable extends Widget {
 		$checkedMessageCall="";
 		if($this->_hasCheckedMessage)
 			$checkedMessageCall="updateChecked();";
-		$ck->setOnChecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',true);".$checkedMessageCall);
-		$ck->setOnUnchecked("$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',false);".$checkedMessageCall);
+
+		$ck->setOnChecked($this->_setAllChecked("true").$checkedMessageCall);
+		$ck->setOnUnchecked($this->_setAllChecked("false").$checkedMessageCall);
 		\array_unshift($captions, $ck);
+	}
+
+	private function _setAllChecked($checked){
+		$result="$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',".$checked.");";
+		if(isset($this->_checkedClass)){
+			$result.="$('#".$this->identifier." tr').toggleClass('".$this->_checkedClass."',".$checked.");";
+		}
+		return $result;
 	}
 
 	protected function _generateContent($table){
@@ -344,5 +357,8 @@ class DataTable extends Widget {
 		$this->addInToolbar($element,$callback);
 	}
 
-
+	public function setCheckedClass($_checkedClass) {
+		$this->_checkedClass=$_checkedClass;
+		return $this;
+	}
 }

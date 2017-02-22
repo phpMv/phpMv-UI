@@ -18,6 +18,7 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\service\JArray;
 
 /**
+ * trait used in Widget
  * @author jc
  * @property InstanceViewer $_instanceViewer
  * @property boolean $_edition
@@ -29,7 +30,7 @@ trait FieldAsTrait{
 	abstract public function setValueFunction($index,$callback);
 	abstract protected function _getFieldName($index);
 	abstract protected function _getFieldCaption($index);
-	abstract protected function _buttonAsSubmit(&$button,$event,$url,$responseElement=NULL,$parameters=NULL);
+	abstract protected function _buttonAsSubmit(HtmlButton &$button,$event,$url,$responseElement=NULL,$parameters=NULL);
 
 	/**
 	 * @param HtmlFormField $element

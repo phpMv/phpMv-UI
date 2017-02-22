@@ -16,6 +16,7 @@ use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
+use Ajax\common\html\BaseWidget;
 
 abstract class Widget extends HtmlDoubleElement {
 	use FieldAsTrait,FormTrait;
@@ -181,6 +182,11 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	public function addInToolbar($element,$callback=NULL){
 		$tb=$this->getToolbar();
+		if($element instanceof BaseWidget){
+			if($element->getIdentifier()===""){
+				$element->setIdentifier("tb-item-".$this->identifier."-".$tb->count());
+			}
+		}
 		if(isset($callback)){
 			if(\is_callable($callback)){
 				$callback($element);

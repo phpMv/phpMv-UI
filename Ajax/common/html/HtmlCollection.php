@@ -4,6 +4,8 @@ namespace Ajax\common\html;
 
 use Ajax\common\html\HtmlDoubleElement;
 use Ajax\service\JArray;
+use Ajax\JsUtils;
+use Ajax\service\JReflection;
 
 /**
  * Base class for Html collections
@@ -45,6 +47,14 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 			$itemO=$this->createItem($item);
 		}
 		return $itemO;
+	}
+
+	protected function setItemIdentifier($item,$classname,$index){
+		if($item instanceof BaseWidget){
+			if($item->getIdentifier()===""){
+				$item->setIdentifier($classname."-".$this->identifier."-".$index);
+			}
+		}
 	}
 
 	/**
@@ -157,5 +167,14 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 			}
 		}
 		return $this;
+	}
+
+	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		$index=0;
+		$classname=\strtolower(JReflection::shortClassName($this));
+		foreach ($this->content as $item){
+			$this->setItemIdentifier($item,$classname,$index++);
+		}
+		return parent::compile($js,$view);
 	}
 }

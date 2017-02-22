@@ -88,7 +88,7 @@ class JsUtils extends \Ajax\JsUtils{
 			if ( ! file_exists($mod_path.'controllers/'.$path.$controller.'.php')){
 				continue;
 			}
-			if ($db_conn !== FALSE AND ! class_exists('CI_DB')){
+			if ($db_conn !== FALSE && ! class_exists('CI_DB')){
 				if ($db_conn === TRUE){
 					$db_conn = '';
 				}

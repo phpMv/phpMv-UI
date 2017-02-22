@@ -5,7 +5,13 @@ use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
+use Ajax\semantic\html\elements\HtmlButton;
 
+/**
+ * trait used in Widget and HtmlForm
+ * @author jc
+ *
+ */
 trait FormTrait{
 
 	/**
@@ -80,10 +86,10 @@ trait FormTrait{
 		return $this->_buttonAsSubmit($bt, "click",$url,$responseElement);
 	}
 
-	protected function _buttonAsSubmit(&$button,$event,$url,$responseElement=NULL,$parameters=NULL){
+	protected function _buttonAsSubmit(HtmlButton &$button,$event,$url,$responseElement=NULL,$parameters=NULL){
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
-			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');");
+			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');",true,true);
 			$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url,"stopPropagation"=>true];
 			if(\is_array($parameters))
 				$params=\array_merge($params,$parameters);

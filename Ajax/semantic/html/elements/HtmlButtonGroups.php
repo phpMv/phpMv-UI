@@ -21,7 +21,7 @@ class HtmlButtonGroups extends HtmlSemCollection {
 		$this->addElements($elements, $asIcons);
 	}
 	protected function createItem($value){
-		return new HtmlButton("button-" . $this->identifier . "-" . \sizeof($this->content), $value);
+		return new HtmlButton("", $value);
 	}
 
 
@@ -40,7 +40,7 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	}
 
 	public function insertOr($aferIndex=0, $or="or") {
-		$orElement=new HtmlSemDoubleElement("or-" . $this->identifier, "div", "or");
+		$orElement=new HtmlSemDoubleElement("", "div", "or");
 		$orElement->setProperty("data-text", $or);
 		array_splice($this->content, $aferIndex + 1, 0, array ($orElement ));
 		return $this;

@@ -5,6 +5,7 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
+ * trait used in DataTable
  * @author jc
  * @property array $_deleteBehavior
  * @property array $_editBehavior
@@ -145,7 +146,7 @@ trait DataTableFieldAsTrait{
 	 * @param boolean $visibleHover
 	 * @param array $deleteBehavior
 	 * @param callable $callback
-	 * @return \Ajax\semantic\widgets\datatable\DataTableFieldAsTrait
+	 * @return DataTable
 	 */
 	public function addDeleteButton($visibleHover=true,$deleteBehavior=[],$callback=null){
 		$this->_deleteBehavior=$deleteBehavior;
