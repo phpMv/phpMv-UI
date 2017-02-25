@@ -42,6 +42,22 @@ class FormInstanceViewer extends InstanceViewer {
 		return $this->separators;
 	}
 
+	public function removeSeparator($index){
+		\array_splice($this->separators,$index,1);
+	}
+
+	public function removeField($index){
+		parent::removeField($index);
+		$pos=\array_search($index, $this->separators);
+		if($pos!==false){
+			for($i=$pos+1;$i<\sizeof($this->separators);$i++){
+				$this->separators[$i]--;
+			}
+			\array_splice($this->separators, $pos, 1);
+		}
+		return $this;
+	}
+
 	public function setSeparators($separators) {
 		$this->separators=\array_merge([-1], $separators);
 		return $this;

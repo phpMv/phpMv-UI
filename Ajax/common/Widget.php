@@ -72,6 +72,14 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_edition=$edition;
 	}
 
+	/**
+	 * @param int|string $fieldName
+	 * @return int|string
+	 */
+	protected function _getIndex($fieldName){
+		return $fieldName;
+	}
+
 	protected function _getFieldIdentifier($prefix,$name=""){
 		return $this->identifier."-{$prefix}-".$this->_instanceViewer->getIdentifier();
 	}
@@ -114,6 +122,19 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->getHtmlComponent()->setAttached($value);
 	}
 
+	/**
+	 * Associates a $callback function after the compilation of the field at $index position
+	 * The $callback function can take the following arguments : $field=>the compiled field, $instance : the active instance of the object, $index: the field position
+	 * @param int $index postion of the compiled field
+	 * @param callable $callback function called after the field compilation
+	 * @return Widget
+	 */
+	public function afterCompile($index,$callback){
+		$index=$this->_getIndex($index);
+		$this->_instanceViewer->afterCompile($index, $callback);
+		return $this;
+	}
+
 	public function setColor($color){
 		return $this->getHtmlComponent()->setColor($color);
 	}
@@ -121,6 +142,11 @@ abstract class Widget extends HtmlDoubleElement {
 
 	public function setCaptions($captions){
 		$this->_instanceViewer->setCaptions($captions);
+		return $this;
+	}
+
+	public function setCaption($index,$caption){
+		$this->_instanceViewer->setCaption($this->_getIndex($index), $caption);
 		return $this;
 	}
 
@@ -145,16 +171,19 @@ abstract class Widget extends HtmlDoubleElement {
 	}
 
 	public function insertField($index,$field){
+		$index=$this->_getIndex($index);
 		$this->_instanceViewer->insertField($index, $field);
 		return $this;
 	}
 
 	public function insertInField($index,$field){
+		$index=$this->_getIndex($index);
 		$this->_instanceViewer->insertInField($index, $field);
 		return $this;
 	}
 
 	public function setValueFunction($index,$callback){
+		$index=$this->_getIndex($index);
 		$this->_instanceViewer->setValueFunction($index, $callback);
 		return $this;
 	}
@@ -378,6 +407,22 @@ abstract class Widget extends HtmlDoubleElement {
 
 	public function setValidationParams(array $_validationParams) {
 		$this->getForm()->setValidationParams($_validationParams);
+		return $this;
+	}
+
+	public function moveFieldTo($from,$to){
+		return $this->_instanceViewer->moveFieldTo($from, $to);
+	}
+
+	public function swapFields($index1,$index2){
+		$index1=$this->_getIndex($index1);
+		$index2=$this->_getIndex($index2);
+		return $this->_instanceViewer->swapFields($index1, $index2);
+	}
+
+	public function removeField($index){
+		$index=$this->_getIndex($index);
+		$this->_instanceViewer->removeField($index);
 		return $this;
 	}
 }

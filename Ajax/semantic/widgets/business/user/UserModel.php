@@ -1,0 +1,27 @@
+<?php
+
+namespace Ajax\semantic\widgets\business\user;
+
+class UserModel {
+	protected $login="abc";
+	protected $password="0000";
+
+	public function getLogin() {
+		return $this->login;
+	}
+
+	public function setLogin($login) {
+		$this->login=$login;
+		return $this;
+	}
+
+	public function getPassword() {
+		return $this->password;
+	}
+
+	public function setPassword($password) {
+		$this->password=$password;
+		return $this;
+	}
+
+}

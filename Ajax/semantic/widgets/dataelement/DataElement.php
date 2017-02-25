@@ -3,7 +3,6 @@
 namespace Ajax\semantic\widgets\dataelement;
 
 use Ajax\common\Widget;
-use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\JsUtils;
 use Ajax\service\JArray;
@@ -20,7 +19,7 @@ class DataElement extends Widget {
 
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
-		$this->_init(new InstanceViewer($identifier), "table", new HtmlTable($identifier, 0,2), false);
+		$this->_init(new DeInstanceViewer($identifier), "table", new HtmlTable($identifier, 0,2), false);
 		$this->content["table"]->setDefinition();
 	}
 
@@ -45,8 +44,8 @@ class DataElement extends Widget {
 	 * @param HtmlTable $table
 	 */
 	protected function _generateContent($table){
-		$captions=$this->_instanceViewer->getCaptions();
 		$values= $this->_instanceViewer->getValues();
+		$captions=$this->_instanceViewer->getCaptions();
 		$count=$this->_instanceViewer->count();
 		for($i=0;$i<$count;$i++){
 			$table->addRow([$captions[$i],$values[$i]]);
@@ -59,6 +58,10 @@ class DataElement extends Widget {
 
 	protected function _getFieldCaption($index){
 		return null;
+	}
+
+	protected function _getFieldIdentifier($prefix,$name=""){
+		return $this->identifier."-{$prefix}-".$name;
 	}
 
 	/**

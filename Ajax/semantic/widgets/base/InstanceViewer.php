@@ -1,6 +1,7 @@
 <?php
 namespace Ajax\semantic\widgets\base;
 use Ajax\service\JString;
+use Ajax\service\JArray;
 
 class InstanceViewer {
 	protected $widgetIdentifier;
@@ -26,6 +27,27 @@ class InstanceViewer {
 		$this->setCaptions($captions);
 		$this->captionCallback=NULL;
 		$this->defaultValueFunction=function($name,$value){return $value;};
+	}
+
+	public function moveFieldTo($from,$to){
+		if(JArray::moveElementTo($this->visibleProperties, $from, $to)){
+			return JArray::moveElementTo($this->values, $from, $to);
+		}
+		return false;
+	}
+
+	public function swapFields($index1,$index2){
+		if(JArray::swapElements($this->visibleProperties, $index1, $index2)){
+			return JArray::swapElements($this->values, $index1, $index2);
+		}
+		return false;
+	}
+
+	public function removeField($index){
+		\array_splice($this->visibleProperties,$index,1);
+		\array_splice($this->values,$index,1);
+		\array_splice($this->captions,$index,1);
+		return $this;
 	}
 
 	public function getValues(){
@@ -240,7 +262,7 @@ class InstanceViewer {
 
 	public function getCaptions(){
 		if(isset($this->captions)){
-			$captions= $this->captions;
+			$captions= \array_values($this->captions);
 			for($i=\sizeof($captions);$i<$this->count();$i++){
 				$captions[]="";
 			}
@@ -303,6 +325,4 @@ class InstanceViewer {
 		$this->defaultValueFunction=$defaultValueFunction;
 		return $this;
 	}
-
-
 }

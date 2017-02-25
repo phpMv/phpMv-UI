@@ -4,6 +4,7 @@ namespace Ajax\semantic\traits;
 use Ajax\semantic\widgets\datatable\DataTable;
 use Ajax\semantic\widgets\dataelement\DataElement;
 use Ajax\semantic\widgets\dataform\DataForm;
+use Ajax\semantic\widgets\business\user\FormLogin;
 
 trait SemanticWidgetsTrait {
 
@@ -35,5 +36,9 @@ trait SemanticWidgetsTrait {
 	 */
 	public function dataForm($identifier, $instance){
 		return $this->addHtmlComponent(new DataForm($identifier,$instance));
+	}
+
+	public function formLogin($identifier){
+		return $this->addHtmlComponent(new FormLogin($identifier));
 	}
 }

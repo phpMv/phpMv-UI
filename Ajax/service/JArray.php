@@ -75,6 +75,32 @@ class JArray {
 		return $newArray;
 	}
 
+	public static function moveElementTo(&$array, $from, $to) {
+		$result=false;
+		if(isset($array)){
+			if(isset($array[$from])){
+				$out = array_splice($array, $from, 1);
+				array_splice($array, $to, 0, $out);
+				$result=true;
+			}
+		}
+		return $result;
+	}
+
+	public static function swapElements(&$array,$index1,$index2){
+		$result=false;
+		if(isset($array)){
+			if(isset($array[$index1])&& isset($array[$index2])){
+				$tmp=$array[$index1];
+				$array[$index1]=$array[$index2];
+				$array[$index2]=$tmp;
+				$result=true;
+			}
+		}
+		return $result;
+	}
+
+
 	public static function modelArray($objects,$identifierFunction=NULL,$modelFunction=NULL){
 		$result=[];
 		if(isset($modelFunction)===false){

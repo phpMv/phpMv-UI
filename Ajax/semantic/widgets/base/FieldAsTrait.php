@@ -16,6 +16,7 @@ use Ajax\semantic\html\collections\form\HtmlFormFields;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\service\JArray;
+use Ajax\semantic\html\elements\html5\HtmlLink;
 
 /**
  * trait used in Widget
@@ -55,6 +56,7 @@ trait FieldAsTrait{
 		return $label;
 	}
 
+
 	protected function _addRules($element,&$attributes){
 		if(isset($attributes["rules"])){
 			$rules=$attributes["rules"];
@@ -74,8 +76,8 @@ trait FieldAsTrait{
 		return $field;
 	}
 
-	protected function _fieldAs($elementCallback,$index,$attributes=NULL,$prefix=null){
-		$this->setValueFunction($index,function($value) use ($index,&$attributes,$elementCallback,$prefix){
+	protected function _fieldAs($elementCallback,&$index,$attributes=NULL,$prefix=null){
+		$this->setValueFunction($index,function($value,$instance,$index) use (&$attributes,$elementCallback,$prefix){
 			$caption=$this->_getFieldCaption($index);
 			$name=$this->_getFieldName($index);
 			$id=$this->_getFieldIdentifier($prefix,$name);
@@ -199,14 +201,21 @@ trait FieldAsTrait{
 
 	public function fieldAsMessage($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption){
-			$mess= new HtmlMessage("message-".$id,$value);
-			$mess->addHeader($caption);
+			$mess= new HtmlMessage("message-".$id,$caption);
+			$mess->addHeader($value);
 			return $mess;
 		}, $index,$attributes,"message");
 	}
 
+	public function fieldAsLink($index,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption){
+			$lnk= new HtmlLink("message-".$id,"#",$caption);
+			return $lnk;
+		}, $index,$attributes,"link");
+	}
+
 	/**Change fields type
-	 * @param array $types an array or associative array $type=>$attribute
+	 * @param array $types an array or associative array $type=>$attributes
 	 */
 	public function fieldsAs(array $types){
 		$i=0;
@@ -214,8 +223,10 @@ trait FieldAsTrait{
 			foreach ($types as $type=>$attributes){
 				if(\is_int($type))
 					$this->fieldAs($i++,$attributes,[]);
-				else
-					$this->fieldAs($i++,$type,$attributes);
+				else{
+					$type=preg_replace('/\d/', '', $type );
+					$this->fieldAs($i++,$type,[$attributes]);
+				}
 			}
 		}else{
 			foreach ($types as $type){

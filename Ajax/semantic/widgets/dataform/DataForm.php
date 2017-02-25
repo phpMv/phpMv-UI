@@ -47,8 +47,8 @@ class DataForm extends Widget {
 	protected function _generateContent($form){
 		$values= $this->_instanceViewer->getValues();
 		$count=$this->_instanceViewer->count();
-
 		$separators=$this->_instanceViewer->getSeparators();
+		\sort($separators);
 		$size=\sizeof($separators);
 		if($size===1){
 			foreach ($values as $v){
@@ -77,6 +77,7 @@ class DataForm extends Widget {
 	}
 
 	public function addSeparatorAfter($fieldNum){
+		$fieldNum=$this->_getIndex($fieldNum);
 		$this->_instanceViewer->addSeparatorAfter($fieldNum);
 		return $this;
 	}
