@@ -17,6 +17,7 @@ use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\common\html\BaseWidget;
+use Ajax\semantic\html\modules\HtmlModal;
 
 abstract class Widget extends HtmlDoubleElement {
 	use FieldAsTrait,FormTrait;
@@ -424,5 +425,14 @@ abstract class Widget extends HtmlDoubleElement {
 		$index=$this->_getIndex($index);
 		$this->_instanceViewer->removeField($index);
 		return $this;
+	}
+
+	public function asModal($header){
+		$modal=new HtmlModal("modal-".$this->identifier,$header);
+		$modal->setContent($this);
+		if(isset($this->_form)){
+			$this->_form->onSuccess($modal->jsHide());
+		}
+		return $modal;
 	}
 }

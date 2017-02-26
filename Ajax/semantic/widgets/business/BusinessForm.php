@@ -10,18 +10,27 @@ use Ajax\JsUtils;
  */
 abstract class BusinessForm extends DataForm {
 	protected $_fieldsOrder;
-	protected $_fieldsDefinition;
 	/**
 	 *
 	 * {@inheritdoc}
 	 *
 	 * @see \Ajax\semantic\widgets\dataform\DataForm::__construct()
 	 */
-	public function __construct($identifier,$modelInstance=null,$fields=[],$captions=[],$separators=[]) {
+	public function __construct($identifier,$modelInstance=null,$fieldsOrder,$fieldsDefinition,$fields=[],$captions=[],$separators=[]) {
+		if(!isset($modelInstance)){
+			$modelInstance=$this->getDefaultModelInstance();
+		}
 		parent::__construct($identifier,$modelInstance);
+		$this->_initForm($fieldsOrder, $fieldsDefinition,$fields,$captions,$separators);
+	}
+
+	abstract protected function getDefaultModelInstance();
+
+	protected function _initForm($fieldsOrder,$fieldsDefinition,$fields=[],$captions=[],$separators=[]){
+		$this->_fieldsOrder=$fieldsOrder;
 		$this->setFields($fields);
 		$this->setSeparators($separators);
-		$this->fieldsAs($this->_fieldsDefinition);
+		$this->fieldsAs($fieldsDefinition);
 		$this->setCaptions($captions);
 	}
 

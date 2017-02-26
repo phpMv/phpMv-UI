@@ -46,6 +46,11 @@ trait FormTrait{
 		return $this->getForm()->addToProperty("class", "loading");
 	}
 
+	public function setState($state) {
+		$this->getForm()->addToProperty("class", $state);
+		return $this;
+	}
+
 	public function setAttached($value=true){
 		$form=$this->getForm();
 		if($value)
@@ -122,7 +127,7 @@ trait FormTrait{
 	 */
 	public function onSuccess($jsCode){
 		$form=$this->getForm();
-		$form->addValidationParam("onSuccess", "%function(event,fields){console.log(fields);".$jsCode."}%");
+		$form->addValidationParam("onSuccess", $jsCode,"%function(event,fields){","}%");
 		return $form;
 	}
 }

@@ -29,15 +29,18 @@ class DataForm extends Widget {
 	}
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
-		$this->_instanceViewer->setInstance($this->_modelInstance);
+		if(!$this->_generated){
+			$this->_instanceViewer->setInstance($this->_modelInstance);
 
-		$form=$this->content["form"];
-		$this->_generateContent($form);
+			$form=$this->content["form"];
+			$this->_generateContent($form);
 
-		if(isset($this->_toolbar)){
-			$this->_setToolbarPosition($form);
+			if(isset($this->_toolbar)){
+				$this->_setToolbarPosition($form);
+			}
+			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"form",PositionInTable::AFTERTABLE]);
+			$this->_generated=true;
 		}
-		$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"form",PositionInTable::AFTERTABLE]);
 		return parent::compile($js,$view);
 	}
 
@@ -48,6 +51,7 @@ class DataForm extends Widget {
 		$values= $this->_instanceViewer->getValues();
 		$count=$this->_instanceViewer->count();
 		$separators=$this->_instanceViewer->getSeparators();
+		$headers=$this->_instanceViewer->getHeaders();
 		\sort($separators);
 		$size=\sizeof($separators);
 		if($size===1){
@@ -58,6 +62,8 @@ class DataForm extends Widget {
 			$separators[]=$count;
 			for($i=0;$i<$size;$i++){
 				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
+				if(isset($headers[$separators[$i]+1]))
+					$form->addHeader($headers[$separators[$i]+1],4,true);
 				//TODO check why $fields is empty
 				if(\sizeof($fields)===1){
 					$form->addField($fields[0]);
@@ -113,6 +119,12 @@ class DataForm extends Widget {
 	 */
 	protected function _setToolbarPosition($table, $captions=NULL) {
 		$this->content[$this->_toolbarPosition]=$this->_toolbar;
+	}
+
+	public function addDividerBefore($index,$title){
+		$index=$this->_getIndex($index);
+		$this->_instanceViewer->addHeaderDividerBefore($index, $title);
+		return $this;
 	}
 
 	public function run(JsUtils $js){

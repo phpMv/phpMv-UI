@@ -14,7 +14,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 	protected $_params=array();
 	protected $_paramParts=array();
 
-	public function __construct($identifier, $header="", $content="", $actions=array()) {
+	public function __construct($identifier, $header="", $content="", $actions=null) {
 		parent::__construct($identifier, "div","ui modal");
 		if(isset($header)){
 			$this->setHeader($header);
@@ -170,5 +170,13 @@ class HtmlModal extends HtmlSemDoubleElement {
 			$this->_bsComponent=$js->semantic()->modal("#".$this->identifier,$this->_params,$this->_paramParts);
 		$this->addEventsOnRun($js);
 		return $this->_bsComponent;
+	}
+
+	public function jsDo($behavior) {
+		return "$('#".$this->identifier."').modal('".$behavior."');";
+	}
+
+	public function jsHide() {
+		return $this->jsDo("hide");
 	}
 }

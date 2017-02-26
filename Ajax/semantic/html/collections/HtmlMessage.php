@@ -40,6 +40,10 @@ class HtmlMessage extends HtmlSemDoubleElement {
 		return $this->addContent($headerO,true);
 	}
 
+	public function setHeader($header){
+		return $this->addHeader($header);
+	}
+
 	public function addList($elements,$ordered=false){
 		$list=new HtmlList("list-".$this->identifier,$elements);
 		$list->setOrdered($ordered);
@@ -94,6 +98,10 @@ class HtmlMessage extends HtmlSemDoubleElement {
 
 	public function setError(){
 		return $this->setStyle("error");
+	}
+
+	public function setWarning(){
+		return $this->setStyle("warning");
 	}
 
 	public function setMessage($message){

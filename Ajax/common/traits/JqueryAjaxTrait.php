@@ -50,7 +50,7 @@ trait JqueryAjaxTrait {
 		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback)."});\n";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$retour;
-			return $retour;
+		return $retour;
 	}
 
 	protected function setAjaxDataCall($params){

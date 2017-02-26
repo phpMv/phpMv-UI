@@ -11,6 +11,7 @@ use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\semantic\components\Form;
+use Ajax\service\JString;
 
 /**
  * Semantic Form component
@@ -176,8 +177,8 @@ class HtmlForm extends HtmlSemCollection {
 		return $this->_bsComponent;
 	}
 
-	public function addValidationParam($paramName,$paramValue){
-		$this->_validationParams[$paramName]=$paramValue;
+	public function addValidationParam($paramName,$paramValue,$before="",$after=""){
+		$this->addBehavior($this->_validationParams, $paramName, $paramValue,$before,$after);
 		return $this;
 	}
 

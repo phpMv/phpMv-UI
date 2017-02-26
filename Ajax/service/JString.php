@@ -35,4 +35,19 @@ class JString {
 	public static function camelCaseToSeparated($input,$separator=" "){
 		return strtolower(preg_replace('/(?<!^)[A-Z]/', $separator.'$0', $input));
 	}
+
+	public static function replaceAtFirst($subject,$from, $to){
+		$from = '/\A'.preg_quote($from, '/').'/';
+		return \preg_replace($from, $to, $subject, 1);
+	}
+
+	public static function replaceAtLast($subject,$from, $to){
+		$from = '/'.preg_quote($from, '/').'\z/';
+		return \preg_replace($from, $to, $subject, 1);
+	}
+
+	public static function replaceAtFirstAndLast($subject,$fromFirst,$toFirst,$fromLast,$toLast){
+		$s=self::replaceAtFirst($subject, $fromFirst, $toFirst);
+		return self::replaceAtLast($s, $fromLast, $toLast);
+	}
 }

@@ -6,6 +6,7 @@ use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\base\constants\Color;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlIcon;
+use Ajax\service\JString;
 
 /**
  * @author jc
@@ -182,5 +183,17 @@ trait BaseTrait {
 
 	public function getBaseClass() {
 		return $this->_baseClass;
+	}
+
+	protected function addBehavior(&$array,$key,$value,$before="",$after=""){
+		if(\is_string($value)){
+			if(isset($array[$key])){
+				$p=JString::replaceAtFirstAndLast($array[$key], $before, "", $after, "");
+				$array[$key]=$before.$p.$value.$after;
+			}else
+				$array[$key]=$before.$value.$after;
+		}else
+			$array[$key]=$value;
+		return $this;
 	}
 }

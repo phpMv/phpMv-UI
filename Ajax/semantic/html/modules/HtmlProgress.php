@@ -103,7 +103,8 @@ class HtmlProgress extends HtmlSemDoubleElement {
 	}
 
 	public function onChange($jsCode) {
-		return $this->_params["onChange"]="%function(percent, value, total){" . $jsCode . "}%";
+		$this->addBehavior($this->_params, "onChange", $jsCode,"%function(percent, value, total){","}%");
+		return $this;
 	}
 
 	/*

@@ -3,8 +3,11 @@
 namespace Ajax\semantic\widgets\business\user;
 
 class UserModel {
-	protected $login="abc";
-	protected $password="0000";
+	protected $lastname;
+	protected $firstname;
+	protected $login;
+	protected $password;
+	protected $email;
 
 	public function getLogin() {
 		return $this->login;
