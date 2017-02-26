@@ -225,7 +225,7 @@ trait FieldAsTrait{
 					$this->fieldAs($i++,$attributes,[]);
 				else{
 					$type=preg_replace('/\d/', '', $type );
-					$this->fieldAs($i++,$type,[$attributes]);
+					$this->fieldAs($i++,$type,$attributes);
 				}
 			}
 		}else{

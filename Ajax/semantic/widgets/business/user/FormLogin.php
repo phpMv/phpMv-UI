@@ -21,7 +21,7 @@ class FormLogin extends BusinessForm {
 		return new UserModel();
 	}
 
-	public static function default($identifier,$modelInstance=null){
+	public static function regular($identifier,$modelInstance=null){
 		return new FormLogin($identifier,$modelInstance,
 				["message","login","password","remember","forget","submit"],
 				["message"=>["icon"=>"sign in"],"input0"=>["rules"=>"empty"],"input1"=>["inputType"=>"password","rules"=>"empty"],"checkbox","link","submit"=>"green fluid"],

@@ -39,7 +39,7 @@ trait SemanticWidgetsTrait {
 	}
 
 	public function defaultLogin($identifier,$instance=null){
-		return $this->addHtmlComponent(FormLogin::default($identifier,$instance));
+		return $this->addHtmlComponent(FormLogin::regular($identifier,$instance));
 	}
 
 	public function smallLogin($identifier,$instance=null){
