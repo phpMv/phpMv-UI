@@ -1,14 +1,11 @@
 <?php
-
 namespace Ajax\semantic\widgets\business\user;
-
 use Ajax\semantic\widgets\business\BusinessForm;
-
 /**
+ * Form for user login
  * @author jc
  */
 class FormLogin extends BusinessForm {
-
 	/**
 	 * @param string $identifier
 	 * @param object $modelInstance
