@@ -45,4 +45,8 @@ trait SemanticWidgetsTrait {
 	public function smallLogin($identifier,$instance=null){
 		return $this->addHtmlComponent(FormLogin::small($identifier,$instance));
 	}
+
+	public function segmentedLogin($identifier,$instance=null){
+		return $this->addHtmlComponent(FormLogin::attachedSegment($identifier,$instance));
+	}
 }

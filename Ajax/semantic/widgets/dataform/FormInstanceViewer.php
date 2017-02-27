@@ -9,11 +9,13 @@ use Ajax\semantic\html\collections\form\HtmlFormInput;
 class FormInstanceViewer extends InstanceViewer {
 	protected $separators;
 	protected $headers;
+	protected $wrappers;
 
 	public function __construct($identifier,$instance=NULL, $captions=NULL) {
 		parent::__construct($identifier,$instance=NULL, $captions=NULL);
 		$this->separators=[-1];
 		$this->headers=[];
+		$this->wrappers=[];
 		$this->defaultValueFunction=function($name,$value,$index){
 			$caption=$this->getCaption($index);
 			$input=new HtmlFormInput($this->widgetIdentifier."-".$name,$caption,"text",$value);
@@ -59,6 +61,11 @@ class FormInstanceViewer extends InstanceViewer {
 		return $this;
 	}
 
+	public function addWrapper($fieldNum,$contentBefore,$contentAfter=null){
+		$this->wrappers[$fieldNum]=[$contentBefore,$contentAfter];
+			return $this;
+	}
+
 	public function getSeparators() {
 		return $this->separators;
 	}
@@ -87,6 +94,16 @@ class FormInstanceViewer extends InstanceViewer {
 	public function getHeaders() {
 		return $this->headers;
 	}
+
+	public function getWrappers() {
+		return $this->wrappers;
+	}
+
+	public function setWrappers($wrappers) {
+		$this->wrappers=$wrappers;
+		return $this;
+	}
+
 
 
 }

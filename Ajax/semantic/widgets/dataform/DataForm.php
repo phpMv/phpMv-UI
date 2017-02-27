@@ -52,6 +52,7 @@ class DataForm extends Widget {
 		$count=$this->_instanceViewer->count();
 		$separators=$this->_instanceViewer->getSeparators();
 		$headers=$this->_instanceViewer->getHeaders();
+		$wrappers=$this->_instanceViewer->getWrappers();
 		\sort($separators);
 		$size=\sizeof($separators);
 		if($size===1){
@@ -61,15 +62,21 @@ class DataForm extends Widget {
 		}else{
 			$separators[]=$count;
 			for($i=0;$i<$size;$i++){
+				$wrapper=null;
 				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
 				if(isset($headers[$separators[$i]+1]))
 					$form->addHeader($headers[$separators[$i]+1],4,true);
+				if(isset($wrappers[$separators[$i]+1])){
+					$wrapper=$wrappers[$separators[$i]+1];
+				}
 				//TODO check why $fields is empty
 				if(\sizeof($fields)===1){
-					$form->addField($fields[0]);
+					$added=$form->addField($fields[0]);
 				}elseif(\sizeof($fields)>1){
-					$form->addFields($fields);
+					$added=$form->addFields($fields);
 				}
+				if(isset($wrapper))
+					$added->wrap($wrapper[0],$wrapper[1]);
 			}
 		}
 	}
@@ -124,6 +131,12 @@ class DataForm extends Widget {
 	public function addDividerBefore($index,$title){
 		$index=$this->_getIndex($index);
 		$this->_instanceViewer->addHeaderDividerBefore($index, $title);
+		return $this;
+	}
+
+	public function addWrapper($index,$contentBefore,$contentAfter=null){
+		$index=$this->_getIndex($index);
+		$this->_instanceViewer->addWrapper($index, $contentBefore,$contentAfter);
 		return $this;
 	}
 
