@@ -11,6 +11,7 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $name=NULL, $label=NULL, $value=NULL, $inputType="checkbox", $type="checkbox") {
 		parent::__construct("ck-".$identifier, "div", "ui ".$type);
+		$this->_identifier=$identifier;
 		$field=new \Ajax\common\html\html5\HtmlInput($identifier, $inputType, $value);
 		$field->setProperty("name", $name);
 		$this->setField($field);

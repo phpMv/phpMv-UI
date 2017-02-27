@@ -9,6 +9,7 @@ class HtmlFormDropdown extends HtmlFormField {
 
 	public function __construct($identifier,$items=array(), $label=NULL,$value=NULL,$multiple=false,$associative=true) {
 		parent::__construct("field-".$identifier, (new HtmlDropdown("dropdown-".$identifier,$value,$items,$associative))->asSelect($identifier,$multiple), $label);
+		$this->_identifier=$identifier;
 	}
 
 	public function setItems($items){

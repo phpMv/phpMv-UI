@@ -173,4 +173,8 @@ trait BaseHtmlEventsTrait{
 	public function jsHide() {
 		return $this->jsDoJquery("hide");
 	}
+
+	public function jsToggle($value) {
+		return $this->jsDoJquery("hide",$value);
+	}
 }

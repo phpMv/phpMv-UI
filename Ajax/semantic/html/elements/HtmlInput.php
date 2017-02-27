@@ -14,6 +14,7 @@ class HtmlInput extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $type="text", $value="", $placeholder="") {
 		parent::__construct("div-" . $identifier, "div", "ui input");
+		$this->_identifier=$identifier;
 		$this->content=[ "field" => new \Ajax\common\html\html5\HtmlInput($identifier, $type, $value, $placeholder) ];
 		$this->_states=[ State::DISABLED,State::FOCUS,State::ERROR ];
 		$this->_variations=[ Variation::TRANSPARENT ];

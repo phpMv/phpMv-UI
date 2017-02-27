@@ -13,6 +13,7 @@ class HtmlFormTextarea extends HtmlFormField {
 		if(!isset($placeholder))
 			$placeholder=$label;
 		parent::__construct("field-".$identifier, new HtmlTextarea($identifier,$value,$placeholder,$rows), $label);
+		$this->_identifier=$identifier;
 	}
 
 	/**

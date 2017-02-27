@@ -16,5 +16,6 @@ class HtmlFormRadio extends HtmlFormField {
 
 	public function __construct($identifier, $name=NULL, $label=NULL, $value=NULL, $type=NULL) {
 		parent::__construct("field-".$identifier, new HtmlRadio($identifier, $name, $label, $value, $type));
+		$this->_identifier=$identifier;
 	}
 }

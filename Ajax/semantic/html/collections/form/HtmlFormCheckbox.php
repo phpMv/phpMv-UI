@@ -16,6 +16,7 @@ class HtmlFormCheckbox extends HtmlFormField {
 	use CheckboxTrait;
 	public function __construct($identifier, $label=NULL, $value=NULL, $type=NULL) {
 		parent::__construct("field-".$identifier, new HtmlCheckbox($identifier,$label,$value,$type));
+		$this->_identifier=$identifier;
 	}
 
 	public static function slider($identifier, $label="", $value=NULL) {

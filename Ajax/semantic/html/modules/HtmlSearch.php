@@ -14,6 +14,7 @@ class HtmlSearch extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $placeholder=NULL, $icon=NULL) {
 		parent::__construct("search-" . $identifier, "div", "ui search", array ());
+		$this->_identifier=$identifier;
 		$this->createField($placeholder, $icon);
 		$this->createResult();
 		$this->_params["type"]="standard";

@@ -12,6 +12,7 @@ class HtmlFormInput extends HtmlFormField {
 		if(!isset($placeholder) && $type==="text")
 			$placeholder=$label;
 		parent::__construct("field-".$identifier, new HtmlInput($identifier,$type,$value,$placeholder), $label);
+		$this->_identifier=$identifier;
 	}
 
 	public function getDataField(){

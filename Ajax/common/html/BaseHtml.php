@@ -201,7 +201,7 @@ abstract class BaseHtml extends BaseWidget {
 		if (isset($js)===true) {
 			$this->run($js);
 			if (isset($view) === true) {
-				$js->addViewElement($this->identifier, $result, $view);
+				$js->addViewElement($this->_identifier, $result, $view);
 			}
 		}
 		return $result;

@@ -56,12 +56,6 @@ class HtmlGrid extends HtmlSemCollection {
 		}
 		return $this;
 	}
-	
-	public function setColWidth($numCol,$width){
-		foreach ($this->content as $row){
-			$row->getCol($numCol)->setWidth($width);
-		}
-	}
 
 	/**
 	 * Defines the grid width

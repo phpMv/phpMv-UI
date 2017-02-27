@@ -9,9 +9,11 @@ namespace Ajax\common\html;
  */
 abstract class BaseWidget {
 	protected $identifier;
+	protected $_identifier;
 
 	public function __construct($identifier) {
 		$this->identifier=$this->cleanIdentifier($identifier);
+		$this->_identifier=$this->identifier;
 	}
 
 	public function getIdentifier() {
