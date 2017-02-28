@@ -299,6 +299,13 @@ class HtmlGrid extends HtmlSemCollection {
 			$this->content[$i]->setValues($values[$i], $this->_createCols === false);
 		}
 	}
+	
+	public function setColWidth($numCol,$width){
+		foreach ($this->content as $row){
+			$row->getCol($numCol)->setWidth($width);
+		}
+		return $this;
+	}
 
 	/**
 	 * stretch the row contents to take up the entire column height
