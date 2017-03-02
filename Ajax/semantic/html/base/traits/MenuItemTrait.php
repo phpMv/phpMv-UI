@@ -5,6 +5,8 @@ use Ajax\service\JArray;
 use Ajax\service\JString;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\semantic\html\base\constants\Direction;
+use Ajax\semantic\html\content\HtmlDropdownItem;
+use Ajax\semantic\html\content\HtmlMenuItem;
 
 /**
  * @author jc
@@ -34,7 +36,7 @@ trait MenuItemTrait {
 	/**
 	 * @param string $placeholder
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|\Ajax\semantic\html\content\HtmlMenuItem
+	 * @return HtmlDropdownItem|HtmlMenuItem
 	 */
 	public function asSearchInput($placeholder=NULL,$icon=NULL){
 		$this->setClass("ui icon search input");
@@ -48,7 +50,7 @@ trait MenuItemTrait {
 	}
 
 	/**
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|\Ajax\semantic\html\content\HtmlMenuItem
+	 * @return HtmlDropdownItem|HtmlMenuItem
 	 */
 	public function asDivider(){
 		$this->content=NULL;
@@ -60,7 +62,7 @@ trait MenuItemTrait {
 	/**
 	 * @param string $caption
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|\Ajax\semantic\html\content\HtmlMenuItem
+	 * @return HtmlDropdownItem|HtmlMenuItem
 	 */
 	public function asHeader($caption=NULL,$icon=NULL){
 		$this->setClass("header");

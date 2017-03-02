@@ -7,6 +7,7 @@ use Ajax\semantic\html\base\constants\Color;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\service\JString;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * @author jc
@@ -109,7 +110,7 @@ trait BaseTrait {
 	/**
 	 * show it is currently unable to be interacted with
 	 * @param boolean $disable
-	 * @return \Ajax\semantic\html\elements\HtmlSemDoubleElement
+	 * @return HtmlSemDoubleElement
 	 */
 	public function setDisabled($disable=true) {
 		if($disable)
@@ -120,7 +121,7 @@ trait BaseTrait {
 	/**
 	 *
 	 * @param string $color
-	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 * @return HtmlSemDoubleElement
 	 */
 	public function setColor($color) {
 		return $this->addToPropertyCtrl("class", $color, Color::getConstants());
@@ -128,7 +129,7 @@ trait BaseTrait {
 
 	/**
 	 *
-	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 * @return HtmlSemDoubleElement
 	 */
 	public function setFluid() {
 		return $this->addToProperty("class", "fluid");
@@ -136,7 +137,7 @@ trait BaseTrait {
 
 	/**
 	 *
-	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 * @return HtmlSemDoubleElement
 	 */
 	public function asHeader(){
 		return $this->addToProperty("class", "header");
@@ -144,7 +145,7 @@ trait BaseTrait {
 
 	/**
 	 * show it is currently the active user selection
-	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 * @return HtmlSemDoubleElement
 	 */
 	public function setActive($value=true){
 		if($value)
