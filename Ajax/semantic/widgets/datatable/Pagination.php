@@ -7,15 +7,18 @@ class Pagination {
 	private $visible;
 	private $page_count;
 	private $pages_visibles;
+	private $row_count;
 
-	public function __construct($items_per_page=10,$pages_visibles=4,$page=1){
+	public function __construct($items_per_page=10,$pages_visibles=4,$page=1,$row_count=null){
 		$this->items_per_page=$items_per_page;
 		$this->page=$page;
 		$this->pages_visibles=$pages_visibles;
 		$this->visible=true;
+		$this->row_count=$row_count;
 	}
 
 	public function getObjects($objects){
+		$auto=(!isset($this->row_count));
 		$offset = ($this->page - 1) * $this->items_per_page;
 		$os=$objects;
 		if(!\is_array($os)){
@@ -25,7 +28,7 @@ class Pagination {
 			}
 		}
 		$this->page_count = 0;
-		$row_count=\sizeof($os);
+		$row_count=($auto)?\sizeof($os):$this->row_count;
 		if (0 === $row_count) {
 			$this->visible=false;
 		} else {
@@ -35,7 +38,9 @@ class Pagination {
 				$this->page = 1;
 			}
 		}
-		return array_slice($os, $offset,$this->items_per_page);
+		if($auto)
+			return array_slice($os, $offset,$this->items_per_page);
+		return $os;
 	}
 
 	public function getItemsPerPage() {

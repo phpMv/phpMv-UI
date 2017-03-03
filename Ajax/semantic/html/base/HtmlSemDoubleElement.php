@@ -11,6 +11,7 @@ use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\JsUtils;
 use Phalcon\Mvc\View;
+use Ajax\semantic\html\base\constants\Side;
 
 /**
  * Base class for Semantic double elements
@@ -71,7 +72,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return $labelO;
 	}
 
-	public function attachLabel($label,$side,$direction=Direction::NONE,$icon=NULL){
+	public function attachLabel($label,$side=Side::TOP,$direction=Direction::NONE,$icon=NULL){
 		$label=$this->addLabel($label,true,$icon);
 		$label->setAttached($side,$direction);
 		return $this;

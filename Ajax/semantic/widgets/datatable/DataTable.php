@@ -219,12 +219,25 @@ class DataTable extends Widget {
 		return $this;
 	}
 
-	public function paginate($items_per_page=10,$page=1){
-		$this->_pagination=new Pagination($items_per_page,4,$page);
+	/**
+	 * Paginates the DataTable element with a Semantic HtmlPaginationMenu component
+	 * @param number $page the active page number
+	 * @param number $items_per_page
+	 * @param number $pages_visibles
+	 * @param number $total_rowcount
+	 * @return DataTable
+	 */
+	public function paginate($page=1,$items_per_page=10,$pages_visibles=4,$total_rowcount=null){
+		$this->_pagination=new Pagination($items_per_page,$pages_visibles,$page,$total_rowcount);
+		return $this;
 	}
 
 
 
+	/**
+	 * @param array $compileParts
+	 * @return DataTable
+	 */
 	public function refresh($compileParts=["tbody"]){
 		$this->_compileParts=$compileParts;
 		return $this;

@@ -156,7 +156,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	 * Sets the values of a property for each item in the collection
 	 * @param string $property
 	 * @param array $values
-	 * @return \Ajax\common\html\HtmlCollection
+	 * @return HtmlCollection
 	 */
 	public function setPropertyValues($property,$values){
 		$i=0;

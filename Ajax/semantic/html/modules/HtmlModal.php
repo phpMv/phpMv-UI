@@ -56,7 +56,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 			if(\array_search($action, ["Okay","Yes"])!==false){
 				$class="approve";
 			}
-			if(\array_search($action, ["Cancel","No"])!==false){
+			if(\array_search($action, ["Close","Cancel","No"])!==false){
 				$class="cancel";
 			}
 			$action=new HtmlButton("action-".$this->identifier,$action);
