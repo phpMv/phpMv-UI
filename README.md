@@ -95,12 +95,11 @@ $di->set("jquery",function(){
 Example of creating a Semantic-UI button
 
 ```php
-\code{.php}
 use Phalcon\Mvc\Controller;
 use Ajax\php\phalcon\JsUtils;
-/**
- * @property JsUtils $jquery
-**/
+    /**
+     * @property JsUtils $jquery
+    **/
 class ExempleController extends Controller{
 	public function indexAction(){
 		$semantic=$this->jquery->semantic();
@@ -108,7 +107,6 @@ class ExempleController extends Controller{
 		echo $button;
 	}
 }
-\endcode
 ```
 
 ### <img src="http://angular.kobject.net/git/images/ci.png" width="30"> CodeIgniter configuration
