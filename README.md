@@ -94,6 +94,7 @@ $di->set("jquery",function(){
 ####Use in controllers
 Example of creating a Semantic-UI button
 
+\code{.php}
 ```php
 use Phalcon\Mvc\Controller;
 use Ajax\php\phalcon\JsUtils;
@@ -108,6 +109,8 @@ class ExempleController extends Controller{
 	}
 }
 ```
+\endcode
+
 ### <img src="http://angular.kobject.net/git/images/ci.png" width="30"> CodeIgniter configuration
 ####Library loading
 If you want CodeIgniter to use a Composer auto-loader, just set `$config['composer_autoload']` to `TRUE` or a custom path in **application/config/config.php**.
