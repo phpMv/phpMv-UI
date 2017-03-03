@@ -94,8 +94,8 @@ $di->set("jquery",function(){
 ####Use in controllers
 Example of creating a Semantic-UI button
 
-\code{.php}
 ```php
+\code{.php}
 use Phalcon\Mvc\Controller;
 use Ajax\php\phalcon\JsUtils;
 /**
@@ -108,8 +108,8 @@ class ExempleController extends Controller{
 		echo $button;
 	}
 }
-```
 \endcode
+```
 
 ### <img src="http://angular.kobject.net/git/images/ci.png" width="30"> CodeIgniter configuration
 ####Library loading
