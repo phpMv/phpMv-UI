@@ -11,15 +11,14 @@ class Pagination {
 
 	public function __construct($items_per_page=10,$pages_visibles=4,$page=1,$row_count=null){
 		$this->items_per_page=$items_per_page;
+		$this->row_count=$row_count;
 		$this->page=$page;
 		$this->pages_visibles=$pages_visibles;
 		$this->visible=true;
-		$this->row_count=$row_count;
 	}
 
 	public function getObjects($objects){
 		$auto=(!isset($this->row_count));
-		$offset = ($this->page - 1) * $this->items_per_page;
 		$os=$objects;
 		if(!\is_array($os)){
 			$os=[];
@@ -38,8 +37,10 @@ class Pagination {
 				$this->page = 1;
 			}
 		}
-		if($auto)
+		if($auto){
+			$offset = ($this->page - 1) * $this->items_per_page;
 			return array_slice($os, $offset,$this->items_per_page);
+		}
 		return $os;
 	}
 

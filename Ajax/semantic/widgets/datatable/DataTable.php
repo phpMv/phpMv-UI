@@ -30,6 +30,7 @@ class DataTable extends Widget {
 	protected $_editBehavior;
 	protected $_visibleHover=false;
 	protected $_targetSelector;
+	protected $_refreshSelector;
 
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
@@ -145,7 +146,7 @@ class DataTable extends Widget {
 		$menu->setActiveItem($this->_pagination->getPage()-1);
 		$footer->setValues($menu);
 		if(isset($this->_urls["refresh"]))
-			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 	}
 
 	protected function _getFieldName($index){
@@ -177,7 +178,7 @@ class DataTable extends Widget {
 	 * The $callback function can take the following arguments : $field=>the compiled field, $instance : the active instance of the object, $index: the field position
 	 * @param int $index postion of the compiled field
 	 * @param callable $callback function called after the field compilation
-	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 * @return DataTable
 	 */
 	public function afterCompile($index,$callback){
 		$this->_instanceViewer->afterCompile($index,$callback);
@@ -206,7 +207,7 @@ class DataTable extends Widget {
 	/**
 	 * Sets the associative array of urls for refreshing, updating or deleting
 	 * @param string|array $urls associative array with keys refresh: for refreshing with search field or pagination, edit : for updating a row, delete: for deleting a row
-	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 * @return DataTable
 	 */
 	public function setUrls($urls) {
 		if(\is_array($urls)){
@@ -222,13 +223,25 @@ class DataTable extends Widget {
 	/**
 	 * Paginates the DataTable element with a Semantic HtmlPaginationMenu component
 	 * @param number $page the active page number
-	 * @param number $items_per_page
-	 * @param number $pages_visibles
-	 * @param number $total_rowcount
+	 * @param number $total_rowcount the total number of items
+	 * @param number $items_per_page The number of items per page
+	 * @param number $pages_visibles The number of visible pages in the Pagination component
 	 * @return DataTable
 	 */
-	public function paginate($page=1,$items_per_page=10,$pages_visibles=4,$total_rowcount=null){
+	public function paginate($page,$total_rowcount,$items_per_page=10,$pages_visibles=4){
 		$this->_pagination=new Pagination($items_per_page,$pages_visibles,$page,$total_rowcount);
+		return $this;
+	}
+
+	/**
+	 * Auto Paginates the DataTable element with a Semantic HtmlPaginationMenu component
+	 * @param number $page the active page number
+	 * @param number $items_per_page The number of items per page
+	 * @param number $pages_visibles The number of visible pages in the Pagination component
+	 * @return DataTable
+	 */
+	public function autoPaginate($page=1,$items_per_page=10,$pages_visibles=4){
+		$this->_pagination=new Pagination($items_per_page,$pages_visibles,$page);
 		return $this;
 	}
 
@@ -289,4 +302,16 @@ class DataTable extends Widget {
 		$this->_targetSelector=$_targetSelector;
 		return $this;
 	}
+
+	public function getRefreshSelector() {
+		if(isset($this->_refreshSelector))
+			return $this->_refreshSelector;
+		return "#".$this->identifier." tbody";
+	}
+
+	public function setRefreshSelector($_refreshSelector) {
+		$this->_refreshSelector=$_refreshSelector;
+		return $this;
+	}
+
 }
