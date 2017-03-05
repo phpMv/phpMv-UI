@@ -13,6 +13,7 @@ use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\collections\HtmlMessage;
+use Ajax\semantic\html\collections\menus\HtmlMenu;
 
 /**
  * DataTable widget for displaying list of objects
@@ -105,14 +106,16 @@ class DataTable extends Widget {
 					$table->getHeader()->getCell(0, 0)->addClass("no-sort");
 			}
 
-			if(isset($this->_pagination) && $this->_pagination->getVisible()){
-				$this->_generatePagination($table,$js);
-			}
 			if(isset($this->_toolbar)){
 				$this->_setToolbarPosition($table, $captions);
 			}
+			if(isset($this->_pagination) && $this->_pagination->getVisible()){
+				$this->_generatePagination($table,$js);
+			}
+
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 			$this->_compileForm();
+
 			$this->_generated=true;
 		}
 		return parent::compile($js,$view);
@@ -136,7 +139,7 @@ class DataTable extends Widget {
 		}
 	}
 
-	protected function _generateRow($instance,&$table){
+	protected function _generateRow($instance,&$table,$checkedClass=null){
 		$this->_instanceViewer->setInstance($instance);
 		InstanceViewer::$index++;
 		$values= $this->_instanceViewer->getValues();
@@ -145,6 +148,8 @@ class DataTable extends Widget {
 			$field=$ck->getField();
 			$field->setProperty("value",$this->_instanceViewer->getIdentifier());
 			$field->setProperty("name", "selection[]");
+			if(isset($checkedClass))
+				$field->setClass($checkedClass);
 			\array_unshift($values, $ck);
 		}
 		$result=$table->newRow();
@@ -155,18 +160,23 @@ class DataTable extends Widget {
 	}
 
 	protected function _generatePagination($table,$js=NULL){
+		if(isset($this->_toolbar)){
+			if($this->_toolbarPosition==PositionInTable::FOOTER)
+				$this->_toolbar->setFloated("left");
+		}
 		$footer=$table->getFooter();
 		$footer->mergeCol();
 		$menu=new HtmlPaginationMenu("pagination-".$this->identifier,$this->_pagination->getPagesNumbers());
 		$menu->floatRight();
 		$menu->setActiveItem($this->_pagination->getPage()-1);
-		$footer->setValues($menu);
+		$footer->addValues($menu);
 		$this->_associatePaginationBehavior($menu,$js);
 	}
 
-	protected function _associatePaginationBehavior($menu,$js=NULL){
-		if(isset($this->_urls["refresh"]))
+	protected function _associatePaginationBehavior(HtmlMenu $menu,JsUtils $js=NULL){
+		if(isset($this->_urls["refresh"])){
 			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+		}
 	}
 
 	protected function _getFieldName($index){
@@ -248,7 +258,7 @@ class DataTable extends Widget {
 	 * @param number $pages_visibles The number of visible pages in the Pagination component
 	 * @return DataTable
 	 */
-	public function paginate($page,$total_rowcount,$items_per_page=10,$pages_visibles=4){
+	public function paginate($page,$total_rowcount,$items_per_page=10,$pages_visibles=null){
 		$this->_pagination=new Pagination($items_per_page,$pages_visibles,$page,$total_rowcount);
 		return $this;
 	}

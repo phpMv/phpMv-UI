@@ -9,11 +9,11 @@ class Pagination {
 	private $pages_visibles;
 	private $row_count;
 
-	public function __construct($items_per_page=10,$pages_visibles=4,$page=1,$row_count=null){
+	public function __construct($items_per_page=10,$pages_visibles=null,$page=1,$row_count=null){
 		$this->items_per_page=$items_per_page;
 		$this->row_count=$row_count;
 		$this->page=$page;
-		$this->pages_visibles=$pages_visibles;
+		$this->setPagesVisibles($pages_visibles);
 		$this->visible=true;
 	}
 
@@ -87,5 +87,13 @@ class Pagination {
 		}
 		return \range($first, $last);
 	}
+
+	public function setPagesVisibles($pages_visibles) {
+		if(!isset($pages_visibles))
+			$pages_visibles=(int)ceil($this->row_count / $this->items_per_page)+1;
+		$this->pages_visibles=$pages_visibles;
+		return $this;
+	}
+
 
 }

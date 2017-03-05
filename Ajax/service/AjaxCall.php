@@ -18,7 +18,7 @@ class AjaxCall {
 			return;
 		$result="";
 		$params="{}";
-		$callback=NULL;
+		$jsCallback=NULL;
 		$attr="id";
 		$validation=false;
 		$stopPropagation=true;
@@ -36,19 +36,19 @@ class AjaxCall {
 		}
 		switch($this->method) {
 			case "get":
-				$result.=$js->getDeferred($url, $responseElement, $params, $callback, $attr,$jqueryDone,$ajaxTransition);
+				$result.=$js->getDeferred($url, $responseElement, $params, $jsCallback, $attr,$jqueryDone,$ajaxTransition);
 				break;
 			case "post":
-				$result.=$js->postDeferred($url, $responseElement, $params, $callback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
+				$result.=$js->postDeferred($url, $responseElement, $params, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
 				break;
 			case "postForm":
-				$result.=$js->postFormDeferred($url, $form, $responseElement, $validation, $callback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
+				$result.=$js->postFormDeferred($url, $form, $responseElement, $validation, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
 				break;
 			case "json":
-				$result.=$js->jsonDeferred($url,$method,$params,$callback);
+				$result.=$js->jsonDeferred($url,$method,$params,$jsCallback);
 				break;
 			case "jsonArray":
-				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$callback);
+				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback);
 				break;
 		}
 		return $result;

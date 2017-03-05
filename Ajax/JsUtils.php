@@ -256,6 +256,14 @@ abstract class JsUtils{
 		$this->js->_clear_compile();
 	}
 
+	public function getScript($offset=0){
+		return $this->js->getScript($offset);
+	}
+
+	public function scriptCount(){
+		return $this->js->scriptCount();
+	}
+
 	/**
 	 * Outputs a <script> tag
 	 *

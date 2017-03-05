@@ -259,6 +259,17 @@ class Jquery {
 		return $output;
 	}
 
+	public function getScript($offset=0){
+		$code=$this->jquery_code_for_compile;
+		if($offset>0)
+			$code=\array_slice($code, $offset);
+		return implode('', $code);
+	}
+
+	public function scriptCount(){
+		return \sizeof($this->jquery_code_for_compile);
+	}
+
 	private function defer($script){
 		$result="window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { defer(method) }, 50);};";
 		$result.="window.defer(function(){".$script."})";

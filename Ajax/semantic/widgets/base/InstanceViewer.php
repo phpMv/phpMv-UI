@@ -2,6 +2,7 @@
 namespace Ajax\semantic\widgets\base;
 use Ajax\service\JString;
 use Ajax\service\JArray;
+use Ajax\service\JReflection;
 
 class InstanceViewer {
 	protected $widgetIdentifier;
@@ -64,8 +65,12 @@ class InstanceViewer {
 		if(!isset($index))
 			$index=self::$index;
 		$value=$index;
-		if(isset($this->values["identifier"]))
-			$value=$this->values["identifier"]($index,$this->instance);
+		if(isset($this->values["identifier"])){
+			if(\is_string($this->values["identifier"]))
+				$value=JReflection::callMethod($this->instance, $this->values["identifier"], []);
+			else
+				$value=$this->values["identifier"]($index,$this->instance);
+		}
 		return $value;
 	}
 

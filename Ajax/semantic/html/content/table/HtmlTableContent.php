@@ -125,6 +125,23 @@ class HtmlTableContent extends HtmlSemCollection {
 	 * @param mixed $values
 	 */
 	public function setValues($values=array()) {
+		return $this->_addOrSetValues($values, function($row,$_values){$row->setValues($_values);});
+	}
+
+	/**
+	 * Adds the cells values
+	 * @param mixed $values
+	 */
+	public function addValues($values=array()) {
+		return $this->_addOrSetValues($values, function($row,$_values){$row->addValues($_values);});
+	}
+
+	/**
+	 * Adds or sets the cells values
+	 * @param mixed $values
+	 * @param callable $callback
+	 */
+	protected function _addOrSetValues($values,$callback) {
 		$count=$this->count();
 		$isArray=true;
 		if (!\is_array($values)) {
@@ -138,7 +155,7 @@ class HtmlTableContent extends HtmlSemCollection {
 
 		for($i=0; $i < $count; $i++) {
 			$row=$this->content[$i];
-			$row->setValues($values[$i]);
+			$callback($row,$values[$i]);
 		}
 		return $this;
 	}

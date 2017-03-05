@@ -17,8 +17,9 @@ class HtmlPaginationMenu extends HtmlMenu{
 	 * @see \Ajax\common\html\BaseHtml::compile()
 	 */
 	public function compile(JsUtils $js=NULL,&$view=NULL){
-		$this->insertItem(new HtmlIcon("", "left chevron"))->setProperty("data-page", \max([1,$this->_page-1]));
-		$this->addItem(new HtmlIcon("", "right chevron"))->setProperty("data-page", \min([\sizeof($this->content)-2,$this->_page+1]));
+		$max=\sizeof($this->content);
+		$this->insertItem(new HtmlIcon("", "left chevron"))->setProperty("data-page", \max([1,$this->_page-1]))->addToProperty("class","_firstPage no-active");
+		$this->addItem(new HtmlIcon("", "right chevron"))->setProperty("data-page", \min([$max,$this->_page+1]))->setProperty("data-max", $max)->addToProperty("class","_lastPage no-active");
 		$this->asPagination();
 		return parent::compile($js,$view);
 	}

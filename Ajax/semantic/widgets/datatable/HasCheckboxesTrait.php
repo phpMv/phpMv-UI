@@ -20,27 +20,40 @@ trait HasCheckboxesTrait{
 	abstract public function addInToolbar($element,$callback=NULL);
 
 	protected function _runCheckboxes(JsUtils $js){
-		$checkedMessageCall="";
-		if($this->_hasCheckedMessage){
-			$msg=$this->getCheckedMessage();
-			$checkedMessageFunction="$('#{$this->identifier}').bind('updateChecked',function() {var msg='".$msg[0]."',count=\$('#{$this->identifier} [name=\"selection[]\"]:checked').length,all=\$('#{$this->identifier} [name=\"selection[]\"]').length;
-			if(count==1) msg='".$msg[1]."';
+		$js->execOn("change", "#".$this->identifier." [name='selection[]']:not(._jsonArrayChecked)", $this->_getCheckedChange($js));
+		if(\sizeof($this->_compileParts)<3){
+			$js->trigger("#".$this->identifier." [name='selection[]']","change",true);
+		}
+	}
+
+	protected function _getCheckedChange(JsUtils $js=NULL){
+		$callback="var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
+				\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
+				if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');};".$this->_getCheckedMessageCall($js);
+		return $callback;
+	}
+
+	protected function _getCheckedMessageFunction(){
+		$msg=$this->getCheckedMessage();
+		$checkedMessageFunction="$('#{$this->identifier}').bind('updateChecked',function() {var msg='".$msg[0]."',count=\$('#{$this->identifier} [name=\"selection[]\"]:checked').length,all=\$('#{$this->identifier} [name=\"selection[]\"]').length;
+		if(count==1) msg='".$msg[1]."';
 						else if(count>1) msg='".$msg["other"]."';
 						\$('#checked-count-".$this->identifier."').contents().filter(function() {return this.nodeType == 3;}).each(function(){this.textContent = msg.replace('{count}',count);});
-							\$('#toolbar-{$this->identifier} .visibleOnChecked').toggle(count>0);});\$('#toolbar-".$this->identifier." .visibleOnChecked').hide();";
+								\$('#toolbar-{$this->identifier} .visibleOnChecked').toggle(count>0);});\$('#toolbar-".$this->identifier." .visibleOnChecked').hide();";
+		return $checkedMessageFunction;
+	}
+
+	protected function _getCheckedMessageCall(JsUtils $js=NULL){
+		$checkedMessageCall="";
+		if($this->_hasCheckedMessage){
 			$checkedMessageCall="$('#{$this->identifier}').trigger('updateChecked');";
 			if(isset($this->_checkedClass)){
 				$checkedMessageCall.="$(this).closest('tr').toggleClass('".$this->_checkedClass."',$(this).prop('checked'));";
 			}
-			$js->exec($checkedMessageFunction,true);
+			if(isset($js))
+				$js->exec($this->_getCheckedMessageFunction(),true);
 		}
-		$js->execOn("change", "#".$this->identifier." [name='selection[]']", "
-				var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
-				\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
-				if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');};".$checkedMessageCall);
-		if(\sizeof($this->_compileParts)<3){
-			$js->trigger("#".$this->identifier." [name='selection[]']","change",true);
-		}
+		return $checkedMessageCall;
 	}
 
 	protected function _generateMainCheckbox(&$captions){
@@ -55,7 +68,7 @@ trait HasCheckboxesTrait{
 	}
 
 	protected function _setAllChecked($checked){
-		$result="$('#".$this->identifier." [name=%quote%selection[]%quote%]').prop('checked',".$checked.");";
+		$result="$('#".$this->identifier." [name=%quote%selection[]%quote%]:not(._jsonArrayChecked)').prop('checked',".$checked.");";
 		if(isset($this->_checkedClass)){
 			$result.="$('#".$this->identifier." tr').toggleClass('".$this->_checkedClass."',".$checked.");";
 		}

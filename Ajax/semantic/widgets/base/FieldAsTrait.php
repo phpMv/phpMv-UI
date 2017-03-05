@@ -38,11 +38,11 @@ trait FieldAsTrait{
 	 * @param array $attributes
 	 */
 	protected function _applyAttributes($element,&$attributes,$index){
-		if(isset($attributes["callback"])){
-			$callback=$attributes["callback"];
+		if(isset($attributes["jsCallback"])){
+			$callback=$attributes["jsCallback"];
 			if(\is_callable($callback)){
 				$callback($element,$this->_modelInstance,$index);
-				unset($attributes["callback"]);
+				unset($attributes["jsCallback"]);
 			}
 		}
 		unset($attributes["rules"]);

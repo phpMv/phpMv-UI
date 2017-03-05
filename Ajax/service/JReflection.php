@@ -16,7 +16,7 @@ class JReflection {
 			$name=$method->getName();
 			if(JString::startswith($name, "set")){
 				$property=\strtolower(JString::replaceAtFirst($name, "set", ""));
-				$value="[[".$property."]]";
+				$value="__".$property."__";
 				try{
 					if($class->getProperty($property)!==null){
 						\call_user_func_array([$object,$name],[$value]);
@@ -25,5 +25,9 @@ class JReflection {
 			}
 		}
 		return $object;
+	}
+
+	public static function callMethod($object,$callback,array $values){
+		return \call_user_func_array([$object,$callback],$values);
 	}
 }

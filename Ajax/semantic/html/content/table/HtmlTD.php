@@ -14,6 +14,8 @@ class HtmlTD extends HtmlSemDoubleElement {
 	private $_container;
 	private $_row;
 	private $_col;
+	private $_colMerged=false;
+	private $_rowMerged=false;
 
 	/**
 	 *
@@ -38,6 +40,11 @@ class HtmlTD extends HtmlSemDoubleElement {
 		return $this;
 	}
 
+	public function addValue($value) {
+		$this->addContent($value);
+		return $this;
+	}
+
 	public function setRowspan($rowspan) {
 		$to=min($this->_container->count(), $this->_row + $rowspan - 1);
 		for($i=$to; $i > $this->_row; $i--) {
@@ -48,11 +55,19 @@ class HtmlTD extends HtmlSemDoubleElement {
 	}
 
 	public function mergeRow() {
-		return $this->setRowspan($this->_container->count());
+		if(!$this->_rowMerged){
+			$this->_rowMerged=true;
+			return $this->setRowspan($this->_container->count());
+		}
+		return $this->_container;
 	}
 
 	public function mergeCol() {
-		return $this->setColspan($this->_container->getRow($this->_row)->count());
+		if(!$this->_colMerged){
+			$this->_colMerged=true;
+			return $this->setColspan($this->_container->getRow($this->_row)->count());
+		}
+		return $this->_container;
 	}
 
 	public function setColspan($colspan) {

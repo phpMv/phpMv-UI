@@ -64,6 +64,22 @@ class HtmlTR extends HtmlSemCollection {
 	 * @param mixed $values
 	 */
 	public function setValues($values=array()) {
+		return $this->_addOrSetValues($values, function(&$cell,$value){$cell->setValue($value);});
+	}
+
+	/**
+	 * Adds values to the row cols
+	 * @param mixed $values
+	 */
+	public function addValues($values=array()) {
+		return $this->_addOrSetValues($values, function(&$cell,$value){$cell->addValue($value);});
+	}
+
+	/**
+	 * Sets or adds values to the row cols
+	 * @param mixed $values
+	 */
+	protected function _addOrSetValues($values,$callback) {
 		$count=$this->count();
 		if (!\is_array($values)) {
 			$values=\array_fill(0, $count, $values);
@@ -76,8 +92,9 @@ class HtmlTR extends HtmlSemCollection {
 
 		for($i=0; $i < $count; $i++) {
 			$cell=$this->content[$i];
-			$cell->setValue($values[$i]);
+			$callback($cell,$values[$i]);
 		}
+		return $this;
 	}
 
 	/**
