@@ -26,6 +26,7 @@ class AjaxCall {
 		$jqueryDone="html";
 		$ajaxTransition=null;
 		$hasLoader=true;
+		$method="get";
 		extract($this->parameters);
 		if ($preventDefault===true) {
 			$result.=Javascript::$preventDefault;
@@ -42,6 +43,12 @@ class AjaxCall {
 				break;
 			case "postForm":
 				$result.=$js->postFormDeferred($url, $form, $responseElement, $validation, $callback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
+				break;
+			case "json":
+				$result.=$js->jsonDeferred($url,$method,$params,$callback);
+				break;
+			case "jsonArray":
+				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$callback);
 				break;
 		}
 		return $result;

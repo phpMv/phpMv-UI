@@ -5,6 +5,7 @@ use Ajax\semantic\widgets\datatable\DataTable;
 use Ajax\semantic\widgets\dataelement\DataElement;
 use Ajax\semantic\widgets\dataform\DataForm;
 use Ajax\semantic\widgets\business\user\FormLogin;
+use Ajax\semantic\widgets\datatable\JsonDataTable;
 
 trait SemanticWidgetsTrait {
 
@@ -18,6 +19,16 @@ trait SemanticWidgetsTrait {
 	 */
 	public function dataTable($identifier,$model, $instances){
 		return $this->addHtmlComponent(new DataTable($identifier,$model,$instances));
+	}
+
+	/**
+	 * @param string $identifier
+	 * @param string $model
+	 * @param array $instances
+	 * @return JsonDataTable
+	 */
+	public function jsonDataTable($identifier,$model, $instances){
+		return $this->addHtmlComponent(new JsonDataTable($identifier,$model,$instances));
 	}
 
 	/**

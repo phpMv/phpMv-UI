@@ -58,9 +58,6 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_template="%wrapContentBefore%%content%%wrapContentAfter%";
 		$this->setModel($model);
 		if(isset($modelInstance)){
-			if(\is_array($modelInstance)){
-				$modelInstance=\json_decode(\json_encode($modelInstance), FALSE);
-			}
 			$this->show($modelInstance);
 		}
 		$this->_generated=false;
@@ -96,6 +93,9 @@ abstract class Widget extends HtmlDoubleElement {
 	abstract protected  function _setToolbarPosition($table,$captions=NULL);
 
 	public function show($modelInstance){
+		if(\is_array($modelInstance)){
+			$modelInstance=\json_decode(\json_encode($modelInstance), FALSE);
+		}
 		$this->_modelInstance=$modelInstance;
 	}
 

@@ -9,6 +9,7 @@ use Ajax\semantic\html\elements\HtmlLabel;
  * used in DataTable
  * @author jc
  * @property string identifier
+ * @property $_compileParts
  */
 trait HasCheckboxesTrait{
 	protected $_hasCheckboxes;
@@ -22,12 +23,12 @@ trait HasCheckboxesTrait{
 		$checkedMessageCall="";
 		if($this->_hasCheckedMessage){
 			$msg=$this->getCheckedMessage();
-			$checkedMessageFunction="function updateChecked(){var msg='".$msg[0]."',count=\$('#{$this->identifier} [name=\"selection[]\"]:checked').length,all=\$('#{$this->identifier} [name=\"selection[]\"]').length;
+			$checkedMessageFunction="$('#{$this->identifier}').bind('updateChecked',function() {var msg='".$msg[0]."',count=\$('#{$this->identifier} [name=\"selection[]\"]:checked').length,all=\$('#{$this->identifier} [name=\"selection[]\"]').length;
 			if(count==1) msg='".$msg[1]."';
 						else if(count>1) msg='".$msg["other"]."';
 						\$('#checked-count-".$this->identifier."').contents().filter(function() {return this.nodeType == 3;}).each(function(){this.textContent = msg.replace('{count}',count);});
-							\$('#toolbar-{$this->identifier} .visibleOnChecked').toggle(count>0);}\$('#toolbar-".$this->identifier." .visibleOnChecked').hide();";
-			$checkedMessageCall="updateChecked();";
+							\$('#toolbar-{$this->identifier} .visibleOnChecked').toggle(count>0);});\$('#toolbar-".$this->identifier." .visibleOnChecked').hide();";
+			$checkedMessageCall="$('#{$this->identifier}').trigger('updateChecked');";
 			if(isset($this->_checkedClass)){
 				$checkedMessageCall.="$(this).closest('tr').toggleClass('".$this->_checkedClass."',$(this).prop('checked'));";
 			}
@@ -37,13 +38,16 @@ trait HasCheckboxesTrait{
 				var \$parentCheckbox=\$('#ck-main-ck-{$this->identifier}'),\$checkbox=\$('#{$this->identifier} [name=\"selection[]\"]'),allChecked=true,allUnchecked=true;
 				\$checkbox.each(function() {if($(this).prop('checked')){allUnchecked = false;}else{allChecked = false;}});
 				if(allChecked) {\$parentCheckbox.checkbox('set checked');}else if(allUnchecked){\$parentCheckbox.checkbox('set unchecked');}else{\$parentCheckbox.checkbox('set indeterminate');};".$checkedMessageCall);
+		if(\sizeof($this->_compileParts)<3){
+			$js->trigger("#".$this->identifier." [name='selection[]']","change",true);
+		}
 	}
 
 	protected function _generateMainCheckbox(&$captions){
 		$ck=new HtmlCheckbox("main-ck-".$this->identifier,"");
 		$checkedMessageCall="";
 		if($this->_hasCheckedMessage)
-			$checkedMessageCall="updateChecked();";
+			$checkedMessageCall="$('#{$this->identifier}').trigger('updateChecked');";
 
 			$ck->setOnChecked($this->_setAllChecked("true").$checkedMessageCall);
 			$ck->setOnUnchecked($this->_setAllChecked("false").$checkedMessageCall);

@@ -10,6 +10,7 @@ use Ajax\JsUtils;
 use Ajax\service\JArray;
 use Ajax\semantic\html\content\table\HtmlTR;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
+use Ajax\semantic\html\content\table\HtmlTD;
 
 /**
  * Semantic HTML Table component
@@ -57,15 +58,23 @@ class HtmlTable extends HtmlSemDoubleElement {
 
 	/**
 	 * Returns/create eventually the body of the table
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function getBody() {
 		return $this->getPart("tbody");
 	}
 
 	/**
+	 * Returns the number of rows (TR)
+	 * @return int
+	 */
+	public function getRowCount() {
+		return $this->getPart("tbody")->count();
+	}
+
+	/**
 	 * Returns/create eventually the header of the table
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function getHeader() {
 		return $this->getPart("thead");
@@ -92,7 +101,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 *
 	 * @param int $rowCount
 	 * @param int $colCount
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function setRowCount($rowCount, $colCount) {
 		$this->_colCount=$colCount;
@@ -103,7 +112,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 * Returns the cell (HtmlTD) at position $row,$col
 	 * @param int $row
 	 * @param int $col
-	 * @return \Ajax\semantic\html\content\HtmlTD
+	 * @return HtmlTD
 	 */
 	public function getCell($row, $col) {
 		return $this->getBody()->getCell($row, $col);
@@ -112,7 +121,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	/**
 	 * Retuns the row at $rowIndex
 	 * @param int $rowIndex
-	 * @return \Ajax\semantic\html\content\HtmlTR
+	 * @return HtmlTR
 	 */
 	public function getRow($rowIndex) {
 		return $this->getBody()->getRow($rowIndex);
@@ -131,7 +140,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 
 	/**
 	 * adds and returns a new row
-	 * @return \Ajax\semantic\html\content\table\HtmlTR
+	 * @return HtmlTR
 	 */
 	public function newRow() {
 		return $this->getBody()->newRow($this->_colCount);
@@ -154,7 +163,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 * Sets values to the col at index $colIndex
 	 * @param int $colIndex
 	 * @param array $values
-	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 * @return HtmlTable
 	 */
 	public function setColValues($colIndex, $values=array()) {
 		$this->getBody()->setColValues($colIndex, $values);
@@ -165,7 +174,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 * Sets values to the row at index $rowIndex
 	 * @param int $rowIndex
 	 * @param array $values
-	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 * @return HtmlTable
 	 */
 	public function setRowValues($rowIndex, $values=array()) {
 		$this->getBody()->setRowValues($rowIndex, $values);
@@ -263,7 +272,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 
 	/**
 	 * @param array $parts
-	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 * @return HtmlTable
 	 */
 	public function setCompileParts($parts=["tbody"]) {
 		$this->_compileParts=$parts;
@@ -286,7 +295,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 * The callback function called after the insertion of each row when fromDatabaseObjects is called
 	 * callback function takes the parameters $row : the row inserted and $object: the instance of model used
 	 * @param callable $callback
-	 * @return \Ajax\semantic\html\collections\HtmlTable
+	 * @return HtmlTable
 	 */
 	public function onNewRow($callback) {
 		$this->_afterCompileEvents["onNewRow"]=$callback;

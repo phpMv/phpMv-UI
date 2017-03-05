@@ -236,6 +236,7 @@ class HtmlMenu extends HtmlSemCollection {
 	}
 
 	public function run(JsUtils $js){
+		$this->onClick('if(!$(this).hasClass("dropdown")){$(this).addClass("active").siblings().removeClass("active");}');
 		$result= parent::run($js);
 		return $result->setItemSelector(".item");
 	}

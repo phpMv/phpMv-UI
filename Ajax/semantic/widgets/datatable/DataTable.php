@@ -12,6 +12,7 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
+use Ajax\semantic\html\collections\HtmlMessage;
 
 /**
  * DataTable widget for displaying list of objects
@@ -31,12 +32,17 @@ class DataTable extends Widget {
 	protected $_visibleHover=false;
 	protected $_targetSelector;
 	protected $_refreshSelector;
+	protected $_emptyMessage;
+	protected $_json;
+	protected $_rowClass="";
 
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier, $model,$modelInstance);
 		$this->_init(new InstanceViewer($identifier), "table", new HtmlTable($identifier, 0,0), false);
 		$this->_urls=[];
+		$this->_emptyMessage=new HtmlMessage("","nothing to display");
+		$this->_emptyMessage->setIcon("info circle");
 	}
 
 	public function run(JsUtils $js){
@@ -100,7 +106,7 @@ class DataTable extends Widget {
 			}
 
 			if(isset($this->_pagination) && $this->_pagination->getVisible()){
-				$this->_generatePagination($table);
+				$this->_generatePagination($table,$js);
 			}
 			if(isset($this->_toolbar)){
 				$this->_setToolbarPosition($table, $captions);
@@ -119,32 +125,46 @@ class DataTable extends Widget {
 		if(isset($this->_pagination)){
 			$objects=$this->_pagination->getObjects($this->_modelInstance);
 		}
-		InstanceViewer::setIndex(0);
-		$table->fromDatabaseObjects($objects, function($instance) use($table){
-			$this->_instanceViewer->setInstance($instance);
-			InstanceViewer::$index++;
-			$values= $this->_instanceViewer->getValues();
-			if($this->_hasCheckboxes){
-				$ck=new HtmlCheckbox("ck-".$this->identifier,"");
-				$field=$ck->getField();
-				$field->setProperty("value",$this->_instanceViewer->getIdentifier());
-				$field->setProperty("name", "selection[]");
-				\array_unshift($values, $ck);
-			}
-			$result=$table->newRow();
-			$result->setIdentifier($this->identifier."-tr-".$this->_instanceViewer->getIdentifier());
-			$result->setValues($values);
-			return $result;
-		});
+			InstanceViewer::setIndex(0);
+			$table->fromDatabaseObjects($objects, function($instance) use($table){
+				return $this->_generateRow($instance, $table);
+			});
+		if($table->getRowCount()==0){
+			$result=$table->addRow();
+			$result->mergeRow();
+			$result->setValues([$this->_emptyMessage]);
+		}
 	}
 
-	private function _generatePagination($table){
+	protected function _generateRow($instance,&$table){
+		$this->_instanceViewer->setInstance($instance);
+		InstanceViewer::$index++;
+		$values= $this->_instanceViewer->getValues();
+		if($this->_hasCheckboxes){
+			$ck=new HtmlCheckbox("ck-".$this->identifier,"");
+			$field=$ck->getField();
+			$field->setProperty("value",$this->_instanceViewer->getIdentifier());
+			$field->setProperty("name", "selection[]");
+			\array_unshift($values, $ck);
+		}
+		$result=$table->newRow();
+		$result->setIdentifier($this->identifier."-tr-".$this->_instanceViewer->getIdentifier());
+		$result->setValues($values);
+		$result->addToProperty("class",$this->_rowClass);
+		return $result;
+	}
+
+	protected function _generatePagination($table,$js=NULL){
 		$footer=$table->getFooter();
 		$footer->mergeCol();
 		$menu=new HtmlPaginationMenu("pagination-".$this->identifier,$this->_pagination->getPagesNumbers());
 		$menu->floatRight();
 		$menu->setActiveItem($this->_pagination->getPage()-1);
 		$footer->setValues($menu);
+		$this->_associatePaginationBehavior($menu,$js);
+	}
+
+	protected function _associatePaginationBehavior($menu,$js=NULL){
 		if(isset($this->_urls["refresh"]))
 			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
 	}
@@ -313,5 +333,23 @@ class DataTable extends Widget {
 		$this->_refreshSelector=$_refreshSelector;
 		return $this;
 	}
+
+	public function show($modelInstance){
+		if(\is_array($modelInstance)){
+			if(\is_array(array_values($modelInstance)[0]))
+				$modelInstance=\json_decode(\json_encode($modelInstance), FALSE);
+		}
+		$this->_modelInstance=$modelInstance;
+	}
+
+	public function getRowClass() {
+		return $this->_rowClass;
+	}
+
+	public function setRowClass($_rowClass) {
+		$this->_rowClass=$_rowClass;
+		return $this;
+	}
+
 
 }

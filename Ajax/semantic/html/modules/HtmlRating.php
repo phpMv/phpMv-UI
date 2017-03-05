@@ -33,7 +33,7 @@ class HtmlRating extends HtmlSemDoubleElement {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::run()
+	 * @see HtmlSemDoubleElement::run()
 	 */
 	public function run(JsUtils $js){
 		parent::run($js);

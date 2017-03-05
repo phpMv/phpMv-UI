@@ -71,7 +71,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $jsCallback javascript code to execute after the request
 	 */
 	public function jsonArray($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
-		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback, NULL,true);
+		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback,"id", NULL,true);
 	}
 
 	/**
@@ -83,7 +83,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $jsCallback javascript code to execute after the request
 	 */
 	public function jsonArrayDeferred($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
-		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback, NULL, false);
+		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback,"id", NULL, false);
 	}
 
 	/**
