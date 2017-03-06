@@ -195,8 +195,8 @@ class HtmlButton extends HtmlSemDoubleElement {
 		return $result;
 	}
 
-	public function asLink($href=NULL) {
-		$lnk=new HtmlLink("lnk-".$this->identifier,$href,$this->content);
+	public function asLink($href=NULL,$target=NULL) {
+		$lnk=new HtmlLink("lnk-".$this->identifier,$href,$this->content,$target);
 		$this->content=$lnk;
 		return $this;
 	}

@@ -9,7 +9,7 @@ use Ajax\semantic\html\elements\HtmlLabel;
  * used in DataTable
  * @author jc
  * @property string identifier
- * @property $_compileParts
+ * @property array $_compileParts
  */
 trait HasCheckboxesTrait{
 	protected $_hasCheckboxes;

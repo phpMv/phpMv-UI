@@ -82,9 +82,11 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	 *
 	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
 	 */
-	public function asLink($href=NULL) {
+	public function asLink($href=NULL,$target=NULL) {
 		if (isset($href))
 			$this->setProperty("href", $href);
+		if(isset($target))
+			$this->setProperty("target", $target);
 		return $this->setTagName("a");
 	}
 

@@ -21,7 +21,9 @@ class JReflection {
 					if($class->getProperty($property)!==null){
 						\call_user_func_array([$object,$name],[$value]);
 					}
-				}catch(\Exception $e){}
+				}catch(\Exception $e){
+					//Nothing to do
+				}
 			}
 		}
 		return $object;

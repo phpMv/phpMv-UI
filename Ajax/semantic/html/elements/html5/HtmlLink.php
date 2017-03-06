@@ -10,9 +10,11 @@ use Ajax\JsUtils;
 class HtmlLink extends HtmlSemDoubleElement {
 	use HtmlLinkTrait;
 
-	public function __construct($identifier, $href="#", $content="Link") {
+	public function __construct($identifier, $href="#", $content="Link",$target=NULL) {
 		parent::__construct($identifier, "a", "");
 		$this->setHref($href);
+		if(isset($target))
+			$this->setTarget($target);
 		$this->content=$content;
 	}
 

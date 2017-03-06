@@ -62,23 +62,27 @@ class DataForm extends Widget {
 		}else{
 			$separators[]=$count;
 			for($i=0;$i<$size;$i++){
-				$wrapper=null;
-				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
-				if(isset($headers[$separators[$i]+1]))
-					$form->addHeader($headers[$separators[$i]+1],4,true);
-				if(isset($wrappers[$separators[$i]+1])){
-					$wrapper=$wrappers[$separators[$i]+1];
-				}
-				//TODO check why $fields is empty
-				if(\sizeof($fields)===1){
-					$added=$form->addField($fields[0]);
-				}elseif(\sizeof($fields)>1){
-					$added=$form->addFields($fields);
-				}
-				if(isset($wrapper))
-					$added->wrap($wrapper[0],$wrapper[1]);
+				$this->_generateFields($form, $values, $headers, $separators[$i], $separators[$i+1], $wrappers);
 			}
 		}
+	}
+
+	protected function _generateFields($form,$values,$headers,$sepFirst,$sepLast,$wrappers){
+		$wrapper=null;
+		$fields=\array_slice($values, $sepFirst+1,$sepLast-$sepFirst);
+		if(isset($headers[$sepFirst+1]))
+			$form->addHeader($headers[$sepFirst+1],4,true);
+			if(isset($wrappers[$sepFirst+1])){
+				$wrapper=$wrappers[$sepFirst+1];
+			}
+			//TODO check why $fields is empty
+			if(\sizeof($fields)===1){
+				$added=$form->addField($fields[0]);
+			}elseif(\sizeof($fields)>1){
+				$added=$form->addFields($fields);
+			}
+			if(isset($wrapper))
+				$added->wrap($wrapper[0],$wrapper[1]);
 	}
 
 	/**
