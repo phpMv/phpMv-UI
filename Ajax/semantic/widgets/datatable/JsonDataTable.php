@@ -65,6 +65,18 @@ class JsonDataTable extends DataTable {
 		return new AjaxCall("jsonArray", $parameters);
 	}
 
+	public function jsClear(){
+		return "$('#{$this->identifier} tbody').find('._json').remove();";
+	}
+
+	public function clearOn(BaseHtml $element,$event, $stopPropagation=false, $preventDefault=false){
+		return $element->addEvent($event, $this->jsClear(),$stopPropagation,$preventDefault);
+	}
+
+	public function clearOnClick(BaseHtml $element,$stopPropagation=false, $preventDefault=false){
+		return $this->clearOn($element, "click",$stopPropagation,$preventDefault);
+	}
+
 	public function jsonArrayOn(BaseHtml $element,$event,$url, $method="get", $params="{}", $jsCallback=NULL,$parameters=[]){
 		return $element->_addEvent($event, $this->jsJsonArray($url,$method,$params,$jsCallback,$parameters));
 	}
