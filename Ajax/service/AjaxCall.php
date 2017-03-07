@@ -16,7 +16,6 @@ class AjaxCall {
 	public function compile(JsUtils $js=null) {
 		if ($js==null)
 			return;
-		$result="";
 		$params="{}";
 		$jsCallback=NULL;
 		$attr="id";
@@ -28,12 +27,7 @@ class AjaxCall {
 		$hasLoader=true;
 		$method="get";
 		extract($this->parameters);
-		if ($preventDefault===true) {
-			$result.=Javascript::$preventDefault;
-		}
-		if ($stopPropagation===true) {
-			$result.=Javascript::$stopPropagation;
-		}
+		$result=$this->_evenPreparing($preventDefault, $stopPropagation);
 		switch($this->method) {
 			case "get":
 				$result.=$js->getDeferred($url, $responseElement, $params, $jsCallback, $attr,$jqueryDone,$ajaxTransition);
@@ -50,6 +44,17 @@ class AjaxCall {
 			case "jsonArray":
 				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback);
 				break;
+		}
+		return $result;
+	}
+
+	protected function _evenPreparing($preventDefault,$stopPropagation){
+		$result="";
+		if ($preventDefault===true) {
+			$result.=Javascript::$preventDefault;
+		}
+		if ($stopPropagation===true) {
+			$result.=Javascript::$stopPropagation;
 		}
 		return $result;
 	}
