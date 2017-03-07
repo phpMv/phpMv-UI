@@ -356,10 +356,26 @@ class DataTable extends Widget {
 		return $this->_rowClass;
 	}
 
+	/**
+	 * Sets the default row class (tr class)
+	 * @param string $_rowClass
+	 * @return DataTable
+	 */
 	public function setRowClass($_rowClass) {
 		$this->_rowClass=$_rowClass;
 		return $this;
 	}
+
+	/**
+	 * Sets the message displayed when there is no record
+	 * @param mixed $_emptyMessage
+	 * @return DataTable
+	 */
+	public function setEmptyMessage($_emptyMessage) {
+		$this->_emptyMessage=$_emptyMessage;
+		return $this;
+	}
+
 
 
 }
