@@ -15,7 +15,7 @@ class JReflection {
 		foreach ($methods as $method){
 			$name=$method->getName();
 			if(JString::startswith($name, "set")){
-				$property=\strtolower(JString::replaceAtFirst($name, "set", ""));
+				$property=\lcfirst(JString::replaceAtFirst($name, "set", ""));
 				$value="__".$property."__";
 				try{
 					if($class->getProperty($property)!==null){

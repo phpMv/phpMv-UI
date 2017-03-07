@@ -34,16 +34,36 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		}
 	}
 
+	/**
+	 * Defines the popup attributes
+	 * @param string $variation
+	 * @param string $popupEvent
+	 */
 	public function setPopupAttributes($variation=NULL, $popupEvent=NULL) {
 		if (isset($this->_popup))
 			$this->_popup->setAttributes($variation, $popupEvent);
 	}
 
+	/**
+	 * Adds a popup to the element
+	 * @param string $title
+	 * @param string $content
+	 * @param string $variation
+	 * @param array $params
+	 * @return HtmlSemDoubleElement
+	 */
 	public function addPopup($title="", $content="", $variation=NULL, $params=array()) {
 		$this->_popup=new InternalPopup($this, $title, $content, $variation, $params);
 		return $this;
 	}
 
+	/**
+	 * Adds an html popup to the element
+	 * @param string $html
+	 * @param string $variation
+	 * @param array $params
+	 * @return HtmlSemDoubleElement
+	 */
 	public function addPopupHtml($html="", $variation=NULL, $params=array()) {
 		$this->_popup=new InternalPopup($this);
 		$this->_popup->setHtml($html);
@@ -51,6 +71,12 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return $this;
 	}
 
+	/**
+	 * Adds a Dimmer to the element
+	 * @param array $params
+	 * @param mixed $content
+	 * @return HtmlDimmer
+	 */
 	public function addDimmer($params=array(), $content=NULL) {
 		$dimmer=new HtmlDimmer("dimmer-" . $this->identifier, $content);
 		$dimmer->setParams($params);
@@ -59,6 +85,13 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return $dimmer;
 	}
 
+	/**
+	 * Adds a label to the element
+	 * @param mixed $label
+	 * @param boolean $before
+	 * @param string $icon
+	 * @return mixed|HtmlLabel
+	 */
 	public function addLabel($label, $before=false, $icon=NULL) {
 		$labelO=$label;
 		if (\is_object($label) === false) {
@@ -72,6 +105,14 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return $labelO;
 	}
 
+	/**
+	 * Adds an attached label to the element
+	 * @param mixed $label
+	 * @param string $side
+	 * @param string $direction
+	 * @param string $icon
+	 * @return HtmlSemDoubleElement
+	 */
 	public function attachLabel($label,$side=Side::TOP,$direction=Direction::NONE,$icon=NULL){
 		$label=$this->addLabel($label,true,$icon);
 		$label->setAttached($side,$direction);
@@ -79,8 +120,8 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	}
 
 	/**
-	 *
-	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 * Transforms the element into a link
+	 * @return HtmlSemDoubleElement
 	 */
 	public function asLink($href=NULL,$target=NULL) {
 		if (isset($href))
@@ -90,6 +131,11 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return $this->setTagName("a");
 	}
 
+	/**
+	 * Returns the script displaying the dimmer
+	 * @param boolean $show
+	 * @return string
+	 */
 	public function jsShowDimmer($show=true) {
 		$status="hide";
 		if ($show === true)
@@ -97,12 +143,20 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return '$("#.' . $this->identifier . ').dimmer("' . $status . '");';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see BaseHtml::compile()
+	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 	if (isset($this->_popup))
 			$this->_popup->compile($js);
 		return parent::compile($js, $view);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see HtmlDoubleElement::run()
+	 */
 	public function run(JsUtils $js) {
 		$this->_bsComponent=$js->semantic()->generic("#" . $this->identifier);
 		parent::run($js);

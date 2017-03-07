@@ -75,7 +75,6 @@ class DataForm extends Widget {
 			if(isset($wrappers[$sepFirst+1])){
 				$wrapper=$wrappers[$sepFirst+1];
 			}
-			//TODO check why $fields is empty
 			if(\sizeof($fields)===1){
 				$added=$form->addField($fields[0]);
 			}elseif(\sizeof($fields)>1){

@@ -17,6 +17,7 @@ use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\service\JArray;
 use Ajax\semantic\html\elements\html5\HtmlLink;
+use Ajax\semantic\html\elements\HtmlFlag;
 
 /**
  * trait used in Widget
@@ -134,6 +135,14 @@ trait FieldAsTrait{
 		$this->setValueFunction($index,function($img) use($size,$circular){
 			$image=new HtmlImage($this->_getFieldIdentifier("image"),$img);$image->setSize($size);if($circular)$image->setCircular();
 			return $image;
+		});
+			return $this;
+	}
+
+	public function fieldAsFlag($index){
+		$this->setValueFunction($index,function($flag){
+			$flag=new HtmlFlag($this->_getFieldIdentifier("flag"),$flag);
+			return $flag;
 		});
 			return $this;
 	}

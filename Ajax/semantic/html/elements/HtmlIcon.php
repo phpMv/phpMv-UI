@@ -82,11 +82,16 @@ class HtmlIcon extends HtmlSemDoubleElement {
 
 	/**
 	 * icon formatted as a link
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @param string $href
+	 * @param string target
+	 * @return HtmlIcon
 	 */
-	public function asLink($href=NULL) {
+	public function asLink($href=NULL,$target=NULL) {
 		if (isset($href)) {
-			$this->wrap("<a href='" . $href . "'>", "</a>");
+			$_target="";
+			if(isset($target))
+				$_target="target='{$target}'";
+			$this->wrap("<a href='" . $href . "' {$_target}>", "</a>");
 		}
 		return $this->addToProperty("class", "link");
 	}

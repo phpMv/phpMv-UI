@@ -11,7 +11,8 @@ use Ajax\semantic\html\elements\html5\HtmlLink;
 /**
  * Semantic Button component
  * @see http://phpmv-ui.kobject.net/index/direct/main/31
- * @see http://semantic-ui.com/elements/button.html * @author jc
+ * @see http://semantic-ui.com/elements/button.html
+ * @author jc
  * @version 1.001
  */
 class HtmlButton extends HtmlSemDoubleElement {
@@ -38,7 +39,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	/**
 	 * Set the button value
 	 * @param string $value
-	 * @return \Ajax\semantic\html\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function setValue($value) {
 		$this->content=$value;
@@ -48,7 +49,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	/**
 	 * define the button style
 	 * @param string|int $cssStyle
-	 * @return \Ajax\semantic\html\HtmlButton default : ""
+	 * @return HtmlButton default : ""
 	 */
 	public function setStyle($cssStyle) {
 		return $this->addToProperty("class", $cssStyle);
@@ -79,7 +80,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string|HtmlIcon $icon
-	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function asIcon($icon) {
 		$iconO=$icon;
@@ -101,7 +102,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * @param string $label
 	 * @param boolean $before
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\elements\HtmlLabel
+	 * @return HtmlLabel
 	 */
 	public function addLabel($label, $before=false, $icon=NULL) {
 		$this->tagName="div";
@@ -128,7 +129,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 
 	/**
 	 * hint towards a positive consequence
-	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function setPositive() {
 		return $this->addToProperty("class", "positive");
@@ -136,7 +137,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 
 	/**
 	 * hint towards a negative consequence
-	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function setNegative() {
 		return $this->addToProperty("class", "negative");
@@ -144,7 +145,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 
 	/**
 	 * formatted to toggle on/off
-	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function setToggle() {
 		$this->onCreate("$('#".$this->identifier."').state();");
@@ -153,7 +154,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 
 	/**
 	 *
-	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function setCircular() {
 		return $this->addToProperty("class", "circular");
@@ -161,7 +162,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 
 	/**
 	 * button is less pronounced
-	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 * @return HtmlButton
 	 */
 	public function setBasic() {
 		return $this->addToProperty("class", "basic");
@@ -175,6 +176,13 @@ class HtmlButton extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "loading");
 	}
 
+	/**
+	 * Returns a new social Button
+	 * @param string $identifier
+	 * @param string $social
+	 * @param string $value
+	 * @return HtmlButton
+	 */
 	public static function social($identifier, $social, $value=NULL) {
 		if ($value === NULL)
 			$value=\ucfirst($social);
@@ -183,18 +191,36 @@ class HtmlButton extends HtmlSemDoubleElement {
 		return $return->addToPropertyCtrl("class", $social, Social::getConstants());
 	}
 
+	/**
+	 * Returns a new labeled Button
+	 * @param string $identifier
+	 * @param string $value
+	 * @param string $icon
+	 * @param boolean $before
+	 * @return \Ajax\semantic\html\elements\HtmlButton
+	 */
 	public static function labeled($identifier, $value, $icon, $before=true) {
 		$result=new HtmlButton($identifier, $value);
 		$result->addIcon($icon, $before, true);
 		return $result;
 	}
 
+	/**
+	 * Returns a new icon Button
+	 * @param string $identifier
+	 * @param string $icon
+	 * @return HtmlButton
+	 */
 	public static function icon($identifier, $icon) {
 		$result=new HtmlButton($identifier);
 		$result->asIcon($icon);
 		return $result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see HtmlSemDoubleElement::asLink()
+	 */
 	public function asLink($href=NULL,$target=NULL) {
 		$lnk=new HtmlLink("lnk-".$this->identifier,$href,$this->content,$target);
 		$this->content=$lnk;

@@ -129,17 +129,19 @@ class HtmlCard extends HtmlSemDoubleElement {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::compile()
+	 * @see HtmlSemDoubleElement::compile()
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		$this->content=JArray::sortAssociative($this->content, [ "header","image","content","extra-content" ]);
 		return parent::compile($js, $view);
 	}
 
-	public function asLink($href="") {
+	public function asLink($href="",$target=NULL) {
 		$this->addToProperty("class", "link");
 		if ($href !== "") {
 			$this->setProperty("href", $href);
+			if (isset($target))
+				$this->setProperty("target", $target);
 		}
 		return $this;
 	}
