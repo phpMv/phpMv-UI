@@ -18,6 +18,9 @@ class HtmlMessage extends HtmlSemDoubleElement {
 	use AttachedTrait;
 	protected $icon;
 	protected $close;
+	protected $_timeout;
+	protected $_closeTransition="{animation : 'scale',duration : '2s'}";
+
 	public function __construct($identifier, $content="") {
 		parent::__construct($identifier, "div");
 		$this->_template="<%tagName% id='%identifier%' %properties%>%close%%icon%%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>";
@@ -79,7 +82,10 @@ class HtmlMessage extends HtmlSemDoubleElement {
 	public function run(JsUtils $js){
 		parent::run($js);
 		if(isset($this->close)){
-			$js->execOn("click", "#".$this->identifier." .close", "$(this).closest('.message').transition('fade')");
+			$js->execOn("click", "#".$this->identifier." .close", "$(this).closest('.message').transition({$this->_closeTransition})");
+		}
+		if(isset($this->_timeout)){
+			$js->exec("setTimeout(function() { $('#{$this->identifier}').transition({$this->_closeTransition}); }, {$this->_timeout});",true);
 		}
 	}
 
@@ -110,4 +116,15 @@ class HtmlMessage extends HtmlSemDoubleElement {
 		}else
 			$this->setContent($message);
 	}
+
+	public function setTimeout($_timeout) {
+		$this->_timeout=$_timeout;
+		return $this;
+	}
+
+	public function setCloseTransition($_closeTransition) {
+		$this->_closeTransition=$_closeTransition;
+		return $this;
+	}
+
 }

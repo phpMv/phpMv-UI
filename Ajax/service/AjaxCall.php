@@ -27,7 +27,7 @@ class AjaxCall {
 		$hasLoader=true;
 		$method="get";
 		extract($this->parameters);
-		$result=$this->_evenPreparing($preventDefault, $stopPropagation);
+		$result=$this->_eventPreparing($preventDefault, $stopPropagation);
 		switch($this->method) {
 			case "get":
 				$result.=$js->getDeferred($url, $responseElement, $params, $jsCallback, $attr,$jqueryDone,$ajaxTransition);
@@ -48,7 +48,7 @@ class AjaxCall {
 		return $result;
 	}
 
-	protected function _evenPreparing($preventDefault,$stopPropagation){
+	protected function _eventPreparing($preventDefault,$stopPropagation){
 		$result="";
 		if ($preventDefault===true) {
 			$result.=Javascript::$preventDefault;
