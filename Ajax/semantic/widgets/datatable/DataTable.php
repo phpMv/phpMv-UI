@@ -36,6 +36,7 @@ class DataTable extends Widget {
 	protected $_emptyMessage;
 	protected $_json;
 	protected $_rowClass="";
+	protected $_sortable;
 
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
@@ -91,7 +92,8 @@ class DataTable extends Widget {
 			}
 
 			$table->setRowCount(0, \sizeof($captions));
-			$table->setHeaderValues($captions);
+			$this->_generateHeader($table,$captions);
+
 			if(isset($this->_compileParts))
 				$table->setCompileParts($this->_compileParts);
 
@@ -119,6 +121,13 @@ class DataTable extends Widget {
 			$this->_generated=true;
 		}
 		return parent::compile($js,$view);
+	}
+
+	protected function _generateHeader(HtmlTable $table,$captions){
+		$table->setHeaderValues($captions);
+		if(isset($this->_sortable)){
+			$table->setSortable($this->_sortable);
+		}
 	}
 
 
@@ -344,6 +353,10 @@ class DataTable extends Widget {
 		return $this;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\common\Widget::show()
+	 */
 	public function show($modelInstance){
 		if(\is_array($modelInstance)){
 			if(\is_array(array_values($modelInstance)[0]))
@@ -376,6 +389,9 @@ class DataTable extends Widget {
 		return $this;
 	}
 
-
+	public function setSortable($colIndex=NULL) {
+		$this->_sortable=$colIndex;
+		return $this;
+	}
 
 }
