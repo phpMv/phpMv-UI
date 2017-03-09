@@ -72,11 +72,11 @@ trait TableTrait{
 	}
 
 	public function onRow($event,$jsCode, $stopPropagation=false, $preventDefault=false){
-		$this->getTable()->addEvent($event,"{{tr}}".$jsCode,$stopPropagation,$preventDefault);
+		$this->getTable()->addEvent($event."{{tr}}",$jsCode,$stopPropagation,$preventDefault);
 	}
 
 	public function getOnRow($event, $url, $responseElement="", $parameters=array()){
-		$parameters=\array_merge($parameters,["eventItemSelector"=>"tbody tr","stopPropagation"=>false,"preventDefault"=>false]);
-		return $this->getTable()->getOn($event, $url,$responseElement,$parameters);
+		$parameters=\array_merge($parameters,["stopPropagation"=>false,"preventDefault"=>false]);
+		return $this->getTable()->getOn($event."{{tbody tr}}", $url,$responseElement,$parameters);
 	}
 }

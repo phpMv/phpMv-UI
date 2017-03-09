@@ -53,6 +53,7 @@ class JString {
 
 	public static function getValueBetween(&$str,$before="{{",$after="}}"){
 		$matches=[];
+		$result=null;
 		$_before=\preg_quote($before);
 		$_after=\preg_quote($after);
 		if(\preg_match('/'.$_before.'(.*?)'.$_after.'/s', $str, $matches)===1){

@@ -45,8 +45,6 @@ class AjaxCall {
 				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback);
 				break;
 		}
-		if(isset($eventItemSelector))
-			$result="{{".$eventItemSelector."}}".$result;
 		return $result;
 	}
 

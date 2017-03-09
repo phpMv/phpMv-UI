@@ -397,4 +397,9 @@ class DataTable extends Widget {
 		return $this;
 	}
 
+	public function setActiveRowSelector($class="active",$event="click",$multiple=false){
+		$this->getTable()->setActiveRowSelector($class,$event,$multiple);
+		return $this;
+	}
+
 }
