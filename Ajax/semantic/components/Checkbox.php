@@ -19,5 +19,9 @@ class Checkbox extends SimpleExtComponent {
 	public function setOnUnchecked($value) {
 		$this->params["onUnchecked"]="%function(){".$value."}%";
 	}
+
+	public function setOnChange($value){
+		$this->params["onChange"]="%function(){".$value."}%";
+	}
 	//TODO other events implementation
 }

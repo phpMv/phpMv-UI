@@ -23,6 +23,8 @@ class HtmlTable extends HtmlSemDoubleElement {
 	private $_compileParts;
 	private $_footer;
 	private $_afterCompileEvents;
+	private $_activeClass="warning";
+	private $_activeRowEvent="click";
 
 	public function __construct($identifier, $rowCount, $colCount) {
 		parent::__construct($identifier, "table", "ui table");
@@ -241,13 +243,18 @@ class HtmlTable extends HtmlSemDoubleElement {
 		if(\sizeof($this->_compileParts)<3){
 			$this->_template="%content%";
 			$this->refresh();
-		}else{
-			if ($this->propertyContains("class", "sortable")) {
-				$this->addEvent("execute", "$('#" . $this->identifier . "').tablesort();");
-			}
 		}
 		$this->content=JArray::sortAssociative($this->content, $this->_compileParts);
 		return parent::compile($js, $view);
+	}
+
+	protected function compile_once(JsUtils $js=NULL, &$view=NULL) {
+		if ($this->propertyContains("class", "sortable")) {
+			$this->addEvent("execute", "$('#" . $this->identifier . "').tablesort().data('tablesort').sort($('th.default-sort'));");
+		}
+		if(isset($this->_activeClass)){
+			$this->onRow($this->_activeRowEvent, "$(this).toggleClass('".$this->_activeClass."');");
+		}
 	}
 
 	/**
@@ -301,4 +308,16 @@ class HtmlTable extends HtmlSemDoubleElement {
 		$this->_afterCompileEvents["onNewRow"]=$callback;
 		return $this;
 	}
+
+	public function setActiveClass($_activeClass) {
+		$this->_activeClass=$_activeClass;
+		return $this;
+	}
+
+	public function setActiveRowEvent($_activeRowEvent) {
+		$this->_activeRowEvent=$_activeRowEvent;
+		return $this;
+	}
+
+
 }

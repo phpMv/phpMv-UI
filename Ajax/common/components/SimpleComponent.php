@@ -4,6 +4,8 @@ namespace Ajax\common\components;
 
 
 use Ajax\JsUtils;
+use Ajax\service\JString;
+use Ajax\bootstrap\components\Splitbutton;
 /**
  * Base component for JQuery UI visuals components
  * @author jc
@@ -22,18 +24,24 @@ abstract class SimpleComponent extends BaseComponent {
 
 	protected function compileEvents() {
 		foreach ( $this->events as $event => $jsCode ) {
+			$itemSelector=JString::getValueBetween($jsCode);
 			if($event=="execute"){
 				$this->jquery_code_for_compile []=$jsCode;
 			}else if($event=="beforeExecute"){
 				\array_unshift($this->jquery_code_for_compile, $jsCode);
 			}else{
-				$selector=$this->attachTo;
-				if(isset($this->itemSelector)){
-					$selector.=" ".$this->itemSelector;
-				}
+				$selector=$this->_createSelector($itemSelector, $this->attachTo);
 				$this->jquery_code_for_compile []="$( \"".$selector."\" ).on(\"".$event."\" , function( event, data ) {".$jsCode."});";
 			}
 		}
+	}
+
+	protected function _createSelector($itemSelector,$selector){
+		if(!isset($itemSelector))
+			$itemSelector=$this->itemSelector;
+		if(isset($itemSelector) && $itemSelector!=="")
+			$selector.=" ".$itemSelector;
+		return $selector;
 	}
 
 	protected function compileJQueryCode() {

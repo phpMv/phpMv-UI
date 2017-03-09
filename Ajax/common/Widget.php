@@ -75,7 +75,12 @@ abstract class Widget extends HtmlDoubleElement {
 	 * @return int|string
 	 */
 	protected function _getIndex($fieldName){
-		return $fieldName;
+		$index=$fieldName;
+		if(\is_string($fieldName)){
+			$fields=$this->_instanceViewer->getVisibleProperties();
+			$index=\array_search($fieldName, $fields);
+		}
+		return $index;
 	}
 
 	protected function _getFieldIdentifier($prefix,$name=""){

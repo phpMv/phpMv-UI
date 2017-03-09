@@ -38,9 +38,9 @@ class HtmlSingleElement extends BaseHtml {
 		return $this;
 	}
 
-	/*
-	 * (non-PHPdoc)
-	 * @see \Ajax\bootstrap\html\base\HtmlSingleElement::run()
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\common\html\BaseHtml::run()
 	 */
 	public function run(JsUtils $js) {
 

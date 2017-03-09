@@ -21,6 +21,7 @@ abstract class BaseHtml extends BaseWidget {
 	protected $_wrapBefore=array ();
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
+	protected $_compiled=false;
 
 	/**
 	 *
@@ -186,7 +187,13 @@ abstract class BaseHtml extends BaseWidget {
 		return $this;
 	}
 
+	protected function compile_once(JsUtils $js=NULL, &$view=NULL) {
+	}
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		if(!$this->_compiled){
+			$this->compile_once($js,$view);
+			$this->_compiled=true;
+		}
 		$result=$this->getTemplate($js);
 		foreach ( $this as $key => $value ) {
 			if (JString::startswith($key, "_") === false && $key !== "events") {

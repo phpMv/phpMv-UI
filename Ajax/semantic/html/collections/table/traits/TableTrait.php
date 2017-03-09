@@ -6,6 +6,8 @@ trait TableTrait{
 	 * @return HtmlTable
 	 */
 	abstract protected function getTable();
+	abstract public function addEvent($event, $jsCode, $stopPropagation=false, $preventDefault=false);
+	abstract public function getOn($event, $url, $responseElement="", $parameters=array());
 
 	protected function addToPropertyTable($property,$value){
 		return $this->getTable()->addToProperty($property, $value);
@@ -63,5 +65,18 @@ trait TableTrait{
 
 	public function setStriped() {
 		return $this->addToPropertyTable("class", "striped");
+	}
+
+	public function onRowClick($jsCode, $stopPropagation=false, $preventDefault=false){
+		$this->onRowClick($jsCode,$stopPropagation,$preventDefault);
+	}
+
+	public function onRow($event,$jsCode, $stopPropagation=false, $preventDefault=false){
+		$this->getTable()->addEvent($event,"{{tr}}".$jsCode,$stopPropagation,$preventDefault);
+	}
+
+	public function getOnRow($event, $url, $responseElement="", $parameters=array()){
+		$parameters=\array_merge($parameters,["eventItemSelector"=>"tbody tr","stopPropagation"=>false,"preventDefault"=>false]);
+		return $this->getTable()->getOn($event, $url,$responseElement,$parameters);
 	}
 }

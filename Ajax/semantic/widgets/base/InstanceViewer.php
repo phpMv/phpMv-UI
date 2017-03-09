@@ -330,4 +330,9 @@ class InstanceViewer {
 		$this->defaultValueFunction=$defaultValueFunction;
 		return $this;
 	}
+
+	public function getVisibleProperties() {
+		return $this->visibleProperties;
+	}
+
 }

@@ -9,6 +9,11 @@ use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 
+/**
+ * @author jc
+ * a DataTable refreshed with JSON
+ * @since 2.2.2
+ */
 class JsonDataTable extends DataTable {
 	protected $_modelClass="_jsonArrayModel";
 

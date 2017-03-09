@@ -50,4 +50,15 @@ class JString {
 		$s=self::replaceAtFirst($subject, $fromFirst, $toFirst);
 		return self::replaceAtLast($s, $fromLast, $toLast);
 	}
+
+	public static function getValueBetween(&$str,$before="{{",$after="}}"){
+		$matches=[];
+		$_before=\preg_quote($before);
+		$_after=\preg_quote($after);
+		if(\preg_match('/'.$_before.'(.*?)'.$_after.'/s', $str, $matches)===1){
+			$result=$matches[1];
+			$str=\str_replace($before.$result.$after,"", $str);
+		}
+		return $result;
+	}
 }

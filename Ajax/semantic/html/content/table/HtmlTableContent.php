@@ -30,7 +30,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	 *
 	 * @param int $rowCount
 	 * @param int $colCount
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function setRowCount($rowCount, $colCount) {
 		$count=$this->count();
@@ -86,7 +86,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	 * Returns the cell (HtmlTD) at position $row,$col
 	 * @param int $row
 	 * @param int $col
-	 * @return \Ajax\semantic\html\content\HtmlTD
+	 * @return HtmlTD
 	 */
 	public function getCell($row, $col) {
 		$row=$this->getItem($row);
@@ -99,7 +99,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	/**
 	 *
 	 * @param int $index
-	 * @return \Ajax\semantic\html\content\HtmlTR
+	 * @return HtmlTR
 	 */
 	public function getRow($index) {
 		return $this->getItem($index);
@@ -110,7 +110,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	 * @param int $row
 	 * @param int $col
 	 * @param mixed $value
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function setCellValue($row, $col, $value="") {
 		$cell=$this->getCell($row, $col);
@@ -234,7 +234,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	 * Removes the cell at position $rowIndex,$colIndex
 	 * @param int $rowIndex
 	 * @param int $colIndex
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function delete($rowIndex, $colIndex=NULL) {
 		if (isset($colIndex)) {
@@ -261,13 +261,14 @@ class HtmlTableContent extends HtmlSemCollection {
 	}
 
 	public function sort($colIndex) {
-		$this->content[0]->getItem($colIndex)->addToProperty("class", "sorted ascending");
+		$this->content[0]->getItem($colIndex)->addToProperty("class", "default-sort");
+		return $this;
 	}
 
 	/**
 	 * @param mixed $callback
 	 * @param string $format
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function conditionalCellFormat($callback, $format) {
 		$rows=$this->content;
@@ -280,7 +281,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	/**
 	 * @param mixed $callback
 	 * @param string $format
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function conditionalRowFormat($callback, $format) {
 		$rows=$this->content;
@@ -292,7 +293,7 @@ class HtmlTableContent extends HtmlSemCollection {
 
 	/**
 	 * @param mixed $callback
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function applyCells($callback) {
 		$rows=$this->content;
@@ -304,7 +305,7 @@ class HtmlTableContent extends HtmlSemCollection {
 
 	/**
 	 * @param mixed $callback
-	 * @return \Ajax\semantic\html\content\table\HtmlTableContent
+	 * @return HtmlTableContent
 	 */
 	public function applyRows($callback) {
 		$rows=$this->content;

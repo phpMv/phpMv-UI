@@ -7,7 +7,7 @@ use Ajax\semantic\html\base\constants\CheckboxType;
 use Ajax\JsUtils;
 
 abstract class AbstractCheckbox extends HtmlSemDoubleElement {
-	protected $_params=array ();
+	protected $_params=[];
 
 	public function __construct($identifier, $name=NULL, $label=NULL, $value=NULL, $inputType="checkbox", $type="checkbox") {
 		parent::__construct("ck-".$identifier, "div", "ui ".$type);
@@ -113,10 +113,17 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 
 	public function setOnChecked($jsCode){
 		$this->_params["onChecked"]=$jsCode;
+		return $this;
 	}
 
 	public function setOnUnchecked($jsCode){
 		$this->_params["onUnchecked"]=$jsCode;
+		return $this;
+	}
+
+	public function setOnChange($jsCode){
+		$this->_params["onChange"]=$jsCode;
+		return $this;
 	}
 
 	public function run(JsUtils $js) {

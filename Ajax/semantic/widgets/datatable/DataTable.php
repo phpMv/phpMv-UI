@@ -152,17 +152,20 @@ class DataTable extends Widget {
 		$this->_instanceViewer->setInstance($instance);
 		InstanceViewer::$index++;
 		$values= $this->_instanceViewer->getValues();
+		$id=$this->_instanceViewer->getIdentifier();
 		if($this->_hasCheckboxes){
-			$ck=new HtmlCheckbox("ck-".$this->identifier,"");
+			$ck=new HtmlCheckbox("ck-".$this->identifier."-".$id,"");
+			$ck->setOnChange("event.stopPropagation();");
 			$field=$ck->getField();
-			$field->setProperty("value",$this->_instanceViewer->getIdentifier());
+			$field->setProperty("value",$id);
 			$field->setProperty("name", "selection[]");
 			if(isset($checkedClass))
 				$field->setClass($checkedClass);
 			\array_unshift($values, $ck);
 		}
 		$result=$table->newRow();
-		$result->setIdentifier($this->identifier."-tr-".$this->_instanceViewer->getIdentifier());
+		$result->setIdentifier($this->identifier."-tr-".$id);
+		$result->setProperty("data-ajax",$id);
 		$result->setValues($values);
 		$result->addToProperty("class",$this->_rowClass);
 		return $result;

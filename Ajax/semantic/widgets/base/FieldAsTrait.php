@@ -156,9 +156,9 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsRadio($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value){
+		return $this->_fieldAs(function($id,$name,$value) use($attributes){
 			$input= new HtmlRadio($id,$name,$value,$value);
-			return $input;
+			return $this->_prepareFormFields($input, $name, $attributes);
 		}, $index,$attributes,"radio");
 	}
 
@@ -176,10 +176,9 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsTextarea($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($attributes){
 			$textarea=new HtmlFormTextarea($id,$caption,$value);
-			$textarea->setName($name);
-			return $textarea;
+			return $this->_prepareFormFields($textarea, $name, $attributes);
 		}, $index,$attributes,"textarea");
 	}
 
@@ -192,19 +191,18 @@ trait FieldAsTrait{
 	}
 
 	public function fieldAsCheckbox($index,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use($attributes){
 			$input=new HtmlFormCheckbox($id,$caption,$this->_instanceViewer->getIdentifier());
 			$input->setChecked(JString::isBooleanTrue($value));
-			$input->setName($name);
-			return $input;
+			return $this->_prepareFormFields($input, $name, $attributes);
 		}, $index,$attributes,"ck");
 	}
 
 	public function fieldAsDropDown($index,$elements=[],$multiple=false,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption) use($elements,$multiple){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use($elements,$multiple,$attributes){
 			$dd=new HtmlFormDropdown($id,$elements,$caption,$value);
 			$dd->asSelect($name,$multiple);
-			return $dd;
+			return $this->_prepareFormFields($dd, $name, $attributes);
 		}, $index,$attributes,"dd");
 	}
 
