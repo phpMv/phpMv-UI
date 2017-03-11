@@ -278,6 +278,15 @@ class HtmlTableContent extends HtmlSemCollection {
 		return $this;
 	}
 
+	public function conditionalColFormat($colIndex,$callback,$format){
+		$rows=$this->content;
+		foreach ( $rows as $row ) {
+			$cell=$row->getItem($colIndex);
+			$cell->conditionnalCellFormat($callback,$format);
+		}
+		return $this;
+	}
+
 	/**
 	 * @param mixed $callback
 	 * @param string $format
@@ -287,6 +296,15 @@ class HtmlTableContent extends HtmlSemCollection {
 		$rows=$this->content;
 		foreach ( $rows as $row ) {
 			$row->conditionalRowFormat($callback, $format);
+		}
+		return $this;
+	}
+
+	public function hideColumn($colIndex){
+		$rows=$this->content;
+		foreach ( $rows as $row ) {
+			$cell=$row->getItem($colIndex);
+			$cell->addToProperty("style","display:none;");
 		}
 		return $this;
 	}

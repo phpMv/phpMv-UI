@@ -406,4 +406,9 @@ class DataTable extends Widget {
 		return $this;
 	}
 
+	public function hideColumn($colIndex){
+		$this->getTable()->hideColumn($colIndex);
+		return $this;
+	}
+
 }

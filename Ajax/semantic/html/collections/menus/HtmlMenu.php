@@ -240,7 +240,8 @@ class HtmlMenu extends HtmlSemCollection {
 	}
 
 	public function run(JsUtils $js){
-		$this->onClick('if(!$(this).hasClass("dropdown")&&!$(this).hasClass("no-active")){$(this).addClass("active").siblings().removeClass("active");}',false,false);
+		if($this->identifier!=="" && !isset($this->_bsComponent))
+			$this->onClick('if(!$(this).hasClass("dropdown")&&!$(this).hasClass("no-active")){$(this).addClass("active").siblings().removeClass("active");}',false,false);
 		$result= parent::run($js);
 		return $result->setItemSelector(".item");
 	}

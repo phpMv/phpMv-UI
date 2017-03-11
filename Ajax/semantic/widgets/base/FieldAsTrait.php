@@ -187,7 +187,7 @@ trait FieldAsTrait{
 		if(!\is_array($attributes)){
 			$attributes=[];
 		}
-		$attributes["imputType"]="hidden";
+		$attributes["inputType"]="hidden";
 		return $this->fieldAsInput($index,$attributes);
 	}
 
