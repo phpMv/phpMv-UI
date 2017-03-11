@@ -26,4 +26,5 @@ class SimpleExtComponent extends SimpleComponent {
 	public function addCode($jsCode) {
 		$this->jsCodes []=new JsCode($jsCode);
 	}
+
 }

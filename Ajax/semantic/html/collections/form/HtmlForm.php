@@ -11,7 +11,6 @@ use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\semantic\components\Form;
-use Ajax\service\JString;
 
 /**
  * Semantic Form component
@@ -59,13 +58,20 @@ class HtmlForm extends HtmlSemCollection {
 	}
 
 	/**
+	 * Adds a divider
 	 * @param string $caption
-	 * @return \Ajax\semantic\html\collections\form\HtmlForm
+	 * @return HtmlForm
 	 */
 	public function addDivider($caption=NULL){
 		return $this->addContent(new HtmlDivider("",$caption));
 	}
 
+	/**
+	 * Adds a group of fields
+	 * @param array $fields
+	 * @param string $label
+	 * @return string|\Ajax\semantic\html\collections\form\HtmlFormFields
+	 */
 	public function addFields($fields=NULL, $label=NULL) {
 		if (isset($fields)) {
 			if (!$fields instanceof HtmlFormFields) {
@@ -98,6 +104,10 @@ class HtmlForm extends HtmlSemCollection {
 		return $item;
 	}
 
+	/**
+	 * @param int $index
+	 * @return mixed|NULL|BaseHtml
+	 */
 	public function getField($index) {
 		if (\is_string($index)) {
 			$field=$this->getElementById($index, $this->_fields);
@@ -109,7 +119,7 @@ class HtmlForm extends HtmlSemCollection {
 
 	/**
 	 * automatically divide fields to be equal width
-	 * @return \Ajax\semantic\html\collections\form\HtmlForm
+	 * @return HtmlForm
 	 */
 	public function setEqualWidth() {
 		return $this->addToProperty("class", "equal width");
@@ -118,7 +128,7 @@ class HtmlForm extends HtmlSemCollection {
 	/**
 	 * Adds a field (alias for addItem)
 	 * @param HtmlFormField $field
-	 * @return \Ajax\common\html\HtmlDoubleElement
+	 * @return HtmlDoubleElement
 	 */
 	public function addField($field) {
 		return $this->addItem($field);
@@ -131,7 +141,7 @@ class HtmlForm extends HtmlSemCollection {
 	 * @param string $header
 	 * @param string $icon
 	 * @param string $type
-	 * @return \Ajax\semantic\html\collections\HtmlMessage
+	 * @return HtmlMessage
 	 */
 	public function addMessage($identifier, $content, $header=NULL, $icon=NULL, $type=NULL) {
 		$message=new HtmlMessage($identifier, $content);

@@ -18,6 +18,7 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\service\JArray;
 use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\elements\HtmlFlag;
+use Ajax\common\html\BaseHtml;
 
 /**
  * trait used in Widget
@@ -32,7 +33,7 @@ trait FieldAsTrait{
 	abstract public function setValueFunction($index,$callback);
 	abstract protected function _getFieldName($index);
 	abstract protected function _getFieldCaption($index);
-	abstract protected function _buttonAsSubmit(HtmlButton &$button,$event,$url,$responseElement=NULL,$parameters=NULL);
+	abstract protected function _buttonAsSubmit(BaseHtml &$button,$event,$url,$responseElement=NULL,$parameters=NULL);
 
 	/**
 	 * @param HtmlFormField $element

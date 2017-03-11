@@ -6,6 +6,7 @@ use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
 use Ajax\semantic\html\elements\HtmlButton;
+use Ajax\common\html\BaseHtml;
 
 /**
  * trait used in Widget and HtmlForm
@@ -68,30 +69,34 @@ trait FormTrait{
 
 	/**
 	 * @param string $event
-	 * @param string $identifier
+	 * @param string|BaseHtml $identifierOrElement
 	 * @param string $url
 	 * @param string $responseElement
-	 * @return \Ajax\semantic\html\collections\form\HtmlForm
+	 * @param array $parameters
+	 * @return HtmlForm
 	 */
-	public function submitOn($event,$identifier,$url,$responseElement){
+	public function submitOn($event,$identifierOrElement,$url,$responseElement,$parameters=NULL){
 		$form=$this->getForm();
-		$elem=$form->getElementById($identifier, $form->getContent());
+		if($identifierOrElement  instanceof BaseHtml)
+			$elem=$identifierOrElement;
+		else
+			$elem=$form->getElementById($identifierOrElement, $form->getContent());
 		if(isset($elem)){
-			$this->_buttonAsSubmit($elem, $event,$url,$responseElement);
+			$this->_buttonAsSubmit($elem, $event,$url,$responseElement,$parameters);
 		}
 		return $form;
 	}
 
-	public function submitOnClick($identifier,$url,$responseElement){
-		return $this->submitOn("click", $identifier, $url, $responseElement);
+	public function submitOnClick($identifier,$url,$responseElement,$parameters=NULL){
+		return $this->submitOn("click", $identifier, $url, $responseElement,$parameters);
 	}
 
-	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL){
+	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$parameters=NULL){
 		$bt=$this->getForm()->addButton($identifier, $value,$cssStyle);
-		return $this->_buttonAsSubmit($bt, "click",$url,$responseElement);
+		return $this->_buttonAsSubmit($bt, "click",$url,$responseElement,$parameters);
 	}
 
-	protected function _buttonAsSubmit(HtmlButton &$button,$event,$url,$responseElement=NULL,$parameters=NULL){
+	protected function _buttonAsSubmit(BaseHtml &$button,$event,$url,$responseElement=NULL,$parameters=NULL){
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
 			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');",true,true);

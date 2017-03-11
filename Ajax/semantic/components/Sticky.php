@@ -20,5 +20,10 @@ class Sticky extends SimpleExtComponent {
 	public function setContext($value="") {
 		return $this->setParam("context", $value);
 	}
+
+	public function setOffset($offset=0){
+		return $this->setParam("offset", $offset);
+	}
+
 	//TODO other events implementation
 }

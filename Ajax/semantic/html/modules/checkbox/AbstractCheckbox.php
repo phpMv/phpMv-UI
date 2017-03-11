@@ -127,7 +127,8 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 	}
 
 	public function run(JsUtils $js) {
+		if(!isset($this->_bsComponent))
 			$this->_bsComponent=$js->semantic()->checkbox("#" . $this->identifier, $this->_params);
-			return parent::run($js);
+		return parent::run($js);
 	}
 }

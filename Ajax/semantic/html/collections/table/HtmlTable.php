@@ -36,7 +36,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\semantic\html\collections\table\TableTrait::getTable()
+	 * @see TableTrait::getTable()
 	 */
 	protected function getTable() {
 		return $this;
@@ -147,15 +147,30 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this->getBody()->newRow($this->_colCount);
 	}
 
+	/**
+	 * Sets the tbody values
+	 * @param array $values values in an array of array
+	 * @return HtmlTable
+	 */
 	public function setValues($values=array()) {
 		$this->getBody()->setValues($values);
 		return $this;
 	}
 
+	/**
+	 * Sets the header values
+	 * @param array $values
+	 * @return HtmlTableContent
+	 */
 	public function setHeaderValues($values=array()) {
 		return $this->getHeader()->setValues($values);
 	}
 
+	/**
+	 * Sets the footer values
+	 * @param array $values
+	 * @return HtmlTableContent
+	 */
 	public function setFooterValues($values=array()) {
 		return $this->getFooter()->setValues($values);
 	}
@@ -186,14 +201,29 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this->getBody()->addColVariations($colIndex, $variations);
 	}
 
+	/**
+	 * Sets the col alignment to center
+	 * @param int $colIndex
+	 * @return HtmlTable
+	 */
 	public function colCenter($colIndex) {
 		return $this->colAlign($colIndex, "colCenter");
 	}
 
+	/**
+	 * Sets the col alignment to right
+	 * @param int $colIndex
+	 * @return HtmlTable
+	 */
 	public function colRight($colIndex) {
 		return $this->colAlign($colIndex, "colRight");
 	}
 
+	/**
+	 * Sets col alignment to left
+	 * @param int $colIndex
+	 * @return HtmlTable
+	 */
 	public function colLeft($colIndex) {
 		return $this->colAlign($colIndex, "colLeft");
 	}
@@ -212,21 +242,43 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this;
 	}
 
+	/**
+	 * Applies a format on each cell when $callback returns true
+	 * @param callable $callback function with the cell as parameter, must return a boolean
+	 * @param string $format css class to apply
+	 * @return HtmlTable
+	 */
 	public function conditionalCellFormat($callback, $format) {
 		$this->getBody()->conditionalCellFormat($callback, $format);
 		return $this;
 	}
 
+	/**
+	 * Applies a format on each row when $callback returns true
+	 * @param callable $callback function with the row as parameter, must return a boolean
+	 * @param string $format css class to apply
+	 * @return HtmlTable
+	 */
 	public function conditionalRowFormat($callback, $format) {
 		$this->getBody()->conditionalRowFormat($callback, $format);
 		return $this;
 	}
 
+	/**
+	 * Applies a callback function on each cell
+	 * @param callable $callback
+	 * @return HtmlTable
+	 */
 	public function applyCells($callback) {
 		$this->getBody()->applyCells($callback);
 		return $this;
 	}
 
+	/**
+	 * Applies a callback function on each row
+	 * @param callable $callback
+	 * @return HtmlTable
+	 */
 	public function applyRows($callback) {
 		$this->getBody()->applyRows($callback);
 		return $this;
@@ -236,7 +288,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::compile()
+	 * @see HtmlSemDoubleElement::compile()
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		if(\sizeof($this->_compileParts)<3){
@@ -260,7 +312,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \Ajax\common\html\BaseHtml::fromDatabaseObject()
+	 * @see BaseHtml::fromDatabaseObject()
 	 */
 	public function fromDatabaseObject($object, $function) {
 		$result=$function($object);
@@ -277,7 +329,8 @@ class HtmlTable extends HtmlSemDoubleElement {
 	}
 
 	/**
-	 * @param array $parts
+	 * Sets the parts of the Table to compile
+	 * @param array $parts array of thead,tbody,tfoot
 	 * @return HtmlTable
 	 */
 	public function setCompileParts($parts=["tbody"]) {
@@ -308,6 +361,13 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this;
 	}
 
+	/**
+	 * Defines how a row is selectable
+	 * @param string $class
+	 * @param string $event
+	 * @param boolean $multiple
+	 * @return HtmlTable
+	 */
 	public function setActiveRowSelector($class="active",$event="click",$multiple=false){
 		$this->_activeRowSelector=new ActiveRow($this,$class,$event,$multiple);
 		return $this;

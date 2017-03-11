@@ -351,6 +351,10 @@ class DataTable extends Widget {
 		return "#".$this->identifier." tbody";
 	}
 
+	/**
+	 * @param string $_refreshSelector
+	 * @return DataTable
+	 */
 	public function setRefreshSelector($_refreshSelector) {
 		$this->_refreshSelector=$_refreshSelector;
 		return $this;

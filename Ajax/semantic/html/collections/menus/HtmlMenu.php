@@ -235,6 +235,10 @@ class HtmlMenu extends HtmlSemCollection {
 		return $this->_itemHeader;
 	}
 
+	public function setHasContainer(){
+		return $this->wrapContent("<div class='ui container'>","</div>");
+	}
+
 	public function run(JsUtils $js){
 		$this->onClick('if(!$(this).hasClass("dropdown")&&!$(this).hasClass("no-active")){$(this).addClass("active").siblings().removeClass("active");}',false,false);
 		$result= parent::run($js);

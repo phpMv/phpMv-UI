@@ -89,4 +89,12 @@ abstract class BaseComponent {
 	}
 
 	abstract public function getScript();
+
+	public function setDebug($value){
+		return $this->setParam("debug", $value);
+	}
+
+	public function setVerbose($value){
+		return $this->setParam("verbose", $value);
+	}
 }
