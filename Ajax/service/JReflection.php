@@ -32,4 +32,8 @@ class JReflection {
 	public static function callMethod($object,$callback,array $values){
 		return \call_user_func_array([$object,$callback],$values);
 	}
+
+	public static function getterName($propertyName,$prefix="get"){
+		return $prefix.\ucfirst($propertyName);
+	}
 }

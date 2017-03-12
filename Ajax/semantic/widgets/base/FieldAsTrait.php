@@ -114,12 +114,13 @@ trait FieldAsTrait{
 			return $this;
 	}
 
-	public function fieldAsLabel($index,$icon=NULL){
-		$this->setValueFunction($index,function($caption) use($icon){
-			$lbl=$this->_getLabelField($caption,$icon);
-			return $lbl;
-		});
-			return $this;
+	public function fieldAsLabel($index,$icon=NULL,$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value) use($icon){
+			$lbl=new HtmlLabel($id,$value);
+			if(isset($icon))
+				$lbl->addIcon($icon);
+				return $lbl;
+		}, $index,$attributes,"label");
 	}
 
 	public function fieldAsHeader($index,$niveau=1,$icon=NULL,$attributes=NULL){

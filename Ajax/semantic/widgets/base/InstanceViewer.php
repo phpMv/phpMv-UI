@@ -90,32 +90,36 @@ class InstanceViewer {
 
 	protected function _getPropertyValue(\ReflectionProperty $property,$index){
 		$property->setAccessible(true);
-		$value=$property->getValue($this->instance);
-		if(isset($this->values[$index])){
-			$value= $this->values[$index]($value,$this->instance,$index);
-		}else{
-			$value=$this->_getDefaultValue($property->getName(),$value, $index);
-		}
-		return $value;
+		return $property->getValue($this->instance);
 	}
 
 	protected function _getValue($property,$index){
 		$value=null;
+		$propertyName=$property;
 		if($property instanceof \ReflectionProperty){
 			$value=$this->_getPropertyValue($property, $index);
-		}else{
-			if(\is_callable($property))
-				$value=$property($this->instance);
-			elseif(\is_array($property)){
-				$values=\array_map(function($v) use ($index){return $this->_getValue($v, $index);}, $property);
-				$value=\implode("", $values);
-			}else{
-				if(isset($this->values[$index])){
-					$value= $this->values[$index]($property,$this->instance,$index);
-				}elseif(isset($this->instance->{$property})){
-					$value=$this->instance->{$property};
-				}
+			$propertyName=$property->getName();
+		}elseif(\is_callable($property))
+			$value=$property($this->instance);
+		elseif(\is_array($property)){
+			$values=\array_map(function($v) use ($index){return $this->_getValue($v, $index);}, $property);
+			$value=\implode("", $values);
+		}elseif(\is_string($property)){
+			$value=$property;
+			if(isset($this->instance->{$property})){
+				$value=$this->instance->{$property};
+			}elseif(\method_exists($this->instance, $getter=JReflection::getterName($property))){
+				$value=JReflection::callMethod($this->instance, $getter, []);
 			}
+		}
+		return $this->_postGetValue($index, $propertyName, $value);
+	}
+
+	protected function _postGetValue($index,$propertyName,$value){
+		if(isset($this->values[$index])){
+			$value= $this->values[$index]($value,$this->instance,$index);
+		}else{
+			$value=$this->_getDefaultValue($propertyName,$value, $index);
 		}
 		if(isset($this->afterCompile[$index])){
 			if(\is_callable($this->afterCompile[$index])){

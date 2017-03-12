@@ -37,6 +37,7 @@ class DataTable extends Widget {
 	protected $_json;
 	protected $_rowClass="";
 	protected $_sortable;
+	protected $_hiddenColumns;
 
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
@@ -117,10 +118,19 @@ class DataTable extends Widget {
 
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 			$this->_compileForm();
-
+			if(isset($this->_hiddenColumns))
+				$this->_hideColumns();
 			$this->_generated=true;
 		}
 		return parent::compile($js,$view);
+	}
+
+	protected function _hideColumns(){
+		$table=$this->getTable();
+		foreach ($this->_hiddenColumns as $colIndex){
+			$table->hideColumn($colIndex);
+		}
+		return $this;
 	}
 
 	protected function _generateHeader(HtmlTable $table,$captions){
@@ -407,7 +417,9 @@ class DataTable extends Widget {
 	}
 
 	public function hideColumn($colIndex){
-		$this->getTable()->hideColumn($colIndex);
+		if(!\is_array($this->_hiddenColumns))
+			$this->_hiddenColumns=[];
+		$this->_hiddenColumns[]=$colIndex;
 		return $this;
 	}
 
