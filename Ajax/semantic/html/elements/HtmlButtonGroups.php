@@ -5,6 +5,7 @@ namespace Ajax\semantic\html\elements;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\JsUtils;
+use Ajax\semantic\html\modules\HtmlDropdown;
 
 /**
  * Semantic UI Buttongroups component
@@ -22,6 +23,16 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	}
 	protected function createItem($value){
 		return new HtmlButton("", $value);
+	}
+
+	public function addDropdown($items,$asCombo=false){
+		$dd= new HtmlDropdown("dd-".$this->identifier,null,$items);
+		$dd->asButton();
+		if($asCombo){
+			$dd->setAction("combo");
+			$dd->addToProperty("class", "combo");
+		}
+		return $this->addElement($dd);
 	}
 
 

@@ -104,6 +104,7 @@ abstract class BaseHtml extends BaseWidget {
 
 	protected function _getElementBy($callback,$elements){
 		if (\is_array($elements)) {
+			$elements=\array_values($elements);
 			$flag=false;
 			$index=0;
 			while ( !$flag && $index < sizeof($elements) ) {

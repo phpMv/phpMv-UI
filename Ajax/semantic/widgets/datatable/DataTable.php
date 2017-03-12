@@ -202,7 +202,10 @@ class DataTable extends Widget {
 	}
 
 	protected function _getFieldName($index){
-		return parent::_getFieldName($index)."[]";
+		$fieldName=parent::_getFieldName($index);
+		if(\is_object($fieldName))
+			$fieldName="field-".$index;
+		return $fieldName."[]";
 	}
 
 	protected function _getFieldCaption($index){
