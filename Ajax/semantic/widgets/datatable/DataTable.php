@@ -38,6 +38,7 @@ class DataTable extends Widget {
 	protected $_rowClass="";
 	protected $_sortable;
 	protected $_hiddenColumns;
+	protected $_colWidths;
 
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
@@ -120,6 +121,12 @@ class DataTable extends Widget {
 			$this->_compileForm();
 			if(isset($this->_hiddenColumns))
 				$this->_hideColumns();
+			if(isset($this->_colWidths)){
+				foreach ($this->_colWidths as $colIndex=>$width){
+					$table->setColWidth($colIndex,$width);
+				}
+			}
+			
 			$this->_generated=true;
 		}
 		return parent::compile($js,$view);
@@ -425,5 +432,15 @@ class DataTable extends Widget {
 		$this->_hiddenColumns[]=$colIndex;
 		return $this;
 	}
+	
+	public function setColWidth($colIndex,$width){
+		$this->_colWidths[$colIndex]=$width;
+		return $this;
+	}
+	public function setColWidths($_colWidths) {
+		$this->_colWidths = $_colWidths;
+		return $this;
+	}
+	
 
 }

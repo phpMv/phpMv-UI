@@ -383,4 +383,14 @@ class HtmlTable extends HtmlSemDoubleElement {
 		}
 		return $this;
 	}
+	
+	public function setColWidth($colIndex,$width){
+		if($this->hasPart("thead")){
+			$this->getHeader()->getCell(0, $colIndex)->setWidth($width);
+		}else{
+			if($this->getBody()->count()>0)
+				$this->getBody()->getCell(0, $colIndex)->setWidth($width);
+		}
+		return $this;
+	}
 }

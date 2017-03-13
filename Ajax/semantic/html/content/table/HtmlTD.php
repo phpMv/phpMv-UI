@@ -8,6 +8,7 @@ use Ajax\semantic\html\base\constants\Variation;
 use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\base\traits\TableElementTrait;
 use Ajax\semantic\html\elements\html5\HtmlLink;
+use Ajax\semantic\html\base\constants\Wide;
 
 class HtmlTD extends HtmlSemDoubleElement {
 	use TextAlignmentTrait,TableElementTrait;
@@ -110,5 +111,13 @@ class HtmlTD extends HtmlSemDoubleElement {
 			$this->content=new HtmlLink("", $href, $this->content);
 		}
 		return $this->addToProperty("class", "selectable");
+	}
+	
+	public function setWidth($width){
+		if (\is_int($width)) {
+			$width=Wide::getConstants()["W" . $width];
+		}
+		$this->addToPropertyCtrl("class", $width, Wide::getConstants());
+		return $this->addToPropertyCtrl("class", "wide", array ("wide" ));
 	}
 }

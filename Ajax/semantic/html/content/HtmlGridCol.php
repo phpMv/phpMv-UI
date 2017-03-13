@@ -5,7 +5,6 @@ namespace Ajax\semantic\html\content;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Wide;
 use Ajax\semantic\html\base\traits\TextAlignmentTrait;
-use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlDivider;
 
 /**
