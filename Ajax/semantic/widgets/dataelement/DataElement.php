@@ -16,6 +16,7 @@ use Ajax\semantic\html\collections\table\HtmlTable;
  *
  */
 class DataElement extends Widget {
+	protected $_colWidths;
 
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
@@ -33,6 +34,9 @@ class DataElement extends Widget {
 			if(isset($this->_toolbar)){
 				$this->_setToolbarPosition($table);
 			}
+			if(isset($this->_colWidths)){
+				$this->_applyStyleAttributes($table);
+			}
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 			$this->_compileForm();
 			$this->_generated=true;
@@ -47,11 +51,15 @@ class DataElement extends Widget {
 		$values= $this->_instanceViewer->getValues();
 		$captions=$this->_instanceViewer->getCaptions();
 		$count=$this->_instanceViewer->count();
+
 		for($i=0;$i<$count;$i++){
 			$table->addRow([$captions[$i],$values[$i]]);
 		}
 	}
 
+	protected function _applyStyleAttributes(HtmlTable $table){
+		$table->setColWidths($this->_colWidths);
+	}
 	protected function _getFieldName($index){
 		return $this->_instanceViewer->getFieldName($index);
 	}
@@ -94,5 +102,20 @@ class DataElement extends Widget {
 
 	public function asForm(){
 		return $this->getForm();
+	}
+
+	public function setColCaptionWidth($width){
+		$this->_colWidths[0]=$width;
+		return $this;
+	}
+
+	public function setColValueWidth($width) {
+		$this->_colWidths[1]=$width;
+		return $this;
+	}
+
+	public function setColWidths($widths){
+		$this->_colWidths=$widths;
+		return $this;
 	}
 }

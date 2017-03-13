@@ -57,6 +57,14 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this->content[$key];
 	}
 
+	protected function _getFirstPart(){
+		if(isset($this->content["thead"])){
+			return $this->content["thead"];
+		}
+		return $this->content["tbody"];
+	}
+
+
 	/**
 	 * Returns/create eventually the body of the table
 	 * @return HtmlTableContent
@@ -374,22 +382,34 @@ class HtmlTable extends HtmlSemDoubleElement {
 	}
 
 	public function hideColumn($colIndex){
-		if($this->hasPart("thead")){
-			$this->getHeader()->hideColumn($colIndex);
+		if(isset($this->content["thead"])){
+			$this->content["thead"]->hideColumn($colIndex);
 		}
-		$this->getBody()->hideColumn($colIndex);
-		if($this->hasPart("tfoot")){
-			$this->getFooter()->hideColumn($colIndex);
+		$this->content["tbody"]->hideColumn($colIndex);
+		if(isset($this->content["tfoot"])){
+			$this->content["tfoot"]->hideColumn($colIndex);
 		}
 		return $this;
 	}
-	
+
 	public function setColWidth($colIndex,$width){
-		if($this->hasPart("thead")){
-			$this->getHeader()->getCell(0, $colIndex)->setWidth($width);
-		}else{
-			if($this->getBody()->count()>0)
-				$this->getBody()->getCell(0, $colIndex)->setWidth($width);
+		$part=$this->_getFirstPart();
+		if($part!==null && $part->count()>0)
+			$part->getCell(0, $colIndex)->setWidth($width);
+		return $this;
+	}
+
+	public function setColWidths($widths){
+		$part=$this->_getFirstPart();
+		if($part!==null && $part->col()>0){
+			$count=$part->getColCount();
+			if(!\is_array($widths)){
+				$widths=\array_fill(0, $count, $widths);
+			}
+			$max=\min(\sizeof($widths),$count);
+			for($i=0;$i<$max;$i++){
+				$part->getCell(0, $i)->setWidth($widths[$i]);
+			}
 		}
 		return $this;
 	}

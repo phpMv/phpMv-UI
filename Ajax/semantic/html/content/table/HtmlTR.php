@@ -32,6 +32,10 @@ class HtmlTR extends HtmlSemCollection {
 		return $this;
 	}
 
+	public function getColCount(){
+		return $this->count();
+	}
+
 	/**
 	 *
 	 * {@inheritDoc}

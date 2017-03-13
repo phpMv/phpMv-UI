@@ -86,13 +86,10 @@ class DataTable extends Widget {
 		if(!$this->_generated){
 			$this->_instanceViewer->setInstance($this->_model);
 			$captions=$this->_instanceViewer->getCaptions();
-
 			$table=$this->content["table"];
-
 			if($this->_hasCheckboxes){
 				$this->_generateMainCheckbox($captions);
 			}
-
 			$table->setRowCount(0, \sizeof($captions));
 			$this->_generateHeader($table,$captions);
 
@@ -119,17 +116,20 @@ class DataTable extends Widget {
 
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 			$this->_compileForm();
-			if(isset($this->_hiddenColumns))
-				$this->_hideColumns();
+			$this->_applyStyleAttributes($table);
+			$this->_generated=true;
+		}
+		return parent::compile($js,$view);
+	}
+
+	protected function _applyStyleAttributes($table){
+		if(isset($this->_hiddenColumns))
+			$this->_hideColumns();
 			if(isset($this->_colWidths)){
 				foreach ($this->_colWidths as $colIndex=>$width){
 					$table->setColWidth($colIndex,$width);
 				}
 			}
-			
-			$this->_generated=true;
-		}
-		return parent::compile($js,$view);
 	}
 
 	protected function _hideColumns(){
@@ -432,7 +432,7 @@ class DataTable extends Widget {
 		$this->_hiddenColumns[]=$colIndex;
 		return $this;
 	}
-	
+
 	public function setColWidth($colIndex,$width){
 		$this->_colWidths[$colIndex]=$width;
 		return $this;
@@ -441,6 +441,4 @@ class DataTable extends Widget {
 		$this->_colWidths = $_colWidths;
 		return $this;
 	}
-	
-
 }

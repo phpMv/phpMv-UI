@@ -113,4 +113,15 @@ class HtmlList extends HtmlSemCollection {
 		$this->_hasCheckedList=true;
 		return $this;
 	}
+
+	public function setIcons($icons){
+		if(!\is_array($icons)){
+			$icons=\array_fill(0, \sizeof($this->content), $icons);
+		}
+		$max=\min(\sizeof($icons),\sizeof($this->content));
+		for($i=0;$i<$max;$i++){
+			$this->content[$i]->addIcon($icons[$i]);
+		}
+		return $this;
+	}
 }
