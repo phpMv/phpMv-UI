@@ -432,7 +432,7 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
-	public function asModal($header){
+	public function asModal($header=null){
 		$modal=new HtmlModal("modal-".$this->identifier,$header);
 		$modal->setContent($this);
 		if(isset($this->_form)){

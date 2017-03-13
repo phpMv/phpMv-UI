@@ -183,4 +183,8 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 		}
 		return parent::compile($js,$view);
 	}
+
+	public function getItemById($identifier){
+		return $this->getElementById($identifier, $this->content);
+	}
 }

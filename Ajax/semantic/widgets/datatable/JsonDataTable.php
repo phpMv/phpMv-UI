@@ -16,23 +16,33 @@ use Ajax\semantic\html\collections\menus\HtmlMenu;
  */
 class JsonDataTable extends DataTable {
 	protected $_modelClass="_jsonArrayModel";
+	protected $_rowModelCallback;
 
 	public function __construct($identifier, $model, $modelInstance=NULL) {
 		parent::__construct($identifier, $model, $modelInstance);
+		$this->_rowClass="_json";
 	}
 
 	protected function _generateContent($table){
 		$this->_addRowModel($table);
-		$this->_rowClass="_json";
 		parent::_generateContent($table);
 	}
 
 	protected function _addRowModel($table){
-		$object=JReflection::jsonObject($this->_model);
-		$row=$this->_generateRow($object, $table,"_jsonArrayChecked");
-		$row->setClass($this->_modelClass);
+		$row=$this->_createRow($table, $this->_modelClass);
 		$row->addToProperty("style","display:none;");
 		$table->getBody()->_addRow($row);
+	}
+
+	protected function _createRow($table,$rowClass){
+		$object=JReflection::jsonObject($this->_model);
+		if(isset($this->_rowModelCallback)){
+			$callback=$this->_rowModelCallback;
+			$callback($object);
+		}
+		$row=$this->_generateRow($object, $table,"_jsonArrayChecked");
+		$row->setClass($rowClass);
+		return $row;
 	}
 
 	/**
@@ -62,7 +72,7 @@ class JsonDataTable extends DataTable {
 	 * @param string $url
 	 * @param string $method
 	 * @param string $params
-	 * @param callable $jsCallback
+	 * @param string $jsCallback
 	 * @return AjaxCall
 	 */
 	public function jsJsonArray($url, $method="get", $params="{}", $jsCallback=NULL,$parameters=[]){
@@ -101,4 +111,10 @@ class JsonDataTable extends DataTable {
 	public function paginate($page,$total_rowcount,$items_per_page=10,$pages_visibles=null){
 		return parent::paginate($page, $total_rowcount,$items_per_page,null);
 	}
+
+	public function setRowModelCallback($_rowModelCallback) {
+		$this->_rowModelCallback=$_rowModelCallback;
+		return $this;
+	}
+
 }

@@ -32,15 +32,27 @@ trait FormTrait{
 	protected function _runValidationParams(&$compo,JsUtils $js=NULL){
 		$form=$this->getForm();
 		$params=$form->getValidationParams();
-		if(isset($params["_ajaxSubmit"]) && $params["_ajaxSubmit"] instanceof AjaxCall){
-			$compilation=$params["_ajaxSubmit"]->compile($js);
-			$compilation=str_ireplace("\"","%quote%", $compilation);
+		if(isset($params["_ajaxSubmit"])){
+			$compilation=$this->_compileAjaxSubmit($params["_ajaxSubmit"],$js);
 			$this->onSuccess($compilation);
 			$form->removeValidationParam("_ajaxSubmit");
 		}
 		$compo->addParams($form->getValidationParams());
 		$form->setBsComponent($compo);
 		$form->addEventsOnRun($js);
+	}
+
+	protected function _compileAjaxSubmit($ajaxSubmit,JsUtils $js=null){
+		$compilation="";
+		if(\is_array($ajaxSubmit)){
+			foreach ($ajaxSubmit as $ajaxSubmitItem){
+				$compilation.=$ajaxSubmitItem->compile($js);
+			}
+		}elseif($ajaxSubmit instanceof AjaxCall){
+			$compilation=$ajaxSubmit->compile($js);
+		}
+		$compilation=str_ireplace("\"","%quote%", $compilation);
+		return $compilation;
 	}
 
 	public function setLoading() {
@@ -100,12 +112,18 @@ trait FormTrait{
 		$form=$this->getForm();
 		if(isset($url) && isset($responseElement)){
 			$button->addEvent($event, "$('#".$form->getIdentifier()."').form('validate form');",true,true);
-			$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url,"stopPropagation"=>true];
-			if(\is_array($parameters))
-				$params=\array_merge($params,$parameters);
-			$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", $params));
+			$this->setSubmitParams($url,$responseElement,$parameters);
 		}
 		return $button;
+	}
+
+	public function setSubmitParams($url,$responseElement=NULL,$parameters=NULL){
+		$form=$this->getForm();
+		$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url,"stopPropagation"=>true];
+		if(\is_array($parameters))
+			$params=\array_merge($params,$parameters);
+		$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", $params));
+		return $this;
 	}
 
 	public function addReset($identifier,$value,$cssStyle=NULL){

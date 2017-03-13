@@ -7,9 +7,10 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\base\traits\LabeledIconTrait;
 use Ajax\semantic\html\base\constants\Side;
 use Ajax\semantic\html\elements\html5\HtmlImg;
+use Ajax\semantic\html\base\traits\HasTimeoutTrait;
 
 class HtmlLabel extends HtmlSemDoubleElement {
-	use LabeledIconTrait;
+	use LabeledIconTrait,HasTimeoutTrait;
 
 	public function __construct($identifier, $caption="", $icon=NULL, $tagName="div") {
 		parent::__construct($identifier, $tagName, "ui label");

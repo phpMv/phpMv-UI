@@ -26,6 +26,7 @@ class AjaxCall {
 		$ajaxTransition=null;
 		$hasLoader=true;
 		$method="get";
+		$rowClass="_json";
 		extract($this->parameters);
 		$result=$this->_eventPreparing($preventDefault, $stopPropagation);
 		switch($this->method) {
@@ -42,7 +43,7 @@ class AjaxCall {
 				$result.=$js->jsonDeferred($url,$method,$params,$jsCallback);
 				break;
 			case "jsonArray":
-				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback);
+				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback,$rowClass);
 				break;
 		}
 		return $result;

@@ -69,9 +69,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $params The JSON parameters
 	 * @param string $method Method used
 	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $rowClass the css class for the new element
 	 */
-	public function jsonArray($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
-		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback,"id", NULL,true);
+	public function jsonArray($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL,$rowClass="_json") {
+		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback,"id", NULL,$rowClass,true);
 	}
 
 	/**
@@ -81,9 +82,10 @@ trait JsUtilsAjaxTrait {
 	 * @param string $params JSON parameters
 	 * @param string $method Method used
 	 * @param string $jsCallback javascript code to execute after the request
+	 * @param string $rowClass the css class for the new element
 	 */
-	public function jsonArrayDeferred($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL) {
-		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback,"id", NULL, false);
+	public function jsonArrayDeferred($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL,$rowClass="_json") {
+		return $this->js->_jsonArray($maskSelector, $url, $method, $params, $jsCallback,"id", NULL, $rowClass,false);
 	}
 
 	/**
@@ -91,7 +93,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $element
 	 * @param string $event
 	 * @param string $url the request url
-	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","immediatly"=>true)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","rowClass"=>"_json","immediatly"=>true)
 	 */
 	public function jsonArrayOn($event,$element,$maskSelector, $url,$parameters=array()) {
 		return $this->js->_jsonArrayOn($event,$element,$maskSelector, $url, $parameters);

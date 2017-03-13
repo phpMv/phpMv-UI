@@ -294,8 +294,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	 */
 	public function run(JsUtils $js) {
 		if($this->propertyContains("class", "simple")===false){
-			if(isset($this->_bsComponent)===false)
+			if(isset($this->_bsComponent)===false){
 				$this->_bsComponent=$js->semantic()->dropdown("#".$this->identifier,$this->_params);
+				$this->_bsComponent->setItemSelector(".item");
+			}
 			$this->addEventsOnRun($js);
 			return $this->_bsComponent;
 		}
@@ -323,5 +325,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	}
 	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {
 		return $this->_addAction($this, $action,$direction,$icon,$labeled);
+	}
+
+	public function jsAddItem($caption){
+		$js="var first=$('#{$this->identifier} .item').first();if(first!=undefined){var new =first.clone();first.parent().append(new);first.html('{$caption}};')";
+		return $js;
 	}
 }

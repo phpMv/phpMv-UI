@@ -8,6 +8,7 @@ use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Style;
 use Ajax\semantic\html\base\traits\AttachedTrait;
+use Ajax\semantic\html\base\traits\HasTimeoutTrait;
 /**
  * Semantic Message component
  * @see http://semantic-ui.com/collections/message.html
@@ -15,11 +16,10 @@ use Ajax\semantic\html\base\traits\AttachedTrait;
  * @version 1.001
  */
 class HtmlMessage extends HtmlSemDoubleElement {
-	use AttachedTrait;
+	use AttachedTrait,HasTimeoutTrait;
 	protected $icon;
 	protected $close;
-	protected $_timeout;
-	protected $_closeTransition="{animation : 'scale',duration : '2s'}";
+
 
 	public function __construct($identifier, $content="") {
 		parent::__construct($identifier, "div");
@@ -80,13 +80,15 @@ class HtmlMessage extends HtmlSemDoubleElement {
 	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::run()
 	 */
 	public function run(JsUtils $js){
-		parent::run($js);
-		if(isset($this->close)){
-			$js->execOn("click", "#".$this->identifier." .close", "$(this).closest('.message').transition({$this->_closeTransition})");
+		if(!isset($this->_bsComponent)){
+			if(isset($this->close)){
+				$js->execOn("click", "#".$this->identifier." .close", "$(this).closest('.message').transition({$this->_closeTransition})");
+			}
+			if(isset($this->_timeout)){
+				$js->exec("setTimeout(function() { $('#{$this->identifier}').transition({$this->_closeTransition}); }, {$this->_timeout});",true);
+			}
 		}
-		if(isset($this->_timeout)){
-			$js->exec("setTimeout(function() { $('#{$this->identifier}').transition({$this->_closeTransition}); }, {$this->_timeout});",true);
-		}
+		return parent::run($js);
 	}
 
 	public function setState($visible=true){
@@ -115,16 +117,6 @@ class HtmlMessage extends HtmlSemDoubleElement {
 			$this->content[\sizeof($this->content)-1]=$message;
 		}else
 			$this->setContent($message);
-	}
-
-	public function setTimeout($_timeout) {
-		$this->_timeout=$_timeout;
-		return $this;
-	}
-
-	public function setCloseTransition($_closeTransition) {
-		$this->_closeTransition=$_closeTransition;
-		return $this;
 	}
 
 }

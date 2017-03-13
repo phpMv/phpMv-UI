@@ -5,7 +5,6 @@ namespace Ajax\common\components;
 
 use Ajax\JsUtils;
 use Ajax\service\JString;
-use Ajax\bootstrap\components\Splitbutton;
 /**
  * Base component for JQuery UI visuals components
  * @author jc

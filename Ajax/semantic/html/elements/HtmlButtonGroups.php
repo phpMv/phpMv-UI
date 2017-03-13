@@ -14,7 +14,7 @@ use Ajax\semantic\html\modules\HtmlDropdown;
  * @version 1.001
  */
 class HtmlButtonGroups extends HtmlSemCollection {
-
+	protected $_dropdown;
 	public function __construct($identifier, $elements=array(), $asIcons=false) {
 		parent::__construct($identifier, "div", "ui buttons");
 		if ($asIcons === true)
@@ -32,6 +32,7 @@ class HtmlButtonGroups extends HtmlSemCollection {
 			$dd->setAction("combo");
 			$dd->addToProperty("class", "combo");
 		}
+		$this->_dropdown=$dd;
 		return $this->addElement($dd);
 	}
 
@@ -133,4 +134,9 @@ class HtmlButtonGroups extends HtmlSemCollection {
 		$result= parent::run($js);
 		return $result->setItemSelector(".ui.button");
 	}
+
+	public function getDropdown() {
+		return $this->_dropdown;
+	}
+
 }
