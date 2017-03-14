@@ -192,6 +192,12 @@ abstract class BaseHtml extends BaseWidget {
 	}
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		if(!$this->_compiled){
+			if(isset($js)){
+				$afterCompile=$js->getParam("afterCompileHtml");
+				if(\is_callable($afterCompile)){
+					$afterCompile($this,$js,$view);
+				}
+			}
 			$this->compile_once($js,$view);
 			$this->_compiled=true;
 		}

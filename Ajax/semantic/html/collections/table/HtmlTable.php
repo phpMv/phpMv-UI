@@ -35,14 +35,6 @@ class HtmlTable extends HtmlSemDoubleElement {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * @see TableTrait::getTable()
-	 */
-	protected function getTable() {
-		return $this;
-	}
-
-	/**
 	 * Returns/create eventually a part of the table corresponding to the $key : thead, tbody or tfoot
 	 * @param string $key
 	 * @return HtmlTableContent
@@ -401,7 +393,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 
 	public function setColWidths($widths){
 		$part=$this->_getFirstPart();
-		if($part!==null && $part->col()>0){
+		if($part!==null && $part->count()>0){
 			$count=$part->getColCount();
 			if(!\is_array($widths)){
 				$widths=\array_fill(0, $count, $widths);

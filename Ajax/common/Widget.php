@@ -66,6 +66,7 @@ abstract class Widget extends HtmlDoubleElement {
 	protected function _init($instanceViewer,$contentKey,$content,$edition){
 		$this->_instanceViewer=$instanceViewer;
 		$this->content=[$contentKey=>$content];
+		$this->_self=$content;
 		$this->_toolbarPosition=PositionInTable::BEFORETABLE;
 		$this->_edition=$edition;
 	}
@@ -439,5 +440,9 @@ abstract class Widget extends HtmlDoubleElement {
 			$this->_form->onSuccess($modal->jsHide());
 		}
 		return $modal;
+	}
+
+	public function addToProperty($name, $value, $separator=" ") {
+		return $this->getHtmlComponent()->addToProperty($name,$value,$separator);
 	}
 }

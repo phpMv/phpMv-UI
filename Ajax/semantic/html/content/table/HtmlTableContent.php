@@ -226,7 +226,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	public function getColCount() {
 		$result=0;
 		if ($this->count() > 0)
-			$result=$this->getItem(0)->getColCount();
+			$result=$this->getItem(0)->count();
 		return $result;
 	}
 

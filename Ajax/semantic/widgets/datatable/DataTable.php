@@ -14,6 +14,7 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
+use Ajax\semantic\html\base\traits\BaseTrait;
 
 /**
  * DataTable widget for displaying list of objects
@@ -23,7 +24,7 @@ use Ajax\semantic\html\collections\menus\HtmlMenu;
  *
  */
 class DataTable extends Widget {
-	use TableTrait,DataTableFieldAsTrait,HasCheckboxesTrait;
+	use TableTrait,DataTableFieldAsTrait,HasCheckboxesTrait,BaseTrait;
 	protected $_searchField;
 	protected $_urls;
 	protected $_pagination;
@@ -133,9 +134,8 @@ class DataTable extends Widget {
 	}
 
 	protected function _hideColumns(){
-		$table=$this->getTable();
 		foreach ($this->_hiddenColumns as $colIndex){
-			$table->hideColumn($colIndex);
+			$this->_self->hideColumn($colIndex);
 		}
 		return $this;
 	}
@@ -258,6 +258,11 @@ class DataTable extends Widget {
 		$row->setValues([$this->_toolbar]);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see Widget::getHtmlComponent()
+	 * @return HtmlTable
+	 */
 	public function getHtmlComponent(){
 		return $this->content["table"];
 	}
@@ -422,7 +427,7 @@ class DataTable extends Widget {
 	}
 
 	public function setActiveRowSelector($class="active",$event="click",$multiple=false){
-		$this->getTable()->setActiveRowSelector($class,$event,$multiple);
+		$this->_self->setActiveRowSelector($class,$event,$multiple);
 		return $this;
 	}
 

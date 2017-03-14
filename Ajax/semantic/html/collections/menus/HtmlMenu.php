@@ -146,10 +146,6 @@ class HtmlMenu extends HtmlSemCollection {
 		return $itemO;
 	}
 
-	public function setInverted() {
-		return $this->addToProperty("class", "inverted");
-	}
-
 	public function setSecondary($value=true) {
 		if($value)
 			$this->addToProperty("class", "secondary");

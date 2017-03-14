@@ -34,8 +34,8 @@ class HtmlDimmer extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "page");
 	}
 
-	public function setInverted() {
-		parent::setInverted();
+	public function setInverted($recursive=true) {
+		parent::setInverted($recursive);
 		$this->_inverted=true;
 		return $this;
 	}

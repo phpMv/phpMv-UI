@@ -57,14 +57,6 @@ class HtmlDivider extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "header");
 	}
 
-	/**
-	 * inverts the divider colors
-	 * @return \Ajax\semantic\html\elements\HtmlDivider
-	 */
-	public function setInverted() {
-		return $this->addToProperty("class", "inverted");
-	}
-
 	public function setIgnored(){
 		return $this->addToProperty("class", "ignored");
 	}

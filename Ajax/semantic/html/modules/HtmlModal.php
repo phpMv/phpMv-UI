@@ -114,7 +114,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function setInverted(){
+	public function setInverted($recursive=true){
 		$this->_params["inverted"]=true;
 		return $this;
 	}
