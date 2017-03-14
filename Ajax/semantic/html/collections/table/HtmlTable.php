@@ -300,6 +300,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	}
 
 	protected function compile_once(JsUtils $js=NULL, &$view=NULL) {
+		parent::compile_once($js,$view);
 		if ($this->propertyContains("class", "sortable")) {
 			$this->addEvent("execute", "$('#" . $this->identifier . "').tablesort().data('tablesort').sort($('th.default-sort'));");
 		}

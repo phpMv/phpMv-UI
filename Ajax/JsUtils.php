@@ -167,7 +167,7 @@ abstract class JsUtils{
 	}
 
 	/**
-	 * @param array $params ['driver'=>'jquery','debug'=>true,'defer'=>false,'ajaxTransition'=>null,'afterCompileHtml'=>null]
+	 * @param array $params ['driver'=>'jquery','debug'=>true,'defer'=>false,'ajaxTransition'=>null,'beforeCompileHtml'=>null]
 	 * @param mixed $injected optional param for Symfony
 	 */
 	public function __construct($params=array(),$injected=NULL) {

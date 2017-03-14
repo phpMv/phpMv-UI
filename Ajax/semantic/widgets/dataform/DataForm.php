@@ -60,22 +60,20 @@ class DataForm extends Widget {
 		if($size===1){
 			$i=-1;
 			foreach ($values as $v){
-				//$form->addField($v);
-				$this->_generateFields($form, [$v], $headers, $i, $i+1, $wrappers);
+				$this->_generateFields($form, [$v], $headers, $i, $wrappers);
 				$i++;
 			}
 		}else{
 			$separators[]=$count;
 			for($i=0;$i<$size;$i++){
 				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
-				$this->_generateFields($form, $fields, $headers, $separators[$i], $separators[$i+1], $wrappers);
+				$this->_generateFields($form, $fields, $headers, $separators[$i], $wrappers);
 			}
 		}
 	}
 
-	protected function _generateFields($form,$values,$headers,$sepFirst,$sepLast,$wrappers){
+	protected function _generateFields($form,$values,$headers,$sepFirst,$wrappers){
 		$wrapper=null;
-		//$fields=\array_slice($values, $sepFirst+1,$sepLast-$sepFirst);
 		if(isset($headers[$sepFirst+1]))
 			$form->addHeader($headers[$sepFirst+1],4,true);
 		if(isset($wrappers[$sepFirst+1])){
