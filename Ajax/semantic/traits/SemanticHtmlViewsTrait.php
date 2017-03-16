@@ -4,6 +4,7 @@ namespace Ajax\semantic\traits;
 
 use Ajax\semantic\html\views\HtmlCard;
 use Ajax\semantic\html\views\HtmlCardGroups;
+use Ajax\semantic\html\views\HtmlItems;
 
 trait SemanticHtmlViewsTrait {
 
@@ -20,10 +21,19 @@ trait SemanticHtmlViewsTrait {
 
 	/**
 	 * @param string $identifier
-	 * @param array $cards
+	 * @param array $items
 	 * @return HtmlCardGroups
 	 */
 	public function htmlCardGroups($identifier, $cards=array()) {
 		return $this->addHtmlComponent(new HtmlCardGroups($identifier, $cards));
+	}
+
+	/**
+	 * @param string $identifier
+	 * @param array $items
+	 * @return HtmlItems
+	 */
+	public function htmlItems($identifier, $items=array()) {
+		return $this->addHtmlComponent(new HtmlItems($identifier, $items));
 	}
 }
