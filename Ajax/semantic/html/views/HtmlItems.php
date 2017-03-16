@@ -8,7 +8,7 @@ use Ajax\semantic\html\content\view\HtmlItem;
 
 class HtmlItems extends HtmlViewGroups {
 
-	public function __construct($identifier, $items=array()) {
+	public function __construct($identifier, $items=[]) {
 		parent::__construct($identifier, "ui items",$items);
 	}
 

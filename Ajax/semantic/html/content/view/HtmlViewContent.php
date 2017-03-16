@@ -6,16 +6,36 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\elements\html5\HtmlImg;
+use Ajax\JsUtils;
+use Ajax\service\JReflection;
+use Ajax\service\JArray;
 
 class HtmlViewContent extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $content=array()) {
-		parent::__construct($identifier, "div", "content", $content);
+		parent::__construct($identifier, "div", "content",[]);
+		$this->setContent($content);
 	}
 
-	private function addElement($content, $baseClass) {
+	public function setContent($value){
+		if (\is_array($value)) {
+			$header=JArray::getValue($value, "header", 0);
+			$metas=JArray::getValue($value, "metas", 1);
+			$description=JArray::getValue($value, "description", 2);
+			$image=JArray::getValue($value, "image", 3);
+			$extra=JArray::getValue($value, "extra", 4);
+			if (isset($image)) {
+				$this->addImage($image);
+			}
+			$this->addHeaderContent($header, $metas, $description,$extra);
+		} else
+			$this->addContent($value);
+	}
+
+	public function addElement($content, $baseClass="") {
 		$count=\sizeof($this->content);
-		$result=new HtmlSemDoubleElement("element-" . $count . "-" . $this->identifier, "div", $baseClass, $content);
+		$result=new HtmlViewContent("element-" . $count . "-" . $this->identifier, $content);
+		$result->setClass($baseClass);
 		$this->addContent($result);
 		return $result;
 	}
@@ -32,11 +52,19 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 		return $this->content["meta"];
 	}
 
+	public function addExtra($value) {
+		if (\array_key_exists("extra", $this->content) === false) {
+			$this->content["extra"]=new HtmlSemDoubleElement("extra-" . $this->identifier, "div", "extra", array ());
+		}
+		$this->content["extra"]->addContent($value);
+		return $this->content["extra"];
+	}
+
 	public function addImage($src="", $alt="", $size=NULL) {
 		$image=new HtmlImg("img-", $src, $alt);
 		if (isset($size))
 			$image->setSize($size);
-		$this->content["image"]=$image;
+		$this->content['image']=$image;
 		return $image;
 	}
 
@@ -85,12 +113,33 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function addHeaderContent($header, $metas=array(), $description=NULL) {
-		$this->addElement($header, "header");
+	public function addHeaderContent($header, $metas=array(), $description=NULL,$extra=NULL) {
+		if(isset($header))
+			$this->addElement($header, "header");
 		$this->addMetas($metas);
 		if (isset($description)) {
 			$this->addElement($description, "description");
 		}
+		if(isset($extra)){
+			$this->addExtra($extra);
+		}
 		return $this;
+	}
+
+	public function getPart($part, $index=NULL) {
+		if($this->content instanceof HtmlViewContent){
+			return $this->content->getPart($part,$index);
+		}
+		if (\array_key_exists($part, $this->content)) {
+			if (isset($index))
+				return $this->content[$part][$index];
+				return $this->content[$part];
+		}
+		return NULL;
+	}
+
+	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		//$this->content=JArray::sortAssociative($this->content, [ "header","meta","description","extra" ]);
+		return parent::compile($js, $view);
 	}
 }

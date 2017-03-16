@@ -36,4 +36,12 @@ class JReflection {
 	public static function getterName($propertyName,$prefix="get"){
 		return $prefix.\ucfirst($propertyName);
 	}
+
+	public static function callMethodFromAssociativeArray($object,$array,$methodPrefix="add"){
+		foreach ($array as $key=>$value){
+			if(\method_exists($object, "add".\ucfirst($key))){
+				\call_user_func([$object,"add".\ucfirst($key)],$value);
+			}
+		}
+	}
 }
