@@ -12,11 +12,9 @@ use Ajax\semantic\html\elements\HtmlReveal;
 use Ajax\semantic\html\base\constants\RevealType;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
 use Ajax\semantic\html\content\view\HtmlViewContent;
-use Ajax\service\JReflection;
 
 abstract class HtmlViewItem extends HtmlSemDoubleElement {
-
-	protected $_sortContentBy=[];
+	use ContentPartTrait;
 
 	public function __construct($identifier,$baseClass,$content=NULL) {
 		parent::__construct($identifier, "div", $baseClass);
@@ -47,9 +45,9 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 		return $result;
 	}
 
-	private function addElementInContent($key, $element) {
+	private function addElementIn($key, $element) {
 		if (\array_key_exists($key, $this->content) === false) {
-			$this->content[$key]=array ();
+			$this->content[$key]=[];
 		}
 		if($this->content[$key] instanceof HtmlViewContent)
 			$this->content[$key]->addElement($element);
@@ -58,23 +56,12 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 		return $element;
 	}
 
-	private function getPart($part, $index=NULL) {
-		if($this->content instanceof HtmlViewContent){
-			return $this->content->getPart($part,$index);
-		}
-		if (\array_key_exists($part, $this->content)) {
-			if (isset($index))
-				return $this->content[$part][$index];
-			return $this->content[$part];
-		}
-		return NULL;
-	}
 
 	public function addHeader($header, $niveau=4, $type="page") {
 		if (!$header instanceof HtmlHeader) {
 			$header=new HtmlHeader("header-" . $this->identifier, $niveau, $header, $type);
 		}
-		return $this->addElementInContent("header",$this->createContent($header));
+		return $this->addElementIn("header",$this->createContent($header));
 	}
 
 	public function addImage($image, $title="") {
@@ -85,12 +72,12 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 		return $this->content["image"]= $image;
 	}
 
-	public function addReveal($visibleContent, $hiddenContent=NULL, $type=RevealType::FADE, $attributeType=NULL) {
+	public function addReveal($visibleContent, $hiddenContent=NULL, $type=RevealType::FADE, $attributeType=NULL,$key="extra-content") {
 		$reveal=$visibleContent;
 		if (!$visibleContent instanceof HtmlReveal) {
 			$reveal=new HtmlReveal("reveral-" . $this->identifier, $visibleContent, $hiddenContent, $type, $attributeType);
 		}
-		return $this->content["image"]= $reveal;
+		return $this->content[$key]= $reveal;
 	}
 
 	public function addRevealImage($visibleContent, $hiddenContent=NULL, $type=RevealType::FADE, $attributeType=NULL) {
@@ -105,23 +92,23 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 		return $this->content["extra-content"]= $this->createContent($content, "extra content");
 	}
 
-	public function addContent($content=array(), $before=false) {
+	/*public function addContent($content=array(), $before=false) {
 		if (!$content instanceof HtmlViewContent) {
 			$content=$this->createContent($content);
 		}
 		$this->content["content"]->addElement($content);
 		return $content;
-	}
+	}*/
 
 	/**
 	 * @param array $elements
 	 * @param boolean $asIcons
-	 * @return \Ajax\semantic\html\elements\HtmlButtonGroups
+	 * @param string $part
+	 * @param boolean $before
+	 * @return HtmlButtonGroups
 	 */
-	public function addButtons($elements=array(), $asIcons=false,$key="extra-content"){
-		$buttons=new HtmlButtonGroups("buttons-".$this->identifier,$elements,$asIcons);
-		$this->addElementInContent($key, $buttons);
-		return $buttons;
+	public function addContentButtons($elements=array(), $asIcons=false,$part="extra",$before=false){
+		return $this->content["content"]->addContentButtons($elements,$asIcons,$part, $before);
 	}
 
 
@@ -132,11 +119,11 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 
 	public function addItemContent($content=array()) {
 		$count=\sizeof($this->content);
-		return $this->addElementInContent("content", new HtmlViewContent("content-" . $count . "-" . $this->identifier, $content));
+		return $this->addElementIn("content", new HtmlViewContent("content-" . $count . "-" . $this->identifier, $content));
 	}
 
-	public function getItemContent($index=NULL) {
-		return $this->content["content"]->getPart($index);
+	public function getItemContent() {
+		return $this->getPart("content",null,true);
 	}
 
 	public function getItemExtraContent() {

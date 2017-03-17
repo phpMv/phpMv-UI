@@ -7,11 +7,11 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\elements\html5\HtmlImg;
 use Ajax\JsUtils;
-use Ajax\service\JReflection;
 use Ajax\service\JArray;
+use Ajax\semantic\html\elements\HtmlButtonGroups;
 
 class HtmlViewContent extends HtmlSemDoubleElement {
-
+	use ContentPartTrait;
 	public function __construct($identifier, $content=array()) {
 		parent::__construct($identifier, "div", "content",[]);
 		$this->setContent($content);
@@ -32,7 +32,7 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 			$this->addContent($value);
 	}
 
-	public function addElement($content, $baseClass="") {
+	public function addElement($content, $baseClass="",$part=NULL) {
 		$count=\sizeof($this->content);
 		$result=new HtmlViewContent("element-" . $count . "-" . $this->identifier, $content);
 		$result->setClass($baseClass);
@@ -66,6 +66,19 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 			$image->setSize($size);
 		$this->content['image']=$image;
 		return $image;
+	}
+
+	/**
+	 * @param array $elements
+	 * @param boolean $asIcons
+	 * @param string $part
+	 * @param boolean $before
+	 * @return HtmlButtonGroups
+	 */
+	public function addContentButtons($elements=array(), $asIcons=false,$part="extra",$before=false){
+		$buttons=new HtmlButtonGroups("buttons-".$this->identifier,$elements,$asIcons);
+		$this->addElementInPart($buttons,$part, $before,true);
+		return $buttons;
 	}
 
 	public function addMetas($metas) {
@@ -124,18 +137,6 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 			$this->addExtra($extra);
 		}
 		return $this;
-	}
-
-	public function getPart($part, $index=NULL) {
-		if($this->content instanceof HtmlViewContent){
-			return $this->content->getPart($part,$index);
-		}
-		if (\array_key_exists($part, $this->content)) {
-			if (isset($index))
-				return $this->content[$part][$index];
-				return $this->content[$part];
-		}
-		return NULL;
 	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {

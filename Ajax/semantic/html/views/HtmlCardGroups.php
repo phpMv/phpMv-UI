@@ -5,6 +5,10 @@ namespace Ajax\semantic\html\views;
 
 use Ajax\semantic\html\content\view\HtmlViewGroups;
 
+/**
+ * Semantic html Cards group
+ * @author jc
+ */
 class HtmlCardGroups extends HtmlViewGroups {
 
 	public function __construct($identifier, $cards=array()) {

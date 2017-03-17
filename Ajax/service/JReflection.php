@@ -39,8 +39,8 @@ class JReflection {
 
 	public static function callMethodFromAssociativeArray($object,$array,$methodPrefix="add"){
 		foreach ($array as $key=>$value){
-			if(\method_exists($object, "add".\ucfirst($key))){
-				\call_user_func([$object,"add".\ucfirst($key)],$value);
+			if(\method_exists($object, $methodPrefix.\ucfirst($key))){
+				\call_user_func([$object,$methodPrefix.\ucfirst($key)],$value);
 			}
 		}
 	}
