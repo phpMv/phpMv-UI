@@ -12,13 +12,13 @@
 </a>
 
 
-##What's phpMv-UI ?
+## What's phpMv-UI ?
 
 phpMv-UI is a visual components library for php : a php wrapper for jQuery and UI components (jQuery, Twitter Bootstrap, Semantic-UI).
 
 Using the dependency injection, the jQuery object can be injected into **php framework container**, allowing for the generation of jQuery scripts in controllers, respecting the MVC design pattern.
 
-##Requirements/Dependencies
+## Requirements/Dependencies
 
 * PHP >= 5.3.9
 * JQuery >= 2.0.3
@@ -26,11 +26,11 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 * Twitter Bootstrap >= 3.3.2 [optional]
 * Semantic-UI >= 2.2 [optional]
 
-##Resources
+## Resources
 * [API](http://api.kobject.net/phpMv-UI/)
 * [Documentation/demo](http://phpmv-ui.kobject.net/)
 
-##I - Installation
+## I - Installation
 
 ### Installing via Composer
 
@@ -62,8 +62,8 @@ Just clone the repository in a common location or inside your project:
 git clone https://github.com/phpMv/phpMv-UI.git
 ```
 
-##II PHP frameworks configuration
-###Library loading
+## II PHP frameworks configuration
+### Library loading
 phpMv-UI complies with [PSR-4 recommendations](http://www.php-fig.org/psr/psr-4/) for auto-loading classes.
 Whatever the php framework used, with "composer", it is enough to integrate the Composer autoload file.
 ```php
@@ -71,7 +71,7 @@ require_once("vendor/autoload.php");
 ```
 ### <img src="http://angular.kobject.net/git/images/phalcon.png" width="30"> Phalcon configuration
 
-####Library loading
+#### Library loading
 Without Composer, It is possible to load the library with the **app/config/loader.php** file :
 
 ```php
@@ -81,7 +81,7 @@ $loader->registerNamespaces(array(
 ))->register();
 ```
 
-####Injection of the service
+#### Injection of the service
 
 It is necessary to inject the JQuery service at application startup, in the service file **app/config/services.php**, and if necessary instantiate Semantic, Bootstrap or Jquery-ui :
 ```php
@@ -92,7 +92,7 @@ $di->set("jquery",function(){
 });
 ```
 
-####Use in controllers
+#### Use in controllers
 Example of creating a Semantic-UI button
 
 ```php
@@ -111,12 +111,12 @@ class ExempleController extends Controller{
 ```
 
 ### <img src="http://angular.kobject.net/git/images/ci.png" width="30"> CodeIgniter configuration
-####Library loading
+#### Library loading
 If you want CodeIgniter to use a Composer auto-loader, just set `$config['composer_autoload']` to `TRUE` or a custom path in **application/config/config.php**.
 
 Then, it's necessary to create a library for the JsUtils class
 
-#####Library creation
+##### Library creation
 Create the library **XsUtils** (the name is free) in the folder **application/libraries**
 
 ```php
@@ -127,7 +127,7 @@ class XsUtils extends Ajax\php\ci\JsUtils{
 	}
 }
 ```
-####Injection of the service
+#### Injection of the service
 Add the loading of the **XsUtils** library in the file **application/config/autoload.php**
 
 The jquery member will be accessible in the controllers
@@ -141,7 +141,7 @@ $this->jquery->some_method();
 
 ### ![](http://angular.kobject.net/git/images/laravel.png) Laravel configuration
 
-####Library loading
+#### Library loading
 If you do not use the Composer autoloader file, you can also load phpMv-UI with composer.json :
 
 ```json
@@ -154,7 +154,7 @@ If you do not use the Composer autoloader file, you can also load phpMv-UI with 
     }
 },
 ```
-####Injection of the service
+#### Injection of the service
 Register a Singleton in **bootstrap/app.php** file :
 
 ```php
@@ -184,7 +184,7 @@ class Controller extends BaseController{
 ```
 ### <img src="http://angular.kobject.net/git/images/yii.png" width="30"> Yii configuration
 
-####Library loading
+#### Library loading
 The classes in the installed Composer packages can be autoloaded using the Composer autoloader. Make sure the entry script of your application contains the following lines to install the Composer autoloader:
 ```php
 require(__DIR__ . '/../vendor/autoload.php');
@@ -194,7 +194,7 @@ In the same file, register a new dependency :
 ```php
 \Yii::$container->setSingleton("Ajax\php\yii\JsUtils",["bootstrap"=>new Ajax\Semantic()]);
 ```
-####Injection of the service
+#### Injection of the service
 The **JsUtils** singleton can then be injected into controllers
 
 ```php
@@ -215,7 +215,7 @@ class SiteController extends Controller{
 
 ### <img src="http://angular.kobject.net/git/images/symfony.png" width="30"> Symfony configuration
 
-####Library loading
+#### Library loading
 If you do not use the Composer autoloader file, you can also load phpMv-UI with [Ps4ClassLoader](http://symfony.com/doc/current/components/class_loader/psr4_class_loader.html) :
 
 ```php
@@ -227,7 +227,7 @@ $loader = new Psr4ClassLoader();
 $loader->addPrefix('Ajax\\', __DIR__.'/lib/phpmv/php-mv-ui/Ajax');
 $loader->register();
 ```
-####Injection of the service
+#### Injection of the service
 Create 2 services in the **app/config/services.yml** file :
   * The first for the JsUtils instance
   * The second for the controller
@@ -273,10 +273,10 @@ class DefaultController extends Controller{
 ```
 ### <img src="http://angular.kobject.net/git/images/cakephp.png" width="30"> CakePhp configuration
 
-####Component creation
+#### Component creation
 Copy the file **JsUtilsComponent.php** located in **vendor/phpmv/php-mv-ui/Ajax/php/cakephp** to the **src/controller/component** folder of your project
 
-####Component loading in controllers
+#### Component loading in controllers
 Add the **JsUtils** component loading in the initialize method of the base controller **AppController**, located in **src/controller/appController.php**
 ```php
     public function initialize(){
@@ -287,7 +287,7 @@ Add the **JsUtils** component loading in the initialize method of the base contr
         $this->loadComponent('JsUtils',["semantic"=>true]);
     }
 ```
-####Usage
+#### Usage
 
 the jquery object in controller will be accessible on
 `$this->JsUtils->jquery`
