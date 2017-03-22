@@ -10,6 +10,7 @@ use Ajax\common\html\BaseHtml;
  * @author jc
  * @property SimpleExtComponent $_bsComponent
  * @property string identifier
+ * @property BaseHtml _self
  */
 trait BaseHtmlEventsTrait{
 
@@ -20,7 +21,7 @@ trait BaseHtmlEventsTrait{
 	 * @param string|AjaxCall $jsCode
 	 * @param boolean $stopPropagation
 	 * @param boolean $preventDefault
-	 * @return \Ajax\common\html\BaseHtml
+	 * @return BaseHtml
 	 */
 	public function addEvent($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
 		if ($stopPropagation === true) {
@@ -55,10 +56,10 @@ trait BaseHtmlEventsTrait{
 	 * @param string $jsCode
 	 * @param boolean $stopPropagation
 	 * @param boolean $preventDefault
-	 * @return \Ajax\common\html\BaseHtml
+	 * @return BaseHtml
 	 */
 	public function on($event, $jsCode, $stopPropagation=false, $preventDefault=false) {
-		return $this->addEvent($event, $jsCode, $stopPropagation, $preventDefault);
+		return $this->_self->addEvent($event, $jsCode, $stopPropagation, $preventDefault);
 	}
 
 	public function onClick($jsCode, $stopPropagation=false, $preventDefault=true) {

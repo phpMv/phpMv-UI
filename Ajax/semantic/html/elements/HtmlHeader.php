@@ -15,7 +15,7 @@ class HtmlHeader extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $niveau=1, $content=NULL, $type="page") {
 		parent::__construct($identifier, "div", "ui header");
-		$this->_template="<%tagName% %properties%>%image%%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>";
+		$this->_template="<%tagName%  id='%identifier%' %properties%>%image%%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>";
 		if (isset($type)) {
 			if ($type == "page") {
 				$this->asPageHeader($niveau);

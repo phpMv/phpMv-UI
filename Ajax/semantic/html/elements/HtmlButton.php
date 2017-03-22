@@ -105,8 +105,10 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * @return HtmlLabel
 	 */
 	public function addLabel($label, $before=false, $icon=NULL) {
-		$this->tagName="div";
-		$this->addToProperty("class", "labeled");
+		$this->tagName="div";$prefix="";
+		if($before)
+			$prefix="left ";
+		$this->addToProperty("class", $prefix."labeled");
 		$this->content=new HtmlButton("button-" . $this->identifier, $this->content);
 		$this->content->setTagName("div");
 		$label=new HtmlLabel("label-" . $this->identifier, $label, $icon,"a");
@@ -133,6 +135,19 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 */
 	public function setPositive() {
 		return $this->addToProperty("class", "positive");
+	}
+
+	public function setColor($color){
+		//TODO check button content
+		if(\is_array($this->content)){
+			foreach ($this->content as $content){
+				if($content instanceof HtmlButton)
+					$content->setColor($color);
+			}
+		}
+		else
+			parent::setColor($color);
+		return $this;
 	}
 
 	/**

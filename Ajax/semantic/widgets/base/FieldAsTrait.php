@@ -194,6 +194,8 @@ trait FieldAsTrait{
 
 	public function fieldAsCheckbox($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption) use($attributes){
+			if($caption===null || $caption==="")
+				$caption="";
 			$input=new HtmlFormCheckbox($id,$caption,$this->_instanceViewer->getIdentifier());
 			$input->setChecked(JString::isBooleanTrue($value));
 			return $this->_prepareFormFields($input, $name, $attributes);
