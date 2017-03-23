@@ -9,6 +9,13 @@ use Ajax\semantic\html\base\constants\HeaderSize;
 use Ajax\semantic\html\elements\html5\HtmlImg;
 use Ajax\semantic\html\base\traits\AttachedTrait;
 
+/**
+ * Semantic Header component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/43
+ * @see http://semantic-ui.com/elements/header.html
+ * @author jc
+ * @version 1.001
+ */
 class HtmlHeader extends HtmlSemDoubleElement {
 	use TextAlignmentTrait,AttachedTrait;
 	protected $image;

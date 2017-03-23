@@ -6,6 +6,13 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\elements\html5\HtmlImg;
 
+/**
+ * Semantic Image component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/55
+ * @see http://semantic-ui.com/elements/icon.html#/definition
+ * @author jc
+ * @version 1.001
+ */
 class HtmlImage extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $src="", $alt="", $size=NULL) {

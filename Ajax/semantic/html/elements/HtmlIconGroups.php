@@ -8,6 +8,7 @@ use Ajax\JsUtils;
 
 /**
  * Semantic Icons group component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/72
  * @see http://semantic-ui.com/elements/icon.html#/definition
  * @author jc
  * @version 1.001

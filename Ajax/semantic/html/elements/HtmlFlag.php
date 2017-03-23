@@ -7,6 +7,7 @@ use Ajax\semantic\html\base\constants\Country;
 
 /**
  * Semantic Flag component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/64
  * @see http://semantic-ui.com/elements/flag.html
  * @author jc
  * @version 1.001

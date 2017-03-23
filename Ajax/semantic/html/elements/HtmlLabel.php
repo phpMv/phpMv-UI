@@ -9,6 +9,13 @@ use Ajax\semantic\html\base\constants\Side;
 use Ajax\semantic\html\elements\html5\HtmlImg;
 use Ajax\semantic\html\base\traits\HasTimeoutTrait;
 
+/**
+ * Semantic Label component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/46
+ * @see http://semantic-ui.com/elements/label.html
+ * @author jc
+ * @version 1.001
+ */
 class HtmlLabel extends HtmlSemDoubleElement {
 	use LabeledIconTrait,HasTimeoutTrait;
 
@@ -22,7 +29,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string $value
-	 * @return \Ajax\semantic\html\elements\HtmlLabel
+	 * @return HtmlLabel
 	 */
 	public function setPointing($value=Direction::NONE) {
 		if($value==="left" || $value==="right")
@@ -34,7 +41,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string $side
-	 * @return \Ajax\semantic\html\elements\HtmlLabel
+	 * @return HtmlLabel
 	 */
 	public function toCorner($side="left") {
 		return $this->addToPropertyCtrl("class", $side . " corner", array ("right corner","left corner" ));
@@ -50,7 +57,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 
 	/**
 	 *
-	 * @return \Ajax\semantic\html\elements\HtmlLabel
+	 * @return HtmlLabel
 	 */
 	public function asTag() {
 		return $this->addToProperty("class", "tag");
@@ -70,7 +77,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	 * @param string $src
 	 * @param string $alt
 	 * @param boolean $before
-	 * @return \Ajax\semantic\html\elements\html5\HtmlImg
+	 * @return HtmlImg
 	 */
 	public function addEmphasisImage($src, $alt="", $before=true) {
 		$this->addToProperty("class", "image");
@@ -82,7 +89,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	 * @param string $src
 	 * @param string $alt
 	 * @param boolean $before
-	 * @return \Ajax\semantic\html\elements\html5\HtmlImg
+	 * @return HtmlImg
 	 */
 	public function addAvatarImage($src, $alt="", $before=true) {
 		$img=$this->addImage($src,$alt,$before);
@@ -96,7 +103,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	* @param string $src
 	* @param string $alt
 	* @param boolean $before
-	* @return \Ajax\semantic\html\elements\html5\HtmlImg
+	* @return HtmlImg
 	*/
 	public function addImage($src, $alt="", $before=true) {
 		$img=new HtmlImg("image-" . $this->identifier, $src, $alt);
@@ -108,7 +115,7 @@ class HtmlLabel extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string $detail
-	 * @return \Ajax\common\html\HtmlDoubleElement
+	 * @return HtmlDoubleElement
 	 */
 	public function addDetail($detail) {
 		$div=new HtmlSemDoubleElement("detail-" . $this->identifier, $this->tagName,"detail");

@@ -9,6 +9,7 @@ use Ajax\semantic\html\modules\HtmlDropdown;
 
 /**
  * Semantic UI Buttongroups component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/50
  * @see http://semantic-ui.com/elements/button.html
  * @author jc
  * @version 1.001

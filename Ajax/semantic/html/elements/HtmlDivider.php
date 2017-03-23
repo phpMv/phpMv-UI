@@ -6,6 +6,7 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * Semantic UI divider component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/42
  * @see http://semantic-ui.com/elements/divider.html
  * @author jc
  * @version 1.001
@@ -19,7 +20,7 @@ class HtmlDivider extends HtmlSemDoubleElement {
 
 	/**
 	 * vertical divider
-	 * @return \Ajax\semantic\html\elements\HtmlDivider
+	 * @return HtmlDivider
 	 */
 	public function setVertical() {
 		return $this->addToPropertyCtrl("class", "vertical", array ("vertical","horizontal" ));
@@ -27,7 +28,7 @@ class HtmlDivider extends HtmlSemDoubleElement {
 
 	/**
 	 * horizontal divider
-	 * @return \Ajax\semantic\html\elements\HtmlDivider
+	 * @return HtmlDivider
 	 */
 	public function setHorizontal() {
 		return $this->addToPropertyCtrl("class", "horizontal", array ("vertical","horizontal" ));
@@ -35,7 +36,7 @@ class HtmlDivider extends HtmlSemDoubleElement {
 
 	/**
 	 * hide the divider
-	 * @return \Ajax\semantic\html\elements\HtmlDivider
+	 * @return HtmlDivider
 	 */
 	public function setHidden() {
 		return $this->addToProperty("class", "hidden");
@@ -43,7 +44,7 @@ class HtmlDivider extends HtmlSemDoubleElement {
 
 	/**
 	 * fitted, without any space above or below it
-	 * @return \Ajax\semantic\html\elements\HtmlDivider
+	 * @return HtmlDivider
 	 */
 	public function setFitted() {
 		return $this->addToProperty("class", "fitted");
@@ -51,12 +52,15 @@ class HtmlDivider extends HtmlSemDoubleElement {
 
 	/**
 	 *
-	 * @return \Ajax\semantic\html\elements\HtmlDivider
+	 * @return HtmlDivider
 	 */
 	public function asHeader() {
 		return $this->addToProperty("class", "header");
 	}
 
+	/**
+	 * @return HtmlDivider
+	 */
 	public function setIgnored(){
 		return $this->addToProperty("class", "ignored");
 	}

@@ -6,6 +6,7 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * Semantic Icon component
+ * @see http://phpmv-ui.kobject.net/index/direct/main/44
  * @see http://semantic-ui.com/elements/icon.html
  * @author jc
  * @version 1.001
@@ -25,7 +26,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 	/**
 	 * sets the icon
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function setIcon($icon) {
 		if (isset($this->_icon)) {
@@ -39,7 +40,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 	/**
 	 * adds an icon in icon element
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function addToIcon($icon) {
 		$this->addToProperty("class", $icon);
@@ -48,7 +49,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 
 	/**
 	 * Icon used as a simple loader
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function asLoader() {
 		return $this->addToProperty("class", "loading");
@@ -56,7 +57,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 
 	/**
 	 * An icon can be fitted, without any space to the left or right of it.
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function setFitted() {
 		return $this->addToProperty("class", "fitted");
@@ -65,7 +66,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string $sens horizontally or vertically
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function setFlipped($sens="horizontally") {
 		return $this->addToProperty("class", "flipped " . $sens);
@@ -74,7 +75,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string $sens clockwise or counterclockwise
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function setRotated($sens="clockwise") {
 		return $this->addToProperty("class", "rotated " . $sens);
@@ -103,7 +104,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 	/**
 	 *
 	 * @param string $inverted
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function setBordered($inverted=false) {
 		$invertedStr="";
@@ -114,7 +115,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 
 	/**
 	 *
-	 * @return \Ajax\semantic\html\HtmlIcon
+	 * @return HtmlIcon
 	 */
 	public function toCorner() {
 		return $this->addToProperty("class", "corner");
