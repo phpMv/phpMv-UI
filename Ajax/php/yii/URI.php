@@ -77,7 +77,7 @@ class URI {
 		$uri="";
 		if ($this->uri_protocol == 'AUTO') {
 			// Is the request coming from the command line?
-			if (php_sapi_name() == 'cli' or defined('STDIN')) {
+			if (php_sapi_name() == 'cli' || defined('STDIN')) {
 				$this->_set_uri_string($this->_parse_cli_args());
 				return;
 			}
@@ -154,7 +154,7 @@ class URI {
 	 *
 	 */
 	private function _detect_uri() {
-		if (!isset($_SERVER['REQUEST_URI']) or !isset($_SERVER['SCRIPT_NAME'])) {
+		if (!isset($_SERVER['REQUEST_URI']) || !isset($_SERVER['SCRIPT_NAME'])) {
 			return '';
 		}
 

@@ -74,7 +74,7 @@ trait JqueryAjaxTrait {
 				$retour.="url=url+'".$slash."'+$(this).val();\n";
 			elseif ($attr==="html")
 			$retour.="url=url+'".$slash."'+$(this).html();\n";
-			elseif($attr!=null && $attr!=="")
+			elseif($attr!==null && $attr!=="")
 					$retour.="url=url+'".$slash."'+($(this).attr('".$attr."')||'');\n";
 		}
 		return $retour;

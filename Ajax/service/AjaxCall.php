@@ -14,7 +14,7 @@ class AjaxCall {
 	}
 
 	public function compile(JsUtils $js=null) {
-		if ($js==null)
+		if ($js===null)
 			return;
 		$params="{}";
 		$jsCallback=NULL;

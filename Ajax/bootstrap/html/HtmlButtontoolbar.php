@@ -87,7 +87,7 @@ class HtmlButtontoolbar extends HtmlButtongroups {
 				$element=$elements [$index];
 			}
 		} else {
-			while ( $element==null&&$i<sizeof($this->elements) ) {
+			while ( $element===null && $i<sizeof($this->elements) ) {
 				$element=$this->elements [$i]->getElement($index);
 				$i++;
 			}

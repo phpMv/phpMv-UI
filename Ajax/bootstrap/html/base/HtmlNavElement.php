@@ -1,13 +1,15 @@
 <?php
 namespace Ajax\bootstrap\html\base;
 
-use Ajax\JsUtils;
+use Ajax\common\html\traits\NavElementTrait;
+
 /**
  * Bs class for navigation elements : Breadcrumbs and Pagination
  * @author jc
  * @version 1.001
  */
 abstract class HtmlNavElement extends HtmlBsDoubleElement {
+	use NavElementTrait;
 	/**
 	 * @var string the root site
 	 */
@@ -38,45 +40,4 @@ abstract class HtmlNavElement extends HtmlBsDoubleElement {
 	public function contentAsString(){
 		return implode("", $this->content);
 	}
-
-	/**
-	 * Generate the jquery script to set the elements to the HtmlNavElement
-	 * @param JsUtils $jsUtils
-	 */
-	public function jsSetContent(JsUtils $jsUtils){
-		$jsUtils->html("#".$this->identifier,str_replace("\"","'", $this->contentAsString()),true);
-	}
-
-	public function getRoot() {
-		return $this->root;
-	}
-	public function setRoot($root) {
-		$this->root = $root;
-		return $this;
-	}
-	public function getAttr() {
-		return $this->attr;
-	}
-
-	/**
-	 * Define the html attribute for each element url in ajax
-	 * @param string $attr html attribute
-	 * @return HtmlNavElement
-	 */
-	public function setAttr($attr) {
-		$this->attr = $attr;
-		return $this;
-	}
-
-	public function __call($method, $args) {
-		if(isset($this->$method) && is_callable($this->$method)) {
-			return call_user_func_array(
-					$this->$method,
-					$args
-					);
-		}
-	}
-
-	abstract public function fromDispatcher(JsUtils $js,$dispatcher,$startIndex=0);
-
 }

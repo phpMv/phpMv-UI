@@ -1,14 +1,15 @@
 <?php
 namespace Ajax\semantic\html\base;
 
-use Ajax\JsUtils;
 use Ajax\service\JArray;
+use Ajax\common\html\traits\NavElementTrait;
 /**
  * Sem class for navigation elements : Breadcrumbs and Pagination
  * @author jc
  * @version 1.001
  */
 abstract class HtmlSemNavElement extends HtmlSemCollection {
+	use NavElementTrait;
 	/**
 	 * @var string the root site
 	 */
@@ -43,47 +44,6 @@ abstract class HtmlSemNavElement extends HtmlSemCollection {
 	public function contentAsString(){
 		return JArray::implode($this->_contentSeparator, $this->content);
 	}
-
-	/**
-	 * Generate the jquery script to set the elements to the HtmlNavElement
-	 * @param JsUtils $jsUtils
-	 */
-	public function jsSetContent(JsUtils $jsUtils){
-		$jsUtils->html("#".$this->identifier,str_replace("\"","'", $this->contentAsString()),true);
-	}
-
-	public function getRoot() {
-		return $this->root;
-	}
-	public function setRoot($root) {
-		$this->root = $root;
-		return $this;
-	}
-	public function getAttr() {
-		return $this->attr;
-	}
-
-	/**
-	 * Define the html attribute for each element url in ajax
-	 * @param string $attr html attribute
-	 * @return HtmlNavElement
-	 */
-	public function setAttr($attr) {
-		$this->attr = $attr;
-		return $this;
-	}
-
-	public function __call($method, $args) {
-		if(isset($this->$method) && is_callable($this->$method)) {
-			return call_user_func_array(
-					$this->$method,
-					$args
-					);
-		}
-	}
-
-	abstract public function fromDispatcher(JsUtils $js,$dispatcher, $startIndex=0);
-
 
 	public function setContentDivider($divider,$index=NULL) {
 		$divider="<div class='divider'> {$divider} </div>";

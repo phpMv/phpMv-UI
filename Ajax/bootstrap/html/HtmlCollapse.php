@@ -5,6 +5,7 @@ namespace Ajax\bootstrap\html;
 use Ajax\JsUtils;
 use Ajax\bootstrap\html\base\HtmlElementAsContent;
 use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
+use Ajax\common\html\HtmlDoubleElement;
 
 /**
  * Twitter Bootstrap Collapse component

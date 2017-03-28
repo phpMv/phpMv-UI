@@ -3,6 +3,7 @@ namespace Ajax\common\html\html5;
 
 use Ajax\common\html\HtmlDoubleElement;
 use Ajax\JsUtils;
+use Ajax\service\JArray;
 /**
  * HTML Select
  * @author jc

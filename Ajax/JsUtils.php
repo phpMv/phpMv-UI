@@ -54,7 +54,7 @@ abstract class JsUtils{
 	protected $config;
 
 	protected function _setDi($di) {
-		if ($this->js!=null&&$di!=null)
+		if ($this->js!==null && $di!==null)
 			$this->js->setDi($di);
 	}
 
@@ -92,7 +92,7 @@ abstract class JsUtils{
 	public function ui($ui=NULL) {
 		if ($ui!==NULL) {
 			$this->_ui=$ui;
-			if ($this->js!=null) {
+			if ($this->js!==null) {
 				$this->js->ui($ui);
 				$ui->setJs($this);
 			}
@@ -112,7 +112,7 @@ abstract class JsUtils{
 	public function bootstrap($bootstrap=NULL) {
 		if ($bootstrap!==NULL) {
 			$this->_bootstrap=$bootstrap;
-			if ($this->js!=null) {
+			if ($this->js!==null) {
 				$this->js->bootstrap($bootstrap);
 				$bootstrap->setJs($this);
 			}
@@ -132,7 +132,7 @@ abstract class JsUtils{
 	public function semantic($semantic=NULL) {
 		if ($semantic!==NULL) {
 			$this->_semantic=$semantic;
-			if ($this->js!=null) {
+			if ($this->js!==null) {
 				$this->js->semantic($semantic);
 				$semantic->setJs($this);
 			}

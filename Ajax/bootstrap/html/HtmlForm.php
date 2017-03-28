@@ -6,6 +6,7 @@ use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
 use Ajax\JsUtils;
 
 use Ajax\common\html\html5\HtmlSelect;
+use Ajax\service\JString;
 
 class HtmlForm extends HtmlBsDoubleElement {
 	protected $formElementsPrefix;
@@ -91,7 +92,7 @@ class HtmlForm extends HtmlBsDoubleElement {
 	private function getPrefix($element) {
 		$result="input_text";
 		foreach ( $this->formElementsPrefix as $k => $v ) {
-			if (Text::startsWith($element, $k)) {
+			if (JString::startswith($element, $k)) {
 				$result=$v;
 				break;
 			}
