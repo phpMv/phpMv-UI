@@ -27,7 +27,7 @@
 	"autoload": {
 		"psr-4": { "Ajax\\": "Ajax/" }
 	},
-	"license": "Apache License Version 2",
+	"license": "Apache-2.0",
 	"authors": [
 		{
 			"name": "Jean-Christophe HERON",
