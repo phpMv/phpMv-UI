@@ -2,7 +2,6 @@
 namespace Ajax\semantic\widgets\base;
 use Ajax\service\JString;
 use Ajax\semantic\html\elements\HtmlImage;
-use Ajax\semantic\html\modules\checkbox\HtmlRadio;
 use Ajax\semantic\html\base\constants\Size;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\modules\HtmlProgress;

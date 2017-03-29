@@ -14,7 +14,7 @@ class PropertyWrapper {
 		if (\is_array($input)) {
 			if (sizeof($input) > 0) {
 				if (self::containsElement($input) === false) {
-					$output=self::wrapStrings($input, $js, $separator=' ', $valueQuote='"');
+					$output=self::wrapStrings($input, $separator=' ', $valueQuote='"');
 				} else {
 					$output=self::wrapObjects($input, $js, $separator, $valueQuote);
 				}
@@ -31,7 +31,7 @@ class PropertyWrapper {
 		return false;
 	}
 
-	public static function wrapStrings($input, $js, $separator=' ', $valueQuote='"') {
+	public static function wrapStrings($input, $separator=' ', $valueQuote='"') {
 		if (JArray::isAssociative($input) === true) {
 			$result=implode($separator, array_map(function ($v, $k) use($valueQuote) {
 				return $k . '=' . $valueQuote . $v . $valueQuote;

@@ -5,6 +5,7 @@ namespace Ajax\ui\Components;
 use Ajax\JsUtils;
 use Ajax\ui\Properties\Position;
 use Ajax\common\components\SimpleComponent;
+use Ajax\service\JString;
 
 /**
  * JQuery UI Autocomplete component
@@ -26,7 +27,7 @@ class Autocomplete extends SimpleComponent {
 	 * @return $this
 	 */
 	public function setAjaxSource($url) {
-		if (Text::startsWith($url, "/")) {
+		if (JString::startsWith($url, "/")) {
 			$u=$this->js->getDi()->get("url");
 			$url=$u->getBaseUri().$url;
 		}
