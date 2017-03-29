@@ -23,5 +23,4 @@ class Checkbox extends SimpleExtComponent {
 	public function setOnChange($value){
 		$this->params["onChange"]="%function(){".$value."}%";
 	}
-	//TODO other events implementation
 }

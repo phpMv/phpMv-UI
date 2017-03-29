@@ -17,7 +17,7 @@ class Semantic extends BaseGui {
 	private $language;
 
 	public function __construct($autoCompile=true) {
-		parent::__construct($autoCompile=true);
+		parent::__construct($autoCompile);
 	}
 
 

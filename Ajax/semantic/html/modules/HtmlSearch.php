@@ -26,7 +26,6 @@ class HtmlSearch extends HtmlSemDoubleElement {
 			$field->setPlaceholder($placeholder);
 		if (isset($icon))
 			$field->addIcon($icon, Direction::RIGHT);
-		//TODO check getField
 		$field->getDataField()->setClass("prompt");
 		$this->content["field"]=$field;
 		return $field;

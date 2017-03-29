@@ -3,7 +3,6 @@
 namespace Ajax\bootstrap\components;
 
 use Ajax\JsUtils;
-use Ajax\common\JsCode;
 use Ajax\common\components\SimpleExtComponent;
 
 /**

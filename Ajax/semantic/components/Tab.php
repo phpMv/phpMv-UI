@@ -14,5 +14,4 @@ class Tab extends SimpleExtComponent {
 	public function setDebug($value=true) {
 		return $this->setParam("debug", $value);
 	}
-	//TODO other events implementation
 }

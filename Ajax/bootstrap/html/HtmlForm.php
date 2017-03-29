@@ -51,8 +51,6 @@ class HtmlForm extends HtmlBsDoubleElement {
 						$control=new HtmlSelect($futureElement,"");
 						$control->setProperty("size", $futureElementValues [1]);
 						$control->setClass("form-control");
-						//$control->setLabel($this->getPart($futureElement));
-						//TODO check Select label
 						break;
 					default:
 						$control=new HtmlInput($futureElement);
@@ -79,7 +77,7 @@ class HtmlForm extends HtmlBsDoubleElement {
 		return $result;
 	}
 
-	private function getId($str) {
+	protected function getId($str) {
 		$result=preg_split('/(?=[A-Z])/', $str);
 		if (sizeof($result)>2) {
 			$result=$result [2];
@@ -89,7 +87,7 @@ class HtmlForm extends HtmlBsDoubleElement {
 		return $result;
 	}
 
-	private function getPrefix($element) {
+	protected function getPrefix($element) {
 		$result="input_text";
 		foreach ( $this->formElementsPrefix as $k => $v ) {
 			if (JString::startswith($element, $k)) {

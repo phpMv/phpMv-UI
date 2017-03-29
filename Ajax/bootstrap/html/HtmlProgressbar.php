@@ -15,7 +15,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 	protected $striped="";
 	protected $active;
 	protected $caption;
-	protected $isStacked=false;
+	protected $stacked=false;
 	protected $style="";
 	protected $styleLimits=null;
 
@@ -76,7 +76,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 
 	public function stack(HtmlProgressbar $progressBar) {
 		$this->_template='%content%';
-		$progressBar->setIsStacked(true);
+		$progressBar->setStacked(true);
 		$progressBar->showCaption($this->caption=="%value%%");
 		$progressBar->setStriped($this->striped!=="" || $progressBar->isStriped());
 		$progressBar->setActive($this->active==="active" || $progressBar->isActive());
@@ -109,12 +109,12 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 		return $this;
 	}
 
-	public function getIsStacked() {
-		return $this->isStacked;
+	public function getStacked() {
+		return $this->stacked;
 	}
 
-	public function setIsStacked($isStacked) {
-		$this->isStacked=$isStacked;
+	public function setStacked($stacked) {
+		$this->stacked=$stacked;
 		return $this;
 	}
 
@@ -143,7 +143,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 		}
 		$this->style=$actualStyle;
 		$this->_template=str_replace("%caption%", $this->caption, $this->_template);
-		if ($this->getIsStacked()===false) {
+		if ($this->getStacked()===false) {
 			$this->wrap('<div class="progress">', '</div>');
 		}
 		return parent::compile($js, $view);

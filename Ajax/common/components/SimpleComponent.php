@@ -24,7 +24,6 @@ abstract class SimpleComponent extends BaseComponent {
 	protected function compileEvents() {
 		foreach ( $this->events as $event => $jsCode ) {
 			$itemSelector=JString::getValueBetween($event);
-			//echo $itemSelector.":::".$jsCode."<br>";
 			if($event=="execute"){
 				$this->jquery_code_for_compile []=$jsCode;
 			}else if($event=="beforeExecute"){

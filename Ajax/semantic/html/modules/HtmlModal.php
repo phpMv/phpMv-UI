@@ -99,10 +99,6 @@ class HtmlModal extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	private function addContentInPart($content,$uiClass,$part) {
-		return $this->addElementInPart(new HtmlSemDoubleElement($part."-" . $this->identifier, "div", $uiClass, $content), $part);
-	}
-
 	private function addElementInPart($element,$part) {
 		$this->content[$part]->addContent($element);
 		return $element;

@@ -5,7 +5,6 @@ use Ajax\semantic\html\collections\form\HtmlForm;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
-use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\common\html\BaseHtml;
 
 /**

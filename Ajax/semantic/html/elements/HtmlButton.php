@@ -138,7 +138,6 @@ class HtmlButton extends HtmlSemDoubleElement {
 	}
 
 	public function setColor($color){
-		//TODO check button content
 		if(\is_array($this->content)){
 			foreach ($this->content as $content){
 				if($content instanceof HtmlButton)

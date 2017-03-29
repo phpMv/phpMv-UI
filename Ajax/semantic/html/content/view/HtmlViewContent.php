@@ -140,7 +140,6 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
-		//$this->content=JArray::sortAssociative($this->content, [ "header","meta","description","extra" ]);
 		return parent::compile($js, $view);
 	}
 }

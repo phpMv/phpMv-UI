@@ -17,7 +17,6 @@ class HtmlFormInput extends HtmlFormField {
 
 	public function getDataField(){
 		$field= $this->getField();
-		//TODO check getField
 		if($field instanceof HtmlInput)
 			$field=$field->getDataField();
 		return $field;

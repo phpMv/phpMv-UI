@@ -12,7 +12,7 @@ class FormInstanceViewer extends InstanceViewer {
 	protected $wrappers;
 
 	public function __construct($identifier,$instance=NULL, $captions=NULL) {
-		parent::__construct($identifier,$instance=NULL, $captions=NULL);
+		parent::__construct($identifier,$instance, $captions);
 		$this->separators=[-1];
 		$this->headers=[];
 		$this->wrappers=[];
@@ -78,7 +78,8 @@ class FormInstanceViewer extends InstanceViewer {
 		parent::removeField($index);
 		$pos=\array_search($index, $this->separators);
 		if($pos!==false){
-			for($i=$pos+1;$i<\sizeof($this->separators);$i++){
+			$sepCount=\sizeof($this->separators);
+			for($i=$pos+1;$i<$sepCount;$i++){
 				$this->separators[$i]--;
 			}
 			\array_splice($this->separators, $pos, 1);

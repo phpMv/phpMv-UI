@@ -39,7 +39,6 @@ trait CheckboxTrait {
 	}
 
 	public function getField(){
-		//TODO check getField() ?
 		return $this->content["field"];
 	}
 

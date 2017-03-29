@@ -270,16 +270,16 @@ class InstanceViewer {
 	}
 
 	public function getCaptions(){
+		$count=$this->count();
 		if(isset($this->captions)){
 			$captions= \array_values($this->captions);
 			$captionsSize=\sizeof($captions);
-			for($i=$captionsSize;$i<$this->count();$i++){
+			for($i=$captionsSize;$i<$count;$i++){
 				$captions[]="";
 			}
 		}else{
 			$captions=[];
 			$index=0;
-			$count=$this->count();
 			while($index<$count){
 				$captions[]=$this->getCaption($index++);
 			}
