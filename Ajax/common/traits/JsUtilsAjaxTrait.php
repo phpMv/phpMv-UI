@@ -2,13 +2,13 @@
 
 namespace Ajax\common\traits;
 
-use Ajax\service\JArray;
 use Ajax\service\AjaxTransition;
 use Ajax\service\Javascript;
 use Ajax\service\JString;
 
 /**
  * @author jc
+ * @property array $jquery_code_for_compile
  */
 trait JsUtilsAjaxTrait {
 
@@ -325,8 +325,8 @@ trait JsUtilsAjaxTrait {
 		$immediatly=true;
 		$jqueryDone="html";
 		$ajaxTransition=null;
+		$params="{}";
 		extract($parameters);
-		$params=JArray::getDefaultValue($parameters, "params", "{}");
 		return $this->_add_event($element, $this->_get($url, $params,$responseElement,$jsCallback,$attr, $hasLoader,$jqueryDone,$ajaxTransition), $event, $preventDefault, $stopPropagation,$immediatly);
 	}
 

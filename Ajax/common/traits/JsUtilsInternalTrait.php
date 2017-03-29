@@ -14,7 +14,7 @@ trait JsUtilsInternalTrait{
 	 * @param BaseGui $library
 	 * @param mixed $view
 	 */
-	private function _compileLibrary($library, &$view=NULL){
+	protected function _compileLibrary($library, &$view=NULL){
 		if ($library!=NULL) {
 			if(isset($view))
 				$library->compileHtml($this, $view);
@@ -24,19 +24,19 @@ trait JsUtilsInternalTrait{
 		}
 	}
 
-	private function defer($script){
+	protected function defer($script){
 		$result="window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { defer(method) }, 50);};";
 		$result.="window.defer(function(){".$script."})";
 		return $result;
 	}
 
-	private function ready($script){
+	protected function ready($script){
 		$result='$(document).ready(function() {'."\n";
 		$result.=$script.'})';
 		return $result;
 	}
 
-	private function minify($input) {
+	protected function minify($input) {
 		if(trim($input) === "") return $input;
 		return preg_replace(
 				array(
@@ -67,7 +67,7 @@ trait JsUtilsInternalTrait{
 	 * @param string $src
 	 * @return string
 	 */
-	private function _open_script($src='') {
+	protected function _open_script($src='') {
 		$str='<script type="text/javascript" ';
 		$str.=($src=='') ? '>' : ' src="'.$src.'">';
 		return $str;
@@ -79,11 +79,11 @@ trait JsUtilsInternalTrait{
 	 * @param string $extra
 	 * @return string
 	 */
-	private function _close_script($extra="\n") {
+	protected function _close_script($extra="\n") {
 		return "</script>$extra";
 	}
 
-	private function conflict() {
+	protected function conflict() {
 		$this->_addToCompile("var btn = $.fn.button.noConflict();$.fn.btn = btn;");
 	}
 

@@ -6,11 +6,32 @@ use Ajax\service\Javascript;
 
 /**
  * @author jc
- * @property Ajax\JsUtils $js
+ * @property array $jquery_code_for_compile
  */
 trait JsUtilsActionsTrait {
 
-
+	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
+	/**
+	 * show or hide with effect
+	 *
+	 * @param string $action
+	 * @param string - element
+	 * @param string - One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param string - Javascript callback function
+	 * @param boolean $immediatly defers the execution if set to false
+	 * @return string
+	 */
+	protected function _showHideWithEffect($action,$element='this', $speed='', $callback='', $immediatly=false) {
+		$element=Javascript::prep_element($element);
+		$speed=$this->_validate_speed($speed);
+		if ($callback!='') {
+			$callback=", function(){\n{$callback}\n}";
+		}
+		$str="$({$element}).{$action}({$speed}{$callback});";
+		if ($immediatly)
+			$this->jquery_code_for_compile[]=$str;
+			return $str;
+	}
 	/**
 	 * Ensures the speed parameter is valid for jQuery
 	 * @param string|int $speed
@@ -205,18 +226,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function fadeIn($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).fadeIn({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("fadeIn",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
@@ -229,18 +239,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function fadeOut($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).fadeOut({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("fadeOut",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
@@ -253,18 +252,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function slideUp($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).slideUp({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("slideUp",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
@@ -289,18 +277,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function slideDown($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).slideDown({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("slideDown",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
@@ -313,18 +290,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function slideToggle($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).slideToggle({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("slideToggle",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
@@ -337,34 +303,20 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function hide($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).hide({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("hide",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
 	 * Execute a javascript library toggle action
 	 *
 	 * @param string - element
+	 * @param string - One of 'slow', 'normal', 'fast', or time in milliseconds
+	 * @param string - Javascript callback function
 	 * @param boolean $immediatly defers the execution if set to false
 	 * @return string
 	 */
-	public function toggle($element='this', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$str="$({$element}).toggle();";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+	public function toggle($element='this', $speed='', $callback='', $immediatly=false) {
+		return $this->_showHideWithEffect("toggle",$element,$speed,$callback,$immediatly);
 	}
 
 	/**
@@ -403,18 +355,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function show($element='this', $speed='', $callback='', $immediatly=false) {
-		$element=Javascript::prep_element($element);
-		$speed=$this->_validate_speed($speed);
-
-		if ($callback!='') {
-			$callback=", function(){\n{$callback}\n}";
-		}
-
-		$str="$({$element}).show({$speed}{$callback});";
-
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$str;
-		return $str;
+		return $this->_showHideWithEffect("show",$element,$speed,$callback,$immediatly);
 	}
 
 	/**

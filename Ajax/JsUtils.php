@@ -9,6 +9,7 @@ use Ajax\common\traits\JsUtilsActionsTrait;
 use Ajax\common\traits\JsUtilsAjaxTrait;
 use Ajax\common\traits\JsUtilsInternalTrait;
 use Ajax\service\JArray;
+use Ajax\service\Javascript;
 
 /**
  * JQuery PHP library
@@ -347,6 +348,35 @@ abstract class JsUtils{
 		} elseif (is_scalar($result)) {
 			return $result;
 		}
+	}
+
+	/**
+	 * Constructs the syntax for an event, and adds to into the array for compilation
+	 *
+	 * @param string $element The element to attach the event to
+	 * @param string $js The code to execute
+	 * @param string $event The event to pass
+	 * @param boolean $preventDefault If set to true, the default action of the event will not be triggered.
+	 * @param boolean $stopPropagation Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
+	 * @return string
+	 */
+	public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true) {
+		if (\is_array($js)) {
+			$js=implode("\n\t\t", $js);
+		}
+		if ($preventDefault===true) {
+			$js=Javascript::$preventDefault.$js;
+		}
+		if ($stopPropagation===true) {
+			$js=Javascript::$stopPropagation.$js;
+		}
+		if (array_search($event, $this->jquery_events)===false)
+			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
+			else
+				$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
+				if($immediatly)
+					$this->jquery_code_for_compile[]=$event;
+					return $event;
 	}
 
 	public function getInjected() {

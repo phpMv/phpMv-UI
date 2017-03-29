@@ -6,6 +6,7 @@ use Ajax\service\Javascript;
 
 /**
  * @author jc
+ * @property array $jquery_code_for_compile
  */
 trait JsUtilsEventsTrait {
 
@@ -14,34 +15,7 @@ trait JsUtilsEventsTrait {
 			"bind","blur","change","click","dblclick","delegate","die","error","focus","focusin","focusout","hover","keydown","keypress","keyup","live","load","mousedown","mousseenter","mouseleave","mousemove","mouseout","mouseover","mouseup","off","on","one","ready","resize","scroll","select","submit","toggle","trigger","triggerHandler","undind","undelegate","unload"
 	);
 
-	/**
-	 * Constructs the syntax for an event, and adds to into the array for compilation
-	 *
-	 * @param string $element The element to attach the event to
-	 * @param string $js The code to execute
-	 * @param string $event The event to pass
-	 * @param boolean $preventDefault If set to true, the default action of the event will not be triggered.
-	 * @param boolean $stopPropagation Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
-	 * @return string
-	 */
-	public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true) {
-		if (\is_array($js)) {
-			$js=implode("\n\t\t", $js);
-		}
-		if ($preventDefault===true) {
-			$js=Javascript::$preventDefault.$js;
-		}
-		if ($stopPropagation===true) {
-			$js=Javascript::$stopPropagation.$js;
-		}
-		if (array_search($event, $this->jquery_events)===false)
-			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
-			else
-				$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
-				if($immediatly)
-					$this->jquery_code_for_compile[]=$event;
-					return $event;
-	}
+	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
 
 	/**
 	 * Outputs a javascript library blur event
@@ -69,7 +43,7 @@ trait JsUtilsEventsTrait {
 	 * Outputs a javascript library click event
 	 *
 	 * @param string $element element to attach the event to
-	 * @param string $js code to execute
+	 * @param string|array $js code to execute
 	 * @param boolean $ret_false or not to return false
 	 * @return string
 	 */
