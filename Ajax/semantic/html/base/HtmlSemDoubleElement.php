@@ -10,7 +10,6 @@ use Ajax\semantic\html\modules\HtmlDimmer;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\JsUtils;
-use Phalcon\Mvc\View;
 use Ajax\semantic\html\base\constants\Side;
 
 /**

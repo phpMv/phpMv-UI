@@ -176,7 +176,7 @@ abstract class BaseHtml extends BaseWidget {
 
 
 	public function getElementById($identifier, $elements) {
-		return $this->_getElementBy(function($element) use ($identifier){return $element->getIdentifier()===$identifier;}, $elements);
+		return $this->_getElementBy(function(BaseWidget $element) use ($identifier){return $element->getIdentifier()===$identifier;}, $elements);
 	}
 
 	public function getBsComponent() {

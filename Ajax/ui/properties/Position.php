@@ -83,6 +83,5 @@ class Position extends BaseComponent {
 	 * @see \Ajax\common\BaseComponent::getScript()
 	 */
 	public function getScript() {
-		// TODO: Auto-generated method stub
 	}
 }

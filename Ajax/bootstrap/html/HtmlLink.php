@@ -24,5 +24,4 @@ class HtmlLink extends HtmlBsDoubleElement {
 		$this->addEventsOnRun($js);
 		return $this->_bsComponent;
 	}
-	// TODO use Class Tag
 }

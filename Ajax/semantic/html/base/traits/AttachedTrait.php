@@ -10,9 +10,9 @@ trait AttachedTrait {
 	/**
 	 * @param HtmlSemDoubleElement $toElement
 	 * @param string $side
-	 * @return \Ajax\semantic\html\base\HtmlSemDoubleElement
+	 * @return HtmlSemDoubleElement
 	 */
-	public function setAttachment($toElement, $side=Side::BOTH) {
+	public function setAttachment(HtmlSemDoubleElement $toElement=NULL, $side=Side::BOTH) {
 		if (isset($toElement)) {
 			$toElement->setAttached(true);
 		}

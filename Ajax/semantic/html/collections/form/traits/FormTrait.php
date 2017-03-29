@@ -6,6 +6,8 @@ use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
 use Ajax\common\html\BaseHtml;
+use Ajax\semantic\components\Form;
+use Ajax\semantic\html\collections\form\HtmlFormField;
 
 /**
  * trait used in Widget and HtmlForm
@@ -19,7 +21,7 @@ trait FormTrait{
 	 */
 	abstract protected function getForm();
 
-	protected function addCompoValidation($compo,$field){
+	protected function addCompoValidation(Form $compo,HtmlFormField $field){
 		$validation=$field->getValidation();
 		if(isset($validation)){
 			$validation->setIdentifier($field->getDataField()->getIdentifier());
@@ -28,7 +30,7 @@ trait FormTrait{
 		return $compo;
 	}
 
-	protected function _runValidationParams(&$compo,JsUtils $js=NULL){
+	protected function _runValidationParams(Form &$compo,JsUtils $js=NULL){
 		$form=$this->getForm();
 		$params=$form->getValidationParams();
 		if(isset($params["_ajaxSubmit"])){

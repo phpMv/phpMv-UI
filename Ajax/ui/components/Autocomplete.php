@@ -3,8 +3,6 @@
 namespace Ajax\ui\Components;
 
 use Ajax\JsUtils;
-use Phalcon\Text;
-use Phalcon\Mvc\Url;
 use Ajax\ui\Properties\Position;
 use Ajax\common\components\SimpleComponent;
 
@@ -54,7 +52,7 @@ class Autocomplete extends SimpleComponent {
 	public function setSource($source) {
 		$source=str_ireplace(array (
 				"\"",
-				"'" 
+				"'"
 		), "%quote%", $source);
 		return $this->setParam("source", "%".$source."%");
 	}

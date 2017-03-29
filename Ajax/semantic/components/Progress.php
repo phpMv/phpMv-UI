@@ -19,6 +19,4 @@ class Progress extends SimpleExtComponent {
 	public function setText($values) {
 		return $this->params["text"]=$values;
 	}
-	
-	// TODO other events implementation
 }

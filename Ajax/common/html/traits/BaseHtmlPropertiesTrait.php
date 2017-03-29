@@ -111,6 +111,6 @@ trait BaseHtmlPropertiesTrait{
 	}
 
 	protected function getElementByPropertyValue($propertyName,$value, $elements) {
-		return $this->_self->_getElementBy(function($element) use ($propertyName,$value){return $element->propertyContains($propertyName, $value) === true;}, $elements);
+		return $this->_self->_getElementBy(function(BaseHtml $element) use ($propertyName,$value){return $element->propertyContains($propertyName, $value) === true;}, $elements);
 	}
 }

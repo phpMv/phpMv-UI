@@ -62,7 +62,7 @@ class Animation extends BaseComponent {
 				"easeInOutBack",
 				"easeInBounce",
 				"easeOutBounce",
-				"easeInOutBounce" 
+				"easeInOutBounce"
 		));
 	}
 
@@ -80,6 +80,5 @@ class Animation extends BaseComponent {
 	 * @see \Ajax\common\BaseComponent::getScript()
 	 */
 	public function getScript() {
-		// TODO: Auto-generated method stub
 	}
 }

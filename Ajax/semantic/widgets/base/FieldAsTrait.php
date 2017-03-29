@@ -19,6 +19,7 @@ use Ajax\service\JArray;
 use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\elements\HtmlFlag;
 use Ajax\common\html\BaseHtml;
+use Ajax\semantic\html\collections\form\HtmlFormField;
 
 /**
  * trait used in Widget
@@ -39,7 +40,7 @@ trait FieldAsTrait{
 	 * @param HtmlFormField $element
 	 * @param array $attributes
 	 */
-	protected function _applyAttributes($element,&$attributes,$index){
+	protected function _applyAttributes(BaseHtml $element,&$attributes,$index){
 		if(isset($attributes["jsCallback"])){
 			$callback=$attributes["jsCallback"];
 			if(\is_callable($callback)){
@@ -59,7 +60,7 @@ trait FieldAsTrait{
 	}
 
 
-	protected function _addRules($element,&$attributes){
+	protected function _addRules(HtmlFormField $element,&$attributes){
 		if(isset($attributes["rules"])){
 			$rules=$attributes["rules"];
 			if(\is_array($rules)){
@@ -72,7 +73,7 @@ trait FieldAsTrait{
 		}
 	}
 
-	protected function _prepareFormFields(&$field,$name,&$attributes){
+	protected function _prepareFormFields(HtmlFormField &$field,$name,&$attributes){
 		$field->setName($name);
 		$this->_addRules($field, $attributes);
 		return $field;

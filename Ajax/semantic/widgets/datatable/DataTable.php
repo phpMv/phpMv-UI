@@ -97,23 +97,9 @@ class DataTable extends Widget {
 			if(isset($this->_compileParts))
 				$table->setCompileParts($this->_compileParts);
 
-			if(isset($this->_searchField) && isset($js)){
-				if(isset($this->_urls["refresh"]))
-					$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
-			}
-
 			$this->_generateContent($table);
 
-			if($this->_hasCheckboxes && $table->hasPart("thead")){
-					$table->getHeader()->getCell(0, 0)->addClass("no-sort");
-			}
-
-			if(isset($this->_toolbar)){
-				$this->_setToolbarPosition($table, $captions);
-			}
-			if(isset($this->_pagination) && $this->_pagination->getVisible()){
-				$this->_generatePagination($table,$js);
-			}
+			$this->compileExtraElements($table, $captions,$js);
 
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 			$this->_compileForm();
@@ -121,6 +107,22 @@ class DataTable extends Widget {
 			$this->_generated=true;
 		}
 		return parent::compile($js,$view);
+	}
+
+	protected function compileExtraElements($table,$captions,JsUtils $js=NULL){
+		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
+				$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+		}
+		if($this->_hasCheckboxes && $table->hasPart("thead")){
+			$table->getHeader()->getCell(0, 0)->addClass("no-sort");
+		}
+
+		if(isset($this->_toolbar)){
+			$this->_setToolbarPosition($table, $captions);
+		}
+		if(isset($this->_pagination) && $this->_pagination->getVisible()){
+			$this->_generatePagination($table,$js);
+		}
 	}
 
 	protected function _applyStyleAttributes($table){

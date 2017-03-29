@@ -6,6 +6,7 @@ use Ajax\bootstrap\html\HtmlLink;
 use Ajax\JsUtils;
 
 use Ajax\bootstrap\html\base\HtmlNavElement;
+use Ajax\common\html\HtmlDoubleElement;
 /**
  * Twitter Bootstrap Breadcrumbs component
  * @see http://getbootstrap.com/components/#breadcrumbs
@@ -48,7 +49,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 		$this->content=array();
 		$this->autoActive=$autoActive;
 		$this->absolutePaths;
-		$this->_hrefFunction=function ($e){return $e->getContent();};
+		$this->_hrefFunction=function (HtmlDoubleElement $e){return $e->getContent();};
 		if(isset($hrefFunction)){
 			$this->_hrefFunction=$hrefFunction;
 		}

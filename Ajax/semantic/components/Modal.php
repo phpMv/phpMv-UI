@@ -23,6 +23,4 @@ class Modal extends SimpleSemExtComponent {
 	public function setInverted(){
 		$this->params["inverted"]=true;
 	}
-
-	// TODO other events implementation
 }

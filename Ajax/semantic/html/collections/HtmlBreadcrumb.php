@@ -52,7 +52,7 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 		$this->startIndex=$startIndex;
 		$this->autoActive=$autoActive;
 		$this->_contentSeparator="<div class='divider'> / </div>";
-		$this->_hrefFunction=function ($e) {
+		$this->_hrefFunction=function (HtmlSemDoubleElement $e) {
 			return $e->getContent();
 		};
 		if (isset($hrefFunction)) {

@@ -47,7 +47,7 @@ class HtmlCarouselItem extends BaseHtml {
 	 * @see \Ajax\bootstrap\html\base\BaseHtml::run()
 	 */
 	public function run(JsUtils $js) {
-		// TODO: Auto-generated method stub
+
 	}
 
 	public function __toString() {

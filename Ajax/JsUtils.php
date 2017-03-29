@@ -79,7 +79,7 @@ abstract class JsUtils{
 	 * @param JqueryUI $ui
 	 * @return JqueryUI
 	 */
-	public function ui($ui=NULL) {
+	public function ui(JqueryUI $ui=NULL) {
 		if ($ui!==NULL) {
 			$this->_ui=$ui;
 			$ui->setJs($this);
@@ -94,9 +94,9 @@ abstract class JsUtils{
 	/**
 	 *
 	 * @param Bootstrap $bootstrap
-	 * @return \Ajax\Bootstrap
+	 * @return Bootstrap
 	 */
-	public function bootstrap($bootstrap=NULL) {
+	public function bootstrap(Bootstrap $bootstrap=NULL) {
 		if ($bootstrap!==NULL) {
 			$this->_bootstrap=$bootstrap;
 			$bootstrap->setJs($this);
@@ -111,9 +111,9 @@ abstract class JsUtils{
 	/**
 	 *
 	 * @param Semantic $semantic
-	 * @return \Ajax\Semantic
+	 * @return Semantic
 	 */
-	public function semantic($semantic=NULL) {
+	public function semantic(Semantic $semantic=NULL) {
 		if ($semantic!==NULL) {
 			$this->_semantic=$semantic;
 			$semantic->setJs($this);

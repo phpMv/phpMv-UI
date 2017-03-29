@@ -18,5 +18,4 @@ trait HtmlLinkTrait {
 	public function setTarget($value="_self") {
 		return $this->setProperty("target", $value);
 	}
-	// TODO use Class Tag
 }

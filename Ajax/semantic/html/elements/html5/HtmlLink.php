@@ -36,5 +36,4 @@ class HtmlLink extends HtmlSemDoubleElement {
 		$result=new HtmlLink($identifier, $href, $label);
 		return $result->addIcon($icon);
 	}
-	// TODO use Class Tag
 }

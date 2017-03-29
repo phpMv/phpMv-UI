@@ -36,6 +36,4 @@ class Search extends SimpleExtComponent {
 		$this->params["onSelect"]=$jsCode;
 		return $this;
 	}
-
-	// TODO other events implementation
 }

@@ -78,7 +78,6 @@ class HtmlNavzone extends BaseHtml {
 				} else if (is_string($element)) {
 					$this->addLink($element);
 				}
-				// TODO A vérifier
 			}
 		}
 		return $this;

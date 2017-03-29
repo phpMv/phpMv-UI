@@ -3,6 +3,7 @@ namespace Ajax\semantic\widgets\datatable;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\common\html\BaseHtml;
 
 /**
  * trait used in DataTable
@@ -83,7 +84,7 @@ trait DataTableFieldAsTrait{
 		}, $index,$attributes);
 	}
 
-	protected function _visibleOver($element){
+	protected function _visibleOver(BaseHtml $element){
 		$this->_visibleHover=true;
 		return $element->addToProperty("class", "visibleover")->setProperty("style","visibility:hidden;");
 	}

@@ -34,20 +34,20 @@ trait BaseTrait {
 	abstract public function onCreate($jsCode);
 
 	public function addVariation($variation) {
-		return $this->_self->addToPropertyCtrlCheck("class", $variation, $this->_self->_variations);
+		return $this->_self->addToPropertyCtrlCheck("class", $variation, $this->_self->getVariations());
 	}
 
 	public function addState($state) {
-		return $this->_self->addToPropertyCtrlCheck("class", $state, $this->_self->_states);
+		return $this->_self->addToPropertyCtrlCheck("class", $state, $this->_self->getStates());
 	}
 
 	public function setVariation($variation) {
-		$this->_self->setPropertyCtrl("class", $variation, $this->_self->_variations);
-		return $this->_self->addToProperty("class", $this->_self->_baseClass);
+		$this->_self->setPropertyCtrl("class", $variation, $this->_self->getVariations());
+		return $this->_self->addToProperty("class", $this->_self->getBaseClass());
 	}
 
 	public function setVariations($variations) {
-		$this->_self->setProperty("class", $this->_self->_baseClass);
+		$this->_self->setProperty("class", $this->_self->getBaseClass());
 		if (\is_string($variations))
 			$variations=\explode(" ", $variations);
 		foreach ( $variations as $variation ) {
@@ -57,8 +57,8 @@ trait BaseTrait {
 	}
 
 	public function setState($state) {
-		$this->_self->setPropertyCtrl("class", $state, $this->_self->_states);
-		return $this->_self->addToProperty("class", $this->_self->_baseClass);
+		$this->_self->setPropertyCtrl("class", $state, $this->_self->getStates());
+		return $this->_self->addToProperty("class", $this->_self->getBaseClass());
 	}
 
 	public function addVariations($variations=array()) {
@@ -80,7 +80,7 @@ trait BaseTrait {
 	}
 
 	public function setStates($states) {
-		$this->_self->setProperty("class", $this->_self->_baseClass);
+		$this->_self->setProperty("class", $this->_self->getBaseClass());
 		if (\is_string($states))
 			$states=\explode(" ", $states);
 		foreach ( $states as $state ) {
@@ -90,11 +90,11 @@ trait BaseTrait {
 	}
 
 	public function addIcon($icon, $before=true) {
-		return $this->_self->addContent(new HtmlIcon("icon-" . $this->_self->identifier, $icon), $before);
+		return $this->_self->addContent(new HtmlIcon("icon-" . $this->_self->getIdentifier(), $icon), $before);
 	}
 
 	public function addSticky($context="body"){
-		$this->_self->onCreate("$('#".$this->_self->identifier."').sticky({ context: '".$context."'});");
+		$this->_self->onCreate("$('#".$this->_self->getIdentifier()."').sticky({ context: '".$context."'});");
 		return $this;
 	}
 
@@ -196,7 +196,7 @@ trait BaseTrait {
 	}
 
 	public function getBaseClass() {
-		return $this->_self->_baseClass;
+		return $this->_baseClass;
 	}
 
 	protected function addBehavior(&$array,$key,$value,$before="",$after=""){
@@ -211,6 +211,15 @@ trait BaseTrait {
 		}
 		return $this;
 	}
+
+	public function getVariations() {
+	return $this->_variations;
+}
+
+	public function getStates() {
+	return $this->_states;
+}
+
 	/*
 	 protected function addBehavior(&$array,$key,$value,$before="",$after=""){
 	 echo $key.":".$this->_self->identifier."<br>";
