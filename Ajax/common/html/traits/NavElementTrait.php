@@ -2,7 +2,15 @@
 namespace Ajax\common\html\traits;
 use Ajax\JsUtils;
 
+/**
+ * @author jc
+ * @property string $identifier
+ * @property string $root
+ * @property string $attr
+ */
 trait NavElementTrait{
+
+	abstract public function contentAsString();
 	/**
 	 * Generate the jquery script to set the elements to the HtmlNavElement
 	 * @param JsUtils $jsUtils
