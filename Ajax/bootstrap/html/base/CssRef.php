@@ -2,8 +2,7 @@
 
 namespace Ajax\bootstrap\html\base;
 
-use Ajax\common\BaseEnum;
-use Ajax\service\PhalconUtils;
+use Ajax\service\JString;
 
 /**
  * Default HTML values for Twitter Bootstrap HTML components
@@ -353,10 +352,10 @@ class CssRef {
 				throw new \Exception("La valeur passée a propriété `Style` ne fait pas partie des valeurs possibles : index '".$cssStyle."' inexistant");
 			}
 		}
-		if (PhalconUtils::startsWith($cssStyle, "-")===true) {
+		if (JString::startsWith($cssStyle, "-")===true) {
 			$cssStyle=substr($cssStyle, 1);
 		}
-		if (PhalconUtils::startsWith($cssStyle, $prefix)===false) {
+		if (JString::startsWith($cssStyle, $prefix)===false) {
 			$cssStyle=$prefix."-".$cssStyle;
 		}
 		return $cssStyle;

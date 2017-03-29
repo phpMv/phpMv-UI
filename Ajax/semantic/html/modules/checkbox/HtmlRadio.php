@@ -3,7 +3,6 @@
 namespace Ajax\semantic\html\modules\checkbox;
 
 use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
-use Ajax\semantic\html\base\constants\CheckboxType;
 
 class HtmlRadio extends AbstractCheckbox {
 
