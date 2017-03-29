@@ -20,6 +20,7 @@ use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\elements\HtmlFlag;
 use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\collections\form\HtmlFormField;
+use Ajax\semantic\html\collections\form\HtmlFormRadio;
 
 /**
  * trait used in Widget
@@ -160,7 +161,7 @@ trait FieldAsTrait{
 
 	public function fieldAsRadio($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value) use($attributes){
-			$input= new HtmlRadio($id,$name,$value,$value);
+			$input= new HtmlFormRadio($id,$name,$value,$value);
 			return $this->_prepareFormFields($input, $name, $attributes);
 		}, $index,$attributes,"radio");
 	}

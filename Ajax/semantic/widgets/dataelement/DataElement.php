@@ -7,6 +7,7 @@ use Ajax\semantic\widgets\datatable\PositionInTable;
 use Ajax\JsUtils;
 use Ajax\service\JArray;
 use Ajax\semantic\html\collections\table\HtmlTable;
+use Ajax\semantic\html\base\traits\BaseTrait;
 
 /**
  * DataElement widget for displaying an instance of model
@@ -16,6 +17,7 @@ use Ajax\semantic\html\collections\table\HtmlTable;
  *
  */
 class DataElement extends Widget {
+	use BaseTrait;
 	protected $_colWidths;
 
 	public function __construct($identifier, $modelInstance=NULL) {
