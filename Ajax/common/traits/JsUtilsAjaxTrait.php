@@ -412,10 +412,13 @@ trait JsUtilsAjaxTrait {
 		return $this->postOn("click", $element, $url, $params, $responseElement, $parameters);
 	}
 
-	private function _postForm($url, $form, $responseElement, $validation=false, $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$ajaxTransition=null,$immediatly=false) {
+	private function _postForm($url, $form, $responseElement, $params=null,$validation=false, $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$ajaxTransition=null,$immediatly=false) {
 		$jsCallback=isset($jsCallback) ? $jsCallback : "";
 		$retour=$this->_getAjaxUrl($url, $attr);
 		$retour.="\nvar params=$('#".$form."').serialize();\n";
+		if(isset($params)){
+			$retour.="params+='&'+$.param(".$params.");\n";
+		}
 		$responseElement=$this->_getResponseElement($responseElement);
 		$retour.="var self=this;\n";
 		if($hasLoader===true){
@@ -440,13 +443,14 @@ trait JsUtilsAjaxTrait {
 	 * @param string $url The url of the request
 	 * @param string $form The form HTML id
 	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $params
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
 	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 * @param string|callable $ajaxTransition
 	 */
-	public function postForm($url, $form, $responseElement, $validation=false, $jsCallback=NULL,$hasLoader=true,$jqueryDone="html",$ajaxTransition=null) {
-		return $this->_postForm($url, $form, $responseElement, $validation, $jsCallback, NULL, $hasLoader,$jqueryDone,$ajaxTransition,true);
+	public function postForm($url, $form, $responseElement, $params=NULL,$validation=false, $jsCallback=NULL,$hasLoader=true,$jqueryDone="html",$ajaxTransition=null) {
+		return $this->_postForm($url, $form, $responseElement, $params,$validation, $jsCallback, NULL, $hasLoader,$jqueryDone,$ajaxTransition,true);
 	}
 
 	/**
@@ -455,14 +459,16 @@ trait JsUtilsAjaxTrait {
 	 * @param string $url The url of the request
 	 * @param string $form The form HTML id
 	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $params
+	 * @param boolean $validation
 	 * @param string $jsCallback javascript code to execute after the request
 	 * @param string $attr the html attribute added to the request
 	 * @param boolean $hasLoader true for showing ajax loader. default : true
 	 * @param string $jqueryDone the jquery function call on ajax data. default:html
 	 * @param string|callable $ajaxTransition
 	 */
-	public function postFormDeferred($url, $form, $responseElement, $validation=false, $jsCallback=NULL,$attr="id",$hasLoader=true,$jqueryDone="html",$ajaxTransition=null) {
-		return $this->_postForm($url, $form, $responseElement, $validation, $jsCallback, $attr, $hasLoader,$jqueryDone,$ajaxTransition,false);
+	public function postFormDeferred($url, $form, $responseElement, $params=NULL,$validation=false, $jsCallback=NULL,$attr="id",$hasLoader=true,$jqueryDone="html",$ajaxTransition=null) {
+		return $this->_postForm($url, $form, $responseElement, $params,$validation, $jsCallback, $attr, $hasLoader,$jqueryDone,$ajaxTransition,false);
 	}
 
 	/**
@@ -480,13 +486,14 @@ trait JsUtilsAjaxTrait {
 		$stopPropagation=true;
 		$validation=false;
 		$jsCallback=null;
+		$params=null;
 		$attr="id";
 		$hasLoader=true;
 		$immediatly=true;
 		$jqueryDone="html";
 		$ajaxTransition=null;
 		extract($parameters);
-		return $this->_add_event($element, $this->_postForm($url, $form, $responseElement, $validation, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition), $event, $preventDefault, $stopPropagation,$immediatly);
+		return $this->_add_event($element, $this->_postForm($url, $form, $responseElement,$params, $validation, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition), $event, $preventDefault, $stopPropagation,$immediatly);
 	}
 
 	/**

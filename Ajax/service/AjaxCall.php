@@ -37,7 +37,7 @@ class AjaxCall {
 				$result.=$js->postDeferred($url, $responseElement, $params, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
 				break;
 			case "postForm":
-				$result.=$js->postFormDeferred($url, $form, $responseElement, $validation, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
+				$result.=$js->postFormDeferred($url, $form, $responseElement, $params,$validation, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
 				break;
 			case "json":
 				$result.=$js->jsonDeferred($url,$method,$params,$jsCallback);

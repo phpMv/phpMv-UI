@@ -9,6 +9,10 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
 use Ajax\semantic\html\collections\form\HtmlFormField;
+use Ajax\common\html\html5\HtmlTextarea;
+use Ajax\common\html\HtmlDoubleElement;
+use Ajax\semantic\html\collections\form\HtmlFormTextarea;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * @author jc
@@ -66,7 +70,7 @@ trait FieldsTrait {
 	 * @param string $label
 	 * @param string $value
 	 * @param boolean $multiple
-	 * @return \Ajax\common\html\HtmlDoubleElement
+	 * @return HtmlDoubleElement
 	 */
 	public function addDropdown($identifier,$items=array(), $label=NULL,$value=NULL,$multiple=false){
 		return $this->addItem(new HtmlFormDropdown($identifier,$items,$label,$value,$multiple));
@@ -84,6 +88,18 @@ trait FieldsTrait {
 		return $this->addItem(new HtmlFormInput($identifier,$label,$type,$value,$placeholder));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param string $label
+	 * @param string $value
+	 * @param string $placeholder
+	 * @param int $rows
+	 * @return HtmlTextarea
+	 */
+	public function addTextarea($identifier, $label,$value=NULL,$placeholder=NULL,$rows=5){
+		return $this->addItem(new HtmlFormTextarea($identifier,$label,$value,$placeholder,$rows));
+	}
+
 	public function addPassword($identifier, $label=NULL){
 		return $this->addItem(new HtmlFormInput($identifier,$label,"password","",""));
 	}
@@ -98,5 +114,10 @@ trait FieldsTrait {
 
 	public function addRadio($identifier, $name,$label=NULL,$value=NULL){
 		return $this->addItem(new HtmlFormRadio($identifier,$name,$label,$value));
+	}
+
+	public function addElement($identifier,$content,$label,$tagName="div",$baseClass=""){
+		$div=new HtmlSemDoubleElement($identifier,$tagName,$baseClass,$content);
+		return $this->addItem(new HtmlFormField("field-".$identifier, $div,$label));
 	}
 }

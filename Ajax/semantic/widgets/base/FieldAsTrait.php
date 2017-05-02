@@ -20,6 +20,7 @@ use Ajax\semantic\html\elements\HtmlFlag;
 use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * trait used in Widget
@@ -184,6 +185,16 @@ trait FieldAsTrait{
 			return $this->_prepareFormFields($textarea, $name, $attributes);
 		}, $index,$attributes,"textarea");
 	}
+
+	public function fieldAsElement($index,$tagName="div",$baseClass="",$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($attributes,$tagName,$baseClass){
+			$div=new HtmlSemDoubleElement($id,$tagName,$baseClass);
+			$div->setContent(\htmlentities($value));
+			$textarea=new HtmlFormField("field-".$id, $div,$caption);
+			return $this->_prepareFormFields($textarea, $name, $attributes);
+		}, $index,$attributes,"element");
+	}
+
 
 	public function fieldAsHidden($index,$attributes=NULL){
 		if(!\is_array($attributes)){
