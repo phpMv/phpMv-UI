@@ -7,7 +7,7 @@ use Ajax\semantic\html\modules\HtmlDropdown;
 
 class HtmlFormDropdown extends HtmlFormField {
 
-	public function __construct($identifier,$items=array(), $label=NULL,$value=NULL,$multiple=false,$associative=true) {
+	public function __construct($identifier,$items=array(), $label=NULL,$value="",$multiple=false,$associative=true) {
 		parent::__construct("field-".$identifier, (new HtmlDropdown("dropdown-".$identifier,$value,$items,$associative))->asSelect($identifier,$multiple), $label);
 		$this->_identifier=$identifier;
 	}
@@ -18,7 +18,7 @@ class HtmlFormDropdown extends HtmlFormField {
 	public function addItem($item,$value=NULL,$image=NULL){
 		return $this->getField()->addItem($item,$value,$image);
 	}
-	public static function multipleDropdown($identifier,$items=array(), $label=NULL,$value=NULL,$associative=true){
+	public static function multipleDropdown($identifier,$items=array(), $label=NULL,$value="",$associative=true){
 		return new HtmlFormDropdown($identifier,$items,$label,$value,true,$associative);
 	}
 
