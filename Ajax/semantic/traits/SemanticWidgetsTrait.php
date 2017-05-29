@@ -6,6 +6,7 @@ use Ajax\semantic\widgets\dataelement\DataElement;
 use Ajax\semantic\widgets\dataform\DataForm;
 use Ajax\semantic\widgets\business\user\FormLogin;
 use Ajax\semantic\widgets\datatable\JsonDataTable;
+use Ajax\semantic\widgets\business\user\FormAccount;
 
 trait SemanticWidgetsTrait {
 
@@ -49,15 +50,39 @@ trait SemanticWidgetsTrait {
 		return $this->addHtmlComponent(new DataForm($identifier,$instance));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param object $instance
+	 * @return FormLogin
+	 */
 	public function defaultLogin($identifier,$instance=null){
 		return $this->addHtmlComponent(FormLogin::regular($identifier,$instance));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param object $instance
+	 * @return FormLogin
+	 */
 	public function smallLogin($identifier,$instance=null){
 		return $this->addHtmlComponent(FormLogin::small($identifier,$instance));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param object $instance
+	 * @return FormLogin
+	 */
 	public function segmentedLogin($identifier,$instance=null){
 		return $this->addHtmlComponent(FormLogin::attachedSegment($identifier,$instance));
+	}
+
+	/**
+	 * @param string $identifier
+	 * @param object $instance
+	 * @return FormAccount
+	 */
+	public function defaultAccount($identifier,$instance=null){
+		return $this->addHtmlComponent(FormAccount::regular($identifier,$instance));
 	}
 }

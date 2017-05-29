@@ -51,4 +51,8 @@ class Popup extends SimpleExtComponent {
 	public function setPosition($value){
 		return $this->setParam("position", $value);
 	}
+
+	public function setSetFluidWidth($value){
+		return $this->setParam("setFluidWidth", $value);
+	}
 }

@@ -43,7 +43,7 @@ trait SemanticHtmlCollectionsTrait {
 	 *
 	 * @param string $identifier
 	 * @param array $items
-	 * @return Ajax\semantic\html\collections\HtmlMenu
+	 * @return HtmlMenu
 	 */
 	public function htmlMenu($identifier, $items=array()) {
 		return $this->addHtmlComponent(new HtmlMenu($identifier, $items));

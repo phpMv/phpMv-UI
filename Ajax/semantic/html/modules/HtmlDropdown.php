@@ -30,10 +30,14 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->setProperty("class", "ui dropdown");
 		$content=[];
 		if(isset($value)){
-			$text=new HtmlSemDoubleElement("text-".$this->identifier,"div");
-			$text->setClass("text");
+			if($value instanceof HtmlSemDoubleElement){
+				$text=$value;
+			}else{
+				$text=new HtmlSemDoubleElement("text-".$this->identifier,"div");
+				$text->setClass("text");
+				$this->setValue($value);
+			}
 			$content=[$text];
-			$this->setValue($value);
 		}
 		$content["arrow"]=new HtmlIcon("", "dropdown");
 		$this->content=$content;

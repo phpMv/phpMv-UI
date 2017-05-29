@@ -70,7 +70,7 @@ class DataTable extends Widget {
 	protected function _generateBehavior($op,$params,JsUtils $js){
 		if(isset($this->_urls[$op])){
 			$params=\array_merge($params,["attr"=>"data-ajax"]);
-			$js->getOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector(),$params);
+			$js->getOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector($op),$params);
 		}
 	}
 
@@ -206,7 +206,7 @@ class DataTable extends Widget {
 
 	protected function _associatePaginationBehavior(HtmlMenu $menu,JsUtils $js=NULL){
 		if(isset($this->_urls["refresh"])){
-			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
+			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false]);
 		}
 	}
 
@@ -355,19 +355,22 @@ class DataTable extends Widget {
 
 
 
-	protected function getTargetSelector() {
+	protected function getTargetSelector($op) {
 		$result=$this->_targetSelector;
-		if(!isset($result))
+		if(!isset($result[$op]))
 			$result="#".$this->identifier;
-		return $result;
+		return $result[$op];
 	}
 
 	/**
 	 * Sets the response element selector for Edit and Delete request with ajax
-	 * @param string $_targetSelector
+	 * @param string|array $_targetSelector string or associative array ["edit"=>"edit_selector","delete"=>"delete_selector"]
 	 * @return \Ajax\semantic\widgets\datatable\DataTable
 	 */
 	public function setTargetSelector($_targetSelector) {
+		if(!\is_array($_targetSelector)){
+			$_targetSelector=["edit"=>$_targetSelector,"delete"=>$_targetSelector];
+		}
 		$this->_targetSelector=$_targetSelector;
 		return $this;
 	}
@@ -393,7 +396,7 @@ class DataTable extends Widget {
 	 */
 	public function show($modelInstance){
 		if(\is_array($modelInstance)){
-			if(\is_array(array_values($modelInstance)[0]))
+			if(isset($modelInstance[0]) && \is_array(array_values($modelInstance)[0]))
 				$modelInstance=\json_decode(\json_encode($modelInstance), FALSE);
 		}
 		$this->_modelInstance=$modelInstance;

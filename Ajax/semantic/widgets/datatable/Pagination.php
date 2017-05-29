@@ -31,8 +31,9 @@ class Pagination {
 		if (0 === $row_count) {
 			$this->visible=false;
 		} else {
-			$this->visible=true;
+
 			$this->page_count = (int)ceil($row_count / $this->items_per_page);
+			$this->visible=$this->page_count>1;
 			if($this->page > $this->page_count+1) {
 				$this->page = 1;
 			}

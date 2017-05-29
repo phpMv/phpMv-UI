@@ -41,7 +41,7 @@ trait SemanticHtmlElementsTrait {
 	 * @param string $onClick
 	 * @return HtmlButton
 	 */
-	public function htmlButton($identifier, $value="", $cssStyle=null, $onClick=null) {
+	public function htmlButton($identifier, $value=null, $cssStyle=null, $onClick=null) {
 		return $this->addHtmlComponent(new HtmlButton($identifier, $value, $cssStyle, $onClick));
 	}
 

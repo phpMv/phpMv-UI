@@ -25,7 +25,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * @param string $cssStyle btn-default, btn-primary...
 	 * @param string $onClick JS Code for click event
 	 */
-	public function __construct($identifier, $value="", $cssStyle=null, $onClick=null) {
+	public function __construct($identifier, $value=null, $cssStyle=null, $onClick=null) {
 		parent::__construct($identifier, "button", "ui button");
 		$this->content=$value;
 		if (isset($cssStyle)) {
@@ -109,7 +109,11 @@ class HtmlButton extends HtmlSemDoubleElement {
 		if($before)
 			$prefix="left ";
 		$this->addToProperty("class", $prefix."labeled");
+		$isIcon=(isset($this->content[0]) && $this->content[0] instanceof HtmlIcon);
 		$this->content=new HtmlButton("button-" . $this->identifier, $this->content);
+		if($isIcon){
+			$this->content->addClass("icon");
+		}
 		$this->content->setTagName("div");
 		$label=new HtmlLabel("label-" . $this->identifier, $label, $icon,"a");
 		$label->setBasic();
@@ -236,8 +240,9 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * @see HtmlSemDoubleElement::asLink()
 	 */
 	public function asLink($href=NULL,$target=NULL) {
-		$lnk=new HtmlLink("lnk-".$this->identifier,$href,$this->content,$target);
-		$this->content=$lnk;
+		parent::asLink($href,$target);
+		/*$lnk=new HtmlLink("lnk-".$this->identifier,$href,$this->content,$target);
+		$this->content=$lnk;*/
 		return $this;
 	}
 }
