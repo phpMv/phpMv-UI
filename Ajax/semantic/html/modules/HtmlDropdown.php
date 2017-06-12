@@ -23,11 +23,13 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	protected $input;
 	protected $value;
 	protected $_associative;
+	protected $_multiple;
 
 	public function __construct($identifier, $value="", $items=array(),$associative=true) {
 		parent::__construct($identifier, "div");
 		$this->_template=include dirname(__FILE__).'/../templates/tplDropdown.php';
 		$this->setProperty("class", "ui dropdown");
+		$this->_multiple=false;
 		$content=[];
 		if(isset($value)){
 			if($value instanceof HtmlSemDoubleElement){
@@ -37,7 +39,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 				$text->setClass("text");
 				$this->setValue($value);
 			}
-			$content=[$text];
+			$content=["text"=>$text];
 		}
 		$content["arrow"]=new HtmlIcon("", "dropdown");
 		$this->content=$content;
@@ -229,10 +231,12 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	}
 
 	public function asSelect($name=NULL,$multiple=false,$selection=true){
+		$this->_multiple=$multiple;
 		if(isset($name))
 			$this->addInput($name);
-		if($multiple)
+		if($multiple){
 			$this->addToProperty("class", "multiple");
+		}
 		if ($selection){
 			if($this->propertyContains("class", "button")===false)
 				$this->addToPropertyCtrl("class", "selection",array("selection"));
@@ -287,7 +291,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 			$this->setProperty("value", $value);
 		}
 			$textElement=$this->getElementById("text-".$this->identifier, $this->content);
-			if(isset($textElement))
+			if(isset($textElement) && !$this->_multiple)
 				$textElement->setContent($value);
 		return $this;
 	}

@@ -46,12 +46,17 @@ class FormAccount extends BusinessForm {
 
 	public static function small($identifier,$modelInstance=null){
 		$result=new FormAccount($identifier,$modelInstance,
-				["login","password","submit"],
-				["input0"=>[["rules"=>"empty"]],"input1"=>[["inputType"=>"password","rules"=>"empty"]],"submit"=>["green basic"]],
-				["login","password","submit"],
-				["Login","Password","Connection"],
+				["login","password","passwordConf","email","submit"],
+				[
+						"input0"=>[["rules"=>"empty"]],
+						"input1"=>[["inputType"=>"password","rules"=>['minLength[6]', 'empty']]],
+						"input2"=>[["inputType"=>"password","rules"=> ['minLength[6]', 'empty', 'match[password]']]],
+						"input3"=>[["rules"=>"email"]],
+						"submit"=>["green basic"]],
+				["login","password","passwordConf","email","submit"],
+				["Login","Password","Password confirmation","Email address","Creation"],
 				[1,2]);
-		$result->addDividerBefore(0, "Connection");
+		$result->addDividerBefore(0, "Creation");
 		return $result;
 	}
 

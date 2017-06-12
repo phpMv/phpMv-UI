@@ -109,7 +109,7 @@ abstract class JsUtils{
 	}
 
 	/**
-	 *
+	 * Returns
 	 * @param Semantic $semantic
 	 * @return Semantic
 	 */
@@ -144,7 +144,7 @@ abstract class JsUtils{
 	}
 
 	/**
-	 * @param array $params ['driver'=>'jquery','debug'=>true,'defer'=>false,'ajaxTransition'=>null,'beforeCompileHtml'=>null]
+	 * @param array $params ['debug'=>true,'defer'=>false,'ajaxTransition'=>null,'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false]
 	 * @param mixed $injected optional param for Symfony
 	 */
 	public function __construct($params=array(),$injected=NULL) {
@@ -217,7 +217,7 @@ abstract class JsUtils{
 	 * gather together all script needing to be output
 	 *
 	 * @param View $view
-	 * @param $view_var
+	 * @param $view_var view script variable name, default : script_foot
 	 * @param $script_tags
 	 * @return string
 	 */
