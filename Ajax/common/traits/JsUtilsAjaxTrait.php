@@ -331,6 +331,42 @@ trait JsUtilsAjaxTrait {
 	}
 
 	/**
+	 * Performs an ajax request to $url on the event $event on $element
+	 * and display it in $responseElement
+	 * @param string $event
+	 * @param string $element
+	 * @param string $url The url of the request
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
+	 */
+	public function ajaxOn($event, $element, $url, $responseElement="", $parameters=array()) {
+		$preventDefault=true;
+		$stopPropagation=true;
+		$jsCallback=null;
+		$attr="id";
+		$method="get";
+		$hasLoader=true;
+		$immediatly=true;
+		$jqueryDone="html";
+		$ajaxTransition=null;
+		$params="{}";
+		extract($parameters);
+		return $this->_add_event($element, $this->_ajax($method,$url, $params,$responseElement,$jsCallback,$attr, $hasLoader,$jqueryDone,$ajaxTransition), $event, $preventDefault, $stopPropagation,$immediatly);
+	}
+
+	/**
+	 * Performs a get to $url on the click event on $element
+	 * and display it in $responseElement
+	 * @param string $element
+	 * @param string $url The url of the request
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"immediatly"=>true,"jqueryDone"=>"html")
+	 */
+	public function ajaxOnClick($element, $url, $responseElement="", $parameters=array()) {
+		return $this->ajaxOn("click", $element, $url, $responseElement, $parameters);
+	}
+
+	/**
 	 * Performs a get to $url on the click event on $element
 	 * and display it in $responseElement
 	 * @param string $element

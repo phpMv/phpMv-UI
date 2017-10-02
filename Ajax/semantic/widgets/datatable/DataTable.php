@@ -70,7 +70,7 @@ class DataTable extends Widget {
 	protected function _generateBehavior($op,$params,JsUtils $js){
 		if(isset($this->_urls[$op])){
 			$params=\array_merge($params,["attr"=>"data-ajax"]);
-			$js->getOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector($op),$params);
+			$js->ajaxOnClick("#".$this->identifier." ._".$op, $this->_urls[$op],$this->getTargetSelector($op),$params);
 		}
 	}
 
@@ -326,6 +326,11 @@ class DataTable extends Widget {
 	}
 
 
+	/**
+	 * Adds a search input in toolbar
+	 * @param string $position
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
 	public function addSearchInToolbar($position=Direction::RIGHT){
 		return $this->addInToolbar($this->getSearchField())->setPosition($position);
 	}
