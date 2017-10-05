@@ -298,7 +298,7 @@ With most IDEs (such as Eclipse or phpStorm), to get code completion on the `$jq
 ```php
 /**
   * @property Ajax\JsUtils $jquery
-**/
+  */
 class MyController{
 }
 ```
