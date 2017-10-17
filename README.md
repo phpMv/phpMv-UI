@@ -291,3 +291,14 @@ Add the **JsUtils** component loading in the initialize method of the base contr
 
 the jquery object in controller will be accessible on
 `$this->JsUtils->jquery`
+
+## Code completion in IDE
+
+With most IDEs (such as Eclipse or phpStorm), to get code completion on the `$jquery` instance, you must add the following property in the controller documentation:
+```php
+/**
+  * @property Ajax\JsUtils $jquery
+  */
+class MyController{
+}
+```
