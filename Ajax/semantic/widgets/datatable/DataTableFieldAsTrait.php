@@ -72,7 +72,7 @@ trait DataTableFieldAsTrait{
 	 * @param string $url
 	 * @param string $responseElement
 	 * @param array $attributes associative array (<b>ajax</b> key is for ajax post)
-	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 * @return DataTable
 	 */
 	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index,$attributes){
@@ -94,7 +94,7 @@ trait DataTableFieldAsTrait{
 	 * @param string $caption
 	 * @param callable $callback
 	 * @param boolean $visibleHover
-	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 * @return DataTable
 	 */
 	public function addFieldButton($caption,$visibleHover=true,$callback=null){
 		$this->addField($this->getCallable("getFieldButton",[$caption,$visibleHover],$callback));
@@ -106,7 +106,7 @@ trait DataTableFieldAsTrait{
 	 * @param int $index
 	 * @param string $caption
 	 * @param callable $callback
-	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 * @return DataTable
 	 */
 	public function insertFieldButton($index,$caption,$visibleHover=true,$callback=null){
 		$this->insertField($index, $this->getFieldButtonCallable($caption,$visibleHover,$callback));
@@ -118,7 +118,7 @@ trait DataTableFieldAsTrait{
 	 * @param int $index
 	 * @param string $caption
 	 * @param callable $callback
-	 * @return \Ajax\semantic\widgets\datatable\DataTable
+	 * @return DataTable
 	 */
 	public function insertInFieldButton($index,$caption,$visibleHover=true,$callback=null){
 		$this->insertInField($index, $this->getFieldButtonCallable($caption,$visibleHover,$callback));
@@ -144,9 +144,10 @@ trait DataTableFieldAsTrait{
 	}
 
 	/**
+	 * Adds a delete button
 	 * @param boolean $visibleHover
-	 * @param array $deleteBehavior
-	 * @param callable $callback
+	 * @param array $deleteBehavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
+	 * @param callable $callback this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
 	 * @return DataTable
 	 */
 	public function addDeleteButton($visibleHover=true,$deleteBehavior=[],$callback=null){
@@ -154,11 +155,26 @@ trait DataTableFieldAsTrait{
 		return $this->addDefaultButton("remove","_delete red basic",$visibleHover,$callback);
 	}
 
+	/**
+	 * Adds an edit button
+	 * @param string $visibleHover
+	 * @param array $editBehavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
+	 * @param callable $callback this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @return DataTable
+	 */
 	public function addEditButton($visibleHover=true,$editBehavior=[],$callback=null){
 		$this->_editBehavior=$editBehavior;
 		return $this->addDefaultButton("edit","_edit basic",$visibleHover,$callback);
 	}
 
+	/**
+	 * Adds an edit and a delete button
+	 * @param string $visibleHover
+	 * @param array $behavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
+	 * @param callable $callbackEdit this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @param callable $callbackDelete this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @return DataTable
+	 */
 	public function addEditDeleteButtons($visibleHover=true,$behavior=[],$callbackEdit=null,$callbackDelete=null){
 		$this->addEditButton($visibleHover,$behavior,$callbackEdit);
 		$index=$this->_instanceViewer->visiblePropertiesCount()-1;
