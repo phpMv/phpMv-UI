@@ -22,6 +22,8 @@ abstract class BaseHtml extends BaseWidget {
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
 	protected $_compiled=false;
+	protected $_postCompile;
+	protected $_preCompile;
 
 	/**
 	 *
@@ -196,6 +198,10 @@ abstract class BaseHtml extends BaseWidget {
 					$beforeCompile($this,$js,$view);
 				}
 			}
+			if(\is_callable($this->_preCompile)){
+				$pc=$this->_preCompile;
+				$pc();
+			}
 			$this->_compiled=true;
 		}
 	}
@@ -219,10 +225,22 @@ abstract class BaseHtml extends BaseWidget {
 				$js->addViewElement($this->_identifier, $result, $view);
 			}
 		}
+		if(\is_callable($this->_postCompile)){
+			$pc=$this->_postCompile;
+			$pc();
+		}
 		return $result;
 	}
 
 	public function __toString() {
 		return $this->compile();
+	}
+
+	public function onPostCompile($callback){
+		$this->_postCompile=$callback;
+	}
+
+	public function onPreCompile($callback){
+		$this->_preCompile=$callback;
 	}
 }
