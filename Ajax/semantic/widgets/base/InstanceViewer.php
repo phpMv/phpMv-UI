@@ -153,6 +153,11 @@ class InstanceViewer {
 		return $this;
 	}
 
+	public function addFields($fields){
+		$this->visibleProperties=\array_merge($this->visibleProperties,$fields);
+		return $this;
+	}
+
 	public function count(){
 		return \sizeof($this->properties);
 	}

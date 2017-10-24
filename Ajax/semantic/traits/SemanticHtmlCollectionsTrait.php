@@ -9,11 +9,12 @@ use Ajax\semantic\html\collections\HtmlGrid;
 use Ajax\semantic\html\collections\HtmlBreadcrumb;
 use Ajax\semantic\html\collections\menus\HtmlIconMenu;
 use Ajax\semantic\html\collections\menus\HtmlLabeledIconMenu;
+use Ajax\common\html\BaseHtml;
 
 
 trait SemanticHtmlCollectionsTrait {
 
-	abstract public function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent(BaseHtml $htmlComponent);
 
 	/**
 	 * @param string $identifier

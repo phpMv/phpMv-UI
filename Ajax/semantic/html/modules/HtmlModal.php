@@ -66,6 +66,14 @@ class HtmlModal extends HtmlSemDoubleElement {
 		return $this->addElementInPart($action, "actions");
 	}
 
+	/**
+	 * @param int $index
+	 * @return HtmlButton
+	 */
+	public function getAction($index){
+		return $this->content["actions"]->getContent()[$index];
+	}
+
 	public function addContent($content,$before=false){
 		$this->content["content"]->addContent($content,$before);
 		return $this;
@@ -174,5 +182,9 @@ class HtmlModal extends HtmlSemDoubleElement {
 
 	public function jsHide() {
 		return $this->jsDo("hide");
+	}
+
+	public function onHidden($js){
+		$this->_params["onHidden"]=$js;
 	}
 }

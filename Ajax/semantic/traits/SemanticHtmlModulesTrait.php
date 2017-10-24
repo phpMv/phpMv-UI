@@ -20,7 +20,7 @@ use Ajax\semantic\html\modules\HtmlSticky;
 
 trait SemanticHtmlModulesTrait {
 
-	abstract public function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent(BaseHtml $htmlComponent);
 
 	/**
 	 * Module checkbox

@@ -7,10 +7,11 @@ use Ajax\semantic\widgets\dataform\DataForm;
 use Ajax\semantic\widgets\business\user\FormLogin;
 use Ajax\semantic\widgets\datatable\JsonDataTable;
 use Ajax\semantic\widgets\business\user\FormAccount;
+use Ajax\common\html\BaseHtml;
 
 trait SemanticWidgetsTrait {
 
-	abstract public function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent(BaseHtml $htmlComponent);
 
 	/**
 	 * @param string $identifier

@@ -22,10 +22,11 @@ use Ajax\semantic\html\elements\HtmlFlag;
 use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\elements\HtmlLabelGroups;
+use Ajax\common\html\BaseHtml;
 
 trait SemanticHtmlElementsTrait {
 
-	abstract public function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent(BaseHtml $htmlComponent);
 
 	public function addState($state, $elements) {
 		State::add($state, $elements);

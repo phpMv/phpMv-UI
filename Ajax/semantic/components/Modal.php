@@ -23,4 +23,9 @@ class Modal extends SimpleSemExtComponent {
 	public function setInverted(){
 		$this->params["inverted"]=true;
 	}
+
+	public function setOnHidden($jsCode) {
+		$jsCode=str_ireplace("\"","%quote%", $jsCode);
+		return $this->setParam("onHidden", "%function(){".$jsCode."}%");
+	}
 }

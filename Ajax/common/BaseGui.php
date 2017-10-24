@@ -5,6 +5,7 @@ namespace Ajax\common;
 
 use Ajax\common\components\SimpleComponent;
 use Ajax\JsUtils;
+use Ajax\common\html\BaseHtml;
 
 /**
  * BaseGui Phalcon library
@@ -63,8 +64,8 @@ class BaseGui {
 		return $component;
 	}
 
-	public function addHtmlComponent($htmlComponent) {
-		$this->htmlComponents []=$htmlComponent;
+	public function addHtmlComponent(BaseHtml $htmlComponent) {
+		$this->htmlComponents [$htmlComponent->getIdentifier()]=$htmlComponent;
 		return $htmlComponent;
 	}
 

@@ -167,6 +167,11 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	public function addFields($fields){
+		$this->_instanceViewer->addFields($fields);
+		return $this;
+	}
+
 	public function addMessage($attributes=NULL,$fieldName="message"){
 		$this->_instanceViewer->addField($fieldName);
 		$count=$this->_instanceViewer->visiblePropertiesCount();

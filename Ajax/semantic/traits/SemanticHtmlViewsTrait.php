@@ -5,10 +5,11 @@ namespace Ajax\semantic\traits;
 use Ajax\semantic\html\views\HtmlCard;
 use Ajax\semantic\html\views\HtmlCardGroups;
 use Ajax\semantic\html\views\HtmlItems;
+use Ajax\common\html\BaseHtml;
 
 trait SemanticHtmlViewsTrait {
 
-	abstract public function addHtmlComponent($htmlComponent);
+	abstract public function addHtmlComponent(BaseHtml $htmlComponent);
 
 	/**
 	 *
