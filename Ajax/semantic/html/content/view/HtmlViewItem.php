@@ -12,6 +12,7 @@ use Ajax\semantic\html\elements\HtmlReveal;
 use Ajax\semantic\html\base\constants\RevealType;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
 use Ajax\semantic\html\content\view\HtmlViewContent;
+use Ajax\semantic\html\elements\HtmlIcon;
 
 abstract class HtmlViewItem extends HtmlSemDoubleElement {
 	use ContentPartTrait;
@@ -54,6 +55,10 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 		else
 			$this->content[$key][]=$element;
 		return $element;
+	}
+
+	public function addIcon($icon,$before=true){
+		return $this->addElementIn("icon",new HtmlIcon("icon-" . $this->identifier, $icon));
 	}
 
 
@@ -145,7 +150,7 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 	 * @see HtmlSemDoubleElement::compile()
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
-		$this->content=JArray::sortAssociative($this->content, ["header","image","content","extra-content"]);
+		$this->content=JArray::sortAssociative($this->content, ["header","image","icon","content","extra-content"]);
 		return parent::compile($js, $view);
 	}
 

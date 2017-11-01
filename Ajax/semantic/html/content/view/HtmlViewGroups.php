@@ -5,6 +5,7 @@ namespace Ajax\semantic\html\content\view;
 use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\service\JArray;
 use Ajax\semantic\html\base\constants\Wide;
+use Ajax\JsUtils;
 
 abstract class HtmlViewGroups extends HtmlSemCollection {
 
@@ -56,5 +57,10 @@ abstract class HtmlViewGroups extends HtmlSemCollection {
 
 	public function fromDatabaseObject($object, $function) {
 		return $this->addItem($function($object));
+	}
+
+	public function run(JsUtils $js){
+		$result=parent::run($js);
+		return $result->setItemSelector(".item");
 	}
 }
