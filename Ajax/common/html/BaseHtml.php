@@ -200,7 +200,7 @@ abstract class BaseHtml extends BaseWidget {
 			}
 			if(\is_callable($this->_preCompile)){
 				$pc=$this->_preCompile;
-				$pc();
+				$pc($this);
 			}
 			$this->_compiled=true;
 		}
@@ -225,9 +225,10 @@ abstract class BaseHtml extends BaseWidget {
 				$js->addViewElement($this->_identifier, $result, $view);
 			}
 		}
+
 		if(\is_callable($this->_postCompile)){
 			$pc=$this->_postCompile;
-			$pc();
+			$pc($this);
 		}
 		return $result;
 	}

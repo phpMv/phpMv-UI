@@ -461,4 +461,9 @@ class DataTable extends Widget {
 		$this->_colWidths = $_colWidths;
 		return $this;
 	}
+
+	public function setColAlignment($colIndex,$alignment){
+		$this->content["table"]->setColAlignment($colIndex,$alignment);
+		return $this;
+	}
 }
