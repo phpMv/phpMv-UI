@@ -103,7 +103,7 @@ class HtmlFormFields extends HtmlSemCollection {
 		foreach ( $items as $val => $caption ) {
 			$itemO=new HtmlFormRadio($name."-".$i++, $name, $caption, $val, $type);
 			if ($val===$value) {
-				$itemO->getField()->setProperty("checked", "");
+				$itemO->getDataField()->setProperty("checked", "");
 			}
 			$fields[]=$itemO;
 		}
@@ -117,9 +117,10 @@ class HtmlFormFields extends HtmlSemCollection {
 		$fields=array ();
 		$i=0;
 		foreach ( $items as $val => $caption ) {
-			$itemO=new HtmlFormCheckbox($name."-".$i++, $name, $caption, $val, $type);
+			$itemO=new HtmlFormCheckbox($name."-".$i++, $caption, $val, $type);
+			$itemO->setName($name);
 			if (\array_search($val, $values)!==false) {
-				$itemO->getField()->getDataField()->setProperty("checked", "");
+				$itemO->getDataField()->setProperty("checked", "");
 			}
 			$fields[]=$itemO;
 		}

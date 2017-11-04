@@ -186,6 +186,29 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		}
 	}
 
+	/**
+	 * Sets the values of a property for each item in the collection
+	 * @param string $property
+	 * @param array $values
+	 * @return HtmlCollection
+	 */
+	public function setPropertyValues($property,$values){
+		$i=0;
+		if(\is_array($values)===false){
+			$values=\array_fill(0, $this->count(),$values);
+		}
+		foreach ($values as $value){
+			$c=$this->items[$i++];
+			if(isset($c)){
+				$c->setProperty($property,$value);
+			}
+			else{
+				return $this;
+			}
+		}
+		return $this;
+	}
+
 	public function getItem($index){
 		return $this->items[$index];
 	}
