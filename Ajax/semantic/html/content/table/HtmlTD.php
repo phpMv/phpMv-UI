@@ -9,6 +9,7 @@ use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\base\traits\TableElementTrait;
 use Ajax\semantic\html\elements\html5\HtmlLink;
 use Ajax\semantic\html\base\constants\Wide;
+use Ajax\JsUtils;
 
 class HtmlTD extends HtmlSemDoubleElement {
 	use TextAlignmentTrait,TableElementTrait;
@@ -17,6 +18,7 @@ class HtmlTD extends HtmlSemDoubleElement {
 	private $_col;
 	private $_colMerged=false;
 	private $_rowMerged=false;
+	private $_deleted=false;
 
 	/**
 	 *
@@ -49,7 +51,7 @@ class HtmlTD extends HtmlSemDoubleElement {
 	public function setRowspan($rowspan) {
 		$to=min($this->_container->count(), $this->_row + $rowspan - 1);
 		for($i=$to; $i > $this->_row; $i--) {
-			$this->_container->delete($i, $this->_col);
+			$this->_container->toDelete($i, $this->_col);
 		}
 		$this->setProperty("rowspan", $rowspan);
 		return $this->_container;
@@ -74,7 +76,7 @@ class HtmlTD extends HtmlSemDoubleElement {
 	public function setColspan($colspan) {
 		$to=min($this->_container->getRow($this->_row)->count(), $this->_col + $colspan - 1);
 		for($i=$to; $i > $this->_col; $i--) {
-			$this->_container->delete($this->_row, $this->_col + 1);
+			$this->_container->toDelete($this->_row, $this->_col + 1);
 		}
 		$this->setProperty("colspan", $colspan);
 		return $this->_container;
@@ -112,12 +114,23 @@ class HtmlTD extends HtmlSemDoubleElement {
 		}
 		return $this->addToProperty("class", "selectable");
 	}
-	
+
 	public function setWidth($width){
 		if (\is_int($width)) {
 			$width=Wide::getConstants()["W" . $width];
 		}
 		$this->addToPropertyCtrl("class", $width, Wide::getConstants());
 		return $this->addToPropertyCtrl("class", "wide", array ("wide" ));
+	}
+
+	public function toDelete(){
+		$this->_deleted=true;
+		return $this;
+	}
+
+	public function compile(JsUtils $js=NULL, &$view=NULL) {
+		if(!$this->_deleted)
+			return parent::compile();
+		return;
 	}
 }

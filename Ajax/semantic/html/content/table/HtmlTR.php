@@ -177,4 +177,9 @@ class HtmlTR extends HtmlSemCollection {
 		}
 		return $this;
 	}
+
+	public function toDelete($colIndex){
+		$this->getItem($colIndex)->toDelete();
+		return $this;
+	}
 }

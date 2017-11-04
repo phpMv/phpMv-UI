@@ -424,4 +424,10 @@ class HtmlTable extends HtmlSemDoubleElement {
 		}
 		return $this;
 	}
+
+	public function mergeIdentiqualValues($colIndex,$function="strip_tags"){
+		$body=$this->getBody();
+		$body->mergeIdentiqualValues($colIndex,$function);
+		return $this;
+	}
 }

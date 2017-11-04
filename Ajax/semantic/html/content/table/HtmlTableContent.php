@@ -248,6 +248,13 @@ class HtmlTableContent extends HtmlSemCollection {
 		return $this;
 	}
 
+	public function toDelete($rowIndex, $colIndex){
+		$row=$this->getItem($rowIndex);
+		if (isset($row) === true)
+			$row->toDelete($colIndex);
+		return $this;
+	}
+
 	public function mergeCol($rowIndex=0, $colIndex=0) {
 		return $this->getItem($rowIndex)->mergeCol($colIndex);
 	}
@@ -329,6 +336,30 @@ class HtmlTableContent extends HtmlSemCollection {
 		$rows=$this->content;
 		foreach ( $rows as $row ) {
 			$row->apply($callback);
+		}
+		return $this;
+	}
+
+	public function mergeIdentiqualValues($colIndex,$function="strip_tags"){
+		$rows=$this->content;
+		$identiqual=null;
+		$counter=0;
+		$cellToMerge=null;
+		$functionExists=\function_exists($function);
+		foreach ( $rows as $row ) {
+			$cell=$row->getItem($colIndex);
+			$value=$cell->getContent();
+			if($functionExists)
+				$value=\call_user_func($function,$value);
+			if($value!==$identiqual){
+				if($counter>0 && isset($cellToMerge)){
+					$cellToMerge->setRowspan($counter);
+				}
+				$counter=0;
+				$cellToMerge=$cell;
+				$identiqual=$value;
+			}
+			$counter++;
 		}
 		return $this;
 	}
