@@ -361,6 +361,9 @@ class HtmlTableContent extends HtmlSemCollection {
 			}
 			$counter++;
 		}
+		if($counter>0 && isset($cellToMerge)){
+			$cellToMerge->setRowspan($counter);
+		}
 		return $this;
 	}
 }
