@@ -141,6 +141,22 @@ trait JsUtilsAjaxTrait {
 	}
 
 	/**
+	 * Performs an ajax request
+	 * @param string $method The http method (get, post, delete, put, head)
+	 * @param string $url The url of the request
+	 * @param string $params JSON parameters
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param string $jsCallback javascript code to execute after the request
+	 * @param boolean $hasLoader true for showing ajax loader. default : true
+	 * @param string $jqueryDone the jquery function call on ajax data. default:html
+	 * @param string|callable $ajaxTransition
+	 */
+	public function ajax($method,$url, $responseElement="", $params="{}", $jsCallback=NULL,$hasLoader=true,$jqueryDone="html",$ajaxTransition=null) {
+		$method=\strtolower($method);
+		return $this->_ajax($method,$url,$params,$responseElement,$jsCallback,null,$hasLoader,$jqueryDone,$ajaxTransition,true);
+	}
+
+	/**
 	 * Performs an ajax request and receives the JSON data types by assigning DOM elements with the same name
 	 * @param string $url the request url
 	 * @param string $params JSON parameters
