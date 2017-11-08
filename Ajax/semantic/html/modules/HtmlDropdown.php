@@ -41,7 +41,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 			}
 			$content=["text"=>$text];
 		}
-		$content["arrow"]=new HtmlIcon("", "dropdown");
+		$content["arrow"]=new HtmlIcon($identifier."-icon", "dropdown");
 		$this->content=$content;
 		$this->tagName="div";
 		$this->_associative=$associative;
@@ -356,6 +356,11 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	}
 	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {
 		return $this->_addAction($this, $action,$direction,$icon,$labeled);
+	}
+
+	public function setIcon($icon="dropdown"){
+		$this->content["arrow"]=new HtmlIcon($this->identifier."-icon", $icon);
+		return $this;
 	}
 
 	public function jsAddItem($caption){

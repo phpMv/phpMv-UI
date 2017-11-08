@@ -242,4 +242,21 @@ class HtmlButton extends HtmlSemDoubleElement {
 		parent::asLink($href,$target);
 		return $this;
 	}
+
+	/**
+	 * Returns a button with a dropdown button
+	 * @param string $identifier
+	 * @param string $value
+	 * @param array $items
+	 * @param boolean $asCombo
+	 * @param string $icon
+	 * @return HtmlButtonGroups
+	 */
+	public static function dropdown($identifier,$value,$items=[],$asCombo=false,$icon=null){
+		$result=new HtmlButtonGroups($identifier,[$value]);
+		$result->addDropdown($items,$asCombo);
+		if(isset($icon))
+			$result->setIcon($icon);
+		return $result;
+	}
 }

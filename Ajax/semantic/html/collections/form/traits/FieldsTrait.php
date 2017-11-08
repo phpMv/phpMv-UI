@@ -13,6 +13,7 @@ use Ajax\common\html\html5\HtmlTextarea;
 use Ajax\common\html\HtmlDoubleElement;
 use Ajax\semantic\html\collections\form\HtmlFormTextarea;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\semantic\html\elements\HtmlButtonGroups;
 
 /**
  * @author jc
@@ -65,15 +66,40 @@ trait FieldsTrait {
 	}
 
 	/**
+	 * Adds a new dropdown element
 	 * @param string $identifier
 	 * @param array $items
 	 * @param string $label
 	 * @param string $value
 	 * @param boolean $multiple
-	 * @return HtmlDoubleElement
+	 * @return HtmlFormDropdown
 	 */
 	public function addDropdown($identifier,$items=array(), $label=NULL,$value=NULL,$multiple=false){
 		return $this->addItem(new HtmlFormDropdown($identifier,$items,$label,$value,$multiple));
+	}
+
+	/**
+	 * Adds a new button groups
+	 * @param string $identifier
+	 * @param array $elements
+	 * @param boolean $asIcons
+	 * @return HtmlButtonGroups
+	 */
+	public function addButtonGroups($identifier,$elements=[],$asIcons=false){
+		return $this->addItem(new HtmlButtonGroups($identifier,$elements,$asIcons));
+	}
+
+	/**
+	 * Adds a button with a dropdown button
+	 * @param string $identifier
+	 * @param string $value
+	 * @param array $items
+	 * @param boolean $asCombo
+	 * @param string $icon
+	 * @return HtmlButtonGroups
+	 */
+	public function addDropdownButton($identifier,$value,$items=[],$asCombo=false,$icon=null){
+		return $this->addItem(HtmlButton::dropdown($identifier, $value,$items,$asCombo,$icon));
 	}
 
 	/**
