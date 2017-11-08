@@ -4,6 +4,7 @@ use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\common\html\BaseHtml;
+use Ajax\semantic\html\elements\HtmlButtonGroups;
 
 /**
  * trait used in DataTable
@@ -39,11 +40,12 @@ trait DataTableFieldAsTrait{
 			$object=call_user_func_array(array($this,$thisCallback), $parameters);
 			if(isset($callback)){
 				if(\is_callable($callback)){
-					$callback($object,$instance);
+					$callback($object,$instance,$this->_instanceViewer->count()+1);
 				}
 			}
 			if($object instanceof HtmlSemDoubleElement){
-				$object->setProperty("data-ajax",$this->_instanceViewer->getIdentifier());
+				$id=$this->_instanceViewer->getIdentifier();
+				$object->setProperty("data-ajax",$id);
 				if($object->propertyContains("class","visibleover")){
 					$this->_visibleHover=true;
 					$object->setProperty("style","visibility:hidden;");
@@ -62,7 +64,14 @@ trait DataTableFieldAsTrait{
 		$bt= new HtmlButton("",$caption);
 		if($visibleHover)
 			$this->_visibleOver($bt);
-			return $bt;
+		return $bt;
+	}
+
+	private function getFieldButtons($buttons,$visibleHover=true){
+		$bts=new HtmlButtonGroups("",$buttons);
+		if($visibleHover)
+			$this->_visibleOver($bts);
+		return $bts;
 	}
 
 	/**
@@ -98,6 +107,18 @@ trait DataTableFieldAsTrait{
 	 */
 	public function addFieldButton($caption,$visibleHover=true,$callback=null){
 		$this->addField($this->getCallable("getFieldButton",[$caption,$visibleHover],$callback));
+		return $this;
+	}
+
+	/**
+	 * Inserts a new ButtonGroups for each row
+	 * @param array $buttons
+	 * @param callable $callback
+	 * @param boolean $visibleHover
+	 * @return DataTable
+	 */
+	public function addFieldButtons($buttons,$visibleHover=true,$callback=null){
+		$this->addField($this->getCallable("getFieldButtons",[$buttons,$visibleHover],$callback));
 		return $this;
 	}
 
