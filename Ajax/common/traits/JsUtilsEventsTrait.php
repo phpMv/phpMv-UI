@@ -45,9 +45,11 @@ trait JsUtilsEventsTrait {
 	 * @param string $element element to attach the event to
 	 * @param string|array $js code to execute
 	 * @param boolean $ret_false or not to return false
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
 	 * @return string
 	 */
-	public function click($element='this', $js='', $ret_false=TRUE) {
+	public function click($element='this', $js='', $ret_false=TRUE,$preventDefault=false,$stopPropagation=false) {
 		if (!is_array($js)) {
 			$js=array (
 					$js
@@ -58,7 +60,7 @@ trait JsUtilsEventsTrait {
 			$js[]="return false;";
 		}
 
-		return $this->_add_event($element, $js, 'click');
+		return $this->_add_event($element, $js, 'click',$preventDefault,$stopPropagation);
 	}
 
 	/**
