@@ -209,6 +209,13 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		return $this;
 	}
 
+	public function each($callBack){
+		foreach ($this->items as $index=>$value){
+			$callBack($index,$value);
+		}
+		return $this;
+	}
+
 	public function getItem($index){
 		return $this->items[$index];
 	}
