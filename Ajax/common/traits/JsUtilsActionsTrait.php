@@ -7,6 +7,7 @@ use Ajax\service\Javascript;
 /**
  * @author jc
  * @property array $jquery_code_for_compile
+ * @property array $jquery_code_for_compile_at_last
  */
 trait JsUtilsActionsTrait {
 
@@ -497,6 +498,18 @@ trait JsUtilsActionsTrait {
 		$script=$js."\n";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$script;
+		return $script;
+	}
+
+	/**
+	 * Executes the code $js
+	 * @param string $js Code to execute
+	 * @param boolean $immediatly delayed if false
+	 * @return String
+	 */
+	public function execAtLast($js) {
+		$script=$js."\n";
+		$this->jquery_code_for_compile_at_last[]=$script;
 		return $script;
 	}
 

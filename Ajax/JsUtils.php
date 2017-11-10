@@ -230,6 +230,8 @@ abstract class JsUtils{
 			return;
 		}
 
+		$this->jquery_code_for_compile=\array_merge($this->jquery_code_for_compile,$this->jquery_code_for_compile_at_last);
+
 		// Inline references
 		$script=$this->ready(implode('', $this->jquery_code_for_compile));
 		if($this->params["defer"]){
