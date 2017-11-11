@@ -23,6 +23,12 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 		$this->content["icon"]=new HtmlIcon("icon-".$this->identifier, $icon);
 	}
 
+	public function removeIcon(){
+		if(isset($this->content["icon"]))
+			unset($this->content["icon"]);
+		return $this;
+	}
+
 	public function setImage($image){
 		$image=new HtmlImg("icon-".$this->identifier, $image);
 		$image->asAvatar();
