@@ -3,7 +3,6 @@
 namespace Ajax\semantic\html\collections;
 
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
-use Ajax\common\html\html5\HtmlList;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Style;
@@ -45,13 +44,6 @@ class HtmlMessage extends HtmlSemDoubleElement {
 
 	public function setHeader($header){
 		return $this->addHeader($header);
-	}
-
-	public function addList($elements,$ordered=false){
-		$list=new HtmlList("list-".$this->identifier,$elements);
-		$list->setOrdered($ordered);
-		$list->setClass("ui list");
-		$this->addContent($list);
 	}
 
 	public function setIcon($icon){

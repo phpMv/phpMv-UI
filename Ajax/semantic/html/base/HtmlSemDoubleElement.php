@@ -11,6 +11,7 @@ use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Side;
+use Ajax\common\html\html5\HtmlList;
 
 /**
  * Base class for Semantic double elements
@@ -164,6 +165,13 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 			$this->_popup->run($js);
 		}
 		return $this->_bsComponent;
+	}
+
+	public function addList($elements,$ordered=false){
+		$list=new HtmlList("list-".$this->identifier,$elements);
+		$list->setOrdered($ordered);
+		$list->setClass("ui list");
+		$this->addContent($list);
 	}
 
 	/*
