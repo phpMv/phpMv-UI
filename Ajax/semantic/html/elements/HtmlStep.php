@@ -11,6 +11,7 @@ use Ajax\semantic\html\base\constants\Side;
 
 class HtmlStep extends HtmlSemCollection{
 	protected $_activeStep;
+	protected $_startStep;
 
 	public function __construct( $identifier,$steps=array()){
 		parent::__construct( $identifier,"div", "ui steps");
@@ -50,8 +51,8 @@ class HtmlStep extends HtmlSemCollection{
 	protected function defineActiveStep(){
 		$activestep=$this->_activeStep;
 		$count=$this->count();
-		if($this->isOrdered()){
-			for($i=0;$i<$count;$i++){
+		if(!$this->isOrdered()){
+			for($i=$this->_startStep;$i<$count;$i++){
 				$step=$this->content[$i];
 				$step->removeStatus();
 				if($i<$activestep)
@@ -95,4 +96,10 @@ class HtmlStep extends HtmlSemCollection{
 		}
 		return $this;
 	}
+
+	public function setStartStep($_startStep) {
+		$this->_startStep=$_startStep;
+		return $this;
+	}
+
 }
