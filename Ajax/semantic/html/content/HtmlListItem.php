@@ -43,8 +43,10 @@ class HtmlListItem extends HtmlAbsractItem {
 			$this->setContent($content);
 		}
 	}
-	public function addList($items=array()) {
+	public function addList($items=array(),$ordered=false) {
 		$list=new HtmlList("", $items);
+		if($ordered)
+			$list->setOrdered();
 		$list->setClass("list");
 		$this->content["list"]=$list;
 		return $list;
