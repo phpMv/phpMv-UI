@@ -6,6 +6,7 @@ use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\semantic\html\content\HtmlListItem;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\JsUtils;
+use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
 
 class HtmlList extends HtmlSemCollection {
 	protected $_hasCheckedList;
@@ -47,6 +48,13 @@ class HtmlList extends HtmlSemCollection {
 		return $this->addItem($list);
 	}
 
+	protected function getItemToAdd($item){
+		$itemO=parent::getItemToAdd($item);
+		if($itemO instanceof AbstractCheckbox)
+			$itemO->addClass("item");
+		return $itemO;
+	}
+
 	public function setCelled() {
 		return $this->addToProperty("class", "celled");
 	}
@@ -84,11 +92,31 @@ class HtmlList extends HtmlSemCollection {
 		return $this->addToProperty("class", "horizontal");
 	}
 
-	public function addCheckedList($items=array(), $masterItem=NULL, $values=array()) {
+	/**
+	 * Adds a grouped checked box to the list
+	 * @param array $items
+	 * @param string|array|null $masterItem
+	 * @param array|null $values
+	 * @param string $notAllChecked
+	 * @return HtmlList
+	 */
+	public function addCheckedList($items=array(), $masterItem=NULL, $values=array(),$notAllChecked=false) {
 		$count=$this->count();
 		$identifier=$this->identifier . "-" . $count;
 		if (isset($masterItem)) {
-			$masterO=new HtmlFormCheckbox("master-" . $identifier, $masterItem);
+			if(\is_array($masterItem)){
+				$masterO=new HtmlFormCheckbox("master-" . $identifier, @$masterItem[0],@$masterItem[1]);
+				if(isset($masterItem[1])){
+					if(\array_search($masterItem[1], $values)!==false){
+						$masterO->getDataField()->setProperty("checked", "");
+					}
+				}
+			}else{
+				$masterO=new HtmlFormCheckbox("master-" . $identifier, $masterItem);
+			}
+			if($notAllChecked){
+				$masterO->getDataField()->addClass("_notAllChecked");
+			}
 			$masterO->getHtmlCk()->addToProperty("class", "master");
 			$masterO->setClass("item");
 			$this->addItem($masterO);
@@ -98,7 +126,7 @@ class HtmlList extends HtmlSemCollection {
 		foreach ( $items as $val => $caption ) {
 			$itemO=new HtmlFormCheckbox($identifier . "-" . $i++, $caption, $val, "child");
 			if (\array_search($val, $values) !== false) {
-				$itemO->getField()->setProperty("checked", "");
+				$itemO->getDataField()->setProperty("checked", "");
 			}
 			$itemO->setClass("item");
 			$fields[]=$itemO;

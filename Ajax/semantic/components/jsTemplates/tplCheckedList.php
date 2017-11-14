@@ -1,7 +1,7 @@
 <?php
 return '$("%identifier% .master")
   .checkbox({
-    onChecked: function() {$(this).closest(".checkbox").siblings(".list").find(".checkbox").checkbox("check");},
+    onChecked: function() {if(!$(this).hasClass("_notAllChecked")){$(this).closest(".checkbox").siblings(".list").find(".checkbox").checkbox("check");}},
     onUnchecked: function() {$(this).closest(".checkbox").siblings(".list").find(".checkbox").checkbox("uncheck");}
   })
 ;
@@ -28,7 +28,9 @@ $("%identifier% .list .child.checkbox")
         $parentCheckbox.checkbox("set checked");
       }
       else if(allUnchecked) {
-        $parentCheckbox.checkbox("set unchecked");
+		if(!$parentCheckbox.children("input").first().hasClass("_notAllChecked")){
+        	$parentCheckbox.checkbox("set unchecked");
+		}
       }
       else {
         $parentCheckbox.checkbox("set indeterminate");

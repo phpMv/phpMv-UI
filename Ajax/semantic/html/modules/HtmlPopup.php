@@ -19,6 +19,10 @@ class HtmlPopup extends HtmlSemDoubleElement {
 		$this->_params=array("on"=>"hover");
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::addList()
+	 */
 	public function addList($items=array(),$header=NULL){
 		if(!$this->content instanceof HtmlGrid){
 			$this->content=new HtmlGrid("Grid-".$this->identifier,0);
@@ -58,6 +62,7 @@ class HtmlPopup extends HtmlSemDoubleElement {
 	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::run()
 	 */
 	public function run(JsUtils $js){
+		parent::run($js);
 		$this->_params["popup"]="#".$this->identifier;
 		$js->semantic()->popup("#".$this->_container->getIdentifier(),$this->_params);
 	}
