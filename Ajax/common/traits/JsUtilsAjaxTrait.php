@@ -19,7 +19,6 @@ trait JsUtilsAjaxTrait {
 	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
 
 	protected function _ajax($method,$url, $params="{}", $responseElement="", $jsCallback=NULL, $attr="id", $hasLoader=true,$jqueryDone="html",$ajaxTransition=null,$immediatly=false) {
-		if(JString::isNull($params)){$params="{}";}
 		$jsCallback=isset($jsCallback) ? $jsCallback : "";
 		$retour=$this->_getAjaxUrl($url, $attr);
 		$responseElement=$this->_getResponseElement($responseElement);
@@ -27,7 +26,7 @@ trait JsUtilsAjaxTrait {
 		if($hasLoader===true){
 			$this->addLoading($retour, $responseElement);
 		}
-		$retour.="$.".$method."(url,".$params.").done(function( data ) {\n";
+		$retour.="$.".$method."(url,".self::_correctParams($params).").done(function( data ) {\n";
 		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback)."});\n";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$retour;
@@ -86,9 +85,19 @@ trait JsUtilsAjaxTrait {
 			return $url;
 	}
 
+	public static function _correctParams($params){
+		if(JString::isNull($params)){
+			return "";
+		}
+		if(\preg_match("@^\{.*?\}$@", $params)){
+			return '$.param('.$params.')';
+		}
+		return $params;
+	}
+
 	protected function addLoading(&$retour, $responseElement) {
 		$loading_notifier='<div class="ajax-loader">';
-		if ($this->ajaxLoader=='') {
+		if ($this->ajaxLoader==='') {
 			$loading_notifier.="Loading...";
 		} else {
 			$loading_notifier.=$this->ajaxLoader;
@@ -469,7 +478,7 @@ trait JsUtilsAjaxTrait {
 		$retour=$this->_getAjaxUrl($url, $attr);
 		$retour.="\nvar params=$('#".$form."').serialize();\n";
 		if(isset($params)){
-			$retour.="params+='&'+$.param(".$params.");\n";
+			$retour.="params+='&'+".self::_correctParams($params).";\n";
 		}
 		$responseElement=$this->_getResponseElement($responseElement);
 		$retour.="var self=this;\n";

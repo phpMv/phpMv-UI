@@ -100,12 +100,14 @@ class HtmlList extends HtmlSemCollection {
 	 * @param string $notAllChecked
 	 * @return HtmlList
 	 */
-	public function addCheckedList($items=array(), $masterItem=NULL, $values=array(),$notAllChecked=false) {
+	public function addCheckedList($items=array(), $masterItem=NULL, $values=array(),$notAllChecked=false,$name=null) {
 		$count=$this->count();
 		$identifier=$this->identifier . "-" . $count;
 		if (isset($masterItem)) {
 			if(\is_array($masterItem)){
 				$masterO=new HtmlFormCheckbox("master-" . $identifier, @$masterItem[0],@$masterItem[1]);
+				if(isset($name))
+					$masterO->setName($name);
 				if(isset($masterItem[1])){
 					if(\array_search($masterItem[1], $values)!==false){
 						$masterO->getDataField()->setProperty("checked", "");
@@ -128,6 +130,8 @@ class HtmlList extends HtmlSemCollection {
 			if (\array_search($val, $values) !== false) {
 				$itemO->getDataField()->setProperty("checked", "");
 			}
+			if(isset($name))
+				$itemO->setName($name);
 			$itemO->setClass("item");
 			$fields[]=$itemO;
 		}

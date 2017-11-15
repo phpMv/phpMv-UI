@@ -46,6 +46,11 @@ trait CheckboxTrait {
 		return $this->content["field"];
 	}
 
+	public function setName($name){
+		$this->getDataField()->setProperty("name", $name);
+		return $this;
+	}
+
 	public function getDataField(){
 		$field= $this->getField();
 		if($field instanceof AbstractCheckbox)

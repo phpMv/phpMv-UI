@@ -138,7 +138,14 @@ trait BaseHtmlEventsTrait{
 	}
 
 	public function postOn($event, $url, $params="{}", $responseElement="", $parameters=array()) {
-		$parameters["params"]=$params;
+		$allParameters=[];
+		if(isset($parameters["params"])){
+			$allParameters[]=JsUtils::_correctParams($parameters["params"]);
+		}
+		if(isset($params)){
+			$allParameters[]=JsUtils::_correctParams($params);
+		}
+		$parameters["params"]=\implode("+'&'+", $allParameters);
 		return $this->_ajaxOn("post", $event, $url, $responseElement, $parameters);
 	}
 
