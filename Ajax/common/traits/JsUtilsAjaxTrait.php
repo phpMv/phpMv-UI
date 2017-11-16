@@ -30,7 +30,7 @@ trait JsUtilsAjaxTrait {
 		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback)."});\n";
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$retour;
-			return $retour;
+		return $retour;
 	}
 
 
@@ -93,6 +93,15 @@ trait JsUtilsAjaxTrait {
 			return '$.param('.$params.')';
 		}
 		return $params;
+	}
+
+	public static function _implodeParams($parameters){
+		$allParameters=[];
+		foreach ($parameters as $params){
+			if(isset($params))
+				$allParameters[]=self::_correctParams($params);
+		}
+		return \implode("+'&'+", $allParameters);
 	}
 
 	protected function addLoading(&$retour, $responseElement) {
