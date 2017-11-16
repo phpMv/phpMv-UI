@@ -6,6 +6,9 @@ use Ajax\semantic\html\modules\HtmlDropdown;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\base\constants\State;
+use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
+use Ajax\common\html\BaseHtml;
+use Ajax\semantic\html\elements\HtmlLabel;
 
 /**
  * @author jc
@@ -31,6 +34,12 @@ trait FieldTrait {
 		return $this->addToProperty("class", State::LOADING);
 	}
 
+	/**
+	 * @param string|BaseHtml $label
+	 * @param string $direction
+	 * @param string $icon
+	 * @return HtmlLabel
+	 */
 	public function labeled($label, $direction=Direction::LEFT, $icon=NULL) {
 		$field=$this->getField();
 		$labelO=$field->addLabel($label,$direction===Direction::LEFT,$icon);
@@ -38,10 +47,33 @@ trait FieldTrait {
 		return $labelO;
 	}
 
+	/**
+	 * @param string $direction
+	 * @param string $caption
+	 * @param string $value
+	 * @param string $checkboxType
+	 * @return HtmlLabel
+	 */
+	public function labeledCheckbox($direction=Direction::LEFT,$caption="",$value=NULL,$checkboxType=NULL){
+		return $this->labeled(new HtmlCheckbox("lbl-ck-".$this->getField()->getIdentifier(),$caption,$value,$checkboxType),$direction);
+	}
+
+	/**
+	 * @param string $icon
+	 * @param string $direction
+	 * @return HtmlLabel
+	 */
 	public function labeledToCorner($icon, $direction=Direction::LEFT) {
 		return $this->labeled("", $direction . " corner", $icon)->toCorner($direction);
 	}
 
+	/**
+	 * @param string $action
+	 * @param string $direction
+	 * @param string $icon
+	 * @param string $labeled
+	 * @return unknown|HtmlButton
+	 */
 	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {
 		$field=$this->getField();
 		$actionO=$action;
@@ -55,6 +87,12 @@ trait FieldTrait {
 		return $actionO;
 	}
 
+	/**
+	 * @param string $label
+	 * @param array $items
+	 * @param string $direction
+	 * @return HtmlLabel
+	 */
 	public function addDropdown($label="", $items=array(),$direction=Direction::RIGHT){
 		$labelO=new HtmlDropdown("dd-".$this->identifier,$label,$items);
 		$labelO->asSelect("select-".$this->identifier,false,true);
