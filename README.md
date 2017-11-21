@@ -7,9 +7,6 @@
 [![Build Status](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/build-status/master) [![Latest Stable Version](https://poser.pugx.org/phpmv/php-mv-ui/v/stable)](https://packagist.org/packages/phpmv/php-mv-ui) [![Total Downloads](https://poser.pugx.org/phpmv/php-mv-ui/downloads)](https://packagist.org/packages/phpmv/php-mv-ui) [![License](https://poser.pugx.org/phpmv/php-mv-ui/license)](https://packagist.org/packages/phpmv/php-mv-ui)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1426105a-86b9-4ef3-ace3-d054a792e95d/mini.png)](https://insight.sensiolabs.com/projects/1426105a-86b9-4ef3-ace3-d054a792e95d) 
 [![Documentation](https://codedocs.xyz/phpMv/phpMv-UI.svg)](http://api.kobject.net/phpMv-UI/)
-<a href="http://phalconist.com/phpMv/phpMv-UI" target="_blank">
-![phpMv-UI toolkit](http://phalconist.com/phpMv/phpMv-UI/default.svg)
-</a>
 
 
 ## What's phpMv-UI ?
