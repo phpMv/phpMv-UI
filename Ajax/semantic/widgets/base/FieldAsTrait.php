@@ -46,7 +46,7 @@ trait FieldAsTrait{
 			$callback=$attributes["jsCallback"];
 			if(\is_callable($callback)){
 				$callback($element,$this->_modelInstance,$index);
-				unset($attributes["jsCallback"]);
+				//unset($attributes["jsCallback"]);
 			}
 		}
 		unset($attributes["rules"]);

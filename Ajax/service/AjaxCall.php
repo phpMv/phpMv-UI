@@ -18,26 +18,22 @@ class AjaxCall {
 			return;
 		$params="{}";
 		$jsCallback=NULL;
-		$attr="id";
-		$validation=false;
 		$stopPropagation=true;
 		$preventDefault=true;
-		$jqueryDone="html";
-		$ajaxTransition=null;
-		$hasLoader=true;
 		$method="get";
 		$rowClass="_json";
+		$this->parameters["immediatly"]=false;
 		extract($this->parameters);
 		$result=$this->_eventPreparing($preventDefault, $stopPropagation);
 		switch($this->method) {
 			case "get":
-				$result.=$js->getDeferred($url, $responseElement, $params, $jsCallback, $attr,$jqueryDone,$ajaxTransition);
+				$result.=$js->getDeferred($url, $responseElement, $this->parameters);
 				break;
 			case "post":
-				$result.=$js->postDeferred($url, $responseElement, $params, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
+				$result.=$js->postDeferred($url, $params,$responseElement, $this->parameters);
 				break;
 			case "postForm":
-				$result.=$js->postFormDeferred($url, $form, $responseElement, $params,$validation, $jsCallback, $attr,$hasLoader,$jqueryDone,$ajaxTransition);
+				$result.=$js->postFormDeferred($url, $form, $responseElement, $this->parameters);
 				break;
 			case "json":
 				$result.=$js->jsonDeferred($url,$method,$params,$jsCallback);

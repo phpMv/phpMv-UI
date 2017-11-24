@@ -42,7 +42,16 @@ class DialogButton extends BaseComponent {
 		return new DialogButton($caption, "$( this ).dialog( 'close' );");
 	}
 
-	public static function submitButton(JsUtils $js, $url, $form, $responseElement, $caption="Okay") {
-		return new DialogButton($caption, $js->postForm($url, $form, $responseElement) . ";$( this ).dialog( 'close' );");
+	/**
+	 * @param JsUtils $js
+	 * @param string $url
+	 * @param string $form
+	 * @param unknown $responseElement
+	 * @param string $caption
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null)
+	 * @return DialogButton
+	 */
+	public static function submitButton(JsUtils $js, $url, $form, $responseElement, $caption="Okay",$parameters=[]) {
+		return new DialogButton($caption, $js->postFormDeferred($url, $form, $responseElement,$parameters) . ";$( this ).dialog( 'close' );");
 	}
 }

@@ -124,10 +124,10 @@ class HtmlFormFields extends HtmlSemCollection {
 			}
 			$fields[]=$itemO;
 		}
-		$checkeds=new HtmlFormFields("fields-".$name, $fields);
+		$radios=new HtmlFormFields("fields-".$name, $fields);
 		if (isset($label))
-			$checkeds->setLabel($label)->setProperty("for", $name);
-		return $checkeds;
+			$radios->setLabel($label)->setProperty("for", $name);
+		return $radios;
 	}
 
 	public function setEqualWidth($_equalWidth) {

@@ -167,8 +167,8 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		return $this->_bsComponent;
 	}
 
-	public function addList($elements,$ordered=false){
-		$list=new HtmlList("list-".$this->identifier,$elements);
+	public function addList($items,$ordered=false){
+		$list=new HtmlList("list-".$this->identifier,$items);
 		$list->setOrdered($ordered);
 		$list->setClass("ui list");
 		$this->addContent($list);

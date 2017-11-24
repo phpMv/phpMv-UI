@@ -57,7 +57,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 	public function addAction($action){
 		if(!$action instanceof BaseHtml){
 			$class="";
-			if(\array_search($action, ["Okay","Yes"])!==false){
+			if(\array_search($action, ["Okay","Yes","Validate"])!==false){
 				$class="approve";
 			}
 			if(\array_search($action, ["Close","Cancel","No"])!==false){

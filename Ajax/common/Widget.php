@@ -194,6 +194,12 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
+	/**
+	 * Defines the function which displays the field value
+	 * @param $index index or name of the field to display
+	 * @param callable $callback function parameters are : $value : the field value ,$index : the field index, $instance : the active instance of model
+	 * @return Widget
+	 */
 	public function setValueFunction($index,$callback){
 		$index=$this->_getIndex($index);
 		$this->_instanceViewer->setValueFunction($index, $callback);

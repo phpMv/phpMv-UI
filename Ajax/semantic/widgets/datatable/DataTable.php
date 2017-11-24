@@ -172,11 +172,13 @@ class DataTable extends Widget {
 		InstanceViewer::$index++;
 		$values= $this->_instanceViewer->getValues();
 		$id=$this->_instanceViewer->getIdentifier();
+		$dataAjax=$id;
+		$id=$this->cleanIdentifier($id);
 		if($this->_hasCheckboxes){
 			$ck=new HtmlCheckbox("ck-".$this->identifier."-".$id,"");
 			$ck->setOnChange("event.stopPropagation();");
 			$field=$ck->getField();
-			$field->setProperty("value",$id);
+			$field->setProperty("value",$dataAjax);
 			$field->setProperty("name", "selection[]");
 			if(isset($checkedClass))
 				$field->setClass($checkedClass);
@@ -184,7 +186,7 @@ class DataTable extends Widget {
 		}
 		$result=$table->newRow();
 		$result->setIdentifier($this->identifier."-tr-".$id);
-		$result->setProperty("data-ajax",$id);
+		$result->setProperty("data-ajax",$dataAjax);
 		$result->setValues($values);
 		$result->addToProperty("class",$this->_rowClass);
 		return $result;

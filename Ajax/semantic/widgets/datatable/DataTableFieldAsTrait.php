@@ -61,7 +61,7 @@ trait DataTableFieldAsTrait{
 	 * @return HtmlButton
 	 */
 	private function getFieldButton($caption,$visibleHover=true){
-		$bt= new HtmlButton("",$caption);
+		$bt= new HtmlButton($this->cleanIdentifier($caption),$caption);
 		if($visibleHover)
 			$this->_visibleOver($bt);
 		return $bt;

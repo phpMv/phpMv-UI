@@ -99,7 +99,9 @@ class InstanceViewer {
 		if($property instanceof \ReflectionProperty){
 			$value=$this->_getPropertyValue($property, $index);
 			$propertyName=$property->getName();
-		}elseif(\is_array($property)){
+		}elseif(\is_callable($property))
+			$value=$property($this->instance);
+		elseif(\is_array($property)){
 			$values=\array_map(function($v) use ($index){return $this->_getValue($v, $index);}, $property);
 			$value=\implode("", $values);
 		}elseif(\is_string($property)){
@@ -109,8 +111,6 @@ class InstanceViewer {
 			}elseif(\method_exists($this->instance, $getter=JReflection::getterName($property))){
 				$value=JReflection::callMethod($this->instance, $getter, []);
 			}
-		}elseif(\is_callable($property)){
-			$value=$property($this->instance);
 		}
 		return $this->_postGetValue($index, $propertyName, $value);
 	}

@@ -62,4 +62,8 @@ class JString {
 		}
 		return $result;
 	}
+
+	public static function cleanIdentifier($id) {
+		return preg_replace('/[^a-zA-Z0-9\-]/s', '', $id);
+	}
 }

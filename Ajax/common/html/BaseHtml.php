@@ -202,6 +202,7 @@ abstract class BaseHtml extends BaseWidget {
 				$pc=$this->_preCompile;
 				$pc($this);
 			}
+			unset($this->properties["jsCallback"]);
 			$this->_compiled=true;
 		}
 	}
@@ -214,7 +215,10 @@ abstract class BaseHtml extends BaseWidget {
 				if (\is_array($value)) {
 					$v=PropertyWrapper::wrap($value, $js);
 				} else {
-					$v=$value;
+					if($value instanceof \stdClass)
+						$v=\print_r($value,true);
+					else
+						$v=$value;
 				}
 				$result=str_ireplace("%" . $key . "%", $v, $result);
 			}

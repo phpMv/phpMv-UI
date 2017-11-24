@@ -2,6 +2,8 @@
 
 namespace Ajax\common\html;
 
+use Ajax\service\JString;
+
 /**
  * BaseWidget for Twitter Bootstrap, jQuery UI or Semantic rich components
  * @author jc
@@ -23,11 +25,11 @@ abstract class BaseWidget {
 	}
 
 	public function setIdentifier($identifier) {
-		$this->identifier=$identifier;
+		$this->identifier=$this->cleanIdentifier($identifier);
 		return $this;
 	}
 
 	protected function cleanIdentifier($id) {
-		return preg_replace('/[^a-zA-Z0-9\-.]/s', '', $id);
+		return JString::cleanIdentifier($id);
 	}
 }
