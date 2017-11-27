@@ -16,7 +16,7 @@ use Ajax\semantic\html\base\constants\Direction;
  */
 class HtmlTab extends HtmlSemCollection{
 
-	protected $params=array("debug"=>true);
+	protected $params=[];
 
 	public function __construct( $identifier, $tabs=array()){
 		parent::__construct( $identifier, "div", "");
@@ -41,7 +41,9 @@ class HtmlTab extends HtmlSemCollection{
 		$menuItem=$this->content["menu"]->addItem($title);
 		$menuItem->addToProperty("data-tab", $menuItem->getIdentifier());
 		$menuItem->removeProperty("href");
-		return $this->createSegment($count, $content, $menuItem->getIdentifier());
+		$result=$this->createSegment($count, $content, $menuItem->getIdentifier());
+		$result->menuTab=$menuItem;
+		return $result;
 	}
 
 	/**

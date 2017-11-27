@@ -49,7 +49,11 @@ class HtmlMessage extends HtmlSemDoubleElement {
 	public function setIcon($icon){
 		$this->addToProperty("class", "icon");
 		$this->wrapContent("<div class='content'>","</div>");
-		$this->icon=new HtmlIcon("icon-".$this->identifier, $icon);
+		if(\is_string($icon)){
+			$this->icon=new HtmlIcon("icon-".$this->identifier, $icon);
+		}else{
+			$this->icon=$icon;
+		}
 		return $this;
 	}
 

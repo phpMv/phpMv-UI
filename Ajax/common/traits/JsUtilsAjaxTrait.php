@@ -43,7 +43,7 @@ trait JsUtilsAjaxTrait {
 			$ajaxParameters["data"]=self::_correctParams($params);
 		}
 		if(isset($headers)){
-			$ajaxParameters["headers"]=$this->_correctParams($headers);
+			$ajaxParameters["headers"]=$headers;
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour.="$.ajax({".$this->implodeAjaxParameters($ajaxParameters)."}).done(function( data, textStatus, jqXHR ) {\n";
@@ -512,10 +512,12 @@ trait JsUtilsAjaxTrait {
 		if($hasLoader===true){
 			$this->addLoading($retour, $responseElement);
 		}
-		$strHeaders="";
-		if(isset($headers))
-			$strHeaders=", 'headers: '".self::_correctParams($headers);
-		$retour.="$.ajax({'url':url,'data':params,'method':'POST'".$strHeaders."}).done(function( data ) {\n";
+		$ajaxParameters=["url"=>"url","method"=>"'POST'","data"=>"params"];
+		if(isset($headers)){
+			$ajaxParameters["headers"]=$headers;
+		}
+		$this->createAjaxParameters($ajaxParameters, $parameters);
+		$retour.="$.ajax({".$this->implodeAjaxParameters($ajaxParameters)."}).done(function( data ) {\n";
 		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback)."});\n";
 
 		if ($validation) {

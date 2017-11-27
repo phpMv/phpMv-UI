@@ -22,11 +22,27 @@ class HtmlFormDropdown extends HtmlFormField {
 		return new HtmlFormDropdown($identifier,$items,$label,$value,true,$associative);
 	}
 
+	/**
+	 * @return HtmlDropdown
+	 */
 	public function getDataField(){
 		return $this->getField()->getInput();
 	}
 	public function asSelect($name=NULL,$multiple=false,$selection=true){
 		$this->getField()->asSelect($name,$multiple,$selection);
 		return $this;
+	}
+
+	/**
+	 * @param boolean $floating
+	 * @return HtmlDropdown
+	 */
+	public function asButton($floating=false){
+		$field=$this->content["field"];
+		$label=$this->content["label"];
+		$field->addContent($label);
+		$this->content=["field"=>$field];
+		$this->content["field"]->asButton($floating);
+		return $this->content["field"];
 	}
 }

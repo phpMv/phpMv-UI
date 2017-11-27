@@ -51,4 +51,9 @@ class HtmlIconGroups extends HtmlSemCollection {
 		$this->getItem($index)->toCorner();
 		return $this;
 	}
+
+	public static function corner($mainIcon,$cornerIcon,$size="huge"){
+		$icons=new HtmlIconGroups("icons",[$mainIcon,$cornerIcon],$size);
+		return $icons->toCorner(1);
+	}
 }

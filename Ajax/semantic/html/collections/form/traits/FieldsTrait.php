@@ -134,6 +134,13 @@ trait FieldsTrait {
 		return $this->addItem(new HtmlButton($identifier,$value,$cssStyle,$onClick));
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param string $label
+	 * @param string $value
+	 * @param string $type
+	 * @return HtmlFormCheckbox
+	 */
 	public function addCheckbox($identifier, $label=NULL,$value=NULL,$type=NULL){
 		return $this->addItem(new HtmlFormCheckbox($identifier,$label,$value,$type));
 	}
