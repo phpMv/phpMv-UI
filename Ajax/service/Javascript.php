@@ -42,4 +42,11 @@ class Javascript {
 		}
 		return $value;
 	}
+
+	public static function prep_jquery_selector($value){
+		if(JString::startswith($value, '$(')===false){
+			return '$('.$value.')';
+		}
+		return $value;
+	}
 }

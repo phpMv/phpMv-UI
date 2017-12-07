@@ -34,7 +34,7 @@ trait JsUtilsAjaxTrait {
 		$retour=$this->_getAjaxUrl($url, $attr);
 		$responseElement=$this->_getResponseElement($responseElement);
 		$retour.="var self=this;\n";
-		if($hasLoader===true){
+		if($hasLoader===true && JString::isNotNull($responseElement)){
 			$this->addLoading($retour, $responseElement);
 		}
 
@@ -107,7 +107,7 @@ trait JsUtilsAjaxTrait {
 			if(\is_callable($call))
 				$retour="\t".$call($responseElement,$jqueryDone).";\n";
 			else
-				$retour="\t$({$responseElement}).{$jqueryDone}( data );\n";
+				$retour="\t{$responseElement}.{$jqueryDone}( data );\n";
 		}
 		$retour.="\t".$jsCallback."\n";
 		return $retour;
@@ -116,6 +116,7 @@ trait JsUtilsAjaxTrait {
 	protected function _getResponseElement($responseElement){
 		if ($responseElement!=="") {
 			$responseElement=Javascript::prep_value($responseElement);
+			$responseElement=Javascript::prep_jquery_selector($responseElement);
 		}
 		return $responseElement;
 	}
@@ -156,8 +157,8 @@ trait JsUtilsAjaxTrait {
 			$loading_notifier.=$this->ajaxLoader;
 		}
 		$loading_notifier.='</div>';
-		$retour.="$({$responseElement}).empty();\n";
-		$retour.="\t\t$({$responseElement}).prepend('{$loading_notifier}');\n";
+		$retour.="{$responseElement}.empty();\n";
+		$retour.="\t\t{$responseElement}.prepend('{$loading_notifier}');\n";
 	}
 
 	protected function setAjaxDataCall($params){

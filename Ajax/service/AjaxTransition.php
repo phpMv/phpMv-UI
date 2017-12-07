@@ -4,15 +4,15 @@ use Ajax\semantic\html\base\constants\Transition;
 
 class AjaxTransition {
 	public static function none($responseElement,$jqueryDone="html"){
-		return "$({$responseElement}).{$jqueryDone}( data )";
+		return $responseElement.".".$jqueryDone."( data )";
 	}
 
 	public static function jqFade($responseElement,$jqueryDone="html"){
-		return "$({$responseElement}).hide().{$jqueryDone}( data ).fadeIn()";
+		return $responseElement.".hide().{$jqueryDone}( data ).fadeIn()";
 	}
 
 	public static function jqSlide($responseElement,$jqueryDone="html"){
-		return "$({$responseElement}).hide().{$jqueryDone}( data ).slideDown()";
+		return $responseElement.".hide().{$jqueryDone}( data ).slideDown()";
 	}
 
 	public static function random($responseElement,$jqueryDone="html"){
@@ -26,7 +26,7 @@ class AjaxTransition {
 			$responseElement=$arguments[0];
 			$jqueryDone=$arguments[1];
 			$name=JString::camelCaseToSeparated($name);
-			return "$({$responseElement}).{$jqueryDone}( data ).transition('{$name} in')";
+			return $responseElement.".".$jqueryDone."( data ).transition('{$name} in')";
 		}
 	}
 }
