@@ -42,16 +42,24 @@ class FieldValidation implements \JsonSerializable{
 		return $this->rules;
 	}
 
+	/**
+	 * @param string $type
+	 * @param string $prompt
+	 * @param string $value
+	 * @return Rule
+	 */
 	public function addRule($type,$prompt=NULL,$value=NULL){
 		if($type instanceof  Rule)
-			$this->rules[]=$type;
+			$rule=$type;
 		else if(\is_array($type)){
 			$value=JArray::getValue($type, "value", 2);
 			$prompt=JArray::getValue($type, "prompt", 1);
 			$type=JArray::getValue($type, "type", 0);
-			$this->rules[]=new Rule($type,$prompt,$value);
+			$rule=new Rule($type,$prompt,$value);
 		}else
-			$this->rules[]=new Rule($type,$prompt,$value);
+			$rule=new Rule($type,$prompt,$value);
+		$this->rules[]=$rule;
+		return $rule;
 	}
 
 	public function jsonSerialize(){

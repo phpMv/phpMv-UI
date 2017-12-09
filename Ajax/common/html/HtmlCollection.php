@@ -6,6 +6,7 @@ use Ajax\common\html\HtmlDoubleElement;
 use Ajax\service\JArray;
 use Ajax\JsUtils;
 use Ajax\service\JReflection;
+use Ajax\service\JString;
 
 /**
  * Base class for Html collections
@@ -51,7 +52,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 
 	protected function setItemIdentifier($item,$classname,$index){
 		if($item instanceof BaseWidget){
-			if($item->getIdentifier()===""){
+			if(JString::isNull($item->getIdentifier())){
 				$item->setIdentifier($classname."-".$this->identifier."-".$index);
 			}
 		}

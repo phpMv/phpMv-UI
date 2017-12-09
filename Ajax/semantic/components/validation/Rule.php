@@ -1,5 +1,8 @@
 <?php
 namespace Ajax\semantic\components\validation;
+use Ajax\service\AjaxCall;
+use Ajax\JsUtils;
+
 /**
  * @author jc
  * @version 1.001
@@ -161,6 +164,12 @@ class Rule implements \JsonSerializable{
 
 	public static function custom($name,$jsFunction){
 		return "$.fn.form.settings.rules.".$name." =".$jsFunction ;
+	}
+
+	public static function ajax(JsUtils $js,$name,$url,$params,$jsCallback,$method="post",$parameters=[]){
+		$parameters=\array_merge(["async"=>false,"url"=>$url,"params"=>$params,"hasLoader"=>false,"jsCallback"=>$jsCallback,"dataType"=>"json","stopPropagation"=>false,"preventDefault"=>false,"responseElement"=>null],$parameters);
+		$ajax=new AjaxCall($method, $parameters);
+		return self::custom($name, "function(value){var result=true;".$ajax->compile($js)."console.log(result);return result;}");
 	}
 
 }

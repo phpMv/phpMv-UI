@@ -33,4 +33,8 @@ class Dropdown extends SimpleExtComponent {
 	public function setFullTextSearch($value){
 		return $this->setParam("fullTextSearch", $value);
 	}
+
+	public function setShowOnFocus($value){
+		return $this->setParam("showOnFocus", $value);
+	}
 }

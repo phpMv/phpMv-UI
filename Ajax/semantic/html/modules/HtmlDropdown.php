@@ -19,7 +19,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	protected $mClass="menu";
 	protected $mTagName="div";
 	protected $items=array ();
-	protected $_params=array("action"=>"nothing","on"=>"hover");
+	protected $_params=array("action"=>"nothing","on"=>"hover","showOnFocus"=>false);
 	protected $input;
 	protected $value;
 	protected $_associative;
@@ -347,6 +347,14 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function setAction($action){
 		$this->_params["action"]=$action;
+	}
+
+	public function setOn($on){
+		$this->_params["on"]=$on;
+	}
+
+	public function setShowOnFocus($value){
+		$this->_params["showOnFocus"]=$value;
 	}
 
 	public function setFullTextSearch($value){

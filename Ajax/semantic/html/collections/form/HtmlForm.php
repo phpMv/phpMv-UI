@@ -70,7 +70,7 @@ class HtmlForm extends HtmlSemCollection {
 	 * Adds a group of fields
 	 * @param array $fields
 	 * @param string $label
-	 * @return string|\Ajax\semantic\html\collections\form\HtmlFormFields
+	 * @return HtmlFormFields
 	 */
 	public function addFields($fields=NULL, $label=NULL) {
 		if (isset($fields)) {
@@ -87,8 +87,9 @@ class HtmlForm extends HtmlSemCollection {
 				$this->_fields=\array_merge($this->_fields, $fields);
 				$fields=new HtmlFormFields("fields-" . $this->identifier . "-" . $this->count(), $fields);
 			}
-			if (isset($label))
-				$fields=new HtmlFormField("", $fields, $label);
+			if (isset($label)){
+				$fields->wrap("<div class='field'><label>{$label}</label>","</div>");
+			}
 		} else {
 			$fields=new HtmlFormFields("fields-" . $this->identifier . "-" . $this->count());
 		}

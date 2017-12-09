@@ -41,6 +41,9 @@ class AjaxCall {
 			case "jsonArray":
 				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback,$rowClass);
 				break;
+			default:
+				//$result.=$js->ajax($this->method, $url,$responseElement,$this->parameters);
+				break;
 		}
 		return $result;
 	}

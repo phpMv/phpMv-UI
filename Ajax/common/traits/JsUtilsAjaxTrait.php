@@ -25,6 +25,7 @@ trait JsUtilsAjaxTrait {
 		$immediatly=false;
 		$jqueryDone="html";
 		$ajaxTransition=null;
+		$async=true;
 		$params=null;
 		$headers=null;
 		$jsCondition=null;
@@ -37,8 +38,8 @@ trait JsUtilsAjaxTrait {
 		if($hasLoader===true && JString::isNotNull($responseElement)){
 			$this->addLoading($retour, $responseElement);
 		}
-
-		$ajaxParameters=["url"=>"url","method"=>"'".\strtoupper($method)."'"];
+		$async=($async)?"true":"false";
+		$ajaxParameters=["url"=>"url","method"=>"'".\strtoupper($method)."'","async"=>$async];
 		if(isset($params)){
 			$ajaxParameters["data"]=self::_correctParams($params);
 		}
@@ -98,7 +99,7 @@ trait JsUtilsAjaxTrait {
 
 	protected function _getOnAjaxDone($responseElement,$jqueryDone,$ajaxTransition,$jsCallback){
 		$retour="";$call=null;
-		if ($responseElement!=="") {
+		if (JString::isNotNull($responseElement)) {
 			if(isset($ajaxTransition)){
 				$call=$this->setAjaxDataCall($ajaxTransition);
 			}elseif(isset($this->ajaxTransition)){
@@ -114,7 +115,7 @@ trait JsUtilsAjaxTrait {
 	}
 
 	protected function _getResponseElement($responseElement){
-		if ($responseElement!=="") {
+		if (JString::isNotNull($responseElement)) {
 			$responseElement=Javascript::prep_value($responseElement);
 			$responseElement=Javascript::prep_jquery_selector($responseElement);
 		}
@@ -500,8 +501,9 @@ trait JsUtilsAjaxTrait {
 	}
 
 	private function _postForm($url, $form, $responseElement, $parameters=[]) {
-		$params="{}";$validation=false;$jsCallback=NULL;$attr="id";$hasLoader=true;$jqueryDone="html";$ajaxTransition=null;$immediatly=false;$jsCondition=NULL;$headers=NULL;
+		$params="{}";$validation=false;$jsCallback=NULL;$attr="id";$hasLoader=true;$jqueryDone="html";$ajaxTransition=null;$immediatly=false;$jsCondition=NULL;$headers=NULL;$async=true;
 		\extract($parameters);
+		$async=($async)?"true":"false";
 		$jsCallback=isset($jsCallback) ? $jsCallback : "";
 		$retour=$this->_getAjaxUrl($url, $attr);
 		$retour.="\nvar params=$('#".$form."').serialize();\n";
@@ -513,7 +515,7 @@ trait JsUtilsAjaxTrait {
 		if($hasLoader===true){
 			$this->addLoading($retour, $responseElement);
 		}
-		$ajaxParameters=["url"=>"url","method"=>"'POST'","data"=>"params"];
+		$ajaxParameters=["url"=>"url","method"=>"'POST'","data"=>"params","async"=>$async];
 		if(isset($headers)){
 			$ajaxParameters["headers"]=$headers;
 		}

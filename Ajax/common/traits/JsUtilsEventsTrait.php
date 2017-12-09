@@ -33,10 +33,12 @@ trait JsUtilsEventsTrait {
 	 *
 	 * @param string $element element to attach the event to
 	 * @param string $js code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
 	 * @return string
 	 */
-	public function change($element='this', $js='') {
-		return $this->_add_event($element, $js, 'change');
+	public function change($element='this', $js='',$preventDefault=false,$stopPropagation=false) {
+		return $this->_add_event($element, $js, 'change',$preventDefault,$stopPropagation);
 	}
 
 	/**
