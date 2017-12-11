@@ -17,11 +17,9 @@ class AjaxCall {
 		if ($js===null)
 			return;
 		$params="{}";
-		$jsCallback=NULL;
 		$stopPropagation=true;
 		$preventDefault=true;
 		$method="get";
-		$rowClass="_json";
 		$this->parameters["immediatly"]=false;
 		extract($this->parameters);
 		$result=$this->_eventPreparing($preventDefault, $stopPropagation);
@@ -36,10 +34,10 @@ class AjaxCall {
 				$result.=$js->postFormDeferred($url, $form, $responseElement, $this->parameters);
 				break;
 			case "json":
-				$result.=$js->jsonDeferred($url,$method,$params,$jsCallback);
+				$result.=$js->jsonDeferred($url,$method,$this->parameters);
 				break;
 			case "jsonArray":
-				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$params,$jsCallback,$rowClass);
+				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$this->parameters);
 				break;
 			default:
 				//$result.=$js->ajax($this->method, $url,$responseElement,$this->parameters);

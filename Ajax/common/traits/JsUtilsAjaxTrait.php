@@ -38,8 +38,10 @@ trait JsUtilsAjaxTrait {
 		if($hasLoader===true && JString::isNotNull($responseElement)){
 			$this->addLoading($retour, $responseElement);
 		}
-		$async=($async)?"true":"false";
-		$ajaxParameters=["url"=>"url","method"=>"'".\strtoupper($method)."'","async"=>$async];
+		$ajaxParameters=["url"=>"url","method"=>"'".\strtoupper($method)."'"];
+		if(!$async){
+			$ajaxParameters["async"]="false";
+		}
 		if(isset($params)){
 			$ajaxParameters["data"]=self::_correctParams($params);
 		}
@@ -230,38 +232,28 @@ trait JsUtilsAjaxTrait {
 	/**
 	 * Performs an ajax request and receives the JSON data types by assigning DOM elements with the same name
 	 * @param string $url the request url
-	 * @param string $params JSON parameters
 	 * @param string $method Method used
-	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $attr
-	 * @param string $context
-	 * @param boolean $immediatly
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>"document","jsCondition"=>NULL,"headers"=>null,"immediatly"=>false)
 	 */
-	private function _json($url, $method="get", $params="{}", $jsCallback=NULL, $attr="id", $context="document",$immediatly=false) {
-		$jsCallback=isset($jsCallback) ? $jsCallback : "";
-		$retour=$this->_getAjaxUrl($url, $attr);
-		$retour.="$.{$method}(url,".$params.").done(function( data ) {\n";
-		$retour.="\tdata=$.parseJSON(data);for(var key in data){"
+	private function _json($url, $method="get",$parameters=[]) {
+		$parameters=\array_merge($parameters,["hasLoader"=>false]);
+		$jsCallback=isset($parameters['jsCallback']) ? $parameters['jsCallback'] : "";
+		$context=isset($parameters['context']) ? $parameters['context'] : "document";
+		$retour="\tdata=($.isPlainObject(data))?data:JSON.parse(data);\t".$jsCallback.";\n\tfor(var key in data){"
 				."if($('#'+key,".$context.").length){ if($('#'+key,".$context.").is('[value]')) { $('#'+key,".$context.").val(data[key]);} else { $('#'+key,".$context.").html(data[key]); }}};\n";
-				$retour.="\t".$jsCallback."\n".
-						"\t$(document).trigger('jsonReady',[data]);\n".
-						"});\n";
-				if ($immediatly)
-					$this->jquery_code_for_compile[]=$retour;
-		return $retour;
+				$retour.="\t$(document).trigger('jsonReady',[data]);\n";
+		$parameters["jsCallback"]=$retour;
+		return $this->_ajax($method, $url,null,$parameters);
 	}
 
 	/**
 	 * Performs an ajax request and receives the JSON data types by assigning DOM elements with the same name
 	 * @param string $url the request url
-	 * @param string $params JSON parameters
 	 * @param string $method Method used
-	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $context
-	 * @param boolean $immediatly
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>"document","jsCondition"=>NULL,"headers"=>null,"immediatly"=>false)
 	 */
-	public function json($url, $method="get", $params="{}", $jsCallback=NULL,$context="document",$immediatly=false) {
-		return $this->_json($url,$method,$params,$jsCallback,NULL,$context,$immediatly);
+	public function json($url, $method="get", $parameters=[]) {
+		return $this->_json($url,$method,$parameters);
 	}
 
 	/**
@@ -269,46 +261,37 @@ trait JsUtilsAjaxTrait {
 	 * @param string $element
 	 * @param string $event
 	 * @param string $url the request address
+	 * @param string $method default get
 	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","immediatly"=>true)
 	 */
-	public function jsonOn($event,$element, $url,$parameters=array()) {
-		$preventDefault=true;
-		$stopPropagation=true;
-		$jsCallback=null;
-		$attr="id";
-		$method="get";
-		$context="document";
-		$params="{}";
-		$immediatly=true;
-		extract($parameters);
-		return $this->_add_event($element, $this->_json($url,$method, $params,$jsCallback, $attr,$context), $event, $preventDefault, $stopPropagation,$immediatly);
+	public function jsonOn($event,$element, $url,$method="get",$parameters=array()) {
+		$this->setDefaultParameters($parameters, ["preventDefault"=>true,"stopPropagation"=>true,"immediatly"=>true]);
+		return $this->_add_event($element, $this->jsonDeferred($url,$method, $parameters), $event, $parameters["preventDefault"], $parameters["stopPropagation"],$parameters["immediatly"]);
 	}
 
 	/**
 	 * Prepares an ajax request delayed and receives the JSON data types by assigning DOM elements with the same name
 	 * @param string $url the request url
-	 * @param string $params Paramètres passés au format JSON
 	 * @param string $method Method used
-	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $context jquery DOM element, array container.
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>"document","jsCondition"=>NULL,"headers"=>null,"immediatly"=>false)
 	 */
-	public function jsonDeferred($url, $method="get", $params="{}", $jsCallback=NULL,$context=NULL) {
-		return $this->json($url, $method, $params, $jsCallback, $context,false);
+	public function jsonDeferred($url, $method="get", $parameters=[]) {
+		$parameters["immediatly"]=false;
+		return $this->_json($url,$method,$parameters);
 	}
 
 	/**
 	 * Performs an ajax request and receives the JSON array data types by assigning DOM elements with the same name
+	 * @param string $maskSelector
 	 * @param string $url the request url
-	 * @param string $params The JSON parameters
-	 * @param string $method Method used
-	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $context jquery DOM element, array container.
-	 * @param string $rowClass the css class for the new element
-	 * @param boolean $immediatly
+	 * @param string $method Method used, default : get
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>null,"jsCondition"=>NULL,"headers"=>null,"immediatly"=>false,"rowClass"=>"_json")
 	 */
-	private function _jsonArray($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL,$rowClass="_json",$context=NULL,$attr="id",$immediatly=false) {
-		$jsCallback=isset($jsCallback) ? $jsCallback : "";
-		$retour=$this->_getAjaxUrl($url, $attr);
+	private function _jsonArray($maskSelector, $url, $method="get", $parameters=[]) {
+		$parameters=\array_merge($parameters,["hasLoader"=>false]);
+		$rowClass=isset($parameters['rowClass']) ? $parameters['rowClass'] : "_json";
+		$jsCallback=isset($parameters['jsCallback']) ? $parameters['jsCallback'] : "";
+		$context=isset($parameters['context']) ? $parameters['context'] : null;
 		if($context===null){
 			$parent="$('".$maskSelector."').parent()";
 			$newElm = "$('#'+newId)";
@@ -317,45 +300,37 @@ trait JsUtilsAjaxTrait {
 			$newElm = $context.".find('#'+newId)";
 		}
 		$appendTo="\t\tnewElm.appendTo(".$parent.");\n";
-		$retour.="var self = $(this);\n$.{$method}(url,".$params.").done(function( data ) {\n";
-		$retour.=$parent.".find('._json').remove();";
-		$retour.="\tdata=$.parseJSON(data);$.each(data, function(index, value) {\n"."\tvar created=false;var maskElm=$('".$maskSelector."').first();maskElm.hide();"."\tvar newId=(maskElm.attr('id') || 'mask')+'-'+index;"."\tvar newElm=".$newElm.";\n"."\tif(!newElm.length){\n"."\t\tnewElm=maskElm.clone();
+		$retour=$parent.".find('.{$rowClass}').remove();";
+		$retour.="\tdata=($.isPlainObject(data))?data:JSON.parse(data);\t".$jsCallback.";\n$.each(data, function(index, value) {\n"."\tvar created=false;var maskElm=$('".$maskSelector."').first();maskElm.hide();"."\tvar newId=(maskElm.attr('id') || 'mask')+'-'+index;"."\tvar newElm=".$newElm.";\n"."\tif(!newElm.length){\n"."\t\tnewElm=maskElm.clone();
 		newElm.attr('id',newId);\n;newElm.addClass('{$rowClass}').removeClass('_jsonArrayModel');\nnewElm.find('[id]').each(function(){ var newId=$(this).attr('id')+'-'+index;$(this).attr('id',newId).removeClass('_jsonArrayChecked');});\n";
 		$retour.= $appendTo;
 		$retour.="\t}\n"."\tfor(var key in value){\n"."\t\t\tvar html = $('<div />').append($(newElm).clone()).html();\n"."\t\t\tif(html.indexOf('__'+key+'__')>-1){\n"."\t\t\t\tcontent=$(html.split('__'+key+'__').join(value[key]));\n"."\t\t\t\t$(newElm).replaceWith(content);newElm=content;\n"."\t\t\t}\n"."\t\tvar sel='[data-id=\"'+key+'\"]';if($(sel,newElm).length){\n"."\t\t\tvar selElm=$(sel,newElm);\n"."\t\t\t if(selElm.is('[value]')) { selElm.attr('value',value[key]);selElm.val(value[key]);} else { selElm.html(value[key]); }\n"."\t\t}\n"."}\n"."\t$(newElm).show(true);"."\n"."\t$(newElm).removeClass('hide');"."});\n";
 		$retour.="\t$(document).trigger('jsonReady',[data]);\n";
-		$retour.="\t".$jsCallback."\n"."});\n";
-		if ($immediatly)
-			$this->jquery_code_for_compile[]=$retour;
-		return $retour;
+		$parameters["jsCallback"]=$retour;
+		return $this->_ajax($method, $url,null,$parameters);
 	}
 
 	/**
 	 * Performs an ajax request and receives the JSON array data types by assigning DOM elements with the same name
+	 * @param string $maskSelector
 	 * @param string $url the request url
-	 * @param string $params The JSON parameters
-	 * @param string $method Method used
-	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $rowClass the css class for the new element
-	 * @param string $context jquery DOM element, array container.
-	 * @param boolean $immediatly
+	 * @param string $method Method used, default : get
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>null,"jsCondition"=>NULL,"headers"=>null,"immediatly"=>false,"rowClass"=>"_json")
 	 */
-	public function jsonArray($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL,$rowClass="_json",$context=NULL,$immediatly=false) {
-		return $this->_jsonArray($maskSelector, $url,$method,$params,$jsCallback,$rowClass,$context,NULL,$immediatly);
+	public function jsonArray($maskSelector, $url, $method="get", $parameters=[]) {
+		return $this->_jsonArray($maskSelector, $url,$method,$parameters);
 	}
 
 	/**
 	 * Peforms an ajax request delayed and receives a JSON array data types by copying and assigning them to the DOM elements with the same name
-	 * @param string $maskSelector the selector of the element to clone
+	 * @param string $maskSelector
 	 * @param string $url the request url
-	 * @param string $params JSON parameters
-	 * @param string $method Method used
-	 * @param string $jsCallback javascript code to execute after the request
-	 * @param string $rowClass the css class for the new element
-	 * @param string $context jquery DOM element, array container.
+	 * @param string $method Method used, default : get
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>null,"jsCondition"=>NULL,"headers"=>null,"rowClass"=>"_json")
 	 */
-	public function jsonArrayDeferred($maskSelector, $url, $method="get", $params="{}", $jsCallback=NULL,$rowClass="_json",$context=NULL) {
-		return $this->jsonArray($maskSelector, $url, $method, $params, $jsCallback,$rowClass,$context,false);
+	public function jsonArrayDeferred($maskSelector, $url, $method="get", $parameters) {
+		$parameters["immediatly"]=false;
+		return $this->jsonArray($maskSelector, $url, $method, $parameters);
 	}
 
 	/**
@@ -363,20 +338,12 @@ trait JsUtilsAjaxTrait {
 	 * @param string $element
 	 * @param string $event
 	 * @param string $url the request url
+	 * @param string $method Method used, default : get
 	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","rowClass"=>"_json","immediatly"=>true)
 	 */
-	public function jsonArrayOn($event,$element,$maskSelector, $url,$parameters=array()) {
-		$preventDefault=true;
-		$stopPropagation=true;
-		$jsCallback=null;
-		$attr="id";
-		$method="get";
-		$context = null;
-		$params="{}";
-		$immediatly=true;
-		$rowClass="_json";
-		extract($parameters);
-		return $this->_add_event($element, $this->_jsonArray($maskSelector,$url,$method, $params,$jsCallback, $rowClass, $context,$attr), $event, $preventDefault, $stopPropagation,$immediatly);
+	public function jsonArrayOn($event,$element,$maskSelector, $url,$method="get",$parameters=array()) {
+		$this->setDefaultParameters($parameters, ["preventDefault"=>true,"stopPropagation"=>true,"immediatly"=>true]);
+		return $this->_add_event($element, $this->jsonArrayDeferred($maskSelector,$url,$method, $parameters), $event, $parameters["preventDefault"], $parameters["stopPropagation"],$parameters["immediatly"]);
 	}
 
 	/**
