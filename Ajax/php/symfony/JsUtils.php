@@ -7,12 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Ajax\service\JString;
 class JsUtils extends \Ajax\JsUtils{
+
 	public function getUrl($url){
 		//$request = Request::createFromGlobals();
 		$router=$this->getInjected();
 		if(isset($router)){
 			try {
-			$url=$router->generate($url);
+				$url=$router->generate($url);
 			}catch (\Exception $e){
 				return $router->getContext()->getBaseUrl();
 			}
@@ -20,14 +21,31 @@ class JsUtils extends \Ajax\JsUtils{
 		return $url;
 	}
 	public function addViewElement($identifier,$content,&$view){
-		if(\array_key_exists("q", $view)===false){
-			$view["q"]=array();
+		if(\is_array($view)){
+			if(\array_key_exists("q", $view)===false){
+				$view["q"]=array();
+			}
+			$view["q"][$identifier]=$content;
+		}elseif($view instanceof \Twig_Environment){
+			$vars=$view->getGlobals();
+			if(\array_key_exists("q", $vars)===false){
+				$vars["q"]=array();
+			}
+			$vars["q"][$identifier]=$content;
+			$view->addGlobal("q",$vars["q"]);
 		}
-		$view["q"][$identifier]=$content;
 	}
 
 	public function createScriptVariable(&$view,$view_var, $output){
-		$view[$view_var]=$output;
+		$this->addVariable($view_var, $output, $view);
+	}
+
+	protected function addVariable($key,$value,&$view){
+		if(\is_array($view)){
+			$view[$key]=$value;
+		}elseif($view instanceof \Twig_Environment){
+			$view->addGlobal($key,$value);
+		}
 	}
 
 	/**
@@ -48,15 +66,15 @@ class JsUtils extends \Ajax\JsUtils{
 	}
 
 	public function renderContent($initialControllerInstance,$viewName, $params=NULL) {
-        if ($initialControllerInstance->has('templating')) {
-            return $initialControllerInstance->get('templating')->render($viewName, $params);
-        }
+		if ($initialControllerInstance->has('templating')) {
+			return $initialControllerInstance->get('templating')->render($viewName, $params);
+		}
 
-        if (!$initialControllerInstance->has('twig')) {
-            throw new \LogicException('You can not use the "renderView" method if the Templating Component or the Twig Bundle are not available.');
-        }
+		if (!$initialControllerInstance->has('twig')) {
+			throw new \LogicException('You can not use the "renderView" method if the Templating Component or the Twig Bundle are not available.');
+		}
 
-        return $initialControllerInstance->get('twig')->render($viewName, $params);
+		return $initialControllerInstance->get('twig')->render($viewName, $params);
 	}
 
 	public function fromDispatcher($dispatcher){
