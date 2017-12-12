@@ -9,13 +9,12 @@ use Ajax\service\JString;
 class JsUtils extends \Ajax\JsUtils{
 
 	public function getUrl($url){
-		//$request = Request::createFromGlobals();
 		$router=$this->getInjected();
 		if(isset($router)){
 			try {
 				$url=$router->generate($url);
 			}catch (\Exception $e){
-				return $router->getContext()->getBaseUrl();
+				return $url;
 			}
 		}
 		return $url;
