@@ -44,11 +44,11 @@ class PropertyWrapper {
 
 	public static function wrapObjects($input, $js=NULL, $separator=' ', $valueQuote='"') {
 		return implode($separator, array_map(function ($v) use($js, $separator, $valueQuote) {
-			if (is_object($v))
+			if ($v instanceof BaseHtml)
 				return $v->compile($js);
 			elseif (\is_array($v)) {
 				return self::wrap($v, $js, $separator, $valueQuote);
-			} else
+			} elseif(!\is_callable($v))
 				return $v;
 		}, $input));
 	}
