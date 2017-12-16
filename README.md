@@ -41,7 +41,7 @@ Create the composer.json file in the app directory as follows:
 ```json
 {
     "require": {
-        "phpmv/php-mv-ui": "dev-master"
+        "phpmv/php-mv-ui": "2.3.x-dev"
     }
 }
 ```
