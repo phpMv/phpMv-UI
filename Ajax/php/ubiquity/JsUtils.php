@@ -1,9 +1,9 @@
 <?php
 
-namespace Ajax\php\micro;
+namespace Ajax\php\ubiquity;
 
-use micro\controllers\Startup;
-use micro\utils\RequestUtils;
+use Ubiquity\controllers\Startup;
+use Ubiquity\utils\RequestUtils;
 class JsUtils extends \Ajax\JsUtils{
 
 	public function getUrl($url){
