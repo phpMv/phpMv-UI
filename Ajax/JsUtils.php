@@ -48,6 +48,7 @@ abstract class JsUtils{
 	 */
 	protected $config;
 
+
 	abstract public function getUrl($url);
 	abstract public function addViewElement($identifier,$content,&$view);
 	abstract public function createScriptVariable(&$view,$view_var, $output);
@@ -167,6 +168,9 @@ abstract class JsUtils{
 
 		$this->params=$params;
 		$this->injected=$injected;
+		if(isset($params['gc'])){
+			\gc_disable();
+		}
 	}
 
 	public function __set($property, $value){
@@ -222,9 +226,15 @@ abstract class JsUtils{
 	 * @return string
 	 */
 	public function compile(&$view=NULL, $view_var='script_foot', $script_tags=TRUE) {
-		$this->_compileLibrary($this->ui(),$view);
-		$this->_compileLibrary($this->bootstrap(),$view);
-		$this->_compileLibrary($this->semantic(),$view);
+		if(isset($this->_ui)){
+			$this->_compileLibrary($this->_ui,$view);
+		}
+		if(isset($this->_bootstrap)){
+			$this->_compileLibrary($this->_bootstrap,$view);
+		}
+		if(isset($this->_semantic)){
+			$this->_compileLibrary($this->_semantic,$view);
+		}
 
 		if (\sizeof($this->jquery_code_for_compile)==0) {
 			return;

@@ -7,10 +7,10 @@ use Ajax\service\JArray;
 class PropertyWrapper {
 
 	public static function wrap($input, $js=NULL, $separator=' ', $valueQuote='"') {
-		$output="";
 		if (is_string($input)) {
-			$output=$input;
+			return $input;
 		}
+		$output="";
 		if (\is_array($input)) {
 			if (sizeof($input) > 0) {
 				if (self::containsElement($input) === false) {
@@ -37,19 +37,50 @@ class PropertyWrapper {
 				return $k . '=' . $valueQuote . $v . $valueQuote;
 			}, $input, array_keys($input)));
 		} else {
-			$result=implode($separator, array_values($input));
+			$result=implode($separator, $input);
 		}
 		return $result;
 	}
 
 	public static function wrapObjects($input, $js=NULL, $separator=' ', $valueQuote='"') {
 		return implode($separator, array_map(function ($v) use($js, $separator, $valueQuote) {
-			if ($v instanceof BaseHtml)
-				return $v->compile($js);
-			elseif (\is_array($v)) {
-				return self::wrap($v, $js, $separator, $valueQuote);
-			} elseif(!\is_callable($v))
+			if(\is_string($v)){
 				return $v;
+			}
+			if ($v instanceof BaseHtml){
+				return $v->compile($js);
+			}
+			if (\is_array($v)) {
+				return self::wrap($v, $js, $separator, $valueQuote);
+			}
+			if(!\is_callable($v)){
+				return $v;
+			}
 		}, $input));
+		/*$result='';
+		foreach ($input as $value) {
+			if($result!==''){
+				$result.=$separator;
+			}
+			if(\is_string($value)){
+				$result.=$value;
+			}else{
+				$result.=self::wrapValue($value,$js,$separator,$valueQuote);
+			}
+		}
+		return $result;*/
+	}
+
+	protected static function wrapValue($value,$js=NULL, $separator=' ', $valueQuote='"'){
+		if (\is_array($value)) {
+			return self::wrap($value, $js, $separator, $valueQuote);
+		}
+		if ($value instanceof BaseHtml){
+			return $value->compile($js);
+		}
+		if(!\is_callable($value)){
+			return $value;
+		}
+		return '';
 	}
 }

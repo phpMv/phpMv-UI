@@ -54,7 +54,7 @@ class HtmlTD extends HtmlSemDoubleElement {
 			$this->_container->toDelete($i, $this->_col);
 		}
 		$this->setProperty("rowspan", $rowspan);
-		return $this->_container;
+		return $this->_container->_setMerged(true);
 	}
 
 	public function mergeRow() {
@@ -79,7 +79,7 @@ class HtmlTD extends HtmlSemDoubleElement {
 			$this->_container->toDelete($this->_row, $this->_col + 1);
 		}
 		$this->setProperty("colspan", $colspan);
-		return $this->_container;
+		return $this->_container->_setMerged(true);
 	}
 
 	public function getColspan() {

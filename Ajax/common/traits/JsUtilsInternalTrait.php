@@ -16,12 +16,10 @@ trait JsUtilsInternalTrait{
 	 * @param mixed $view
 	 */
 	protected function _compileLibrary(BaseGui $library=NULL, &$view=NULL){
-		if ($library!=NULL) {
-			if(isset($view))
-				$library->compileHtml($this, $view);
-			if ($library->isAutoCompile()) {
-				$library->compile(true);
-			}
+		if(isset($view))
+			$library->compileHtml($this, $view);
+		if ($library->isAutoCompile()) {
+			$library->compile(true);
 		}
 	}
 

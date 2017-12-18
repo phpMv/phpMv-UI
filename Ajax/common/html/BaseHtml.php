@@ -3,7 +3,6 @@
 namespace Ajax\common\html;
 
 
-use Ajax\service\JString;
 use Ajax\common\components\SimpleExtComponent;
 use Ajax\JsUtils;
 use Ajax\common\html\traits\BaseHtmlEventsTrait;
@@ -34,7 +33,7 @@ abstract class BaseHtml extends BaseWidget {
 
 	private function _callSetter($setter,$key,$value,&$array){
 		$result=false;
-		if (method_exists($this, $setter) && !JString::startswith($key, "_")) {
+		if (method_exists($this, $setter) && substr($setter, 0, 1) !== "_") {
 			try {
 				$this->$setter($value);
 				unset($array[$key]);
@@ -211,17 +210,16 @@ abstract class BaseHtml extends BaseWidget {
 		$this->compile_once($js,$view);
 		$result=$this->getTemplate($js);
 		foreach ( $this as $key => $value ) {
-			if (JString::startswith($key, "_") === false && $key !== "events") {
-				if (\is_array($value)) {
-					$v=PropertyWrapper::wrap($value, $js);
-				} else {
-					if($value instanceof \stdClass)
-						$v=\print_r($value,true);
-					else
+				if(\strstr($result, "%{$key}%")!==false){
+					if (\is_array($value)) {
+						$v=PropertyWrapper::wrap($value, $js);
+					}elseif($value instanceof \stdClass){
+							$v=\print_r($value,true);
+					}else{
 						$v=$value;
+					}
+					$result=str_replace("%{$key}%", $v, $result);
 				}
-				$result=str_ireplace("%" . $key . "%", $v, $result);
-			}
 		}
 		if (isset($js)===true) {
 			$this->run($js);

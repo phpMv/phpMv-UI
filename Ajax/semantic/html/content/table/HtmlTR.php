@@ -120,6 +120,8 @@ class HtmlTR extends HtmlSemCollection {
 	}
 
 	public function getColPosition($colIndex) {
+		if($this->_container->_isMerged()!==true)
+			return $colIndex;
 		$pos=0;
 		$rows=$this->_container->getContent();
 		for($i=0; $i < $this->_row; $i++) {

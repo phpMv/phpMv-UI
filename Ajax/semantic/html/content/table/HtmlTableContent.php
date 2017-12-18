@@ -12,6 +12,7 @@ use Ajax\service\JArray;
  */
 class HtmlTableContent extends HtmlSemCollection {
 	protected $_tdTagNames=[ "thead" => "th","tbody" => "td","tfoot" => "th" ];
+	protected $_merged=false;
 
 	/**
 	 *
@@ -364,6 +365,15 @@ class HtmlTableContent extends HtmlSemCollection {
 		if($counter>0 && isset($cellToMerge)){
 			$cellToMerge->setRowspan($counter);
 		}
+		return $this;
+	}
+
+	public function _isMerged(){
+		return $this->_merged;
+	}
+
+	public function _setMerged($value){
+		$this->_merged=$value;
 		return $this;
 	}
 }
