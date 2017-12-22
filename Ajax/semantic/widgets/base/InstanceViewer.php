@@ -117,13 +117,13 @@ class InstanceViewer {
 
 	protected function _postGetValue($index,$propertyName,$value){
 		if(isset($this->values[$index])){
-			$value= $this->values[$index]($value,$this->instance,$index);
+			$value= $this->values[$index]($value,$this->instance,$index,self::$index);
 		}else{
-			$value=$this->_getDefaultValue($propertyName,$value, $index);
+			$value=$this->_getDefaultValue($propertyName,$value, self::$index);
 		}
 		if(isset($this->afterCompile[$index])){
 			if(\is_callable($this->afterCompile[$index])){
-				$this->afterCompile[$index]($value,$this->instance,$index);
+				$this->afterCompile[$index]($value,$this->instance,self::$index);
 			}
 		}
 		return $value;

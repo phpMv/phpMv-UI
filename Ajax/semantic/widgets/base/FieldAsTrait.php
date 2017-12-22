@@ -45,7 +45,7 @@ trait FieldAsTrait{
 		if(isset($attributes["jsCallback"])){
 			$callback=$attributes["jsCallback"];
 			if(\is_callable($callback)){
-				$callback($element,$this->_modelInstance,$index);
+				$callback($element,$this->_modelInstance,$index,InstanceViewer::$index);
 				//unset($attributes["jsCallback"]);
 			}
 		}
@@ -81,7 +81,7 @@ trait FieldAsTrait{
 	}
 
 	protected function _fieldAs($elementCallback,&$index,$attributes=NULL,$prefix=null){
-		$this->setValueFunction($index,function($value,$instance,$index) use (&$attributes,$elementCallback,$prefix){
+		$this->setValueFunction($index,function($value,$instance,$index,$rowIndex) use (&$attributes,$elementCallback,$prefix){
 			$caption=$this->_getFieldCaption($index);
 			$name=$this->_getFieldName($index);
 			$id=$this->_getFieldIdentifier($prefix,$name);
