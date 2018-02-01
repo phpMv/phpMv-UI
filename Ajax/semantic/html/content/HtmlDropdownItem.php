@@ -10,7 +10,6 @@ use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\traits\MenuItemTrait;
-use Ajax\bootstrap\html\content\HtmlDropdownItem;
 
 class HtmlDropdownItem extends HtmlSemDoubleElement {
 	use IconTrait,MenuItemTrait;
