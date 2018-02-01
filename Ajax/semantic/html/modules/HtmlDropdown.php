@@ -127,6 +127,8 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 			$name="input-".$this->identifier;
 		$this->setAction("activate");
 		$this->input=new HtmlInput($name,"hidden");
+		$this->input->setIdentifier("input-".$this->identifier);
+		return $this->input;
 	}
 
 	/**
