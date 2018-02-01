@@ -124,4 +124,11 @@ class JArray {
 			return $callback($object);
 		}
 	}
+
+	public static function count($array){
+		if(\is_array($array)){
+			return \sizeof($array);
+		}
+		return 0;
+	}
 }

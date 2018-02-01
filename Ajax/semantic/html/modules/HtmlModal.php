@@ -63,7 +63,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 			if(\array_search($action, ["Close","Cancel","No"])!==false){
 				$class="cancel";
 			}
-			$action=new HtmlButton("action-".$this->identifier."-".\sizeof($this->content["actions"]->getContent()),$action);
+			$action=new HtmlButton("action-".$this->identifier."-".JArray::count($this->content["actions"]->getContent()),$action);
 			if($class!=="")
 				$action->addToProperty("class", $class);
 		}
