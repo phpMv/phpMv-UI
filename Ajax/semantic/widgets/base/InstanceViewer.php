@@ -85,6 +85,7 @@ class InstanceViewer {
 
 	protected function _getDefaultValue($name,$value,$index){
 		$func=$this->defaultValueFunction;
+		//TODO Check bug on index
 		return $func($name,$value,$index,$this->instance);
 	}
 
@@ -119,7 +120,7 @@ class InstanceViewer {
 		if(isset($this->values[$index])){
 			$value= $this->values[$index]($value,$this->instance,$index,self::$index);
 		}else{
-			$value=$this->_getDefaultValue($propertyName,$value, self::$index);
+			$value=$this->_getDefaultValue($propertyName,$value, $index,self::$index);
 		}
 		if(isset($this->afterCompile[$index])){
 			if(\is_callable($this->afterCompile[$index])){
