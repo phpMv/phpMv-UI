@@ -10,6 +10,7 @@ use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\traits\MenuItemTrait;
+use Ajax\bootstrap\html\content\HtmlDropdownItem;
 
 class HtmlDropdownItem extends HtmlSemDoubleElement {
 	use IconTrait,MenuItemTrait;
@@ -45,7 +46,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 
 	/**
 	 * @param string $image the image src
-	 * @return \Ajax\common\html\html5\HtmlImg
+	 * @return HtmlImg
 	 */
 	public function asMiniAvatar($image){
 		$this->tagName="div";
@@ -58,7 +59,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	/**
 	 * @param string $caption
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public function asIcon($caption,$icon){
 		$this->setContent($caption);
@@ -69,7 +70,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	/**
 	 * Adds a circular label to the item
 	 * @param string $color
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public function asCircularLabel($caption,$color){
 		$this->setContent($caption);
@@ -94,14 +95,14 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	/**
 	 * @param string $placeholder
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public static function searchInput($placeholder=NULL,$icon=NULL){
 		return (new HtmlDropdownItem(""))->asSearchInput($placeholder,$icon);
 	}
 
 	/**
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public static function divider(){
 		return (new HtmlDropdownItem(""))->asDivider();
@@ -110,7 +111,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	/**
 	 * @param string $caption
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public static function header($caption=NULL,$icon=NULL){
 		return (new HtmlDropdownItem(""))->asHeader($caption,$icon);
@@ -119,7 +120,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	/**
 	 * @param string $caption
 	 * @param string $color
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public static function circular($caption,$color){
 		return (new HtmlDropdownItem(""))->asCircularLabel($caption,$color);
@@ -128,16 +129,16 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	/**
 	 * @param string $caption
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public static function icon($caption,$icon){
 		return (new HtmlDropdownItem(""))->asIcon($caption,$icon);
 	}
 
 	/**
-	 * @param unknown $caption
-	 * @param unknown $image
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @param string $caption
+	 * @param string $image
+	 * @return HtmlDropdownItem
 	 */
 	public static function avatar($caption,$image){
 		return (new HtmlDropdownItem("",$caption))->asMiniAvatar($image);

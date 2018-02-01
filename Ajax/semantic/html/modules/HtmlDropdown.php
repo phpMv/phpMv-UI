@@ -11,6 +11,8 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\base\traits\LabeledIconTrait;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\traits\FieldTrait;
+use Ajax\common\html\HtmlCollection;
+use Ajax\common\html\HtmlDoubleElement;
 
 class HtmlDropdown extends HtmlSemDoubleElement {
 	use FieldTrait,LabeledIconTrait {
@@ -78,8 +80,8 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	/**
 	 * Insert an item at a position
 	 * @param mixed $item
-	 * @param number $position
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|unknown
+	 * @param int $position
+	 * @return HtmlDropdownItem
 	 */
 	public function insertItem($item,$position=0){
 		$itemO=$this->beforeAddItem($item);
@@ -131,7 +133,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	 * Adds a search input item
 	 * @param string $placeHolder
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public function addSearchInputItem($placeHolder=NULL,$icon=NULL){
 		return $this->addItem(HtmlDropdownItem::searchInput($placeHolder,$icon));
@@ -139,7 +141,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	/**
 	 * Adds a divider item
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem
+	 * @return HtmlDropdownItem
 	 */
 	public function addDividerItem(){
 		return $this->addItem(HtmlDropdownItem::divider());
@@ -149,7 +151,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	 * Adds an header item
 	 * @param string $caption
 	 * @param string $icon
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|unknown
+	 * @return HtmlDropdownItem
 	 */
 	public function addHeaderItem($caption=NULL,$icon=NULL){
 		return $this->addItem(HtmlDropdownItem::header($caption,$icon));
@@ -159,7 +161,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	 * Adds an item with a circular label
 	 * @param string $caption
 	 * @param string $color
-	 * @return \Ajax\semantic\html\content\HtmlDropdownItem|unknown
+	 * @return HtmlDropdownItem
 	 */
 	public function addCircularLabelItem($caption,$color){
 		return $this->addItem(HtmlDropdownItem::circular($caption, $color));
@@ -321,7 +323,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 			$this->setProperty("value", $value);
 		}
 			$textElement=$this->getElementById("text-".$this->identifier, $this->content);
-			if(isset($textElement) && !$this->_multiple)
+			if(isset($textElement) && ($textElement instanceof HtmlDoubleElement) && !$this->_multiple)
 				$textElement->setContent($value);
 		return $this;
 	}
@@ -368,9 +370,6 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function getInput() {
 		return $this->input;
-	}
-	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {
-		return $this->_addAction($this, $action,$direction,$icon,$labeled);
 	}
 
 	public function setIcon($icon="dropdown"){
