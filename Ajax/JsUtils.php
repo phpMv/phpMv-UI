@@ -49,19 +49,41 @@ abstract class JsUtils{
 	protected $config;
 
 
+	/**
+	 * Generates an URL
+	 * Used internally by phpMv
+	 * @param string $url
+	 * @return string the generated url
+	 */
 	abstract public function getUrl($url);
+	/**
+	 * Adds the array of controls q in the $view element
+	 * Used internally by phpMv
+	 * @param string $identifier
+	 * @param string $content
+	 * @param object $view
+	 */
 	abstract public function addViewElement($identifier,$content,&$view);
+	/**
+	 * Creates the script variable script_foot
+	 * Used internally by phpMv
+	 * @param object $view
+	 * @param string $view_var default: script_foot
+	 * @param string $output
+	 */
 	abstract public function createScriptVariable(&$view,$view_var, $output);
 	/**
-	 * render the content of $controller::$action and set the response to the modal content
+	 * Forwards to $controller::$action and set the response to the modal content
+	 * Used internally by phpMv
 	 * @param Controller $initialController
-	 * @param string $controller a Phalcon controller
-	 * @param string $action a Phalcon action
+	 * @param string $controller a controller
+	 * @param string $action an action
 	 * @param array $params
 	 */
 	abstract public function forward($initialController,$controller,$action,$params);
 	/**
 	 * render the content of an existing view : $viewName and set the response to the modal content
+	 * Used internally by phpMv
 	 * @param Controller $initialControllerInstance
 	 * @param View $viewName
 	 * @param $params The parameters to pass to the view
@@ -69,14 +91,15 @@ abstract class JsUtils{
 	abstract public function renderContent($initialControllerInstance,$viewName, $params=NULL);
 
 	/**
-	 * Collect url parts from the request dispatcher : controllerName, actionName, parameters
+	 * Collects url parts from the request dispatcher : controllerName, actionName, parameters
+	 * Used internally by phpMv
 	 * @param mixed $dispatcher
 	 * @return array
 	 */
 	abstract public function fromDispatcher($dispatcher);
 
 	/**
-	 *
+	 * getter or setter of the jQuery-UI variable
 	 * @param JqueryUI $ui
 	 * @return JqueryUI
 	 */
@@ -93,7 +116,7 @@ abstract class JsUtils{
 	}
 
 	/**
-	 *
+	 * getter or setter of the Twitter Bootstrap variable
 	 * @param Bootstrap $bootstrap
 	 * @return Bootstrap
 	 */
@@ -110,7 +133,7 @@ abstract class JsUtils{
 	}
 
 	/**
-	 * Returns
+	 * getter or setter of the Semantic-UI variable
 	 * @param Semantic $semantic
 	 * @return Semantic
 	 */
@@ -128,8 +151,8 @@ abstract class JsUtils{
 
 	/**
 	 *
-	 * @param \Ajax\config\Config $config
-	 * @return \Ajax\config\Config
+	 * @param Config $config
+	 * @return Config
 	 */
 	public function config($config=NULL) {
 		if ($config===NULL) {
