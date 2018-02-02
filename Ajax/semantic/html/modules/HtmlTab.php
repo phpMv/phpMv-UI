@@ -159,7 +159,10 @@ class HtmlTab extends HtmlSemCollection{
 	 * @return \Ajax\semantic\html\elements\HtmlSegment
 	 */
 	public function addAndForwardTab(JsUtils $js,$title,$initialController,$controller,$action,$params=array()){
-		return $this->addTab($title, $js->forward($initialController, $controller, $action,$params));
+		\ob_start();
+		$js->forward($initialController, $controller, $action,$params);
+		$content=\ob_get_clean();
+		return $this->addTab($title,$content);
 	}
 
 	/**

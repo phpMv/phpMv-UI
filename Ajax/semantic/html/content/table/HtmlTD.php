@@ -76,10 +76,10 @@ class HtmlTD extends HtmlSemDoubleElement {
 	public function setColspan($colspan) {
 		$to=min($this->_container->getRow($this->_row)->count(), $this->_col + $colspan - 1);
 		for($i=$to; $i > $this->_col; $i--) {
-			$this->_container->toDelete($this->_row, $this->_col + 1);
+			$this->_container->delete($this->_row, $this->_col + 1);
 		}
 		$this->setProperty("colspan", $colspan);
-		return $this->_container->_setMerged(true);
+		return $this->_container;
 	}
 
 	public function getColspan() {
@@ -131,6 +131,5 @@ class HtmlTD extends HtmlSemDoubleElement {
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		if(!$this->_deleted)
 			return parent::compile();
-		return;
 	}
 }
