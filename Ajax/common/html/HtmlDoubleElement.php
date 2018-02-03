@@ -15,7 +15,7 @@ class HtmlDoubleElement extends HtmlSingleElement {
 
 	public function __construct($identifier, $tagName="p") {
 		parent::__construct($identifier, $tagName);
-		$this->_template="<%tagName% id='%identifier%' %properties%>%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>";
+		$this->_template='<%tagName% id="%identifier%" %properties%>%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>';
 	}
 
 	public function setContent($content) {

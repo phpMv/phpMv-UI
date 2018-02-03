@@ -9,7 +9,7 @@ class HtmlSingleElement extends BaseHtml {
 	public function __construct($identifier, $tagName="br") {
 		parent::__construct($identifier);
 		$this->tagName=$tagName;
-		$this->_template="<%tagName% id='%identifier%' %properties%/>";
+		$this->_template='<%tagName% id="%identifier%" %properties%/>';
 	}
 
 	public function setClass($classNames) {
