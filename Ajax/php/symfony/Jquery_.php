@@ -8,6 +8,7 @@ abstract class Jquery_ extends JsUtils {
 	protected $container;
 
 	/**
+	 * Performs jQuery compilation and displays a view
 	 * @param string $viewName
 	 * @param array $parameters
 	 * @return Response
