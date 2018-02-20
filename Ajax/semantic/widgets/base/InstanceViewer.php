@@ -195,7 +195,7 @@ class InstanceViewer {
 		$this->instance=$instance;
 		$this->properties=[];
 		$this->reflect=new \ReflectionClass($instance);
-		if(\sizeof($this->visibleProperties)===0){
+		if(JArray::count($this->visibleProperties)===0){
 			$this->properties=$this->getDefaultProperties();
 		}else{
 			foreach ($this->visibleProperties as $property){
