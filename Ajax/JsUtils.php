@@ -194,6 +194,14 @@ abstract class JsUtils{
 		if(isset($params['gc'])){
 			\gc_disable();
 		}
+		$this->initialize();
+	}
+
+	/**
+	 * To override for special initialization of the component
+	 */
+	protected function initialize(){
+
 	}
 
 	public function __set($property, $value){
