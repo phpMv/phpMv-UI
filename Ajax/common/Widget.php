@@ -423,6 +423,12 @@ abstract class Widget extends HtmlDoubleElement {
 		}
 	}
 
+	/**
+	 * Sets the parameters for the Form validation (on, inline, delay...)
+	 * @param array $_validationParams example : ["on"=>"blur","inline"=>true]
+	 * @return Widget
+	 * @see https://semantic-ui.com/behaviors/form.html#/settings
+	 */
 	public function setValidationParams(array $_validationParams) {
 		$this->getForm()->setValidationParams($_validationParams);
 		return $this;
