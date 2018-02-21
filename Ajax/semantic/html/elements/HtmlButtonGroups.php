@@ -12,7 +12,7 @@ use Ajax\semantic\html\modules\HtmlDropdown;
  * @see http://phpmv-ui.kobject.net/index/direct/main/50
  * @see http://semantic-ui.com/elements/button.html
  * @author jc
- * @version 1.001
+ * @version 1.002
  */
 class HtmlButtonGroups extends HtmlSemCollection {
 	protected $_dropdown;
@@ -83,6 +83,19 @@ class HtmlButtonGroups extends HtmlSemCollection {
 			$item->asIcon($item->getContent());
 		}
 		return $this->addToProperty("class", "icons");
+	}
+
+	/**
+	 * Adds an icon on each button
+	 * @param array $icons
+	 * @return HtmlButtonGroups
+	 */
+	public function addIcons($icons){
+		foreach ( $this->content as $index=>$item ) {
+			if($item instanceof HtmlButton && isset($icons[$index]))
+				$item->addIcon($icons[$index]);
+		}
+		return $this;
 	}
 
 	public function setVertical() {
