@@ -8,6 +8,7 @@ use Ajax\semantic\html\base\traits\LabeledIconTrait;
 use Ajax\semantic\html\base\constants\Side;
 use Ajax\semantic\html\elements\html5\HtmlImg;
 use Ajax\semantic\html\base\traits\HasTimeoutTrait;
+use Ajax\common\html\HtmlDoubleElement;
 
 /**
  * Semantic Label component
@@ -124,6 +125,10 @@ class HtmlLabel extends HtmlSemDoubleElement {
 		return $div;
 	}
 
+	/**
+	 * @param string $direction one of RIGHT="right", LEFT="left",DOWN="down",UP="up",NONE="",BELOW="below"
+	 * @return HtmlLabel
+	 */
 	public function asRibbon($direction=Direction::NONE) {
 		return $this->addToPropertyCtrl("class", $direction." ribbon", array ("ribbon","right ribbon","left ribbon" ));
 	}
@@ -135,10 +140,21 @@ class HtmlLabel extends HtmlSemDoubleElement {
 			return $this->addToPropertyCtrl("class", $side." attached",Side::getConstantValues("attached"));
 	}
 
-	public static function ribbon($identifier, $caption) {
-		return (new HtmlLabel($identifier, $caption))->asRibbon();
+	/**
+	 * @param string $identifier
+	 * @param string $caption
+	 * @param string $direction one of RIGHT="right", LEFT="left",DOWN="down",UP="up",NONE="",BELOW="below"
+	 * @return HtmlLabel
+	 */
+	public static function ribbon($identifier, $caption,$direction=Direction::NONE) {
+		return (new HtmlLabel($identifier, $caption))->asRibbon($direction);
 	}
 
+	/**
+	 * @param string $identifier
+	 * @param string $caption
+	 * @return HtmlLabel
+	 */
 	public static function tag($identifier, $caption) {
 		return (new HtmlLabel($identifier, $caption))->asTag();
 	}

@@ -21,6 +21,7 @@ use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\semantic\html\elements\HtmlIcon;
 
 /**
  * trait used in Widget
@@ -147,6 +148,14 @@ trait FieldAsTrait{
 		$this->setValueFunction($index,function($flag){
 			$flag=new HtmlFlag($this->_getFieldIdentifier("flag"),$flag);
 			return $flag;
+		});
+			return $this;
+	}
+
+	public function fieldAsIcon($index){
+		$this->setValueFunction($index,function($icon){
+			$icon=new HtmlIcon($this->_getFieldIdentifier("icon"),$icon);
+			return $icon;
 		});
 			return $this;
 	}
