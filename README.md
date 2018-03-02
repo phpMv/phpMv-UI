@@ -2,7 +2,7 @@
 
 **Visual components library** (JQuery UI, Twitter Bootstrap, Semantic-UI) for php and php MVC frameworks
 
-[phpMv-UI website](http://phpmv-ui.kobject.net/)
+[phpMv-UI website](https://phpmv-ui.kobject.net/)
 
 [![Build Status](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/badges/build.png?b=master)](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/build-status/master) [![Latest Stable Version](https://poser.pugx.org/phpmv/php-mv-ui/v/stable)](https://packagist.org/packages/phpmv/php-mv-ui) [![Total Downloads](https://poser.pugx.org/phpmv/php-mv-ui/downloads)](https://packagist.org/packages/phpmv/php-mv-ui) [![License](https://poser.pugx.org/phpmv/php-mv-ui/license)](https://packagist.org/packages/phpmv/php-mv-ui)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpMv/phpMv-UI/?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/1426105a-86b9-4ef3-ace3-d054a792e95d/mini.png)](https://insight.sensiolabs.com/projects/1426105a-86b9-4ef3-ace3-d054a792e95d) 
@@ -24,8 +24,8 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 * Semantic-UI >= 2.2 [optional]
 
 ## Resources
-* [API](http://api.kobject.net/phpMv-UI/)
-* [Documentation/demo](http://phpmv-ui.kobject.net/)
+* [API](https://api.kobject.net/phpMv-UI/)
+* [Documentation/demo](https://phpmv-ui.kobject.net/)
 
 ## I - Installation
 
