@@ -195,8 +195,12 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	 */
 	public function asLinks($hrefs=[],$target=NUll) {
 		foreach ( $this->content as $index=>$item ) {
-			if($item instanceof HtmlDoubleElement && isset($hrefs[$index]))
-				$item->asLink($hrefs[$index],$target);
+			if($item instanceof HtmlDoubleElement){
+				$href="";
+				if(isset($hrefs[$index]))
+					$href=$hrefs[$index];
+				$item->asLink($href,$target);
+			}
 		}
 		return $this;
 	}

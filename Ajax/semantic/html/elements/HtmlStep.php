@@ -90,13 +90,6 @@ class HtmlStep extends HtmlSemCollection{
 		return $this->addToPropertyCtrl("class", $side." attached",Side::getConstantValues("attached"));
 	}
 
-	public function asLink(){
-		foreach ($this->content as $step){
-			$step->asLink();
-		}
-		return $this;
-	}
-
 	public function setStartStep($_startStep) {
 		$this->_startStep=$_startStep;
 		return $this;
