@@ -2,7 +2,6 @@
 
 namespace Ajax\common\html;
 
-use Ajax\common\html\HtmlDoubleElement;
 use Ajax\service\JArray;
 use Ajax\JsUtils;
 use Ajax\service\JReflection;
@@ -187,5 +186,18 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 
 	public function getItemById($identifier){
 		return $this->getElementById($identifier, $this->content);
+	}
+
+	/**
+	 * @param array $hrefs
+	 * @param string $target
+	 * @return HtmlCollection
+	 */
+	public function asLinks($hrefs=[],$target=NUll) {
+		foreach ( $this->content as $index=>$item ) {
+			if($item instanceof HtmlDoubleElement && isset($hrefs[$index]))
+				$item->asLink($hrefs[$index],$target);
+		}
+		return $this;
 	}
 }

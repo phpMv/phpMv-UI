@@ -18,6 +18,7 @@ use Ajax\semantic\html\content\HtmlMenuItem;
 use Ajax\JsUtils;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
 use Ajax\semantic\html\elements\HtmlLabel;
+use Ajax\common\html\HtmlCollection;
 
 /**
  * Semantic Menu component
@@ -37,7 +38,7 @@ class HtmlMenu extends HtmlSemCollection {
 	/**
 	 * Sets the menu type
 	 * @param string $type one of text,item
-	 * @return \Ajax\semantic\html\collections\HtmlMenu
+	 * @return HtmlMenu
 	 */
 	public function setType($type="") {
 		return $this->addToPropertyCtrl("class", $type, array ("","item","text" ));
@@ -72,7 +73,7 @@ class HtmlMenu extends HtmlSemCollection {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \Ajax\common\html\html5\HtmlCollection::addItem()
+	 * @see HtmlCollection::addItem()
 	 */
 	public function addItem($item) {
 		$number=$item;
@@ -137,7 +138,7 @@ class HtmlMenu extends HtmlSemCollection {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
+	 * @see HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
 		$itemO=new HtmlMenuItem($this->identifier."-item-" . \sizeof($this->content),"");

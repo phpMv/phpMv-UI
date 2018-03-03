@@ -84,4 +84,16 @@ class HtmlDoubleElement extends HtmlSingleElement {
 		}
 		return $instances;
 	}
+
+	/**
+	 * Transforms the element into a link
+	 * @return HtmlDoubleElement
+	 */
+	public function asLink($href=NULL,$target=NULL) {
+		if (isset($href))
+			$this->setProperty("href", $href);
+		if(isset($target))
+			$this->setProperty("target", $target);
+		return $this->setTagName("a");
+	}
 }
