@@ -37,9 +37,9 @@ class HtmlList extends HtmlSemCollection {
 		return $this->contentAs($tagName);
 	}
 
-	public function asLink() {
+	public function asLinks($hrefs=[],$target=NUll) {
 		$this->addToPropertyCtrl("class", "link", array ("link" ));
-		return $this->contentAs("a");
+		return parent::asLinks($hrefs,$target);
 	}
 
 	public function addList($items=array()) {
