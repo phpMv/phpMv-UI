@@ -3,11 +3,12 @@
 namespace Ajax\php\ubiquity;
 
 use Ubiquity\controllers\Startup;
-use Ubiquity\utils\RequestUtils;
+use Ubiquity\utils\http\Request;
+
 class JsUtils extends \Ajax\JsUtils{
 
 	public function getUrl($url){
-		return RequestUtils::getUrl($url);
+		return Request::getUrl($url);
 	}
 
 	public function addViewElement($identifier,$content,&$view){
