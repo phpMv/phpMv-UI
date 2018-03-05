@@ -16,6 +16,7 @@ trait HasCheckboxesTrait{
 	protected $_hasCheckedMessage=false;
 	protected $_checkedMessage;
 	protected $_checkedClass;
+	protected $_checkedCallback;
 
 	abstract public function addInToolbar($element,$callback=NULL);
 
@@ -121,4 +122,12 @@ trait HasCheckboxesTrait{
 		$this->_checkedClass=$_checkedClass;
 		return $this;
 	}
+	/**
+	 * Set the callback function that determines whether the checkbox should be checked for an object
+	 * @param callable $checkedCallback a callback like function($object) that returns true or false
+	 */
+	public function setCheckedCallback($checkedCallback) {
+		$this->_checkedCallback = $checkedCallback;
+	}
+
 }

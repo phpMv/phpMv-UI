@@ -176,6 +176,12 @@ class DataTable extends Widget {
 		$id=$this->cleanIdentifier($id);
 		if($this->_hasCheckboxes){
 			$ck=new HtmlCheckbox("ck-".$this->identifier."-".$id,"");
+			$checked=false;
+			if(isset($this->_checkedCallback)){
+				$func=$this->_checkedCallback;
+				$checked=$func($instance);
+			}
+			$ck->setChecked($checked);
 			$ck->setOnChange("event.stopPropagation();");
 			$field=$ck->getField();
 			$field->setProperty("value",$dataAjax);
