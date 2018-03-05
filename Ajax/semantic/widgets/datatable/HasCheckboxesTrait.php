@@ -4,6 +4,7 @@ namespace Ajax\semantic\widgets\datatable;
 use Ajax\JsUtils;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\semantic\html\elements\HtmlLabel;
+use Ajax\service\JArray;
 
 /**
  * used in DataTable
@@ -22,7 +23,7 @@ trait HasCheckboxesTrait{
 
 	protected function _runCheckboxes(JsUtils $js){
 		$js->execOn("change", "#".$this->identifier." [name='selection[]']:not(._jsonArrayChecked)", $this->_getCheckedChange($js));
-		if(\sizeof($this->_compileParts)<3){
+		if(JArray::count($this->_compileParts)<3){
 			$js->trigger("#".$this->identifier." [name='selection[]']","change",true);
 		}
 	}
