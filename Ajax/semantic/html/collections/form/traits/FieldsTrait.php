@@ -14,6 +14,7 @@ use Ajax\common\html\HtmlDoubleElement;
 use Ajax\semantic\html\collections\form\HtmlFormTextarea;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
+use Ajax\semantic\html\collections\form\HtmlFormFields;
 
 /**
  * @author jc
@@ -47,6 +48,30 @@ trait FieldsTrait {
 			$fields[]=$f;
 		}
 		return $this->addFields($fields,$fieldslabel);
+	}
+
+	/**
+	 * Sets the values of a property for each Field of each item in the collection
+	 * @param string $property
+	 * @param array $values
+	 * @return HtmlFormFields
+	 */
+	public function setFieldsPropertyValues($property,$values){
+		$i=0;
+		if(\is_array($values)===false){
+			$values=\array_fill(0, $this->count(),$values);
+		}
+		foreach ($values as $value){
+			$c=$this->content[$i++];
+			if(isset($c)){
+				$df=$c->getDataField();
+				$df->setProperty($property,$value);
+			}
+			else{
+				return $this;
+			}
+		}
+		return $this;
 	}
 
 	public function addFieldRule($index,$type,$prompt=NULL,$value=NULL){
