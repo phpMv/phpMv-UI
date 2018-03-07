@@ -38,6 +38,7 @@ class Javascript {
 			$value=implode(",", $value);
 		}
 		if (self::containsCode($value)===false) {
+			$value=\str_replace(["\\","\""], ["\\\\","\\\""], $value);
 			$value='"'.$value.'"';
 		}
 		return $value;

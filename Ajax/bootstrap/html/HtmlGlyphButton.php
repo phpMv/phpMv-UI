@@ -12,7 +12,7 @@ class HtmlGlyphButton extends HtmlButton {
 
 	public function __construct($identifier, $glyph=0, $value="", $cssStyle=null, $onClick=null) {
 		parent::__construct($identifier, $value, $cssStyle, $onClick);
-		$this->_template="<%tagName% id='%identifier%' %properties%>%glyph% %content%</%tagName%>";
+		$this->_template='<%tagName% id="%identifier%" %properties%>%glyph% %content%</%tagName%>';
 		$this->tagName="button";
 		$this->setGlyph($glyph);
 	}

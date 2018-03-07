@@ -22,7 +22,7 @@ class HtmlMessage extends HtmlSemDoubleElement {
 
 	public function __construct($identifier, $content="") {
 		parent::__construct($identifier, "div");
-		$this->_template="<%tagName% id='%identifier%' %properties%>%close%%icon%%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>";
+		$this->_template='<%tagName% id="%identifier%" %properties%>%close%%icon%%wrapContentBefore%%content%%wrapContentAfter%</%tagName%>';
 		$this->setClass("ui message");
 		$this->setContent($content);
 	}

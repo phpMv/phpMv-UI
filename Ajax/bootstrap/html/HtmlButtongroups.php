@@ -20,7 +20,7 @@ class HtmlButtongroups extends HtmlBsDoubleElement {
 
 	public function __construct($identifier, $elements=array(), $cssStyle=NULL, $size=NULL, $tagName="div") {
 		parent::__construct($identifier, $tagName);
-		$this->_template="<%tagName% id='%identifier%' %properties%>%elements%</%tagName%>";
+		$this->_template='<%tagName% id="%identifier%" %properties%>%elements%</%tagName%>';
 		$this->setProperty("class", "btn-group");
 		$this->setRole("group");
 		$this->addElements($elements);
