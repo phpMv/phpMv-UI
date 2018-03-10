@@ -42,11 +42,11 @@ trait FieldAsTrait{
 	 * @param HtmlFormField $element
 	 * @param array $attributes
 	 */
-	protected function _applyAttributes(BaseHtml $element,&$attributes,$index){
+	protected function _applyAttributes(BaseHtml $element,&$attributes,$index,$instance=null){
 		if(isset($attributes["jsCallback"])){
 			$callback=$attributes["jsCallback"];
 			if(\is_callable($callback)){
-				$callback($element,$this->_modelInstance,$index,InstanceViewer::$index);
+				$callback($element,$instance,$index,InstanceViewer::$index);
 				//unset($attributes["jsCallback"]);
 			}
 		}
@@ -92,7 +92,7 @@ trait FieldAsTrait{
 			}
 			$element=$elementCallback($id,$name,$value,$caption);
 			if(\is_array($attributes)){
-				$this->_applyAttributes($element, $attributes,$index);
+				$this->_applyAttributes($element, $attributes,$index,$instance);
 			}
 			$element->setDisabled(!$this->_edition);
 			return $element;
