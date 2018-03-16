@@ -12,17 +12,10 @@ class HtmlStepItem extends HtmlAbsractItem {
 	}
 	protected function initContent($content){
 		if(\is_array($content)){
-			if(JArray::isAssociative($content)===false){
-				$icon=@$content[0];
-				$title=@$content[1];
-				$desc=@$content[2];
-				$status=@$content[3];
-			}else{
-				$icon=@$content["icon"];
-				$title=@$content["title"];
-				$desc=@$content["description"];
-				$status=@$content["status"];
-			}
+			$icon=JArray::getValue($content, "icon", 0);
+			$title=JArray::getValue($content, "title", 1);
+			$desc=JArray::getValue($content, "description", 2);
+			$status=JArray::getValue($content, "status", 3);
 			if(isset($icon)){
 				$this->setIcon($icon);
 			}
