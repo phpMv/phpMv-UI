@@ -210,6 +210,7 @@ trait FieldAsTrait{
 			$attributes=[];
 		}
 		$attributes["inputType"]="hidden";
+		$attributes["style"]="display:none;";
 		return $this->fieldAsInput($index,$attributes);
 	}
 

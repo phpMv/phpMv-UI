@@ -37,6 +37,11 @@ class HtmlSingleElement extends BaseHtml {
 		$this->setProperty("title", $value);
 		return $this;
 	}
+	
+	public function setStyle($value){
+		$this->setProperty("style", $value);
+		return $this;
+	}
 
 	/**
 	 * {@inheritDoc}
