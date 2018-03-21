@@ -35,26 +35,40 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 		$this->content["image"]=$image;
 	}
 
-	private function createContent(){
-		$this->content["content"]=new HtmlSemDoubleElement("content-".$this->identifier,"div","content");
-		return $this->content["content"];
+	private function _getContent($key="content",$baseClass="content"){
+		if(\array_key_exists($key, $this->content)===false){
+			$this->content[$key]=new HtmlSemDoubleElement($key."-".$this->identifier,"div",$baseClass);
+		}
+		return $this->content[$key];
+	}
+	
+	private function _getRightContent(){
+		return $this->_getContent("right-content","right floated content");
+	}
+	
+	public function addContent($content,$before=false){
+		$this->_getContent("content")->addContent($content,$before);
+		return $this;
+	}
+	
+	public function addRightContent($content,$before=false){
+		$this->_getRightContent()->addContent($content,$before);
+		return $this;
 	}
 
 	public function setTitle($title,$description=NULL,$baseClass="title"){
 		$title=new HtmlSemDoubleElement("","div",$baseClass,$title);
-		if(\array_key_exists("content", $this->content)===false){
-			$this->createContent();
-		}
-		$this->content["content"]->addContent($title);
+		$content=$this->_getContent();
+		$content->addContent($title);
 		if(isset($description)){
 			$description=new HtmlSemDoubleElement("","div","description",$description);
-			$this->content["content"]->addContent($description);
+			$content->addContent($description);
 		}
 		return $this;
 	}
 
 	public function getPart($partName="header"){
-		$content=\array_merge($this->content["content"]->getContent(),array(@$this->content["icon"],@$this->content["image"]));
+		$content=\array_merge($this->_getContent()->getContent(),array(@$this->content["icon"],@$this->content["image"]));
 		return $this->getElementByPropertyValue("class", $partName, $content);
 	}
 
@@ -84,7 +98,7 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		if(\is_array($this->content) && JArray::isAssociative($this->content))
-			$this->content=JArray::sortAssociative($this->content, [ "icon","image","content" ]);
+			$this->content=JArray::sortAssociative($this->content, [ "right-content","icon","image","content" ]);
 		return parent::compile($js, $view);
 	}
 }
