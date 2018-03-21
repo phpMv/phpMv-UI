@@ -35,4 +35,22 @@ class JsUtils extends \Ajax\JsUtils{
 	public function fromDispatcher($dispatcher){
 		return Startup::$urlParts;
 	}
+	
+	/**
+	 * Performs jQuery compilation and displays a view
+	 * @param string $viewName
+	 * @param mixed $parameters Variable or associative array to pass to the view <br> If a variable is passed, it will have the name <b> $ data </ b> in the view, <br>
+	 * If an associative array is passed, the view retrieves variables from the table's key names
+	 * @param boolean $asString If true, the view is not displayed but returned as a string (usable in a variable)
+	 */
+	public function renderView($viewName,$parameters=[],$asString=false){
+		if(isset($this->injected)){
+			$view=$this->injected->getView();
+			$this->compile($view);
+			if (isset($parameters))
+				$this->view->setVars($parameters);
+			return $this->view->render($viewName, $asString);
+		}
+		throw new \Exception(get_class()." instance is not properly instancied : you omitted the second parameter \$controller!");
+	}
 }

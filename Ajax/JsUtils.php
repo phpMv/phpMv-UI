@@ -169,7 +169,7 @@ abstract class JsUtils{
 
 	/**
 	 * @param array $params ['debug'=>true,'defer'=>false,'ajaxTransition'=>null,'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false]
-	 * @param mixed $injected optional param for Symfony
+	 * @param mixed $injected optional param for Symfony/Ubiquity
 	 */
 	public function __construct($params=array(),$injected=NULL) {
 		$defaults=['debug'=>true,'defer'=>false,'ajaxTransition'=>null];
