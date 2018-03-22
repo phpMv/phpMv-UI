@@ -48,8 +48,8 @@ class JsUtils extends \Ajax\JsUtils{
 			$view=$this->injected->getView();
 			$this->compile($view);
 			if (isset($parameters))
-				$this->view->setVars($parameters);
-			return $this->view->render($viewName, $asString);
+				$view->setVars($parameters);
+			return $view->render($viewName, $asString);
 		}
 		throw new \Exception(get_class()." instance is not properly instancied : you omitted the second parameter \$controller!");
 	}
