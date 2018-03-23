@@ -83,7 +83,7 @@ $loader->registerNamespaces(array(
 It is necessary to inject the JQuery service at application startup, in the service file **app/config/services.php**, and if necessary instantiate Semantic, Bootstrap or Jquery-ui :
 ```php
 $di->set("jquery",function(){
-    $jquery= new Ajax\php\phalcon\JsUtils(array("driver"=>"Jquery"));
+    $jquery= new Ajax\php\phalcon\JsUtils();
     $jquery->semantic(new Ajax\Semantic());//for Semantic UI
     return $jquery;
 });
