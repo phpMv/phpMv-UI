@@ -7,7 +7,7 @@ return '$("%identifier% .master")
 ;
 $("%identifier% .list .child.checkbox")
   .checkbox({
-    fireOnInit : true,
+    fireOnInit : %fireOnInit%,
     onChange   : function() {
       var
         $listGroup      = $(this).closest(".list"),

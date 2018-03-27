@@ -10,6 +10,7 @@ use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
 
 class HtmlList extends HtmlSemCollection {
 	protected $_hasCheckedList;
+	protected $_fireOnInit=true;
 
 	public function __construct($identifier, $items=array()) {
 		parent::__construct($identifier, "div", "ui list");
@@ -71,9 +72,17 @@ class HtmlList extends HtmlSemCollection {
 		if ($this->_hasCheckedList === true) {
 			$jsCode=include dirname(__FILE__) . '/../../components/jsTemplates/tplCheckedList.php';
 			$jsCode=\str_replace("%identifier%", "#" . $this->identifier, $jsCode);
+			$jsCode=\str_replace("%fireOnInit%", $this->_fireOnInit, $jsCode);
 			$this->executeOnRun($jsCode);
 		}
 		return parent::run($js);
+	}
+
+	/**
+	 * @param boolean $fireOnInit
+	 */
+	public function setFireOnInit($fireOnInit) {
+		$this->_fireOnInit = $fireOnInit;
 	}
 
 	public function setRelaxed() {

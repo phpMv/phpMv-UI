@@ -174,6 +174,29 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 		}
 		return $this;
 	}
+	
+	/**
+	 * Adds the values of a property for each item in the collection
+	 * @param string $property
+	 * @param array $values
+	 * @return HtmlCollection
+	 */
+	public function addPropertyValues($property,$values){
+		$i=0;
+		if(\is_array($values)===false){
+			$values=\array_fill(0, $this->count(),$values);
+		}
+		foreach ($values as $value){
+			$c=$this->content[$i++];
+			if(isset($c)){
+				$c->addToProperty($property,$value);
+			}
+			else{
+				return $this;
+			}
+		}
+		return $this;
+	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		$index=0;
