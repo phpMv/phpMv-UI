@@ -6,6 +6,14 @@ class Javascript {
 	public static $preventDefault="\nif(event && event.preventDefault) event.preventDefault();\n";
 	public static $stopPropagation="\nif(event && event.stopPropagation) event.stopPropagation();\n";
 
+	public static function draggable($attr="id"){
+		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;dt.setData("Text",$(event.target).attr("'.$attr.'"));';
+	}
+	
+	public static function dropZone($jqueryDone,$jsCallback=""){
+		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;var data=dt.getData("Text");$(event.target).'.$jqueryDone.'($("#"+data));'.$jsCallback;
+	}
+	
 	public static function containsCode($expression){
 		return strrpos($expression, 'this')!==false||strrpos($expression, 'event')!==false||strrpos($expression, 'self')!==false;
 	}

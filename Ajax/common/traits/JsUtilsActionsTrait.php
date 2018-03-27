@@ -529,4 +529,36 @@ trait JsUtilsActionsTrait {
 		$script=$this->_add_event($element, $this->exec($js), $event, $preventDefault, $stopPropagation,$immediatly);
 		return $script;
 	}
+	
+	/**
+	 * Sets an element draggable (HTML5 drag and drop)
+	 * @param string $element The element selector
+	 * @param array $parameters default : array("attr"=>"id","preventDefault"=>false,"stopPropagation"=>false,"immediatly"=>true)
+	 */
+	public function setDraggable($element,$parameters=[]){
+		$stopPropagation=false;
+		$preventDefault=false;
+		$immediatly=true;
+		$attr="id";
+		extract($parameters);
+		$script=$this->_add_event($element, Javascript::draggable($attr), "dragstart",$parameters);
+		return $script;
+	}
+	
+	/**
+	 * Declares an element as a drop zone (HTML5 drag and drop)
+	 * @param string $element The element selector
+	 * @param array $parameters default : array("attr"=>"id","stopPropagation"=>false,"immediatly"=>true,"jqueryDone"=>"append")
+	 * @param string $jsCallback the js script to call when element is dropped
+	 */
+	public function asDropZone($element,$jsCallback="",$parameters=[]){
+		$stopPropagation=false;
+		$preventDefault=true;
+		$immediatly=true;
+		$jqueryDone="append";
+		$script=$this->_add_event($element, '', "dragover",true,$stopPropagation,$immediatly);
+		extract($parameters);
+		$script.=$this->_add_event($element, Javascript::dropZone($jqueryDone,$jsCallback), "drop",true,$stopPropagation,$immediatly);
+		return $script;
+	}
 }
