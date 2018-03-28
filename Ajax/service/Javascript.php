@@ -7,11 +7,11 @@ class Javascript {
 	public static $stopPropagation="\nif(event && event.stopPropagation) event.stopPropagation();\n";
 
 	public static function draggable($attr="id"){
-		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;dt.setData("Text",$(event.target).attr("'.$attr.'"));';
+		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;dt.setData("text/plain",JSON.stringify({id:$(event.target).attr("id"),data:$(event.target).attr("'.$attr.'")}));';
 	}
 	
 	public static function dropZone($jqueryDone,$jsCallback=""){
-		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;var data=dt.getData("Text");$(event.target).'.$jqueryDone.'($("#"+data));'.$jsCallback;
+		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;var _data=JSON.parse(dt.getData("text/plain"));$(event.target).'.$jqueryDone.'($("#"+_data.id));var data=_data.data;'.$jsCallback;
 	}
 	
 	public static function containsCode($expression){
