@@ -16,7 +16,7 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 		$field->setProperty("name", $name);
 		$this->setField($field);
 		if (isset($label))
-			$this->setLabel($label);
+			$this->setLabel($label,$value);
 	}
 
 	public function setChecked($value=true){
@@ -32,12 +32,14 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 		return $this->addToPropertyCtrl("class", $checkboxType, CheckboxType::getConstants());
 	}
 
-	public function setLabel($label) {
+	public function setLabel($label,$value=null) {
 		$labelO=$label;
 		if (\is_string($label)) {
 			$labelO=new HtmlSemDoubleElement("", "label", "");
 			$labelO->setContent($label);
 			$labelO->setProperty("for", $this->getField()->getIdentifier());
+			if(isset($value))
+				$labelO->setProperty("data-value", $value);
 		}
 		$this->content["label"]=$labelO;
 	}

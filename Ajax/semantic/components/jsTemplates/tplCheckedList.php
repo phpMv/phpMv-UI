@@ -35,6 +35,7 @@ $("%identifier% .list .child.checkbox")
       else {
         $parentCheckbox.checkbox("set indeterminate");
       }
+		%onChange%
     }
   })
 ;';
