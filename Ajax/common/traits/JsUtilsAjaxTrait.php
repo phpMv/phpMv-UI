@@ -13,7 +13,7 @@ use Ajax\service\JString;
 trait JsUtilsAjaxTrait {
 
 	protected $ajaxTransition;
-	protected $ajaxLoader='Loading...';
+	protected $ajaxLoader="<div class=\"ui active centered inline text loader\">Loading</div>";
 
 	abstract public function getUrl($url);
 	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
