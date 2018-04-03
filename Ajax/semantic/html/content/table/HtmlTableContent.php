@@ -4,6 +4,8 @@ namespace Ajax\semantic\html\content\table;
 
 use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\service\JArray;
+use Ajax\common\html\HtmlCollection;
+use Ajax\common\html\HtmlDoubleElement;
 
 /**
  * a table content (thead, tbody or tfoot)
@@ -54,7 +56,7 @@ class HtmlTableContent extends HtmlSemCollection {
 	 */
 	protected function createItem($value) {
 		$count=$this->count();
-		$tr=new HtmlTR("", $value);
+		$tr=new HtmlTR("");
 		$tr->setContainer($this, $count);
 		$tr->setTdTagName($this->_tdTagNames[$this->tagName]);
 		if (isset($value) === true) {
@@ -82,17 +84,26 @@ class HtmlTableContent extends HtmlSemCollection {
 	public function _addRow($row) {
 		return $this->addItem($row);
 	}
+	
+	/**
+	 * @return HtmlTR
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
+	}
 
 	/**
 	 * Returns the cell (HtmlTD) at position $row,$col
 	 * @param int $row
 	 * @param int $col
-	 * @return HtmlTD
+	 * @return HtmlTD|HtmlDoubleElement
 	 */
 	public function getCell($row, $col) {
 		$row=$this->getItem($row);
-		if (isset($row)) {
+		if (isset($row) && $row instanceof HtmlCollection) {
 			$col=$row->getItem($col);
+		}else{
+			$col=$row;
 		}
 		return $col;
 	}

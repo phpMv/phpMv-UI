@@ -48,6 +48,13 @@ class HtmlTR extends HtmlSemCollection {
 		$td->setContainer($this->_container, $this->_row, $count);
 		return $td;
 	}
+	
+	/**
+	 * @return HtmlTD
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
+	}
 
 	public function setTdTagName($tagName="td") {
 		$this->_tdTagName=$tagName;
