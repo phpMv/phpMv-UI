@@ -112,7 +112,14 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	 * @return HtmlButton
 	 */
 	public function getElement($index) {
-		return $this->getItem($index);
+		return parent::getItem($index);
+	}
+	
+	/**
+	 * @return HtmlButton
+	 */
+	public function getItem($index) {
+		return parent::getItem($index);
 	}
 
 	public function setElement($index, $button) {

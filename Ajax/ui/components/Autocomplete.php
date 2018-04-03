@@ -28,8 +28,7 @@ class Autocomplete extends SimpleComponent {
 	 */
 	public function setAjaxSource($url) {
 		if (JString::startsWith($url, "/")) {
-			$u=$this->js->getDi()->get("url");
-			$url=$u->getBaseUri().$url;
+			$url=$this->js->getUrl($url);
 		}
 		$ajax="%function (request, response) {
 			$.ajax({

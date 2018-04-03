@@ -62,7 +62,7 @@ class DataTable extends Widget {
 			$this->_generateBehavior("delete",$this->_deleteBehavior, $js);
 		if(\is_array($this->_editBehavior))
 			$this->_generateBehavior("edit",$this->_editBehavior,$js);
-		return parent::run($js);
+		parent::run($js);
 	}
 
 

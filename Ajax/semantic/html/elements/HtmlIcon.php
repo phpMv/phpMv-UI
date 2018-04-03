@@ -84,7 +84,7 @@ class HtmlIcon extends HtmlSemDoubleElement {
 	/**
 	 * icon formatted as a link
 	 * @param string $href
-	 * @param string target
+	 * @param string $target
 	 * @return HtmlIcon
 	 */
 	public function asLink($href=NULL,$target=NULL) {

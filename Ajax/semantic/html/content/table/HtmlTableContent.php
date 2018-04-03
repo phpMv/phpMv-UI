@@ -6,6 +6,7 @@ use Ajax\semantic\html\base\HtmlSemCollection;
 use Ajax\service\JArray;
 use Ajax\common\html\HtmlCollection;
 use Ajax\common\html\HtmlDoubleElement;
+use Ajax\semantic\html\base\traits\BaseTrait;
 
 /**
  * a table content (thead, tbody or tfoot)
@@ -187,7 +188,9 @@ class HtmlTableContent extends HtmlSemCollection {
 	public function addColVariations($colIndex, $variations=array()) {
 		$count=$this->count();
 		for($i=0; $i < $count; $i++) {
-			$this->getCell($i, $colIndex)->addVariations($variations);
+			$cell=$this->getCell($i, $colIndex);
+			if($cell instanceof BaseTrait)
+				$cell->addVariations($variations);
 		}
 		return $this;
 	}

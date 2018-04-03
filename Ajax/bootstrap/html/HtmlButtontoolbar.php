@@ -70,9 +70,9 @@ class HtmlButtontoolbar extends HtmlButtongroups {
 		return $bg;
 	}
 
-	/*
-	 * (non-PHPdoc)
-	 * @see \Ajax\bootstrap\html\HtmlButtongroups::getElement()
+	
+	/**
+	 * @return HtmlButtongroups|HtmlButton
 	 */
 	public function getElement($index) {
 		$element=null;

@@ -24,6 +24,13 @@ class HtmlAccordion extends HtmlSemCollection{
 		}
 		return new HtmlAccordionItem("item-".$this->identifier."-".$count, $title,$content);
 	}
+	
+	/**
+	 * @return HtmlAccordionItem
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
+	}
 
 	protected function createCondition($value){
 		return ($value instanceof HtmlAccordionItem)===false;

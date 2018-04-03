@@ -20,6 +20,13 @@ class HtmlIconGroups extends HtmlSemCollection {
 		$this->addItems($icons);
 		$this->setSize($size);
 	}
+	
+	/**
+	 * @return HtmlIcon
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
+	}
 
 	protected function createItem($value) {
 		$icon=$value;

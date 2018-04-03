@@ -15,7 +15,7 @@ trait JsUtilsInternalTrait{
 	 * @param BaseGui $library
 	 * @param mixed $view
 	 */
-	protected function _compileLibrary(BaseGui $library=NULL, &$view=NULL){
+	protected function _compileLibrary(BaseGui $library, &$view=NULL){
 		if(isset($view))
 			$library->compileHtml($this, $view);
 		if ($library->isAutoCompile()) {

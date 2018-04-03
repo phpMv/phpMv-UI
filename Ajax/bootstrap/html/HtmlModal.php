@@ -201,6 +201,7 @@ class HtmlModal extends BaseHtml {
 	 * @return HtmlModal
 	 */
 	public function setBackdrop($value) {
-		return $this->backdrop=$value;
+		$this->backdrop=$value;
+		return $this;
 	}
 }

@@ -2,7 +2,6 @@
 namespace Ajax\common\html\traits;
 use Ajax\JsUtils;
 use Ajax\service\AjaxCall;
-use Ajax\common\components\SimpleExtComponent;
 use Ajax\service\Javascript;
 use Ajax\common\html\BaseHtml;
 

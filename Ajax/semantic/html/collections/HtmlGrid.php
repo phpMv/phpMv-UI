@@ -205,11 +205,11 @@ class HtmlGrid extends HtmlSemCollection {
 	public function getCell($row, $col) {
 		if ($row < 2 && $this->hasOnlyCols($this->count()))
 			return $this->getItem($col);
-		$row=$this->getItem($row);
-		if (isset($row)) {
-			$col=$row->getItem($col);
+		$rowO=$this->getItem($row);
+		if (isset($rowO)) {
+			$colO=$rowO->getItem($col);
 		}
-		return $col;
+		return $colO;
 	}
 
 	/**
@@ -319,8 +319,17 @@ class HtmlGrid extends HtmlSemCollection {
 		return $this->addToProperty("class", "stretched");
 	}
 
+	/**
+	 * Adds a divider after the specified col
+	 * @param integer $afterColIndex
+	 * @param boolean $vertical
+	 * @param mixed $content
+	 * @return \Ajax\semantic\html\collections\HtmlGrid
+	 */
 	public function addDivider($afterColIndex, $vertical=true, $content=NULL) {
 		$col=$this->getCell(0, $afterColIndex);
-		return $col->addDivider($vertical, $content);
+		if($col instanceof HtmlGridCol)
+			$col->addDivider($vertical, $content);
+		return $this;
 	}
 }

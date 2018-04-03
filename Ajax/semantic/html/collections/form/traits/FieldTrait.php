@@ -68,7 +68,7 @@ trait FieldTrait {
 	}
 
 	/**
-	 * @param mixed $action
+	 * @param string $action
 	 * @param string $direction
 	 * @param string $icon
 	 * @param boolean $labeled

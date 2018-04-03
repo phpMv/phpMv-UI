@@ -254,9 +254,9 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 */
 	public static function dropdown($identifier,$value,$items=[],$asCombo=false,$icon=null){
 		$result=new HtmlButtonGroups($identifier,[$value]);
-		$result->addDropdown($items,$asCombo);
+		$dd=$result->addDropdown($items,$asCombo);
 		if(isset($icon))
-			$result->setIcon($icon);
+			$dd->setIcon($icon);
 		return $result;
 	}
 }
