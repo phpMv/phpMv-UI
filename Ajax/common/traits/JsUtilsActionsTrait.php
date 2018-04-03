@@ -365,7 +365,7 @@ trait JsUtilsActionsTrait {
 	 *
 	 * @param string $element
 	 * @param array $options
-	 * @return void
+	 * @return string
 	 */
 	public function sortable($element, $options=array()) {
 		if (count($options)>0) {

@@ -88,7 +88,7 @@ class InstanceViewer {
 		return $func($name,$value,$index,$this->instance);
 	}
 
-	protected function _getPropertyValue(\ReflectionProperty $property,$index){
+	protected function _getPropertyValue(\ReflectionProperty $property){
 		$property->setAccessible(true);
 		return $property->getValue($this->instance);
 	}
@@ -97,7 +97,7 @@ class InstanceViewer {
 		$value=null;
 		$propertyName=$property;
 		if($property instanceof \ReflectionProperty){
-			$value=$this->_getPropertyValue($property, $index);
+			$value=$this->_getPropertyValue($property);
 			$propertyName=$property->getName();
 		}elseif(\is_callable($property))
 			$value=$property($this->instance);
@@ -119,7 +119,7 @@ class InstanceViewer {
 		if(isset($this->values[$index])){
 			$value= $this->values[$index]($value,$this->instance,$index,self::$index);
 		}else{
-			$value=$this->_getDefaultValue($propertyName,$value, $index,self::$index);
+			$value=$this->_getDefaultValue($propertyName,$value, $index);
 		}
 		if(isset($this->afterCompile[$index])){
 			if(\is_callable($this->afterCompile[$index])){

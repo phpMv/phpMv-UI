@@ -68,10 +68,10 @@ trait FieldTrait {
 	}
 
 	/**
-	 * @param string $action
+	 * @param mixed $action
 	 * @param string $direction
 	 * @param string $icon
-	 * @param string $labeled
+	 * @param boolean $labeled
 	 * @return mixed|HtmlButton
 	 */
 	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {

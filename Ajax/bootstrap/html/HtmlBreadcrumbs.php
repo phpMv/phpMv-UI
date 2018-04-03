@@ -30,7 +30,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 	protected $absolutePaths;
 
 	/**
-	 * @var object<Closure> the function who generates the href elements. default : function($e){return $e->getContent()}
+	 * @var callable the function who generates the href elements. default : function($e){return $e->getContent()}
 	 */
 	protected $_hrefFunction;
 

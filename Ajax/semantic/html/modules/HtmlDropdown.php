@@ -193,8 +193,8 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	/**
 	 * Sets the values of a property for each item in the collection
 	 * @param string $property
-	 * @param array $values
-	 * @return HtmlCollection
+	 * @param array|mixed $values
+	 * @return $this
 	 */
 	public function setPropertyValues($property,$values){
 		$i=0;

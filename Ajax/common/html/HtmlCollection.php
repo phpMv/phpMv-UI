@@ -155,8 +155,8 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	/**
 	 * Sets the values of a property for each item in the collection
 	 * @param string $property
-	 * @param array $values
-	 * @return HtmlCollection
+	 * @param array|mixed $values
+	 * @return $this
 	 */
 	public function setPropertyValues($property,$values){
 		$i=0;
@@ -178,8 +178,8 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	/**
 	 * Adds the values of a property for each item in the collection
 	 * @param string $property
-	 * @param array $values
-	 * @return HtmlCollection
+	 * @param array|mixed $values
+	 * @return $this
 	 */
 	public function addPropertyValues($property,$values){
 		$i=0;

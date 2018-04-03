@@ -66,9 +66,8 @@ abstract class BaseHtml extends BaseWidget {
 
 
 	protected function setMemberCtrl(&$name, $value, $typeCtrl) {
-		if ($this->ctrl($name, $value, $typeCtrl) === true) {
-			return $name=$value;
-		}
+		$this->ctrl($name, $value, $typeCtrl);
+		$name=$value;
 		return $this;
 	}
 
@@ -83,12 +82,11 @@ abstract class BaseHtml extends BaseWidget {
 
 
 	protected function addToMemberCtrl(&$name, $value, $typeCtrl, $separator=" ") {
-		if ($this->ctrl($name, $value, $typeCtrl) === true) {
-			if (\is_array($typeCtrl)) {
-				$this->removeOldValues($name, $typeCtrl);
-			}
-			$name.=$separator . $value;
+		$this->ctrl($name, $value, $typeCtrl);
+		if (\is_array($typeCtrl)) {
+			$this->removeOldValues($name, $typeCtrl);
 		}
+		$name.=$separator . $value;
 		return $this;
 	}
 

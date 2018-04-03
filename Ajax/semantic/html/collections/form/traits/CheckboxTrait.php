@@ -61,7 +61,7 @@ trait CheckboxTrait {
 	/**
 	 * Check the checkbox
 	 * @param boolean $value
-	 * @return HtmlFormField
+	 * @return $this
 	 */
 	public function setChecked($value=true){
 		if($value===true){

@@ -1,7 +1,6 @@
 <?php
 namespace Ajax\semantic\widgets\datatable;
 use Ajax\semantic\html\elements\HtmlButton;
-use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
@@ -19,6 +18,8 @@ trait DataTableFieldAsTrait{
 	abstract public function insertField($index,$field);
 	abstract public function insertInField($index,$field);
 	abstract public function fieldAs($index,$type,$attributes=NULL);
+	abstract protected function cleanIdentifier($id);
+	abstract protected function _fieldAs($elementCallback,&$index,$attributes=NULL,$prefix=null);
 	/**
 	 * @param string $caption
 	 * @param callable $callback
@@ -84,7 +85,7 @@ trait DataTableFieldAsTrait{
 	 * @return DataTable
 	 */
 	public function fieldAsSubmit($index,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$index,$attributes){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($url,$responseElement,$cssStyle,$attributes){
 			$button=new HtmlButton($id,$value,$cssStyle);
 			$button->postOnClick($url,"$(event.target).closest('tr').find(':input').serialize()",$responseElement,$attributes["ajax"]);
 			if(!isset($attributes["visibleHover"]) || $attributes["visibleHover"])
@@ -178,7 +179,7 @@ trait DataTableFieldAsTrait{
 
 	/**
 	 * Adds an edit button
-	 * @param string $visibleHover
+	 * @param boolean $visibleHover
 	 * @param array $editBehavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
 	 * @param callable $callback this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
 	 * @return DataTable

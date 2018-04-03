@@ -61,6 +61,13 @@ class HtmlFormFields extends HtmlSemCollection {
 			$item->setContainer($this);
 		return $item;
 	}
+	
+	/**
+	 * @return HtmlFormField
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
+	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		if ($this->_equalWidth) {

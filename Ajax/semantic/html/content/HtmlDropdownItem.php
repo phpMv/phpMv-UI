@@ -45,7 +45,7 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 
 	/**
 	 * @param string $image the image src
-	 * @return HtmlImg
+	 * @return $this
 	 */
 	public function asMiniAvatar($image){
 		$this->tagName="div";
@@ -140,6 +140,8 @@ class HtmlDropdownItem extends HtmlSemDoubleElement {
 	 * @return HtmlDropdownItem
 	 */
 	public static function avatar($caption,$image){
-		return (new HtmlDropdownItem("",$caption))->asMiniAvatar($image);
+		$dd=new HtmlDropdownItem("",$caption);
+		$dd->asMiniAvatar($image);
+		return $dd;
 	}
 }

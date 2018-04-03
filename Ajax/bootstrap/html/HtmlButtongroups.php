@@ -14,7 +14,7 @@ use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
 class HtmlButtongroups extends HtmlBsDoubleElement {
 
 	/**
-	 * @var array[HtmlButton]
+	 * @var array
 	 */
 	protected $elements;
 
@@ -128,7 +128,7 @@ class HtmlButtongroups extends HtmlBsDoubleElement {
 
 	/**
 	 * Return the element at index
-	 * @param int $index
+	 * @param int $index|string
 	 * @return HtmlButton
 	 */
 	public function getElement($index) {

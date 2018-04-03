@@ -11,7 +11,6 @@ use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\elements\HtmlReveal;
 use Ajax\semantic\html\base\constants\RevealType;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
-use Ajax\semantic\html\content\view\HtmlViewContent;
 use Ajax\semantic\html\elements\HtmlIcon;
 
 abstract class HtmlViewItem extends HtmlSemDoubleElement {
@@ -96,14 +95,6 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 	public function addExtraContent($content=array()) {
 		return $this->content["extra-content"]= $this->createContent($content, "extra content");
 	}
-
-	/*public function addContent($content=array(), $before=false) {
-		if (!$content instanceof HtmlViewContent) {
-			$content=$this->createContent($content);
-		}
-		$this->content["content"]->addElement($content);
-		return $content;
-	}*/
 
 	/**
 	 * @param array $elements

@@ -10,7 +10,6 @@ use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
 use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\common\html\html5\HtmlTextarea;
-use Ajax\common\html\HtmlDoubleElement;
 use Ajax\semantic\html\collections\form\HtmlFormTextarea;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\elements\HtmlButtonGroups;
@@ -23,6 +22,7 @@ use Ajax\semantic\html\collections\form\HtmlFormFields;
 trait FieldsTrait {
 	abstract public function addFields($fields=NULL,$label=NULL);
 	abstract public function addItem($item);
+	abstract public function getItem($index);
 
 	protected function createItem($value){
 		if(\is_array($value)){
@@ -53,7 +53,7 @@ trait FieldsTrait {
 	/**
 	 * Sets the values of a property for each Field of each item in the collection
 	 * @param string $property
-	 * @param array $values
+	 * @param array|mixed $values
 	 * @return HtmlFormFields
 	 */
 	public function setFieldsPropertyValues($property,$values){

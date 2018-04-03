@@ -113,7 +113,7 @@ class DataForm extends Widget {
 	}
 
 	public function fieldAsReset($index,$cssStyle=NULL,$attributes=NULL){
-		return $this->_fieldAs(function($id,$name,$value,$caption) use ($cssStyle){
+		return $this->_fieldAs(function($id,$name,$value) use ($cssStyle){
 			$button=new HtmlButton($id,$value,$cssStyle);
 			$button->setProperty("type", "reset");
 			return $button;
@@ -149,6 +149,6 @@ class DataForm extends Widget {
 	}
 
 	public function run(JsUtils $js){
-		return parent::run($js);
+		parent::run($js);
 	}
 }

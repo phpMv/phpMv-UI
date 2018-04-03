@@ -2,7 +2,6 @@
 
 namespace Ajax\semantic\html\collections;
 
-use Ajax\common\html\HtmlCollection;
 use Ajax\semantic\html\content\HtmlGridRow;
 use Ajax\semantic\html\base\constants\Wide;
 use Ajax\semantic\html\base\constants\VerticalAlignment;
@@ -27,9 +26,7 @@ class HtmlGrid extends HtmlSemCollection {
 		$this->_implicitRows=$implicitRows;
 		$this->_createCols=$createCols;
 		if (isset($numCols)) {
-			// if($this->_createCols){
 			$this->_colSizing=false;
-			// }
 			$this->setWide($numCols);
 		}
 		if($createCols)
@@ -166,6 +163,13 @@ class HtmlGrid extends HtmlSemCollection {
 	 */
 	public function getRow($index) {
 		return $this->getItem($index);
+	}
+	
+	/**
+	 * @return HtmlGridRow
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
 	}
 
 	/**

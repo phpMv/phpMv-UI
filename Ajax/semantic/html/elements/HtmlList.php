@@ -49,6 +49,13 @@ class HtmlList extends HtmlSemCollection {
 		$list->setClass("list");
 		return $this->addItem($list);
 	}
+	
+	/**
+	 * @return HtmlListItem
+	 */
+	public function getItem($index){
+		return parent::getItem($index);
+	}
 
 	protected function getItemToAdd($item){
 		$itemO=parent::getItemToAdd($item);
@@ -111,7 +118,7 @@ class HtmlList extends HtmlSemCollection {
 	 * Adds a grouped checked box to the list
 	 * @param array $items
 	 * @param string|array|null $masterItem
-	 * @param array|null $values
+	 * @param array $values
 	 * @param string $notAllChecked
 	 * @return HtmlList
 	 */

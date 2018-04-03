@@ -46,7 +46,7 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	/**
 	 * @param mixed $element
 	 * @param boolean $asIcon
-	 * @return HtmlButton
+	 * @return HtmlButton|HtmlDropdown
 	 */
 	public function addElement($element, $asIcon=false) {
 		$item=$this->addItem($element);

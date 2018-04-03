@@ -27,18 +27,10 @@ class HtmlMenuItem extends HtmlSemDoubleElement {
 				$this->addIcon($icon);
 			}
 			if(isset($title)){
-				$this->setTitle($title,$desc);
+				$this->setTitle($title);
 			}
 		}else{
 			$this->setContent($content);
 		}
 	}
-
-/*	public function addIcon($icon, $before=true) {
-		$content=$this->content;
-		$this->content=new HtmlSemDoubleElement("content-" . $this->identifier, "div", "content");
-		$this->content->setContent($content);
-		$this->content->addContent(new HtmlIcon("icon" . $this->identifier, $icon), $before);
-		return $this;
-	}*/
 }

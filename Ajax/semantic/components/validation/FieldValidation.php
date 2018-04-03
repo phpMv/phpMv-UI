@@ -43,7 +43,7 @@ class FieldValidation implements \JsonSerializable{
 	}
 
 	/**
-	 * @param string $type
+	 * @param string $type|Rule|array
 	 * @param string $prompt
 	 * @param string $value
 	 * @return Rule
