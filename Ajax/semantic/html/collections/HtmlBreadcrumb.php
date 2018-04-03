@@ -36,7 +36,7 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 
 	/**
 	 *
-	 * @var object<Closure> the function who generates the href elements. default : function($e){return $e->getContent()}
+	 * @var callable the function who generates the href elements. default : function($e){return $e->getContent()}
 	 */
 	protected $_hrefFunction;
 
@@ -91,17 +91,18 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 	}
 
 	/**
-	 * Add new elements in breadcrumbs corresponding to request dispatcher : controllerName, actionName, parameters
+	 * Adds new elements in breadcrumbs corresponding to request dispatcher : controllerName, actionName, parameters
 	 * @param JsUtils $js
 	 * @param object $dispatcher the request dispatcher
-	 * @return \Ajax\bootstrap\html\HtmlBreadcrumbs
+	 * @return HtmlBreadcrumb
 	 */
 	public function fromDispatcher(JsUtils $js,$dispatcher, $startIndex=0) {
+		$this->startIndex=$startIndex;
 		return $this->addItems($js->fromDispatcher($dispatcher));
 	}
 
 	/**
-	 * Return the url of the element at $index or the breadcrumbs url if $index is ommited
+	 * Returns the url of the element at $index or the breadcrumbs url if $index is ommited
 	 * @param int $index
 	 * @param string $separator
 	 * @return string
@@ -123,7 +124,7 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 	 * sets the function who generates the href elements.
 	 * default : function($element){return $element->getContent()}
 	 * @param callable $_hrefFunction
-	 * @return \Ajax\bootstrap\html\HtmlBreadcrumbs
+	 * @return HtmlBreadcrumb
 	 */
 	public function setHrefFunction($_hrefFunction) {
 		$this->_hrefFunction=$_hrefFunction;

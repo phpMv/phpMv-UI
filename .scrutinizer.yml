@@ -1,7 +1,7 @@
 filter:
     excluded_paths:
         - Ajax/JsUtils.php
-        - Ajax/php/yii/URI.php
+        - Ajax/php/
 checks:
     php:
         code_rating: true
