@@ -2,10 +2,9 @@
 
 namespace Ajax\ui\Components;
 
-use Phalcon\Text;
 use Ajax\JsUtils;
-use Ajax;
 use Ajax\common\components\BaseComponent;
+use Ajax\service\JString;
 
 /**
  * JQuery UI Button for the Dialog Component
@@ -15,7 +14,7 @@ use Ajax\common\components\BaseComponent;
 class DialogButton extends BaseComponent {
 
 	private function addFunction($jsCode) {
-		if (!Text::startsWith($jsCode, "function"))
+		if (!JString::startsWith($jsCode, "function"))
 			$jsCode="%function(){" . $jsCode . "}%";
 		return $jsCode;
 	}
@@ -46,7 +45,7 @@ class DialogButton extends BaseComponent {
 	 * @param JsUtils $js
 	 * @param string $url
 	 * @param string $form
-	 * @param unknown $responseElement
+	 * @param string $responseElement
 	 * @param string $caption
 	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null)
 	 * @return DialogButton

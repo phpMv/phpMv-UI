@@ -66,7 +66,7 @@ class HtmlGridSystem extends HtmlBsDoubleElement {
 	/**
 	 * @param int $row
 	 * @param int $col
-	 * @param $force add the cell at $row,$col if true
+	 * @param boolean $force add the cell at $row,$col if true
 	 * @return HtmlGridCol
 	 */
 	public function getCell($row,$col,$force=true){

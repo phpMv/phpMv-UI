@@ -536,9 +536,6 @@ trait JsUtilsActionsTrait {
 	 * @param array $parameters default : array("attr"=>"id","preventDefault"=>false,"stopPropagation"=>false,"immediatly"=>true)
 	 */
 	public function setDraggable($element,$parameters=[]){
-		$stopPropagation=false;
-		$preventDefault=false;
-		$immediatly=true;
 		$attr="id";
 		extract($parameters);
 		$script=$this->_add_event($element, Javascript::draggable($attr), "dragstart",$parameters);
@@ -553,7 +550,6 @@ trait JsUtilsActionsTrait {
 	 */
 	public function asDropZone($element,$jsCallback="",$parameters=[]){
 		$stopPropagation=false;
-		$preventDefault=true;
 		$immediatly=true;
 		$jqueryDone="append";
 		$script=$this->_add_event($element, '', "dragover",true,$stopPropagation,$immediatly);

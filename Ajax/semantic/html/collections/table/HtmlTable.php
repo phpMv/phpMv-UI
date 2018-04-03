@@ -12,6 +12,7 @@ use Ajax\semantic\html\content\table\HtmlTR;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\content\table\HtmlTD;
 use Ajax\semantic\html\base\constants\TextAlignment;
+use Ajax\common\html\BaseHtml;
 
 /**
  * Semantic HTML Table component

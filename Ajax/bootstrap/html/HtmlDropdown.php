@@ -5,7 +5,8 @@ namespace Ajax\bootstrap\html;
 use Ajax\JsUtils;
 use Ajax\bootstrap\html\content\HtmlDropdownItem;
 use Ajax\bootstrap\html\base\CssRef;
-use Ajax\service\PhalconUtils;
+use Ajax\service\JString;
+use Ajax\common\html\BaseHtml;
 
 /**
  * Twitter Bootstrap HTML Dropdown component
@@ -52,7 +53,7 @@ class HtmlDropdown extends HtmlButton {
 		if (is_int($cssStyle)) {
 			return $this->addToMember($this->class, CssRef::buttonStyles()[$cssStyle]);
 		}
-		if (PhalconUtils::startsWith($cssStyle, "btn-")===false) {
+		if (JString::startsWith($cssStyle, "btn-")===false) {
 			$cssStyle="btn".$cssStyle;
 		}
 		return $this->addToMemberCtrl($this->class, $cssStyle, CssRef::buttonStyles());
@@ -182,7 +183,7 @@ class HtmlDropdown extends HtmlButton {
 
 	/**
 	 * Sets the tagName's dropdown
-	 * @see \Ajax\bootstrap\html\BaseHtml::setTagName()
+	 * @see BaseHtml::setTagName()
 	 */
 	public function setTagName($tagName) {
 		if ($tagName=="button")

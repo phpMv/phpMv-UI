@@ -20,7 +20,7 @@ class HtmlList extends HtmlCollection {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
+	 * @see HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
 		$item=new HtmlDoubleElement("item-".$this->identifier."-".$this->count());

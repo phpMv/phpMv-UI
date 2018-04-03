@@ -1,6 +1,7 @@
 <?php
 namespace Ajax\common\html\traits;
 use Ajax\JsUtils;
+use Ajax\bootstrap\html\base\HtmlNavElement;
 
 /**
  * @author jc

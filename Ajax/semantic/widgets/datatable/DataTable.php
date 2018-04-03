@@ -76,7 +76,7 @@ class DataTable extends Widget {
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\semantic\html\collections\table\TableTrait::getTable()
+	 * @see TableTrait::getTable()
 	 */
 	protected function getTable() {
 		return $this->content["table"];

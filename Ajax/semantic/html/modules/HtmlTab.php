@@ -7,6 +7,7 @@ use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\constants\Side;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Direction;
+use Ajax\semantic\html\content\HtmlMenuItem;
 
 /**
  * Semantic Tab component
@@ -114,7 +115,7 @@ class HtmlTab extends HtmlSemCollection{
 	 * @param int $index
 	 * @param JsUtils $js
 	 * @param string $title The panel title
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $controller a controller
 	 * @param string $action an action
 	 * @param array $params
@@ -134,9 +135,9 @@ class HtmlTab extends HtmlSemCollection{
 	 * @param $index
 	 * @param JsUtils $js
 	 * @param string $title The panel title
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $viewName
-	 * @param $params The parameters to pass to the view
+	 * @param array $params The parameters to pass to the view
 	 * @return \Ajax\semantic\html\elements\HtmlSegment
 	 */
 	public function renderViewTab($index,JsUtils $js,$title,$initialController, $viewName, $params=array()) {
@@ -152,7 +153,7 @@ class HtmlTab extends HtmlSemCollection{
 	 * render the content of $controller::$action and set the response to a new tab
 	 * @param JsUtils $js
 	 * @param string $title The panel title
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $controller a controller
 	 * @param string $action an action
 	 * @param array $params
@@ -169,9 +170,9 @@ class HtmlTab extends HtmlSemCollection{
 	 * render the content of an existing view : $controller/$action and set the response to a new tab
 	 * @param JsUtils $js
 	 * @param string $title The panel title
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $viewName
-	 * @param $params The parameters to pass to the view
+	 * @param array $params The parameters to pass to the view
 	 * @return \Ajax\semantic\html\elements\HtmlSegment
 	 */
 	public function addAndRenderViewTab(JsUtils $js,$title,$initialController, $viewName, $params=array()) {
@@ -189,7 +190,7 @@ class HtmlTab extends HtmlSemCollection{
 	/**
 	 * Returns the menu item at position $index
 	 * @param int $index
-	 * @return Ajax\semantic\html\content\HtmlMenuItem
+	 * @return HtmlMenuItem
 	 */
 	public function getMenuTab($index){
 		return $this->content["menu"]->getItem($index);

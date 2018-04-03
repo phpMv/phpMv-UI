@@ -263,7 +263,7 @@ abstract class BaseHtml extends BaseWidget {
 	 */
 	public function asDropZone($jsCallback="",$jqueryDone="append",$parameters=[]){
 		$stopPropagation=false;
-		$script=$this->addEvent("dragover", '', $stopPropagation,true);
+		$this->addEvent("dragover", '', $stopPropagation,true);
 		extract($parameters);
 		$this->addEvent("drop",Javascript::dropZone($jqueryDone,$jsCallback),$stopPropagation,true);
 		return $this;

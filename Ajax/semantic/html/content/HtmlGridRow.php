@@ -55,7 +55,7 @@ class HtmlGridRow extends HtmlSemCollection{
 	/**
 	 * return the col at $index
 	 * @param int $index
-	 * @return \Ajax\semantic\html\collections\HtmlGridCol
+	 * @return HtmlGridCol
 	 */
 	public function getCol($index){
 		return $this->getItem($index);

@@ -83,7 +83,7 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 	 * Attach $this to $selector and fire $action
 	 * @param string $selector jquery selector of the associated element
 	 * @param string $action action to execute : check, uncheck or NULL for toggle
-	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
+	 * @return AbstractCheckbox
 	 */
 	public function attachEvent($selector, $action=NULL) {
 		if (isset($action)||\is_numeric($action)===true) {
@@ -98,7 +98,7 @@ abstract class AbstractCheckbox extends HtmlSemDoubleElement {
 	/**
 	 * Attach $this to an array of $action=>$selector
 	 * @param array $events associative array of events to attach ex : ["#bt-toggle","check"=>"#bt-check","uncheck"=>"#bt-uncheck"]
-	 * @return \Ajax\semantic\html\collections\form\AbstractHtmlFormRadioCheckbox
+	 * @return AbstractCheckbox
 	 */
 	public function attachEvents($events=array()) {
 		if (\is_array($events)) {

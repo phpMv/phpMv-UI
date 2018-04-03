@@ -23,6 +23,7 @@ use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\elements\HtmlLabelGroups;
 use Ajax\common\html\BaseHtml;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 trait SemanticHtmlElementsTrait {
 

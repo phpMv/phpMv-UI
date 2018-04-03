@@ -34,7 +34,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Dialog
-	 * @return \Ajax\Components\Dialog
+	 * @return Dialog
 	 */
 	public function dialog($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Dialog($this->js), $attachTo, $params);
@@ -42,7 +42,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Accordion
-	 * @return \Ajax\Components\Accordion
+	 * @return Accordion
 	 */
 	public function accordion($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Accordion($this->js), $attachTo, $params);
@@ -50,7 +50,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Menu
-	 * @return \Ajax\Components\Menu
+	 * @return Menu
 	 */
 	public function menu($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Menu($this->js), $attachTo, $params);
@@ -58,7 +58,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Progressbar
-	 * @return \Ajax\Components\Progressbar
+	 * @return Progressbar
 	 */
 	public function progressbar($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Progressbar($this->js), $attachTo, $params);
@@ -66,7 +66,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Selectmenu
-	 * @return \Ajax\Components\Selectmenu
+	 * @return Selectmenu
 	 */
 	public function selectmenu($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Selectmenu($this->js), $attachTo, $params);
@@ -74,7 +74,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Slider
-	 * @return \Ajax\Components\Slider
+	 * @return Slider
 	 */
 	public function slider($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Slider($this->js), $attachTo, $params);
@@ -82,7 +82,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Spinner
-	 * @return \Ajax\Components\Spinner
+	 * @return Spinner
 	 */
 	public function spinner($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Spinner($this->js), $attachTo, $params);
@@ -90,7 +90,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Retourne un composant Autocomplete
-	 * @return \Ajax\Components\Autocomplete
+	 * @return Autocomplete
 	 */
 	public function autocomplete($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Autocomplete($this->js), $attachTo, $params);
@@ -98,7 +98,7 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Create and return a Tabs component
-	 * @return \Ajax\Components\Tabs
+	 * @return Tabs
 	 */
 	public function tabs($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Tabs($this->js), $attachTo, $params);
@@ -106,9 +106,9 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Create and return a Button component
-	 * @param $attachTo css/jquery selector attached to the component
-	 * @param $params php array of parameters
-	 * @return \Ajax\Components\Button
+	 * @param string $attachTo css/jquery selector attached to the component
+	 * @param array $params php array of parameters
+	 * @return Button
 	 */
 	public function button($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Button($this->js), $attachTo, $params);
@@ -116,9 +116,9 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Create and return a ButtonSet component
-	 * @param $attachTo css/jquery selector attached to the component
-	 * @param $params php array of parameters
-	 * @return \Ajax\Components\ButtonSet
+	 * @param string $attachTo css/jquery selector attached to the component
+	 * @param array $params php array of parameters
+	 * @return ButtonSet
 	 */
 	public function buttonSet($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Buttonset($this->js), $attachTo, $params);
@@ -126,9 +126,9 @@ class JqueryUI extends BaseGui {
 
 	/**
 	 * Create and return a Tooltip component
-	 * @param $attachTo css/jquery selector attached to the component
-	 * @param $params php array of parameters
-	 * @return \Ajax\Components\Tooltip
+	 * @param string $attachTo css/jquery selector attached to the component
+	 * @param array $params php array of parameters
+	 * @return Tooltip
 	 */
 	public function tooltip($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new Tooltip($this->js), $attachTo, $params);

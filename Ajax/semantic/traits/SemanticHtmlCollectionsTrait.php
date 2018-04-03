@@ -73,7 +73,7 @@ trait SemanticHtmlCollectionsTrait {
 	 * @param string $identifier
 	 * @param array $items
 	 * @param boolean $autoActive sets the last element's class to <b>active</b> if true. default : true
-	 * @param function $hrefFunction the function who generates the href elements. default : function($e){return $e->getContent()}
+	 * @param callable $hrefFunction the function who generates the href elements. default : function($e){return $e->getContent()}
 	 * @return HtmlBreadcrumb
 	 */
 	public function htmlBreadcrumb($identifier, $items=array(), $autoActive=true, $startIndex=0, $hrefFunction=NULL) {

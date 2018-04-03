@@ -3,9 +3,9 @@
 namespace Ajax\ui\Components;
 
 use Ajax\JsUtils;
-use Phalcon\Text;
 use Ajax\ui\Properties\Animation;
 use Ajax\common\components\SimpleComponent;
+use Ajax\service\JString;
 
 /**
  * Composant JQuery UI Accordion
@@ -129,7 +129,7 @@ class Accordion extends SimpleComponent {
 	 */
 	public function setIcons($value) {
 		if (is_string($value)) {
-			if (Text::startsWith($value, "{"))
+			if (JString::startsWith($value, "{"))
 				;
 			$value="%".$value."%";
 		}

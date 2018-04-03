@@ -85,7 +85,6 @@ class InstanceViewer {
 
 	protected function _getDefaultValue($name,$value,$index){
 		$func=$this->defaultValueFunction;
-		//TODO Check bug on index
 		return $func($name,$value,$index,$this->instance);
 	}
 
@@ -314,7 +313,7 @@ class InstanceViewer {
 	 * The $callback function can take the following arguments : $field=>the compiled field, $instance : the active instance of the object, $index: the field position
 	 * @param int $index postion of the compiled field
 	 * @param callable $callback function called after the field compilation
-	 * @return \Ajax\semantic\widgets\datatable\InstanceViewer
+	 * @return InstanceViewer
 	 */
 	public function afterCompile($index,$callback){
 		$this->afterCompile[$index]=$callback;

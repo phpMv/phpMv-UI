@@ -41,9 +41,9 @@ class HtmlAccordion extends HtmlBsDoubleElement {
 	 * render the content of an existing view : $controller/$action and set the response to a new panel
 	 * @param JsUtils $js
 	 * @param string $title The panel title
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $viewName
-	 * @param $params The parameters to pass to the view
+	 * @param array $params The parameters to pass to the view
 	 */
 	public function renderViewPanel(JsUtils $js,$title,$initialController, $viewName, $params=array()) {
 		return $this->addPanel($title, $js->renderContent($initialController, $viewName,$params));
@@ -53,7 +53,7 @@ class HtmlAccordion extends HtmlBsDoubleElement {
 	 * render the content of $controller::$action and set the response to a new panel
 	 * @param JsUtils $js
 	 * @param string $title The panel title
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $controller a Phalcon controller
 	 * @param string $action a Phalcon action
 	 * @param array $params

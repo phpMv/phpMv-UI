@@ -15,7 +15,7 @@ class HtmlShape extends HtmlSemCollection{
 
 	public function __construct( $identifier, $sides){
 		parent::__construct( $identifier, "div", "ui shape");
-		$this->_template='<%tagName% id="%identifier%" %properties%><div class='sides'>%wrapContentBefore%%content%%wrapContentAfter%</div></%tagName%>';
+		$this->_template='<%tagName% id="%identifier%" %properties%><div class="sides">%wrapContentBefore%%content%%wrapContentAfter%</div></%tagName%>';
 		$this->addItems($sides);
 	}
 

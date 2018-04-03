@@ -4,9 +4,9 @@ namespace Ajax\bootstrap\html;
 use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
 use Ajax\bootstrap\html\base\HtmlNavElement;
 use Ajax\bootstrap\html\base\CssRef;
-use Ajax\service\PhalconUtils;
 use Ajax\common\html\BaseHtml;
 use Ajax\JsUtils;
+use Ajax\service\JString;
 
 /**
  * Twitter Bootstrap Pagination component
@@ -114,7 +114,7 @@ class HtmlPagination extends HtmlNavElement {
 	/**
 	 * set the active page corresponding to request dispatcher : controllerName, actionName, parameters and $urlMask
 	 * @param JsUtils $js
-	 * @param Dispatcher $dispatcher the request dispatcher
+	 * @param object $dispatcher the request dispatcher
 	 * @return \Ajax\bootstrap\html\HtmlPagination
 	 */
 	public function fromDispatcher(JsUtils $js,$dispatcher,$startIndex=0){
@@ -146,7 +146,7 @@ class HtmlPagination extends HtmlNavElement {
 		if (is_int($size)) {
 			return $this->addToPropertyUnique("class", CssRef::sizes("pagination")[$size], CssRef::sizes("pagination"));
 		}
-		if(!PhalconUtils::startsWith($size, "pagination-") && $size!=="")
+		if(!JString::startsWith($size, "pagination-") && $size!=="")
 			$size="pagination-".$size;
 		return $this->addToPropertyCtrl("class", $size, CssRef::sizes("pagination"));
 	}

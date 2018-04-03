@@ -2,9 +2,9 @@
 
 namespace Ajax\ui\Components;
 
-use Phalcon\Text;
 use Ajax\common\components\SimpleComponent;
 use Ajax\JsUtils;
+use Ajax\service\JString;
 
 /**
  * Composant JQuery UI Button
@@ -38,7 +38,7 @@ class Button extends SimpleComponent {
 	 */
 	public function setIcons($value) {
 		if (is_string($value)) {
-			if (Text::startsWith($value, "{"))
+			if (JString::startsWith($value, "{"))
 				;
 			$value="%".$value."%";
 		}

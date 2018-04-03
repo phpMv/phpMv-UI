@@ -11,6 +11,8 @@ use Ajax\semantic\html\elements\HtmlDivider;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\semantic\components\Form;
+use Ajax\common\html\BaseHtml;
+use Ajax\common\html\HtmlDoubleElement;
 
 /**
  * Semantic Form component

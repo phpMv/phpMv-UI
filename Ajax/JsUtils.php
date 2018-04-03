@@ -75,7 +75,7 @@ abstract class JsUtils{
 	/**
 	 * Forwards to $controller::$action and set the response to the modal content
 	 * Used internally by phpMv
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $controller a controller
 	 * @param string $action an action
 	 * @param array $params
@@ -84,9 +84,9 @@ abstract class JsUtils{
 	/**
 	 * render the content of an existing view : $viewName and set the response to the modal content
 	 * Used internally by phpMv
-	 * @param Controller $initialControllerInstance
-	 * @param View $viewName
-	 * @param $params The parameters to pass to the view
+	 * @param object $initialControllerInstance
+	 * @param string $viewName
+	 * @param array $params The parameters to pass to the view
 	 */
 	abstract public function renderContent($initialControllerInstance,$viewName, $params=NULL);
 
@@ -251,9 +251,9 @@ abstract class JsUtils{
 	/**
 	 * gather together all script needing to be output
 	 *
-	 * @param View $view
-	 * @param $view_var view script variable name, default : script_foot
-	 * @param $script_tags
+	 * @param object $view
+	 * @param string $view_var view script variable name, default : script_foot
+	 * @param boolean $script_tags
 	 * @return string
 	 */
 	public function compile(&$view=NULL, $view_var='script_foot', $script_tags=TRUE) {
@@ -374,8 +374,9 @@ abstract class JsUtils{
 	/**
 	 * Ensures a standard json value and escapes values
 	 *
-	 * @param type
-	 * @return type
+	 * @param mixed $result
+	 * @param boolean $is_key
+	 * @return string
 	 */
 	public function _prep_args($result, $is_key=FALSE) {
 		if (is_null($result)) {

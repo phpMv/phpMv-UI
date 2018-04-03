@@ -40,7 +40,6 @@ class AjaxCall {
 				$result.=$js->jsonArrayDeferred($modelSelector, $url,$method,$this->parameters);
 				break;
 			default:
-				//$result.=$js->ajax($this->method, $url,$responseElement,$this->parameters);
 				break;
 		}
 		return $result;

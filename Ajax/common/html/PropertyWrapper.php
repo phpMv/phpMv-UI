@@ -57,18 +57,6 @@ class PropertyWrapper {
 				return $v;
 			}
 		}, $input));
-		/*$result='';
-		foreach ($input as $value) {
-			if($result!==''){
-				$result.=$separator;
-			}
-			if(\is_string($value)){
-				$result.=$value;
-			}else{
-				$result.=self::wrapValue($value,$js,$separator,$valueQuote);
-			}
-		}
-		return $result;*/
 	}
 
 	protected static function wrapValue($value,$js=NULL, $separator=' ', $valueQuote='"'){

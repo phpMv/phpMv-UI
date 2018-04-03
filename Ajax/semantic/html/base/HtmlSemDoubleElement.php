@@ -12,6 +12,7 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Side;
 use Ajax\common\html\html5\HtmlList;
+use Ajax\common\html\BaseHtml;
 
 /**
  * Base class for Semantic double elements

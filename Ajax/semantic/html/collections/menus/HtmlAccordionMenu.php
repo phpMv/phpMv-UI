@@ -2,9 +2,9 @@
 
 namespace Ajax\semantic\html\collections\menus;
 
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\content\HtmlAccordionMenuItem;
 use Ajax\JsUtils;
+use Ajax\common\html\HtmlCollection;
 
 class HtmlAccordionMenu extends HtmlMenu{
 	protected $params=array();
@@ -17,7 +17,7 @@ class HtmlAccordionMenu extends HtmlMenu{
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
+	 * @see HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
 		$title=$value;

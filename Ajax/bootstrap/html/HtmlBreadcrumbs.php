@@ -2,7 +2,6 @@
 namespace Ajax\bootstrap\html;
 
 use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
-use Ajax\bootstrap\html\HtmlLink;
 use Ajax\JsUtils;
 
 use Ajax\bootstrap\html\base\HtmlNavElement;
@@ -40,7 +39,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 	 * @param string $identifier
 	 * @param array $elements
 	 * @param boolean $autoActive sets the last element's class to <b>active</b> if true
-	 * @param function $hrefFunction the function who generates the href elements. default : function($e){return $e->getContent()}
+	 * @param callable $hrefFunction the function who generates the href elements. default : function($e){return $e->getContent()}
 	 */
 	public function __construct($identifier,$elements=array(),$autoActive=true,$startIndex=0,$hrefFunction=NULL){
 		parent::__construct($identifier,"ol");
@@ -195,7 +194,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 	/**
 	 * Add new elements in breadcrumbs corresponding to request dispatcher : controllerName, actionName, parameters
 	 * @param JsUtils $js
-	 * @param Dispatcher $dispatcher the request dispatcher
+	 * @param object $dispatcher the request dispatcher
 	 * @return \Ajax\bootstrap\html\HtmlBreadcrumbs
 	 */
 	public function fromDispatcher(JsUtils $js,$dispatcher,$startIndex=0){
@@ -206,7 +205,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 
 	/**
 	 * sets the function who generates the href elements. default : function($element){return $element->getContent()}
-	 * @param function $_hrefFunction
+	 * @param callable $_hrefFunction
 	 * @return \Ajax\bootstrap\html\HtmlBreadcrumbs
 	 */
 	public function setHrefFunction($_hrefFunction) {

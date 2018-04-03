@@ -5,8 +5,9 @@ namespace Ajax\bootstrap\html\content;
 use Ajax\JsUtils;
 use Ajax\bootstrap\html\HtmlBadge;
 use Ajax\bootstrap\html\HtmlGlyphicon;
-use Ajax\service\PhalconUtils;
 use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
+use Ajax\service\JString;
+use Ajax\common\html\BaseHtml;
 
 /**
  * Inner element for Twitter Bootstrap HTML Dropdown component
@@ -63,7 +64,7 @@ class HtmlDropdownItem extends HtmlBsDoubleElement {
 	 * @return $this
 	 */
 	public function setCaption($value) {
-		if (PhalconUtils::startsWith($value, "-")) {
+		if (JString::startswith($value, "-")) {
 			$this->class="dropdown-header";
 			$this->role="presentation";
 			$this->_template='<li id="%identifier%" class="%class%" role="%role%">%content%</li>';

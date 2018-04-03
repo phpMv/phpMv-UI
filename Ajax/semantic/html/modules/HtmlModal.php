@@ -139,9 +139,9 @@ class HtmlModal extends HtmlSemDoubleElement {
 	/**
 	 * render the content of an existing view : $controller/$action and set the response to the modal content
 	 * @param JsUtils $js
-	 * @param Controller $initialController
+	 * @param object $initialController
 	 * @param string $viewName
-	 * @param $params The parameters to pass to the view
+	 * @param array $params The parameters to pass to the view
 	 */
 	public function renderView(JsUtils $js,$initialController,$viewName, $params=array()) {
 		return $this->setContent($js->renderContent($initialController, $viewName,$params));
@@ -150,7 +150,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 	/**
 	 * render the content of $controller::$action and set the response to the modal content
 	 * @param JsUtils $js
-	 * @param Controller $initialControllerInstance
+	 * @param object $initialControllerInstance
 	 * @param string $controllerName the controller name
 	 * @param string $actionName the action name
 	 * @param array $params

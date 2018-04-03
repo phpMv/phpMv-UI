@@ -72,7 +72,7 @@ trait FieldTrait {
 	 * @param string $direction
 	 * @param string $icon
 	 * @param string $labeled
-	 * @return unknown|HtmlButton
+	 * @return mixed|HtmlButton
 	 */
 	public function addAction($action, $direction=Direction::RIGHT, $icon=NULL, $labeled=false) {
 		$field=$this->getField();

@@ -2,7 +2,6 @@
 
 namespace Ajax\semantic\html\collections\menus;
 
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Ajax\semantic\html\elements\html5\HtmlLink;
 
@@ -26,7 +25,7 @@ class HtmlLabeledIconMenu extends HtmlMenu{
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\semantic\html\collections\HtmlMenu::createItem()
+	 * @see HtmlMenu::createItem()
 	 */
 	protected function createItem($value) {
 		$text="";

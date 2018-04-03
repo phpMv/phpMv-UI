@@ -162,7 +162,7 @@ class HtmlGrid extends HtmlSemCollection {
 	/**
 	 * return the row at $index
 	 * @param int $index
-	 * @return \Ajax\semantic\html\collections\HtmlGridRow
+	 * @return HtmlGridRow
 	 */
 	public function getRow($index) {
 		return $this->getItem($index);
@@ -196,7 +196,7 @@ class HtmlGrid extends HtmlSemCollection {
 	 * Returns the cell (HtmlGridCol) at position rrow,$col
 	 * @param int $row
 	 * @param int $col
-	 * @return \Ajax\semantic\html\collections\HtmlGridCol
+	 * @return HtmlGridCol
 	 */
 	public function getCell($row, $col) {
 		if ($row < 2 && $this->hasOnlyCols($this->count()))

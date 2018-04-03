@@ -3,6 +3,7 @@ namespace Ajax\semantic\html\base;
 
 use Ajax\service\JArray;
 use Ajax\common\html\traits\NavElementTrait;
+use Ajax\bootstrap\html\base\HtmlNavElement;
 /**
  * Sem class for navigation elements : Breadcrumbs and Pagination
  * @author jc

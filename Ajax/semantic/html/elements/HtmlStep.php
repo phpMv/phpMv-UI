@@ -8,6 +8,7 @@ use Ajax\JsUtils;
 
 use Ajax\common\html\HtmlDoubleElement;
 use Ajax\semantic\html\base\constants\Side;
+use Ajax\common\html\HtmlCollection;
 
 class HtmlStep extends HtmlSemCollection{
 	protected $_activeStep;
@@ -21,7 +22,7 @@ class HtmlStep extends HtmlSemCollection{
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\common\html\html5\HtmlCollection::createItem()
+	 * @see HtmlCollection::createItem()
 	 */
 	protected function createItem($value) {
 		$itemO=new HtmlStepItem("item-".\sizeof($this->content),$value);

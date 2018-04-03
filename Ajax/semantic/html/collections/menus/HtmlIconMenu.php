@@ -2,7 +2,6 @@
 
 namespace Ajax\semantic\html\collections\menus;
 
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\bootstrap\html\HtmlLink;
 use Ajax\semantic\html\elements\HtmlIcon;
 
@@ -27,7 +26,7 @@ class HtmlIconMenu extends HtmlMenu{
 
 	/**
 	 * {@inheritDoc}
-	 * @see \Ajax\semantic\html\collections\HtmlMenu::createItem()
+	 * @see HtmlMenu::createItem()
 	 */
 	protected function createItem($value) {
 		$count=\sizeof($this->content);

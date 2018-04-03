@@ -3,14 +3,10 @@
 namespace Ajax;
 
 use Ajax\common\BaseGui;
-use Ajax\bootstrap\components\Modal;
-use Ajax\bootstrap\components\Dropdown;
-use Ajax\bootstrap\components\Carousel;
 use Ajax\bootstrap\html\HtmlButton;
 use Ajax\bootstrap\html\HtmlButtongroups;
 use Ajax\bootstrap\html\HtmlGlyphButton;
 use Ajax\bootstrap\html\HtmlDropdown;
-use Ajax\bootstrap\components\Splitbutton;
 use Ajax\bootstrap\html\HtmlButtontoolbar;
 use Ajax\bootstrap\html\HtmlNavbar;
 use Ajax\bootstrap\html\HtmlProgressbar;
@@ -220,7 +216,7 @@ class Bootstrap extends BaseGui {
 	 * @param string $identifier
 	 * @param array $elements
 	 * @param boolean $autoActive sets the last element's class to <b>active</b> if true. default : true
-	 * @param function $hrefFunction the function who generates the href elements. default : function($e){return $e->getContent()}
+	 * @param callable $hrefFunction the function who generates the href elements. default : function($e){return $e->getContent()}
 	 * @return HtmlBreadcrumbs
 	 */
 	public function htmlBreadcrumbs($identifier,$elements=array(),$autoActive=true,$startIndex=0,$hrefFunction=NULL){

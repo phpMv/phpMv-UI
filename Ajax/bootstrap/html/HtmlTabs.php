@@ -14,7 +14,6 @@ use Ajax\bootstrap\components\Tabs;
 use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
 use Ajax\bootstrap\html\content\HtmlTabContent;
 
-
 class HtmlTabs extends HtmlBsDoubleElement {
 	protected $tabs=array ();
 	protected $_tabsType="tabs";
