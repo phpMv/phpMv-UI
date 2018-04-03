@@ -29,7 +29,7 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	/**
 	 * @param array $items
 	 * @param boolean $asCombo
-	 * @return HtmlDropdown
+	 * @return HtmlDropdown|HtmlButton
 	 */
 	public function addDropdown($items,$asCombo=false){
 		$dd= new HtmlDropdown("dd-".$this->identifier,null,$items);

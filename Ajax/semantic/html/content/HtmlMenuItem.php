@@ -17,11 +17,9 @@ class HtmlMenuItem extends HtmlSemDoubleElement {
 			if(JArray::isAssociative($content)===false){
 				$icon=@$content[0];
 				$title=@$content[1];
-				$desc=@$content[2];
 			}else{
 				$icon=@$content["icon"];
 				$title=@$content["title"];
-				$desc=@$content["description"];
 			}
 			if(isset($icon)){
 				$this->addIcon($icon);

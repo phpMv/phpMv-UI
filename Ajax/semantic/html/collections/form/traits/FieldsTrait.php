@@ -23,6 +23,7 @@ trait FieldsTrait {
 	abstract public function addFields($fields=NULL,$label=NULL);
 	abstract public function addItem($item);
 	abstract public function getItem($index);
+	abstract public function count();
 
 	protected function createItem($value){
 		if(\is_array($value)){

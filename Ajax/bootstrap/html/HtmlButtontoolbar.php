@@ -8,7 +8,6 @@ namespace Ajax\bootstrap\html;
  * @author jc
  * @version 1.001
  */
-use Ajax\bootstrap\html\HtmlButtongroups;
 
 class HtmlButtontoolbar extends HtmlButtongroups {
 

@@ -37,7 +37,7 @@ class HtmlListgroupItem extends HtmlElementAsContent {
 	 * define the Panel style
 	 * avaible values : "list-group-item-default","list-group-item-primary","list-group-item-success","list-group-item-info","list-group-item-warning","list-group-item-danger"
 	 * @param string|int $cssStyle
-	 * @return HtmlListgroupItem default : "list-group-item-default"
+	 * @return HtmlBsDoubleElement default : "list-group-item-default"
 	 */
 	public function setStyle($cssStyle) {
 		if (!JString::startsWith($cssStyle, "list-group-item"))

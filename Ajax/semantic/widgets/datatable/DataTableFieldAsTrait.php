@@ -191,7 +191,7 @@ trait DataTableFieldAsTrait{
 
 	/**
 	 * Adds an edit and a delete button
-	 * @param string $visibleHover
+	 * @param boolean $visibleHover
 	 * @param array $behavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
 	 * @param callable $callbackEdit this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
 	 * @param callable $callbackDelete this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object

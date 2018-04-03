@@ -23,7 +23,7 @@ class Modal extends SimpleExtComponent {
 		$this->js->addClass($identifier, "modal", true);
 		$this->js->attr($identifier, "role", "dialog", true);
 		$this->js->attr($identifier, "aria-labelledby", "myModalLabel", true);
-		$this->js->attr($identifier, "aria-hidden", true, true);
+		$this->js->attr($identifier, "aria-hidden", "true", true);
 	}
 
 	/**

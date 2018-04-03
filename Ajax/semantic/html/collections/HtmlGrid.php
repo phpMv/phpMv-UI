@@ -197,10 +197,10 @@ class HtmlGrid extends HtmlSemCollection {
 	}
 
 	/**
-	 * Returns the cell (HtmlGridCol) at position rrow,$col
+	 * Returns the cell (HtmlGridCol) at position $row,$col
 	 * @param int $row
 	 * @param int $col
-	 * @return HtmlGridCol
+	 * @return HtmlGridCol|HtmlGridRow
 	 */
 	public function getCell($row, $col) {
 		if ($row < 2 && $this->hasOnlyCols($this->count()))
