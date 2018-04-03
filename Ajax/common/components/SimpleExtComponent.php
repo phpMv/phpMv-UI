@@ -2,7 +2,6 @@
 
 namespace Ajax\common\components;
 
-use Ajax\common\components\SimpleComponent;
 use Ajax\common\JsCode;
 
 class SimpleExtComponent extends SimpleComponent {
@@ -11,6 +10,7 @@ class SimpleExtComponent extends SimpleComponent {
 
 	public function addEvent($event, $jsCode) {
 		$this->events [$event]=$jsCode;
+		return $this;
 	}
 
 	public function getScript() {
