@@ -3,7 +3,6 @@ namespace Ajax\common\html\traits;
 
 use Ajax\service\JString;
 use Ajax\common\html\BaseHtml;
-use Ajax\common\html\BaseWidget;
 
 /**
  * @author jc
@@ -21,7 +20,7 @@ trait BaseHtmlPropertiesTrait{
 
 	/**
 	 * @param array $properties
-	 * @return BaseHtml
+	 * @return $this
 	 */
 	public function setProperties($properties) {
 		$this->_self->properties=$properties;
@@ -38,6 +37,12 @@ trait BaseHtmlPropertiesTrait{
 			return $this->_self->properties[$name];
 	}
 
+	/**
+	 * @param string $name
+	 * @param mixed $value
+	 * @param string $separator
+	 * @return $this
+	 */
 	public function addToProperty($name, $value, $separator=" ") {
 		if (\is_array($value)) {
 			foreach ( $value as $v ) {

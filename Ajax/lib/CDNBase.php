@@ -2,7 +2,8 @@
 
 namespace Ajax\lib;
 
-use Ajax\service\PhalconUtils;
+
+use Ajax\service\JString;
 
 abstract class CDNBase {
 	protected $version;
@@ -26,7 +27,7 @@ abstract class CDNBase {
 	public function setJsUrl($jsUrl, $local=null) {
 		$this->jsUrl=$jsUrl;
 		if (isset($local)===false) {
-			$local=PhalconUtils::startsWith($jsUrl, "http")===false;
+			$local=JString::startsWith($jsUrl, "http")===false;
 		}
 		$this->setLocal($local);
 		return $this;

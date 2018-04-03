@@ -2,7 +2,8 @@
 
 namespace Ajax\lib;
 
-use Ajax\service\PhalconUtils;
+
+use Ajax\common\html\html5\HtmlUtils;
 
 class CDNJQuery extends CDNBase {
 
@@ -17,6 +18,6 @@ class CDNJQuery extends CDNBase {
 
 	public function __toString() {
 		$url=$this->getUrl();
-		return PhalconUtils::javascriptInclude($url, $this->local);
+		return HtmlUtils::javascriptInclude($url);
 	}
 }

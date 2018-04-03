@@ -2,7 +2,9 @@
 
 namespace Ajax\lib;
 
-use Ajax\service\PhalconUtils;
+
+use Ajax\service\JString;
+use Ajax\common\html\html5\HtmlUtils;
 
 class CDNGuiGen extends CDNBase {
 	protected $theme;
@@ -60,13 +62,13 @@ class CDNGuiGen extends CDNBase {
 	public function __toString() {
 		$url=$this->getUrl();
 		$css=$this->getCss();
-		return PhalconUtils::javascriptInclude($url, $this->local)."\n".PhalconUtils::stylesheetLink($css, $this->localCss);
+		return HtmlUtils::javascriptInclude($url)."\n".HtmlUtils::stylesheetInclude($css);
 	}
 
 	public function setCssUrl($cssUrl, $local=null) {
 		$this->cssUrl=$cssUrl;
 		if (isset($local)===false) {
-			$local=PhalconUtils::startsWith($cssUrl, "http")===false;
+			$local=JString::startsWith($cssUrl, "http")===false;
 		}
 		$this->setLocalCss($local);
 		return $this;

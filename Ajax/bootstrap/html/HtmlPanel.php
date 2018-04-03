@@ -5,7 +5,7 @@ namespace Ajax\bootstrap\html;
 use Ajax\bootstrap\html\base\HtmlBsDoubleElement;
 use Ajax\bootstrap\html\base\CssRef;
 use Ajax\JsUtils;
-use Ajax\service\PhalconUtils;
+use Ajax\service\JString;
 
 /**
  * Composant Twitter Bootstrap panel
@@ -89,7 +89,7 @@ class HtmlPanel extends HtmlBsDoubleElement {
 	 * @return \Ajax\bootstrap\html\HtmlPanel default : "panel-default"
 	 */
 	public function setStyle($cssStyle) {
-		if (!PhalconUtils::startsWith($cssStyle, "panel"))
+		if (!JString::startsWith($cssStyle, "panel"))
 			$cssStyle="panel".$cssStyle;
 		return $this->addToPropertyCtrl("class", $cssStyle, CssRef::Styles("panel"));
 	}

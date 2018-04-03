@@ -4,10 +4,10 @@ namespace Ajax\bootstrap\html;
 
 use Ajax\JsUtils;
 use Ajax\bootstrap\components\Scrollspy;
-use Ajax\service\PhalconUtils;
 use Ajax\bootstrap\html\content\HtmlNavzone;
 use Ajax\bootstrap\html\base\CssNavbar;
 use Ajax\common\html\BaseHtml;
+use Ajax\common\html\html5\HtmlImg;
 /**
  * Twitter Bootstrap HTML Navbar component
  * @author jc
@@ -60,10 +60,7 @@ class HtmlNavbar extends BaseHtml {
 	}
 
 	public function setBrandImage($imageSrc) {
-		$this->brandImage=PhalconUtils::image(array (
-				$imageSrc,
-				"alt" => $this->brand
-		));
+		$this->brandImage=new HtmlImg("brand-img-".$this->_identifier,$imageSrc,$this->brand);
 		$this->brand="";
 		return $this;
 	}
