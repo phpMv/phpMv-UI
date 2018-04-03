@@ -50,7 +50,7 @@ class HtmlButtonGroups extends HtmlSemCollection {
 	 */
 	public function addElement($element, $asIcon=false) {
 		$item=$this->addItem($element);
-		if($asIcon)
+		if($asIcon && $item instanceof HtmlButton)
 			$item->asIcon($element);
 		return $item;
 	}

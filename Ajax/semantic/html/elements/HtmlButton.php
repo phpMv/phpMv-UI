@@ -6,6 +6,7 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\traits\LabeledIconTrait;
 use Ajax\semantic\html\base\constants\Emphasis;
 use Ajax\semantic\html\base\constants\Social;
+use Ajax\semantic\html\modules\HtmlDropdown;
 
 /**
  * Semantic Button component
@@ -255,7 +256,7 @@ class HtmlButton extends HtmlSemDoubleElement {
 	public static function dropdown($identifier,$value,$items=[],$asCombo=false,$icon=null){
 		$result=new HtmlButtonGroups($identifier,[$value]);
 		$dd=$result->addDropdown($items,$asCombo);
-		if(isset($icon))
+		if(isset($icon) && $dd instanceof HtmlDropdown)
 			$dd->setIcon($icon);
 		return $result;
 	}
