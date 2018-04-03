@@ -2,10 +2,9 @@
 
 namespace Ajax\semantic\components;
 
-use Ajax\common\components\SimpleExtComponent;
 use Ajax\JsUtils;
 
-class Shape extends SimpleExtComponent {
+class Shape extends SimpleSemExtComponent {
 
 	public function __construct(JsUtils $js) {
 		parent::__construct($js);

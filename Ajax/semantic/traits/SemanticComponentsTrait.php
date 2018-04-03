@@ -38,7 +38,7 @@ trait SemanticComponentsTrait {
 	 *
 	 * @param string $attachTo
 	 * @param string|array $params
-	 * @return GenericComponent
+	 * @return SimpleSemExtComponent
 	 */
 	public function generic($attachTo=NULL, $params=NULL) {
 		return $this->addComponent(new GenericComponent($this->js), $attachTo, $params);
