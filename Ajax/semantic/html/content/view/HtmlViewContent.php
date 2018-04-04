@@ -32,7 +32,7 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 			$this->addContent($value);
 	}
 
-	public function addElement($content, $baseClass="",$part=NULL) {
+	public function addElement($content, $baseClass="") {
 		$count=\sizeof($this->content);
 		$result=new HtmlViewContent("element-" . $count . "-" . $this->identifier, $content);
 		$result->setClass($baseClass);

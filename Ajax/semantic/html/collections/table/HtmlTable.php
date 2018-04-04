@@ -235,13 +235,17 @@ class HtmlTable extends HtmlSemDoubleElement {
 			case TextAlignment::LEFT:
 				$function="colLeft";
 				break;
+			
 			case TextAlignment::RIGHT:
 				$function="colRight";
 				break;
+			
 			case TextAlignment::CENTER:
 				$function="colCenter";
 				break;
-			default:$function="colLeft";
+			
+			default:
+				$function="colLeft";
 		}
 		$this->colAlign($colIndex, $function);
 		return $this;

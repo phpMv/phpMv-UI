@@ -57,7 +57,9 @@ abstract class HtmlViewGroups extends HtmlSemCollection {
 	public function getItemContent($itemIndex, $contentIndex) {
 		$item=$this->getItem($itemIndex);
 		if (isset($item)) {
-			return $item->getContent($contentIndex);
+			$content=$item->getContent();
+			if(isset($content[$contentIndex]))
+				return $content[$contentIndex];
 		}
 	}
 

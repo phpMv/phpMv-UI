@@ -213,33 +213,11 @@ trait BaseTrait {
 	}
 
 	public function getVariations() {
-	return $this->_variations;
-}
+		return $this->_variations;
+	}
 
 	public function getStates() {
-	return $this->_states;
-}
+		return $this->_states;
+	}
 
-	/*
-	 protected function addBehavior(&$array,$key,$value,$before="",$after=""){
-	 echo $key.":".$this->_self->identifier."<br>";
-
-	 if(\is_string($value)){
-	 if(isset($array[$key])){
-	 $p=JString::replaceAtFirstAndLast($array[$key], $before, "", $after, "");
-	 $array[$key]=$before.$p.$value.$after;
-	 }else
-	 	$array[$key]=$before.$value.$after;
-	 	}else{
-	 	if(isset($array[$key])){
-	 	if(!\is_array($array[$key])){
-	 	$array[$key]=[$array[$key]];
-	 	}
-	 	$array[$key][]=$value;
-	 	}else{
-	 	$array[$key]=$value;
-	 	}
-	 	}
-	 	return $this;
-	 	}*/
 }
