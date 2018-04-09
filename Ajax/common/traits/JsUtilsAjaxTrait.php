@@ -471,6 +471,7 @@ trait JsUtilsAjaxTrait {
 		$async=($async)?"true":"false";
 		$jsCallback=isset($jsCallback) ? $jsCallback : "";
 		$retour=$this->_getAjaxUrl($url, $attr);
+		$retour.="\n$('#".$form."').trigger('ajaxSubmit');";
 		$retour.="\nvar params=$('#".$form."').serialize();\n";
 		if(isset($params)){
 			$retour.="params+='&'+".self::_correctParams($params).";\n";

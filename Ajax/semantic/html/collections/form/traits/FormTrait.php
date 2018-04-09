@@ -121,8 +121,9 @@ trait FormTrait{
 	public function setSubmitParams($url,$responseElement=NULL,$parameters=NULL){
 		$form=$this->getForm();
 		$params=["form"=>$form->getIdentifier(),"responseElement"=>$responseElement,"url"=>$url,"stopPropagation"=>true];
-		if(\is_array($parameters))
+		if(\is_array($parameters)){
 			$params=\array_merge($params,$parameters);
+		}
 		$form->addValidationParam("_ajaxSubmit", new AjaxCall("postForm", $params));
 		return $this;
 	}

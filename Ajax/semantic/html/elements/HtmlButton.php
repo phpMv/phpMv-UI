@@ -165,9 +165,9 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * formatted to toggle on/off
 	 * @return HtmlButton
 	 */
-	public function setToggle() {
+	public function setToggle($active="") {
 		$this->onCreate("$('#".$this->identifier."').state();");
-		return $this->addToProperty("class", "toggle");
+		return $this->addToProperty("class", "toggle ".$active);
 	}
 
 	/**

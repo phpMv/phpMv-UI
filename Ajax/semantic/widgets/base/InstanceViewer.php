@@ -99,7 +99,7 @@ class InstanceViewer {
 		if($property instanceof \ReflectionProperty){
 			$value=$this->_getPropertyValue($property);
 			$propertyName=$property->getName();
-		}elseif(\is_callable($property))
+		}elseif(\is_callable($property) && array_search($property, ["system"])===false)
 			$value=$property($this->instance);
 		elseif(\is_array($property)){
 			$values=\array_map(function($v) use ($index){return $this->_getValue($v, $index);}, $property);

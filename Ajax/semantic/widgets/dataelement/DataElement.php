@@ -120,4 +120,9 @@ class DataElement extends Widget {
 		$this->_colWidths=$widths;
 		return $this;
 	}
+	
+	public function run(JsUtils $js){
+		$js->execOn("click", ".ui.toggle", 'var active=$(this).hasClass("active");$(this).children("i").toggleClass("up",active).toggleClass("down",!active);$(this).closest("td").next("td").children().toggle(active);');
+		parent::run($js);
+	}
 }
