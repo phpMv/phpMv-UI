@@ -40,9 +40,9 @@ trait JsUtilsAjaxTrait {
 			$this->addLoading($retour, $responseElement,$ajaxLoader);
 		}
 		$ajaxParameters=["url"=>"url","method"=>"'".\strtoupper($method)."'"];
-		if(!$async){
-			$ajaxParameters["async"]="false";
-		}
+		
+		$ajaxParameters["async"]=($async?"true":"false");
+		
 		if(isset($params)){
 			$ajaxParameters["data"]=self::_correctParams($params);
 		}

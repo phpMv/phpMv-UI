@@ -8,6 +8,7 @@ use Ajax\JsUtils;
 use Ajax\common\html\BaseHtml;
 use Ajax\semantic\components\Form;
 use Ajax\semantic\html\collections\form\HtmlFormField;
+use Ajax\semantic\components\validation\FieldValidation;
 
 /**
  * trait used in Widget and HtmlForm
@@ -27,6 +28,11 @@ trait FormTrait{
 			$validation->setIdentifier($field->getDataField()->getIdentifier());
 			$compo->addFieldValidation($validation);
 		}
+		return $compo;
+	}
+	
+	protected function addExtraCompoValidation(Form $compo,FieldValidation $validation){
+		$compo->addFieldValidation($validation);
 		return $compo;
 	}
 
@@ -154,5 +160,19 @@ trait FormTrait{
 		$form=$this->getForm();
 		$form->addValidationParam("onSuccess", $jsCode,"%function(event,fields){","}%");
 		return $form;
+	}
+	
+	public function addExtraFieldRules($fieldname,$rules){
+		$form=$this->getForm();
+		$fv=$form->getExtraFieldValidation($fieldname);
+		foreach ($rules as $rule){
+			$fv->addRule($rule);
+		}
+	}
+	
+	public function addExtraFieldRule($fieldname,$type,$prompt=NULL,$value=NULL){
+		$form=$this->getForm();
+		$fv=$form->getExtraFieldValidation($fieldname);
+		$fv->addRule($type,$prompt,$value);
 	}
 }

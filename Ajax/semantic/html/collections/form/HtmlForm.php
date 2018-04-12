@@ -13,6 +13,7 @@ use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\semantic\components\Form;
 use Ajax\common\html\BaseHtml;
 use Ajax\common\html\HtmlDoubleElement;
+use Ajax\semantic\components\validation\FieldValidation;
 
 /**
  * Semantic Form component
@@ -32,6 +33,8 @@ class HtmlForm extends HtmlSemCollection {
 	 * @var array
 	 */
 	protected $_validationParams;
+	
+	protected $_extraFieldRules;
 
 	public function __construct($identifier, $elements=array()) {
 		parent::__construct($identifier, "form", "ui form");
@@ -40,6 +43,7 @@ class HtmlForm extends HtmlSemCollection {
 		$this->_fields=array ();
 		$this->addItems($elements);
 		$this->_validationParams=[];
+		$this->_extraFieldRules=[];
 	}
 
 	protected function getForm(){
@@ -186,8 +190,18 @@ class HtmlForm extends HtmlSemCollection {
 				}
 			}
 		}
+		foreach ($this->_extraFieldRules as $field=>$fieldValidation){
+			$compo=$this->addExtraCompoValidation($compo, $fieldValidation);
+		}
 		$this->_runValidationParams($compo,$js);
 		return $this->_bsComponent;
+	}
+	
+	public function getExtraFieldValidation($fieldname){
+		if(!isset($this->_extraFieldRules[$fieldname])){
+			$this->_extraFieldRules[$fieldname]=new FieldValidation($fieldname);
+		}
+		return $this->_extraFieldRules[$fieldname];
 	}
 
 	public function addValidationParam($paramName,$paramValue,$before="",$after=""){
