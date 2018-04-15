@@ -169,7 +169,7 @@ class Rule implements \JsonSerializable{
 	public static function ajax(JsUtils $js,$name,$url,$params,$jsCallback,$method="post",$parameters=[]){
 		$parameters=\array_merge(["async"=>false,"url"=>$url,"params"=>$params,"hasLoader"=>false,"jsCallback"=>$jsCallback,"dataType"=>"json","stopPropagation"=>false,"preventDefault"=>false,"responseElement"=>null],$parameters);
 		$ajax=new AjaxCall($method, $parameters);
-		return self::custom($name, "function(value){var result=true;".$ajax->compile($js)."return result;}");
+		return self::custom($name, "function(value,ruleValue){var result=true;".$ajax->compile($js)."return result;}");
 	}
 
 }

@@ -8,6 +8,7 @@ use Ajax\JsUtils;
 use Ajax\service\JArray;
 use Ajax\semantic\html\collections\table\HtmlTable;
 use Ajax\semantic\html\base\traits\BaseTrait;
+use Ajax\service\JString;
 
 /**
  * DataElement widget for displaying an instance of model
@@ -122,7 +123,8 @@ class DataElement extends Widget {
 	}
 	
 	public function run(JsUtils $js){
-		$js->execOn("click", ".ui.toggle", 'var active=$(this).hasClass("active");$(this).children("i").toggleClass("up",active).toggleClass("down",!active);$(this).closest("td").next("td").children().toggle(active);');
+		if(JString::isNotNull($this->_identifier))
+			$js->execOn("click", "#".$this->_identifier." .ui.toggle", 'var active=$(this).hasClass("active");$(this).children("i").toggleClass("up",active).toggleClass("down",!active);var nextTd=$(this).closest("td").next("td");nextTd.children(":not(.toggle-caption)").toggle(active);nextTd.children(".toggle-caption").toggle(!active);$(this).trigger({type:"toggled",active: active,caption: nextTd.children(".toggle-caption")});');
 		parent::run($js);
 	}
 }

@@ -40,7 +40,9 @@ trait BaseHtmlEventsTrait{
 	public function _addEvent($event, $jsCode) {
 		if (array_key_exists($event, $this->_events)) {
 			if (\is_array($this->_events[$event])) {
-				$this->_events[$event][]=$jsCode;
+				if(array_search($jsCode, $this->_events[$event])===false){
+					$this->_events[$event][]=$jsCode;
+				}
 			} else {
 				$this->_events[$event]=array ($this->_events[$event],$jsCode );
 			}

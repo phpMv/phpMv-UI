@@ -9,13 +9,11 @@ $("%identifier% .list .child.checkbox")
   .checkbox({
     fireOnInit : %fireOnInit%,
     onChange   : function() {
-      var
-        $listGroup      = $(this).closest(".list"),
+      var $listGroup      = $(this).closest(".list"),
         $parentCheckbox = $listGroup.closest(".item").children(".checkbox"),
         $checkbox       = $listGroup.find(".checkbox"),
         allChecked      = true,
-        allUnchecked    = true
-      ;
+        allUnchecked    = true;
       $checkbox.each(function() {
         if( $(this).checkbox("is checked") ) {
           allUnchecked = false;

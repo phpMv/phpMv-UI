@@ -345,4 +345,10 @@ class InstanceViewer {
 		return $this->visibleProperties;
 	}
 
+	/**
+	 * @return callable
+	 */
+	public function getDefaultValueFunction() {
+		return $this->defaultValueFunction;
+	}
 }

@@ -133,6 +133,16 @@ class HtmlFormField extends HtmlSemDoubleElement {
 		}
 		return $this;
 	}
+	
+	public function setOptional($optional=true){
+		$field=$this->getDataField();
+		if(isset($field)){
+			if(!isset($this->_validation)){
+				$this->_validation=new FieldValidation($field->getIdentifier());
+			}
+			$this->_validation->setOptional($optional);
+		}
+	}
 
 	public function addRules(array $rules){
 		foreach ($rules as $rule){

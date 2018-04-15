@@ -63,7 +63,14 @@ class FieldValidation implements \JsonSerializable{
 	}
 
 	public function jsonSerialize(){
-		return ["identifier"=>$this->identifier,"rules"=>$this->rules];
+		$result=["identifier"=>$this->identifier,"rules"=>$this->rules];
+		if($this->optional){
+			$result["optional"]=true;
+		}
+		if(isset($this->depends)){
+			$result["depends"]=$this->depends;
+		}
+		return $result;
 	}
 
 	public function setDepends($depends) {

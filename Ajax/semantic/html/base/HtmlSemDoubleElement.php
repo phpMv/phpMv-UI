@@ -149,8 +149,9 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	 * @see BaseHtml::compile()
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
-	if (isset($this->_popup))
+		if (isset($this->_popup)){
 			$this->_popup->compile($js);
+		}
 		return parent::compile($js, $view);
 	}
 

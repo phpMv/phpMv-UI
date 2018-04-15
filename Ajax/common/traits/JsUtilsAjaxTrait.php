@@ -38,6 +38,8 @@ trait JsUtilsAjaxTrait {
 		$retour.="var self=this;\n";
 		if($hasLoader===true && JString::isNotNull($responseElement)){
 			$this->addLoading($retour, $responseElement,$ajaxLoader);
+		}elseif($hasLoader==="internal"){
+			$retour.="\n$(this).addClass('loading');";
 		}
 		$ajaxParameters=["url"=>"url","method"=>"'".\strtoupper($method)."'"];
 		
@@ -51,7 +53,7 @@ trait JsUtilsAjaxTrait {
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour.="$.ajax({".$this->implodeAjaxParameters($ajaxParameters)."}).done(function( data, textStatus, jqXHR ) {\n";
-		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback)."});\n";
+		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback,$hasLoader)."});\n";
 		$retour=$this->_addJsCondition($jsCondition,$retour);
 		if ($immediatly)
 			$this->jquery_code_for_compile[]=$retour;
@@ -100,7 +102,7 @@ trait JsUtilsAjaxTrait {
 		return $retour;
 	}
 
-	protected function _getOnAjaxDone($responseElement,$jqueryDone,$ajaxTransition,$jsCallback){
+	protected function _getOnAjaxDone($responseElement,$jqueryDone,$ajaxTransition,$jsCallback,$hasLoader=false){
 		$retour="";$call=null;
 		if (JString::isNotNull($responseElement)) {
 			if(isset($ajaxTransition)){
@@ -112,6 +114,9 @@ trait JsUtilsAjaxTrait {
 				$retour="\t".$call($responseElement,$jqueryDone).";\n";
 			else
 				$retour="\t{$responseElement}.{$jqueryDone}( data );\n";
+		}
+		if($hasLoader==="internal"){
+			$retour.="\n$(self).removeClass('loading');";
 		}
 		$retour.="\t".$jsCallback."\n";
 		return $retour;
@@ -480,6 +485,8 @@ trait JsUtilsAjaxTrait {
 		$retour.="var self=this;\n";
 		if($hasLoader===true){
 			$this->addLoading($retour, $responseElement,$ajaxLoader);
+		}elseif($hasLoader==="internal"){
+			$retour.="\n$(this).addClass('loading');";
 		}
 		$ajaxParameters=["url"=>"url","method"=>"'POST'","data"=>"params","async"=>$async];
 		if(isset($headers)){
@@ -487,7 +494,7 @@ trait JsUtilsAjaxTrait {
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour.="$.ajax({".$this->implodeAjaxParameters($ajaxParameters)."}).done(function( data ) {\n";
-		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback)."});\n";
+		$retour.=$this->_getOnAjaxDone($responseElement, $jqueryDone,$ajaxTransition,$jsCallback,$hasLoader)."});\n";
 
 		if ($validation) {
 			$retour="$('#".$form."').validate({submitHandler: function(form) {

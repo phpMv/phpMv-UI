@@ -358,6 +358,13 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_instanceViewer->setDefaultValueFunction($defaultValueFunction);
 		return $this;
 	}
+	
+	/**
+	 * @return callable
+	 */
+	public function getDefaultValueFunction(){
+		return $this->_instanceViewer->getDefaultValueFunction();
+	}
 
 	/**
 	 * @param string|boolean $disable

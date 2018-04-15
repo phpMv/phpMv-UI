@@ -175,4 +175,10 @@ trait FormTrait{
 		$fv=$form->getExtraFieldValidation($fieldname);
 		$fv->addRule($type,$prompt,$value);
 	}
+	
+	public function setOptional($fieldname,$optional=true){
+		$form=$this->getForm();
+		$fv=$form->getExtraFieldValidation($fieldname);
+		$fv->setOptional($optional);
+	}
 }

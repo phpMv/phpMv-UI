@@ -37,14 +37,14 @@ class InternalPopup {
 
 	public function compile(JsUtils $js=NULL){
 		if(JString::isNotNull($this->title)){
-			$this->semElement->addToProperty("data-title", $this->title);
+			$this->semElement->setProperty("data-title", $this->title);
 		}
 		if(JString::isNotNull($this->content)){
-			$this->semElement->addToProperty("data-content", $this->content);
+			$this->semElement->setProperty("data-content", $this->content);
 		}
 		$this->_compileHtml($js);
 		if(JString::isNotNull($this->variation)){
-			$this->semElement->addToProperty("data-variation", $this->variation);
+			$this->semElement->setProperty("data-variation", $this->variation);
 		}
 	}
 
