@@ -168,11 +168,15 @@ abstract class JsUtils{
 	}
 
 	/**
-	 * @param array $params ['debug'=>true,'defer'=>false,'ajaxTransition'=>null,'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false]
+	 * @param array $params ['debug'=>true,'defer'=>false,'ajax'=>['ajaxTransition'=>null,'attr'=>'','historize'=>false,'attr'=>''],'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false,'historize'=>false]
 	 * @param mixed $injected optional param for Symfony/Ubiquity
 	 */
 	public function __construct($params=array(),$injected=NULL) {
-		$defaults=['debug'=>true,'defer'=>false,'ajaxTransition'=>null];
+		$defaults=['debug'=>true,'defer'=>false,'ajax'=>
+				['ajaxTransition'=>null,'attr'=>'','historize'=>false,'jsCallback'=>null,'hasLoader'=>true,'jqueryDone'=>'html',
+				'async'=>true,'params'=>null,'headers'=>null,'jsCondition'=>null,'ajaxLoader'=>null],
+				'historize'=>true
+		];
 		foreach ( $defaults as $key => $val ) {
 			if (isset($params[$key])===false || $params[$key]==="") {
 				$params[$key]=$defaults[$key];
@@ -185,9 +189,17 @@ abstract class JsUtils{
 		if(\array_key_exists("bootstrap", $params)){
 			$this->bootstrap(new Bootstrap());
 		}
-
-		if(isset($params["ajaxTransition"]))
-			$this->ajaxTransition=$this->setAjaxDataCall($params["ajaxTransition"]);
+		if(isset($params["ajax"])){
+			if(isset($params["ajax"]["ajaxTransition"])){
+				$this->ajaxTransition=$this->setAjaxDataCall($params["ajax"]["ajaxTransition"]);
+			}
+			if($params["ajax"]["historize"]){
+				$params["historize"]=true;
+			}
+		}
+		if($params["historize"]){
+			$this->execAtLast($this->onPopstate());
+		}
 
 		$this->params=$params;
 		$this->injected=$injected;

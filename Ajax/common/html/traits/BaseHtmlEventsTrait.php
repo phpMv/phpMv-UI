@@ -116,12 +116,12 @@ trait BaseHtmlEventsTrait{
 	}
 
 	/**
-	 * @param string $operation
-	 * @param string $event
-	 * @param string $url
-	 * @param string $responseElement
-	 * @param array $parameters
-	 * @return BaseHtml
+	 * @param string $operation http method get, post, postForm or json
+	 * @param string $event the event that triggers the request
+	 * @param string $url The url of the request
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false)
+	 * @return $this
 	 */
 	public function _ajaxOn($operation, $event, $url, $responseElement="", $parameters=array()) {
 		$params=array ("url" => $url,"responseElement" => $responseElement );
@@ -130,14 +130,41 @@ trait BaseHtmlEventsTrait{
 		return $this;
 	}
 
+	/**
+	 * Performs a get to $url on the event $event on $element
+	 * and display it in $responseElement
+	 * @param string $event the event that triggers the get request
+	 * @param string $url The url of the request
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 **/
 	public function getOn($event, $url, $responseElement="", $parameters=array()) {
 		return $this->_ajaxOn("get", $event, $url, $responseElement, $parameters);
 	}
 
+	/**
+	 * Performs a get to $url on the click event on $element
+	 * and display it in $responseElement
+	 * @param string $url The url of the request
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 **/
 	public function getOnClick($url, $responseElement="", $parameters=array()) {
 		return $this->getOn("click", $url, $responseElement, $parameters);
 	}
 
+	/**
+	 * Performs a post to $url on the event $event on $element
+	 * and display it in $responseElement
+	 * @param string $event the event that triggers the post request
+	 * @param string $url The url of the request
+	 * @param string $params the request parameters in JSON format
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 **/
 	public function postOn($event, $url, $params="{}", $responseElement="", $parameters=array()) {
 		$allParameters=[];
 		if(isset($parameters["params"])){
@@ -149,16 +176,42 @@ trait BaseHtmlEventsTrait{
 		$parameters["params"]=\implode("+'&'+", $allParameters);
 		return $this->_ajaxOn("post", $event, $url, $responseElement, $parameters);
 	}
-
+	
+	/**
+	 * Performs a post to $url on the click event on $element
+	 * and display it in $responseElement
+	 * @param string $url The url of the request
+	 * @param string $params the request parameters in JSON format
+	 * @param string $responseElement The selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 **/
 	public function postOnClick($url, $params="{}", $responseElement="", $parameters=array()) {
 		return $this->postOn("click", $url, $params, $responseElement, $parameters);
 	}
 
+	/**
+	 * Performs a post form with ajax
+	 * @param string $event the event that triggers the post request
+	 * @param string $url The url of the request
+	 * @param string $form The form HTML id
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 */
 	public function postFormOn($event, $url, $form, $responseElement="", $parameters=array()) {
 		$parameters["form"]=$form;
 		return $this->_ajaxOn("postForm", $event, $url, $responseElement, $parameters);
 	}
 
+	/**
+	 * Performs a post form with ajax on click
+	 * @param string $url The url of the request
+	 * @param string $form The form HTML id
+	 * @param string $responseElement selector of the HTML element displaying the answer
+	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 */
 	public function postFormOnClick($url, $form, $responseElement="", $parameters=array()) {
 		return $this->postFormOn("click", $url, $form, $responseElement, $parameters);
 	}
