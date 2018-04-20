@@ -472,7 +472,6 @@ trait JsUtilsAjaxTrait {
 	}
 
 	private function _postForm($url, $form, $responseElement, $parameters=[]) {
-		//$params="{}";$validation=false;$jsCallback=NULL;$attr="id";$hasLoader=true;$ajaxLoader=null;$jqueryDone="html";$ajaxTransition=null;$immediatly=false;$jsCondition=NULL;$headers=NULL;$async=true;
 		if(isset($this->params["ajax"])){
 			extract($this->params["ajax"]);
 		}
