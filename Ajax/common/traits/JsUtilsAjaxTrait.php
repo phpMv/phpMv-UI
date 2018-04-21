@@ -352,7 +352,7 @@ trait JsUtilsAjaxTrait {
 
 	/**
 	 * Prepares a Get ajax request
-	 * To use on an event
+	 * for using on an event
 	 * @param string $url The url of the request
 	 * @param string $responseElement selector of the HTML element displaying the answer
 	 * @param array $parameters default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false)
@@ -365,8 +365,8 @@ trait JsUtilsAjaxTrait {
 	/**
 	 * Performs a get to $url on the event $event on $element
 	 * and display it in $responseElement
-	 * @param string $event
-	 * @param string $element
+	 * @param string $event the event 
+	 * @param string $element the element on which event is observed
 	 * @param string $url The url of the request
 	 * @param string $responseElement The selector of the HTML element displaying the answer
 	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false)
@@ -379,8 +379,8 @@ trait JsUtilsAjaxTrait {
 	/**
 	 * Performs an ajax request to $url on the event $event on $element
 	 * and display it in $responseElement
-	 * @param string $event
-	 * @param string $element
+	 * @param string $event the event observed
+	 * @param string $element the element on which event is observed
 	 * @param string $url The url of the request
 	 * @param string $responseElement The selector of the HTML element displaying the answer
 	 * @param array $parameters default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false)
@@ -393,7 +393,7 @@ trait JsUtilsAjaxTrait {
 	/**
 	 * Performs a get to $url on the click event on $element
 	 * and display it in $responseElement
-	 * @param string $element
+	 * @param string $element the element on which event is observed
 	 * @param string $url The url of the request
 	 * @param string $responseElement The selector of the HTML element displaying the answer
 	 * @param array $parameters default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false)
@@ -405,13 +405,49 @@ trait JsUtilsAjaxTrait {
 	/**
 	 * Performs a get to $url on the click event on $element
 	 * and display it in $responseElement
-	 * @param string $element
+	 * @param string $element the element on which click is observed
 	 * @param string $url The url of the request
 	 * @param string $responseElement The selector of the HTML element displaying the answer
 	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false)
 	 */
 	public function getOnClick($element, $url, $responseElement="", $parameters=array()) {
 		return $this->getOn("click", $element, $url, $responseElement, $parameters);
+	}
+	
+	/**
+	 * Uses an hyperlink to make an ajax get request
+	 * @param string $element an hyperlink selector
+	 * @param string $responseElement the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true)
+	 * @return $this
+	 */
+	public function getHref($element,$responseElement="",$parameters=array()){
+		$parameters["attr"]="href";
+		if(JString::isNull($responseElement)){
+			$responseElement='$($(this).attr("data-target"))';
+		}
+		if(!isset($parameters["historize"])){
+			$parameters["historize"]=true;
+		}
+		return $this->getOnClick($element, "",$responseElement,$parameters);
+	}
+	
+	/**
+	 * Uses an hyperlink to make an ajax get request
+	 * @param string $element an hyperlink selector
+	 * @param string $responseElement the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
+	 * @param array $parameters default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false)
+	 * @return $this
+	 */
+	public function postHref($element,$responseElement="",$parameters=array()){
+		$parameters["attr"]="href";
+		if(JString::isNull($responseElement)){
+			$responseElement='$($(this).attr("data-target"))';
+		}
+		if(!isset($parameters["historize"])){
+			$parameters["historize"]=true;
+		}
+		return $this->postOnClick($element, "","{}",$responseElement,$parameters);
 	}
 
 	private function _post($url, $params="{}",$responseElement="", $parameters=[]) {
