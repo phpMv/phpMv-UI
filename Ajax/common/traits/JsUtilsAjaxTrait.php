@@ -114,7 +114,9 @@ trait JsUtilsAjaxTrait {
 				$retour="\t{$responseElement}.{$jqueryDone}( data );\n";
 		}
 		if(isset($history)){
-			$retour.="\nwindow.history.pushState({'html':data,'selector':".Javascript::prep_value($history).",'jqueryDone':'{$jqueryDone}'},'', url);";
+			$retour.="\nfunction getHref(url) { return \$('a').filter(function(){return \$(this).prop('href') == url; });}";
+			$retour.="\nif(window._previousURL) getHref(window._previousURL).removeClass('active');getHref(url).addClass('active');";
+			$retour.="\nwindow.history.pushState({'html':data,'selector':".Javascript::prep_value($history).",'jqueryDone':'{$jqueryDone}'},'', url);window._previousURL=url;";
 		}
 		if($hasLoader==="internal"){
 			$retour.="\n$(self).removeClass('loading');";
@@ -125,7 +127,6 @@ trait JsUtilsAjaxTrait {
 
 	protected function _getResponseElement($responseElement){
 		if (JString::isNotNull($responseElement)) {
-			$responseElement=Javascript::prep_value($responseElement);
 			$responseElement=Javascript::prep_jquery_selector($responseElement);
 		}
 		return $responseElement;
@@ -424,7 +425,7 @@ trait JsUtilsAjaxTrait {
 	public function getHref($element,$responseElement="",$parameters=array()){
 		$parameters["attr"]="href";
 		if(JString::isNull($responseElement)){
-			$responseElement='$($(this).attr("data-target"))';
+			$responseElement='%$(self).attr("data-target")%';
 		}
 		if(!isset($parameters["historize"])){
 			$parameters["historize"]=true;
@@ -442,7 +443,7 @@ trait JsUtilsAjaxTrait {
 	public function postHref($element,$responseElement="",$parameters=array()){
 		$parameters["attr"]="href";
 		if(JString::isNull($responseElement)){
-			$responseElement='$($(this).attr("data-target"))';
+			$responseElement='%$(this).attr("data-target")%';
 		}
 		if(!isset($parameters["historize"])){
 			$parameters["historize"]=true;

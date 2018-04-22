@@ -49,12 +49,12 @@ class Javascript {
 			$value=\str_replace(["\\","\""], ["\\\\","\\\""], $value);
 			$value='"'.$value.'"';
 		}
-		return $value;
+		return trim($value,"%");
 	}
 
 	public static function prep_jquery_selector($value){
 		if(JString::startswith($value, '$(')===false){
-			return '$('.$value.')';
+			return '$('.self::prep_value($value).')';
 		}
 		return $value;
 	}
