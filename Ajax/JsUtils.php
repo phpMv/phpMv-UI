@@ -168,14 +168,14 @@ abstract class JsUtils{
 	}
 
 	/**
-	 * @param array $params ['debug'=>true,'defer'=>false,'ajax'=>['ajaxTransition'=>null,'attr'=>'','historize'=>false,'attr'=>''],'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false,'historize'=>false]
+	 * @param array $params ['debug'=>true,'defer'=>false,'ajax'=>['ajaxTransition'=>null,'attr'=>'','historize'=>false,'attr'=>''],'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false,'historize'=>true,'autoActiveLinks'=>true]
 	 * @param mixed $injected optional param for Symfony/Ubiquity
 	 */
 	public function __construct($params=array(),$injected=NULL) {
 		$defaults=['debug'=>true,'defer'=>false,'ajax'=>
 				['ajaxTransition'=>null,'attr'=>'','historize'=>false,'jsCallback'=>null,'hasLoader'=>true,'jqueryDone'=>'html',
 				'async'=>true,'params'=>null,'headers'=>null,'jsCondition'=>null,'ajaxLoader'=>null],
-				'historize'=>true
+				'historize'=>true,'autoActiveLinks'=>true
 		];
 		foreach ( $defaults as $key => $val ) {
 			if (isset($params[$key])===false || $params[$key]==="") {
@@ -199,6 +199,9 @@ abstract class JsUtils{
 		}
 		if($params["historize"]){
 			$this->execAtLast($this->onPopstate());
+		}
+		if($params["autoActiveLinks"]){
+			$this->exec($this->autoActiveLinks(),true);
 		}
 
 		$this->params=$params;
