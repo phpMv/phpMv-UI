@@ -22,6 +22,7 @@ use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\HtmlFormRadio;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\elements\HtmlIcon;
+use Ajax\semantic\html\elements\HtmlList;
 
 /**
  * trait used in Widget
@@ -178,6 +179,14 @@ trait FieldAsTrait{
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($elements){
 			return HtmlFormFields::radios($name,$elements,$caption,$value);
 		}, $index,$attributes,"radios");
+	}
+	
+	public function fieldAsList($index,$classNames="",$attributes=NULL){
+		return $this->_fieldAs(function($id,$name,$value,$caption) use($classNames){
+			$result= new HtmlList($name,$value);
+			$result->addClass($classNames);
+			return $result;
+		}, $index,$attributes,"list");
 	}
 
 	public function fieldAsInput($index,$attributes=NULL){
