@@ -53,4 +53,14 @@ class JsUtils extends \Ajax\JsUtils{
 		}
 		throw new \Exception(get_class()." instance is not properly instancied : you omitted the second parameter \$controller!");
 	}
+	
+	/**
+	 * Performs jQuery compilation and displays the default view
+	 * @param mixed $parameters Variable or associative array to pass to the view <br> If a variable is passed, it will have the name <b> $ data </ b> in the view, <br>
+	 * If an associative array is passed, the view retrieves variables from the table's key names
+	 * @param boolean $asString If true, the view is not displayed but returned as a string (usable in a variable)
+	 */
+	public function renderDefaultView($parameters=[],$asString=false){
+		return $this->renderView($this->injected->getDefaultViewName(),$parameters,$asString);
+	}
 }
