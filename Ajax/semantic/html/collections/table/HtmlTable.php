@@ -26,6 +26,8 @@ class HtmlTable extends HtmlSemDoubleElement {
 	private $_footer;
 	private $_afterCompileEvents;
 	private $_activeRowSelector;
+	protected $_innerScript;
+	
 
 	public function __construct($identifier, $rowCount, $colCount) {
 		parent::__construct($identifier, "table", "ui table");
@@ -316,7 +318,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		if(\sizeof($this->_compileParts)<3){
 			$this->_template="%content%";
-			$this->refresh();
+			$this->refresh($js);
 		}
 		$this->content=JArray::sortAssociative($this->content, $this->_compileParts);
 		return parent::compile($js, $view);
@@ -326,9 +328,6 @@ class HtmlTable extends HtmlSemDoubleElement {
 		parent::compile_once($js,$view);
 		if ($this->propertyContains("class", "sortable")) {
 			$this->addEvent("execute", "$('#" . $this->identifier . "').tablesort().data('tablesort').sort($('th.default-sort'));");
-		}
-		if(isset($this->_activeRowSelector)){
-			$this->_activeRowSelector->compile();
 		}
 	}
 
@@ -362,12 +361,18 @@ class HtmlTable extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function refresh(){
+	public function refresh($js){
 		$this->_footer=$this->getFooter();
-		$this->addEvent("execute", '$("#'.$this->identifier.' tfoot").replaceWith("'.\addslashes($this->_footer).'");');
+		if(isset($js)){
+			$js->exec('$("#'.$this->identifier.' tfoot").replaceWith("'.\addslashes($this->_footer).'");',true);
+		}
+		//$this->addEvent("execute", '$("#'.$this->identifier.' tfoot").replaceWith("'.\addslashes($this->_footer).'");');
 	}
 
 	public function run(JsUtils $js){
+		if(isset($this->_activeRowSelector)){
+			$this->_activeRowSelector->run();
+		}
 		$result= parent::run($js);
 		if(isset($this->_footer))
 			$this->_footer->run($js);
@@ -435,4 +440,18 @@ class HtmlTable extends HtmlSemDoubleElement {
 		$body->mergeIdentiqualValues($colIndex,$function);
 		return $this;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getInnerScript() {
+		return $this->_innerScript;
+	}
+
+	/**
+	 * @param mixed $_innerScript
+	 */
+	public function setInnerScript($_innerScript) {
+		$this->_innerScript = $_innerScript;
+	}
+
 }

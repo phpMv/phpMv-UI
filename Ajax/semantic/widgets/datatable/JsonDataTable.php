@@ -2,12 +2,10 @@
 
 namespace Ajax\semantic\widgets\datatable;
 
-use Ajax\semantic\widgets\datatable\DataTable;
 use Ajax\service\JReflection;
 use Ajax\common\html\BaseHtml;
 use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 
 /**
  * @author jc
@@ -30,7 +28,7 @@ class JsonDataTable extends DataTable {
 
 	protected function _addRowModel($table){
 		$row=$this->_createRow($table, $this->_modelClass);
-		$row->addToProperty("style","display:none;");
+		$row->setProperty("style","display:none;");
 		$table->getBody()->_addRow($row);
 	}
 
@@ -49,23 +47,56 @@ class JsonDataTable extends DataTable {
 	 * {@inheritDoc}
 	 * @see DataTable::_associatePaginationBehavior()
 	 */
-	protected function _associatePaginationBehavior(HtmlMenu $menu,JsUtils $js=NULL){
+	protected function _associatePaginationBehavior(JsUtils $js=NULL,$offset=null){
 		$callback=null;
+		$menu=$this->_pagination->getMenu();
+		
 		if(isset($js)){
 			$id=$this->identifier;
-			$offset=$js->scriptCount();
-			$this->run($js);
-			$callback=$js->getScript($offset);
+			$callback=$js->getScript($offset).$this->getHtmlComponent()->getInnerScript();
 			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));
-			$callback.=";var page=parseInt($(self).attr('data-page'));
+			$callback.=$this->_generatePaginationScript($id);
+		}
+		if(isset($this->_urls["refresh"])){
+			$js->jsonArrayOn("click", "#".$menu->getIdentifier()." a","#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'p':$(this).attr('data-page')}","jsCallback"=>$callback]);
+		}
+	}
+	
+	protected function _generatePaginationScript($id){
+		return ";var page=parseInt($(self).attr('data-page')) || 1;var pages_visibles=$('#pagination-{$id} .item').length-2;
+			var lastPage=$('#pagination-{$id} ._lastPage');
+			var middle= Math.ceil((pages_visibles-1)/ 2);
+			var first=Math.max(1,page-middle);var max=lastPage.attr('data-max');
+			var last=Math.min(max,first+pages_visibles-1);
+			if(last-pages_visibles+1>=0)
+				first=Math.min(first,last-pages_visibles+1);
+			var number=first;
+			$('#pagination-{$id} .item.pageNum').each(function(){
+				$(this).attr('data-page',number);
+				$(this).html(number);
+				number++;
+			});
 			$('#pagination-{$id} .item').removeClass('active');
 			$('#pagination-{$id} [data-page='+page+']:not(.no-active)').addClass('active');
 			$('#pagination-{$id} ._firstPage').attr('data-page',Math.max(1,page-1));
-			var lastPage=$('#pagination-{$id} ._lastPage');lastPage.attr('data-page',Math.min(lastPage.attr('data-max'),page+1));";
-		}
-		if(isset($this->_urls["refresh"]))
-			$this->jsonArrayOnClick($menu, $this->_urls["refresh"],"post","{'p':$(this).attr('data-page')}",$callback);
+			lastPage.attr('data-page',Math.min(lastPage.attr('data-max'),page+1));
+			$('#{$id}').trigger('pageChange');$('#pagination-{$id}').show();";
 	}
+	protected function _compileSearchFieldBehavior(JsUtils $js=NULL){
+		
+	}
+	protected function _associateSearchFieldBehavior(JsUtils $js=NULL,$offset=null){
+		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
+			$callback=null;
+			$id=$this->identifier;
+			$callback=$js->getScript($offset).$this->getHtmlComponent()->getInnerScript();
+			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));
+			$callback.="$('#pagination-{$id}').hide();$('#".$this->identifier."').trigger('searchTerminate',[$(self).val()]);";
+			$js->jsonArrayOn("change", "#".$this->_searchField->getDataField()->getIdentifier(),"#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'s':$(self).val()}","jsCallback"=>$callback]);
+		}
+	}
+	
+	
 
 	/**
 	 * Returns a new AjaxCall object, must be compiled using $jquery object
@@ -109,12 +140,11 @@ class JsonDataTable extends DataTable {
 	 * @return DataTable
 	 */
 	public function paginate($page,$total_rowcount,$items_per_page=10,$pages_visibles=null){
-		return parent::paginate($page, $total_rowcount,$items_per_page,null);
+		return parent::paginate($page, $total_rowcount,$items_per_page,$pages_visibles);
 	}
 
 	public function setRowModelCallback($_rowModelCallback) {
 		$this->_rowModelCallback=$_rowModelCallback;
 		return $this;
 	}
-
 }

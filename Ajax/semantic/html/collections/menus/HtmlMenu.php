@@ -55,6 +55,7 @@ class HtmlMenu extends HtmlSemCollection {
 	private function getItemToInsert($item) {
 		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButtonGroups || $item instanceof HtmlButton || $item instanceof HtmlLabel) {
 			$itemO=new HtmlMenuItem("item-" . $this->identifier . "-" . \sizeof($this->content) , $item);
+			$itemO->addClass("no-active");
 			$item=$itemO;
 		}
 		return $item;

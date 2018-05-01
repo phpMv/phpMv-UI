@@ -1,7 +1,8 @@
 <?php
 namespace Ajax\semantic\html\collections\table\traits;
 
-use Ajax\semantic\html\collections\table\HtmlTable;
+
+use Ajax\JsUtils;
 
 /**
  * @author jc
@@ -11,7 +12,7 @@ trait TableTrait{
 
 	abstract public function addEvent($event, $jsCode, $stopPropagation=false, $preventDefault=false);
 	abstract public function getOn($event, $url, $responseElement="", $parameters=array());
-
+	
 	protected function addToPropertyTable($property,$value){
 		return $this->_self->addToProperty($property, $value);
 	}
@@ -81,5 +82,28 @@ trait TableTrait{
 	public function getOnRow($event, $url, $responseElement="", $parameters=array()){
 		$parameters=\array_merge($parameters,["stopPropagation"=>false,"preventDefault"=>false]);
 		return $this->_self->getOn($event."{{tbody tr}}", $url,$responseElement,$parameters);
+	}
+	
+	public function onPageChange($jsCode){
+		$this->_self->_addEvent("pageChange", $jsCode);
+		return $this;
+	}
+	
+	public function onSearchTerminate($jsCode){
+		$this->_self->_addEvent("searchTerminate", $jsCode);
+		return $this;
+	}
+	
+	public function getEventsScript(){
+		return $this->_self->getBsComponent()->getScript();
+	}
+	
+	public function addEventsOnRun(JsUtils $js=NULL) {
+		$script=parent::addEventsOnRun($js);
+		$innerScript=$this->_self->getInnerScript();
+		if(!isset($innerScript)){
+			$this->_self->setInnerScript($script);
+		}
+		return $script;
 	}
 }

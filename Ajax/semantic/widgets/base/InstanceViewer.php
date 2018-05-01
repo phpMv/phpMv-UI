@@ -129,18 +129,39 @@ class InstanceViewer {
 		return $value;
 	}
 
-	public function insertField($index,$field){
-		array_splice( $this->visibleProperties, $index, 0, $field );
+	public function insertField($index,$field,$key=null){
+		if(isset($key)){
+			array_splice( $this->visibleProperties, $index, 0, [$key=>$field] );
+		}else{
+			array_splice( $this->visibleProperties, $index, 0, $field );
+		}
+		return $this;
+	}
+	
+	public function sortColumnContent($index,$array){
+		if(isset($this->visibleProperties[$index])){
+			if(is_array($this->visibleProperties[$index])){
+				$this->visibleProperties[$index]=JArray::sortAssociative($this->visibleProperties[$index],$array);
+			}
+		}
 		return $this;
 	}
 
-	public function insertInField($index,$field){
+	public function insertInField($index,$field,$key=null){
 		$vb=$this->visibleProperties;
 		if(isset($vb[$index])){
-			if(\is_array($vb[$index])){
-				$this->visibleProperties[$index][]=$field;
+			if(isset($key)){
+				if(\is_array($vb[$index])){
+					$this->visibleProperties[$index][$key]=$field;
+				}else{
+					$this->visibleProperties[$index]=[$vb[$index],$key=>$field];
+				}
 			}else{
-				$this->visibleProperties[$index]=[$vb[$index],$field];
+				if(\is_array($vb[$index])){
+					$this->visibleProperties[$index][]=$field;
+				}else{
+					$this->visibleProperties[$index]=[$vb[$index],$field];
+				}
 			}
 		}else{
 			return $this->insertField($index, $field);
@@ -148,8 +169,12 @@ class InstanceViewer {
 		return $this;
 	}
 
-	public function addField($field){
-		$this->visibleProperties[]=$field;
+	public function addField($field,$key=null){
+		if(isset($key)){
+			$this->visibleProperties[]=[$key=>$field];
+		}else{
+			$this->visibleProperties[]=$field;
+		}
 		return $this;
 	}
 

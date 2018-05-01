@@ -227,4 +227,15 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 		}
 		return $this;
 	}
+	
+	/**
+	 * Remove a portion of the items array and replace it with something else
+	 * @param int $offset
+	 * @param int $length  If length is omitted, removes everything from offset to the end of the array. If length is specified and is positive, then that many elements will be removed. If length is specified and is negative then the end of the removed portion will be that many elements from the end of the array. If length is specified and is zero, no elements will be removed. Tip: to remove everything from offset to the end of the array when replacement is also specified, use count($input) for length. 
+	 * @return $this
+	 */
+	public function splice($offset,$length=null){
+		$this->content=array_slice($this->content, $offset,$length);
+		return $this;
+	}
 }

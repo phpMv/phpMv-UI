@@ -42,6 +42,14 @@ class HtmlButton extends HtmlSemDoubleElement {
 	 * @return HtmlButton
 	 */
 	public function setValue($value) {
+		if(is_array($this->content)){
+			foreach ($this->content as $i=>$content){
+				if(is_string($content)){
+					$this->content[$i]=$value;
+					return $this;
+				}
+			}
+		}
 		$this->content=$value;
 		return $this;
 	}

@@ -22,6 +22,7 @@ abstract class BaseHtml extends BaseWidget {
 	protected $_wrapAfter=array ();
 	protected $_bsComponent;
 	protected $_compiled=false;
+	protected $_runned=false;
 	protected $_postCompile;
 	protected $_preCompile;
 

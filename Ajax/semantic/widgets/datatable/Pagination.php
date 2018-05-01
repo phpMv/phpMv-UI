@@ -1,6 +1,8 @@
 <?php
 namespace Ajax\semantic\widgets\datatable;
 
+use Ajax\semantic\html\collections\menus\HtmlPaginationMenu;
+
 class Pagination {
 	private $items_per_page;
 	private $page;
@@ -8,6 +10,7 @@ class Pagination {
 	private $page_count;
 	private $pages_visibles;
 	private $row_count;
+	private $menu;
 
 	public function __construct($items_per_page=10,$pages_visibles=null,$page=1,$row_count=null){
 		$this->items_per_page=$items_per_page;
@@ -95,6 +98,28 @@ class Pagination {
 		$this->pages_visibles=$pages_visibles;
 		return $this;
 	}
-
-
+	
+	public function generateMenu($identifier){
+		$menu=new HtmlPaginationMenu("pagination-".$identifier,$this->getPagesNumbers());
+		$menu->setMax($this->page_count);
+		$menu->floatRight();
+		$menu->setActivePage($this->getPage());
+		return $this->menu=$menu;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getMenu() {
+		return $this->menu;
+	}
+	
+	public static function getPageOfRow($rownum,$itemsPerPage=10){
+		$pageNum=0;$activeRow=0;
+		while($activeRow<$rownum){
+			$activeRow+=$itemsPerPage;
+			$pageNum++;
+		}
+		return $pageNum;
+	}
 }

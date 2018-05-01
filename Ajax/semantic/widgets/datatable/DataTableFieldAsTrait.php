@@ -10,16 +10,20 @@ use Ajax\semantic\html\elements\HtmlButtonGroups;
  * @author jc
  * @property array $_deleteBehavior
  * @property array $_editBehavior
+ * @property array _displayBehavior
  * @property boolean $_visibleHover
  * @property InstanceViewer $_instanceViewer
  */
 trait DataTableFieldAsTrait{
-	abstract public function addField($field);
-	abstract public function insertField($index,$field);
-	abstract public function insertInField($index,$field);
+	protected $_buttons=["display","edit","delete"];
+	protected $_buttonsColumn;
+	abstract public function addField($field,$key=null);
+	abstract public function insertField($index,$field,$key=null);
+	abstract public function insertInField($index,$field,$key=null);
 	abstract public function fieldAs($index,$type,$attributes=NULL);
 	abstract protected function cleanIdentifier($id);
 	abstract protected function _fieldAs($elementCallback,&$index,$attributes=NULL,$prefix=null);
+	
 	/**
 	 * @param string $caption
 	 * @param callable $callback
@@ -142,18 +146,18 @@ trait DataTableFieldAsTrait{
 	 * @param callable $callback
 	 * @return DataTable
 	 */
-	public function insertInFieldButton($index,$caption,$visibleHover=true,$callback=null){
-		$this->insertInField($index, $this->getFieldButtonCallable($caption,$visibleHover,$callback));
+	public function insertInFieldButton($index,$caption,$visibleHover=true,$callback=null,$key=null){
+		$this->insertInField($index, $this->getFieldButtonCallable($caption,$visibleHover,$callback),$key);
 		return $this;
 	}
 
-	private function addDefaultButton($icon,$class=null,$visibleHover=true,$callback=null){
-		$this->addField($this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback));
+	private function addDefaultButton($icon,$class=null,$visibleHover=true,$callback=null,$key=null){
+		$this->addField($this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback),$key);
 		return $this;
 	}
 
-	private function insertDefaultButtonIn($index,$icon,$class=null,$visibleHover=true,$callback=null){
-		$this->insertInField($index,$this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback));
+	public function insertDefaultButtonIn($index,$icon,$class=null,$visibleHover=true,$callback=null,$key=null){
+		$this->insertInField($index,$this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback),$key);
 		return $this;
 	}
 
@@ -174,7 +178,7 @@ trait DataTableFieldAsTrait{
 	 */
 	public function addDeleteButton($visibleHover=true,$deleteBehavior=[],$callback=null){
 		$this->_deleteBehavior=$deleteBehavior;
-		return $this->addDefaultButton("remove","_delete red basic",$visibleHover,$callback);
+		return $this->addDefaultButton("remove","_delete red basic",$visibleHover,$callback,"delete");
 	}
 
 	/**
@@ -186,7 +190,19 @@ trait DataTableFieldAsTrait{
 	 */
 	public function addEditButton($visibleHover=true,$editBehavior=[],$callback=null){
 		$this->_editBehavior=$editBehavior;
-		return $this->addDefaultButton("edit","_edit basic",$visibleHover,$callback);
+		return $this->addDefaultButton("edit","_edit basic",$visibleHover,$callback,"edit");
+	}
+	
+	/**
+	 * Adds a button for displaying an object
+	 * @param boolean $visibleHover
+	 * @param array $displayBehavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
+	 * @param callable $callback this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @return DataTable
+	 */
+	public function addDisplayButton($visibleHover=true,$displayBehavior=[],$callback=null){
+		$this->_displayBehavior=$displayBehavior;
+		return $this->addDefaultButton("eye","_display basic",$visibleHover,$callback,"display");
 	}
 
 	/**
@@ -203,14 +219,45 @@ trait DataTableFieldAsTrait{
 		$this->insertDeleteButtonIn($index,$visibleHover,$behavior,$callbackDelete);
 		return $this;
 	}
+	
+	/**
+	 * Adds an edit and a delete button
+	 * @param boolean $visibleHover
+	 * @param array $behavior default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"data-ajax","params"=>"{}","method"=>"get")
+	 * @param callable $callbackDisplay this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @param callable $callbackEdit this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @param callable $callbackDelete this function takes the following arguments : $object=>the delete button, $instance : the active instance of the object
+	 * @return DataTable
+	 */
+	public function addAllButtons($visibleHover=true,$behavior=[],$callbackDisplay=null,$callbackEdit=null,$callbackDelete=null){
+		$this->addDisplayButton($visibleHover,$behavior,$callbackDisplay);
+		$index=$this->_instanceViewer->visiblePropertiesCount()-1;
+		$this->_buttonsColumn=$index;
+		$this->insertEditButtonIn($index,$visibleHover,$behavior,$callbackEdit);
+		$this->insertDeleteButtonIn($index,$visibleHover,$behavior,$callbackDelete);
+		return $this;
+	}
 
 	public function insertDeleteButtonIn($index,$visibleHover=true,$deleteBehavior=[],$callback=null){
 		$this->_deleteBehavior=$deleteBehavior;
-		return $this->insertDefaultButtonIn($index,"remove","_delete red basic",$visibleHover,$callback);
+		return $this->insertDefaultButtonIn($index,"remove","_delete red basic",$visibleHover,$callback,"delete");
 	}
 
 	public function insertEditButtonIn($index,$visibleHover=true,$editBehavior=[],$callback=null){
 		$this->_editBehavior=$editBehavior;
-		return $this->insertDefaultButtonIn($index,"edit","_edit basic",$visibleHover,$callback);
+		return $this->insertDefaultButtonIn($index,"edit","_edit basic",$visibleHover,$callback,"edit");
+	}
+	
+	public function insertDisplayButtonIn($index,$visibleHover=true,$displayBehavior=[],$callback=null){
+		$this->_displayBehavior=$displayBehavior;
+		return $this->insertDefaultButtonIn($index,"eye","_display basic",$visibleHover,$callback,"display");
+	}
+	
+	/**
+	 * @param multitype:string  $_buttons
+	 */
+	public function setButtons($_buttons) {
+		$this->_buttons = $_buttons;
+		return $this;
 	}
 }

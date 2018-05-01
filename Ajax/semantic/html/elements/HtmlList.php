@@ -7,11 +7,15 @@ use Ajax\semantic\html\content\HtmlListItem;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\JsUtils;
 use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
+use Ajax\semantic\html\elements\html5\HtmlDatalist;
+use Ajax\semantic\components\Visibility;
 
 class HtmlList extends HtmlSemCollection {
 	protected $_hasCheckedList;
 	protected $_fireOnInit=true;
 	protected $_ckItemChange="";
+	protected $_maxVisible;
+	protected $_dataList;
 
 	public function __construct($identifier, $items=array()) {
 		parent::__construct($identifier, "div", "ui list");
@@ -87,6 +91,16 @@ class HtmlList extends HtmlSemCollection {
 		return parent::run($js);
 	}
 	
+	protected function addFollowPoints(){
+		$count=$this->count();
+		for ($i=$this->_maxVisible;$i<$count;$i++){
+			$this->getItem($i)->addClass("notVisible")->setProperty("style", "display: none;");
+		}
+		$item=$this->addItem("...");
+		$item->addClass("points");
+		$item->onClick('$(this).hide();$("#'.$this->identifier.' .notVisible").show();');
+	}
+	
 	public function onCkItemChange($jsCode){
 		$this->_ckItemChange=$jsCode;
 	}
@@ -112,6 +126,23 @@ class HtmlList extends HtmlSemCollection {
 
 	public function setHorizontal() {
 		return $this->addToProperty("class", "horizontal");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\common\html\HtmlCollection::compile()
+	 */
+	public function compile(JsUtils $js = NULL, &$view = NULL) {
+		if(isset($this->_maxVisible) && $this->_maxVisible<$this->count()){
+			$this->addFollowPoints();
+			if(isset($js)){
+				$visibility=new Visibility($js);
+				$visibility->attach("#".$this->identifier);
+				$visibility->setOnTopVisible("$(this).children('.notVisible').hide();$(this).find('.points').show();");
+				$visibility->compile($js);
+			}
+		}
+		return parent::compile ($js,$view);
 	}
 
 	/**
@@ -178,4 +209,19 @@ class HtmlList extends HtmlSemCollection {
 		}
 		return $this;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getMaxVisible() {
+		return $this->_maxVisible;
+	}
+
+	/**
+	 * @param mixed $_maxVisible
+	 */
+	public function setMaxVisible($_maxVisible) {
+		$this->_maxVisible = $_maxVisible;
+		return $this;
+	}
+
 }

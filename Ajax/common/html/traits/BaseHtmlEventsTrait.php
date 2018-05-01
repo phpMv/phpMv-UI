@@ -7,7 +7,7 @@ use Ajax\common\html\BaseHtml;
 
 /**
  * @author jc
- * @property SimpleExtComponent $_bsComponent
+ * @property \Ajax\common\components\SimpleExtComponent $_bsComponent
  * @property string identifier
  * @property BaseHtml _self
  */
@@ -100,7 +100,9 @@ trait BaseHtmlEventsTrait{
 				$this->_bsComponent->addEvent($event, $code);
 			}
 			$this->_events=array ();
+			return $this->_bsComponent->getScript();
 		}
+		return "";
 	}
 
 	protected function _eventsOnCreate(JsUtils $js=NULL){
@@ -239,4 +241,11 @@ trait BaseHtmlEventsTrait{
 	public function jsToggle($value) {
 		return $this->jsDoJquery("toggle",$value);
 	}
+	/**
+	 * @return multitype:
+	 */
+	public function getEvents() {
+		return $this->_events;
+	}
+
 }

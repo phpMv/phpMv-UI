@@ -294,6 +294,7 @@ abstract class JsUtils{
 			$script=$this->defer($script);
 		}
 		$script.=";";
+
 		$this->jquery_code_for_compile=array();
 		if($this->params["debug"]===false){
 			$script=$this->minify($script);
@@ -303,6 +304,7 @@ abstract class JsUtils{
 		if ($view!==NULL){
 			$this->createScriptVariable($view,$view_var, $output);
 		}
+		
 		return $output;
 	}
 

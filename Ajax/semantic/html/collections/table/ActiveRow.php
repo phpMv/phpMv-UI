@@ -55,7 +55,7 @@ class ActiveRow {
 		return $this;
 	}
 
-	public function compile(){
+	public function run(){
 		$multiple="";
 		if(!$this->multiple){
 			$multiple="$(this).closest('tbody').children('tr').removeClass('".$this->class."');";

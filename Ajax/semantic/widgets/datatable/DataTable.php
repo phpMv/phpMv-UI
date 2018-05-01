@@ -6,14 +6,12 @@ use Ajax\common\Widget;
 use Ajax\JsUtils;
 use Ajax\semantic\html\collections\table\HtmlTable;
 use Ajax\semantic\html\elements\HtmlInput;
-use Ajax\semantic\html\collections\menus\HtmlPaginationMenu;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\service\JArray;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\collections\HtmlMessage;
-use Ajax\semantic\html\collections\menus\HtmlMenu;
 use Ajax\semantic\html\base\traits\BaseTrait;
 
 /**
@@ -31,6 +29,7 @@ class DataTable extends Widget {
 	protected $_compileParts;
 	protected $_deleteBehavior;
 	protected $_editBehavior;
+	protected $_displayBehavior;
 	protected $_visibleHover=false;
 	protected $_targetSelector;
 	protected $_refreshSelector;
@@ -51,6 +50,7 @@ class DataTable extends Widget {
 	}
 
 	public function run(JsUtils $js){
+		$offset=$js->scriptCount();
 		if($this->_hasCheckboxes && isset($js)){
 			$this->_runCheckboxes($js);
 		}
@@ -62,10 +62,15 @@ class DataTable extends Widget {
 			$this->_generateBehavior("delete",$this->_deleteBehavior, $js);
 		if(\is_array($this->_editBehavior))
 			$this->_generateBehavior("edit",$this->_editBehavior,$js);
+		if(\is_array($this->_displayBehavior)){
+			$this->_displayBehavior["jsCallback"]='$("#dataTable").hide();';
+			$this->_generateBehavior("display",$this->_displayBehavior,$js);
+		}
 		parent::run($js);
+		$this->_associateSearchFieldBehavior($js,$offset);
+		if(isset($this->_pagination))
+			$this->_associatePaginationBehavior($js,$offset);
 	}
-
-
 
 	protected function _generateBehavior($op,$params,JsUtils $js){
 		if(isset($this->_urls[$op])){
@@ -85,6 +90,9 @@ class DataTable extends Widget {
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
 		if(!$this->_generated){
+			if(isset($this->_buttonsColumn)){
+				$this->_instanceViewer->sortColumnContent($this->_buttonsColumn, $this->_buttons);
+			}
 			$this->_instanceViewer->setInstance($this->_model);
 			$captions=$this->_instanceViewer->getCaptions();
 			$table=$this->content["table"];
@@ -100,6 +108,7 @@ class DataTable extends Widget {
 			$this->_generateContent($table);
 
 			$this->compileExtraElements($table, $captions,$js);
+			$this->_compileSearchFieldBehavior($js);
 
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
 			$this->_compileForm();
@@ -110,9 +119,7 @@ class DataTable extends Widget {
 	}
 
 	protected function compileExtraElements($table,$captions,JsUtils $js=NULL){
-		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
-				$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(this).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith"]);
-		}
+
 		if($this->_hasCheckboxes && $table->hasPart("thead")){
 			$table->getHeader()->getCell(0, 0)->addClass("no-sort");
 		}
@@ -205,17 +212,22 @@ class DataTable extends Widget {
 		}
 		$footer=$table->getFooter();
 		$footer->mergeCol();
-		$menu=new HtmlPaginationMenu("pagination-".$this->identifier,$this->_pagination->getPagesNumbers());
-		$menu->floatRight();
-		$menu->setActiveItem($this->_pagination->getPage()-1);
-		$footer->addValues($menu);
-		$this->_associatePaginationBehavior($menu,$js);
+		$footer->addValues($this->_pagination->generateMenu($this->identifier));
 	}
 
-	protected function _associatePaginationBehavior(HtmlMenu $menu,JsUtils $js=NULL){
+	protected function _associatePaginationBehavior(JsUtils $js=NULL,$offset=null){
 		if(isset($this->_urls["refresh"])){
-			$menu->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false]);
+			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");']);
 		}
+	}
+	
+	protected function _compileSearchFieldBehavior(JsUtils $js=NULL){
+		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
+			$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(self).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>"internal","jsCallback"=>'$("#'.$this->identifier.'").trigger("searchTerminate",[$(self).val()]);']);
+		}
+	}
+	protected function _associateSearchFieldBehavior(JsUtils $js=NULL,$offset=null){
+		
 	}
 
 	protected function _getFieldName($index){
@@ -292,8 +304,9 @@ class DataTable extends Widget {
 			$this->_urls["refresh"]=JArray::getValue($urls, "refresh",0);
 			$this->_urls["edit"]=JArray::getValue($urls, "edit",1);
 			$this->_urls["delete"]=JArray::getValue($urls, "delete",2);
+			$this->_urls["display"]=JArray::getValue($urls, "display",3);
 		}else{
-			$this->_urls=["refresh"=>$urls,"edit"=>$urls,"delete"=>$urls];
+			$this->_urls=["refresh"=>$urls,"edit"=>$urls,"delete"=>$urls,"display"=>$urls];
 		}
 		return $this;
 	}

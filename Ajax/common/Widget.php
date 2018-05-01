@@ -162,14 +162,18 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this;
 	}
 
-	public function addField($field){
-		$this->_instanceViewer->addField($field);
+	public function addField($field,$key=null){
+		$this->_instanceViewer->addField($field,$key);
 		return $this;
 	}
 
 	public function addFields($fields){
 		$this->_instanceViewer->addFields($fields);
 		return $this;
+	}
+	
+	public function countFields(){
+		return $this->_instanceViewer->visiblePropertiesCount();
 	}
 
 	public function addMessage($attributes=NULL,$fieldName="message"){
@@ -182,15 +186,15 @@ abstract class Widget extends HtmlDoubleElement {
 		return $this->addMessage(["error"=>true],"message");
 	}
 
-	public function insertField($index,$field){
+	public function insertField($index,$field,$key=null){
 		$index=$this->_getIndex($index);
-		$this->_instanceViewer->insertField($index, $field);
+		$this->_instanceViewer->insertField($index, $field,$key);
 		return $this;
 	}
 
-	public function insertInField($index,$field){
+	public function insertInField($index,$field,$key=null){
 		$index=$this->_getIndex($index);
-		$this->_instanceViewer->insertInField($index, $field);
+		$this->_instanceViewer->insertInField($index, $field,$key);
 		return $this;
 	}
 
