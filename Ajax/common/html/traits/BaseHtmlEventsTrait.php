@@ -31,6 +31,14 @@ trait BaseHtmlEventsTrait{
 		}
 		return $this->_addEvent($event, $jsCode);
 	}
+	
+	public function trigger($event,$params="[]"){
+		$this->executeOnRun('$("#'.$this->identifier.'").trigger("'.$event.'",'.$params.');');
+	}
+	
+	public function jsTrigger($event,$params="[this]"){
+		return $this->jsDoJquery("trigger",["'".$event."'",$params]);
+	}
 
 	/**
 	 * @param string $event
@@ -242,7 +250,7 @@ trait BaseHtmlEventsTrait{
 		return $this->jsDoJquery("toggle",$value);
 	}
 	/**
-	 * @return multitype:
+	 * @return array
 	 */
 	public function getEvents() {
 		return $this->_events;

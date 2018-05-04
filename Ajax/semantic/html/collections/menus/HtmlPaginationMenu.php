@@ -19,19 +19,21 @@ class HtmlPaginationMenu extends HtmlMenu{
 	 * @see \Ajax\common\html\BaseHtml::compile()
 	 */
 	public function compile(JsUtils $js=NULL,&$view=NULL){
-		$max=$this->_max;//\sizeof($this->content);
-		foreach ($this->content as $item){
-			$item->addClass("pageNum");
+		$max=$this->_max;
+		if(!$this->_compiled){
+			foreach ($this->content as $item){
+				$item->addClass("pageNum");
+			}
+			$this->insertItem(new HtmlIcon("", "left chevron"))->setProperty("data-page", \max([1,$this->_page-1]))->addToProperty("class","_firstPage no-active");
+			$this->addItem(new HtmlIcon("", "right chevron"))->setProperty("data-page", \min([$max,$this->_page+1]))->setProperty("data-max", $max)->addToProperty("class","_lastPage no-active");
+			$this->asPagination();
 		}
-		$this->insertItem(new HtmlIcon("", "left chevron"))->setProperty("data-page", \max([1,$this->_page-1]))->addToProperty("class","_firstPage no-active");
-		$this->addItem(new HtmlIcon("", "right chevron"))->setProperty("data-page", \min([$max,$this->_page+1]))->setProperty("data-max", $max)->addToProperty("class","_lastPage no-active");
-		$this->asPagination();
 		return parent::compile($js,$view);
 	}
 
 	public function setActivePage($page){
 		$index=$page-$this->_pages[0];
-		$item=$this->setActiveItem($index);
+		$this->setActiveItem($index);
 		$this->_page=$page;
 		return $this;
 	}

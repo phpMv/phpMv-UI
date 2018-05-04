@@ -369,6 +369,12 @@ class InstanceViewer {
 	public function getVisibleProperties() {
 		return $this->visibleProperties;
 	}
+	
+	public function getSimpleProperties() {
+		return array_filter($this->visibleProperties,function($item){
+			return !(is_array($item) || is_object($item));
+		});
+	}
 
 	/**
 	 * @return callable

@@ -24,7 +24,7 @@ class DataElement extends Widget {
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
 		$this->_init(new DeInstanceViewer($identifier), "table", new HtmlTable($identifier, 0,2), false);
-		$this->content["table"]->setDefinition();
+		$this->content["table"]->setDefinition()->addClass("_element");
 	}
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
@@ -53,10 +53,12 @@ class DataElement extends Widget {
 	protected function _generateContent($table){
 		$values= $this->_instanceViewer->getValues();
 		$captions=$this->_instanceViewer->getCaptions();
+		$fields=$this->_instanceViewer->getVisibleProperties();
 		$count=$this->_instanceViewer->count();
-
+		$this->setProperty("data-ajax", $this->_instanceViewer->getIdentifier());
 		for($i=0;$i<$count;$i++){
-			$table->addRow([$captions[$i],$values[$i]]);
+			$row=$table->addRow([$captions[$i],$values[$i]]);
+			$row->getItem(1)->setProperty("data-field", $fields[$i]);
 		}
 	}
 

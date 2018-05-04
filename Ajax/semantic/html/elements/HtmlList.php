@@ -7,7 +7,6 @@ use Ajax\semantic\html\content\HtmlListItem;
 use Ajax\semantic\html\collections\form\HtmlFormCheckbox;
 use Ajax\JsUtils;
 use Ajax\semantic\html\modules\checkbox\AbstractCheckbox;
-use Ajax\semantic\html\elements\html5\HtmlDatalist;
 use Ajax\semantic\components\Visibility;
 
 class HtmlList extends HtmlSemCollection {
@@ -16,6 +15,7 @@ class HtmlList extends HtmlSemCollection {
 	protected $_ckItemChange="";
 	protected $_maxVisible;
 	protected $_dataList;
+	protected $_visibility;
 
 	public function __construct($identifier, $items=array()) {
 		parent::__construct($identifier, "div", "ui list");
@@ -88,6 +88,9 @@ class HtmlList extends HtmlSemCollection {
 			$jsCode=\str_replace("%onChange%", $this->_ckItemChange, $jsCode);
 			$this->executeOnRun($jsCode);
 		}
+		/*if(isset($this->_visibility)){
+			$this->_visibility->run($js);
+		}*/
 		return parent::run($js);
 	}
 	
@@ -139,7 +142,8 @@ class HtmlList extends HtmlSemCollection {
 				$visibility=new Visibility($js);
 				$visibility->attach("#".$this->identifier);
 				$visibility->setOnTopVisible("$(this).children('.notVisible').hide();$(this).find('.points').show();");
-				$visibility->compile($js);
+				$visibility->compile($js,$view);
+				$this->_visibility=$visibility;
 			}
 		}
 		return parent::compile ($js,$view);

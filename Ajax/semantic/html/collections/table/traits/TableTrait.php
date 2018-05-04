@@ -76,7 +76,7 @@ trait TableTrait{
 	}
 
 	public function onRow($event,$jsCode, $stopPropagation=false, $preventDefault=false){
-		return $this->_self->addEvent($event."{{tr}}",$jsCode,$stopPropagation,$preventDefault);
+		return $this->_self->addEvent($event."{{tbody tr}}",$jsCode,$stopPropagation,$preventDefault);
 	}
 
 	public function getOnRow($event, $url, $responseElement="", $parameters=array()){

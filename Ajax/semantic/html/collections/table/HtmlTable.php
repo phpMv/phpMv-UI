@@ -366,16 +366,18 @@ class HtmlTable extends HtmlSemDoubleElement {
 		if(isset($js)){
 			$js->exec('$("#'.$this->identifier.' tfoot").replaceWith("'.\addslashes($this->_footer).'");',true);
 		}
-		//$this->addEvent("execute", '$("#'.$this->identifier.' tfoot").replaceWith("'.\addslashes($this->_footer).'");');
 	}
 
 	public function run(JsUtils $js){
-		if(isset($this->_activeRowSelector)){
-			$this->_activeRowSelector->run();
+		if(!$this->_runned){
+			if(isset($this->_activeRowSelector)){
+				$this->_activeRowSelector->run();
+			}
 		}
 		$result= parent::run($js);
 		if(isset($this->_footer))
 			$this->_footer->run($js);
+		$this->_runned=true;
 		return $result;
 	}
 
@@ -452,6 +454,11 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 */
 	public function setInnerScript($_innerScript) {
 		$this->_innerScript = $_innerScript;
+	}
+	
+	public function onActiveRowChange($jsCode){
+		$this->on("activeRowChange",$jsCode);
+		return $this;
 	}
 
 }

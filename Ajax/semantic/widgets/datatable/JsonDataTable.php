@@ -9,7 +9,7 @@ use Ajax\JsUtils;
 
 /**
  * @author jc
- * a DataTable refreshed with JSON
+ * a DataTable refreshed with JSON datas
  * @since 2.2.2
  */
 class JsonDataTable extends DataTable {
@@ -18,7 +18,7 @@ class JsonDataTable extends DataTable {
 
 	public function __construct($identifier, $model, $modelInstance=NULL) {
 		parent::__construct($identifier, $model, $modelInstance);
-		$this->_rowClass="_json";
+		$this->_rowClass="_json _element";
 	}
 
 	protected function _generateContent($table){
@@ -27,19 +27,20 @@ class JsonDataTable extends DataTable {
 	}
 
 	protected function _addRowModel($table){
-		$row=$this->_createRow($table, $this->_modelClass);
+		$fields=$this->_instanceViewer->getSimpleProperties();
+		$row=$this->_createRow($table, $this->_modelClass,$fields);
 		$row->setProperty("style","display:none;");
 		$table->getBody()->_addRow($row);
 	}
 
-	protected function _createRow($table,$rowClass){
+	protected function _createRow($table,$rowClass,$fields){
 		$object=JReflection::jsonObject($this->_model);
 		if(isset($this->_rowModelCallback)){
 			$callback=$this->_rowModelCallback;
 			$callback($object);
 		}
-		$row=$this->_generateRow($object, $table,"_jsonArrayChecked");
-		$row->setClass($rowClass);
+		$row=$this->_generateRow($object, $fields,$table,"_jsonArrayChecked");
+		$row->setClass($rowClass." _element");
 		return $row;
 	}
 
@@ -56,10 +57,11 @@ class JsonDataTable extends DataTable {
 			$callback=$js->getScript($offset).$this->getHtmlComponent()->getInnerScript();
 			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));
 			$callback.=$this->_generatePaginationScript($id);
+			if(isset($this->_urls["refresh"])){
+				$js->jsonArrayOn("click", "#".$menu->getIdentifier()." a","#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'p':$(this).attr('data-page')}","jsCallback"=>$callback]);
+			}
 		}
-		if(isset($this->_urls["refresh"])){
-			$js->jsonArrayOn("click", "#".$menu->getIdentifier()." a","#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'p':$(this).attr('data-page')}","jsCallback"=>$callback]);
-		}
+
 	}
 	
 	protected function _generatePaginationScript($id){
@@ -80,14 +82,13 @@ class JsonDataTable extends DataTable {
 			$('#pagination-{$id} [data-page='+page+']:not(.no-active)').addClass('active');
 			$('#pagination-{$id} ._firstPage').attr('data-page',Math.max(1,page-1));
 			lastPage.attr('data-page',Math.min(lastPage.attr('data-max'),page+1));
-			$('#{$id}').trigger('pageChange');$('#pagination-{$id}').show();";
+			$('#{$id}').trigger('pageChange');$('#{$id}').trigger('activeRowChange');$('#pagination-{$id}').show();";
 	}
 	protected function _compileSearchFieldBehavior(JsUtils $js=NULL){
 		
 	}
 	protected function _associateSearchFieldBehavior(JsUtils $js=NULL,$offset=null){
 		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
-			$callback=null;
 			$id=$this->identifier;
 			$callback=$js->getScript($offset).$this->getHtmlComponent()->getInnerScript();
 			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));

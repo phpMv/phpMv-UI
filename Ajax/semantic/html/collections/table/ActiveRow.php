@@ -60,7 +60,7 @@ class ActiveRow {
 		if(!$this->multiple){
 			$multiple="$(this).closest('tbody').children('tr').removeClass('".$this->class."');";
 		}
-		$this->table->onRow($this->event, $multiple."$(this).toggleClass('".$this->class."');",false,false);
+		$this->table->onRow($this->event, $multiple."$(this).toggleClass('".$this->class."');".$this->table->jsTrigger("activeRowChange","[this]"),false,false);
 	}
 
 }

@@ -254,7 +254,7 @@ trait DataTableFieldAsTrait{
 	}
 	
 	/**
-	 * @param multitype:string  $_buttons
+	 * @param array  $_buttons
 	 */
 	public function setButtons($_buttons) {
 		$this->_buttons = $_buttons;

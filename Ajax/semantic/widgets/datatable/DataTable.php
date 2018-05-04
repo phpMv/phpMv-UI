@@ -35,7 +35,7 @@ class DataTable extends Widget {
 	protected $_refreshSelector;
 	protected $_emptyMessage;
 	protected $_json;
-	protected $_rowClass="";
+	protected $_rowClass="_element";
 	protected $_sortable;
 	protected $_hiddenColumns;
 	protected $_colWidths;
@@ -107,7 +107,7 @@ class DataTable extends Widget {
 
 			$this->_generateContent($table);
 
-			$this->compileExtraElements($table, $captions,$js);
+			$this->compileExtraElements($table, $captions);
 			$this->_compileSearchFieldBehavior($js);
 
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"table",PositionInTable::AFTERTABLE]);
@@ -118,7 +118,7 @@ class DataTable extends Widget {
 		return parent::compile($js,$view);
 	}
 
-	protected function compileExtraElements($table,$captions,JsUtils $js=NULL){
+	protected function compileExtraElements($table,$captions){
 
 		if($this->_hasCheckboxes && $table->hasPart("thead")){
 			$table->getHeader()->getCell(0, 0)->addClass("no-sort");
@@ -128,7 +128,7 @@ class DataTable extends Widget {
 			$this->_setToolbarPosition($table, $captions);
 		}
 		if(isset($this->_pagination) && $this->_pagination->getVisible()){
-			$this->_generatePagination($table,$js);
+			$this->_generatePagination($table);
 		}
 	}
 
@@ -164,8 +164,9 @@ class DataTable extends Widget {
 			$objects=$this->_pagination->getObjects($this->_modelInstance);
 		}
 			InstanceViewer::setIndex(0);
-			$table->fromDatabaseObjects($objects, function($instance) use($table){
-				return $this->_generateRow($instance, $table);
+			$fields=$this->_instanceViewer->getSimpleProperties();
+			$table->fromDatabaseObjects($objects, function($instance) use($table,$fields){
+				return $this->_generateRow($instance, $fields,$table);
 			});
 		if($table->getRowCount()==0){
 			$result=$table->addRow();
@@ -174,7 +175,7 @@ class DataTable extends Widget {
 		}
 	}
 
-	protected function _generateRow($instance,&$table,$checkedClass=null){
+	protected function _generateRow($instance,$fields,&$table,$checkedClass=null){
 		$this->_instanceViewer->setInstance($instance);
 		InstanceViewer::$index++;
 		$values= $this->_instanceViewer->getValues();
@@ -202,10 +203,11 @@ class DataTable extends Widget {
 		$result->setProperty("data-ajax",$dataAjax);
 		$result->setValues($values);
 		$result->addToProperty("class",$this->_rowClass);
+		$result->setPropertyValues("data-field", $fields);
 		return $result;
 	}
 
-	protected function _generatePagination($table,$js=NULL){
+	protected function _generatePagination($table){
 		if(isset($this->_toolbar)){
 			if($this->_toolbarPosition==PositionInTable::FOOTER)
 				$this->_toolbar->setFloated("left");
@@ -217,7 +219,7 @@ class DataTable extends Widget {
 
 	protected function _associatePaginationBehavior(JsUtils $js=NULL,$offset=null){
 		if(isset($this->_urls["refresh"])){
-			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");']);
+			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
 		}
 	}
 	
@@ -485,6 +487,15 @@ class DataTable extends Widget {
 
 	public function setColAlignment($colIndex,$alignment){
 		$this->content["table"]->setColAlignment($colIndex,$alignment);
+		return $this;
+	}
+	
+	public function trigger($event,$params="[]"){
+		return $this->getHtmlComponent()->trigger($event,$params);
+	}
+	
+	public function onActiveRowChange($jsCode){
+		$this->getHtmlComponent()->onActiveRowChange($jsCode);
 		return $this;
 	}
 }

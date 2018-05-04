@@ -251,13 +251,14 @@ trait JsUtilsAjaxTrait {
 		$parameters=\array_merge($parameters,["hasLoader"=>false]);
 		$jsCallback=isset($parameters['jsCallback']) ? $parameters['jsCallback'] : "";
 		$context=isset($parameters['context']) ? $parameters['context'] : "document";
-		$retour="\tdata=($.isPlainObject(data))?data:JSON.parse(data);\t".$jsCallback.";\n\tfor(var key in data){"
+		$retour="\tdata=($.isPlainObject(data))?data:JSON.parse(data);\t".$jsCallback.";"
+				."\n\tfor(var key in data){"
 				."if($('#'+key,".$context.").length){ if($('#'+key,".$context.").is('[value]')) { $('#'+key,".$context.").val(data[key]);} else { $('#'+key,".$context.").html(data[key]); }}};\n";
 				$retour.="\t$(document).trigger('jsonReady',[data]);\n";
 		$parameters["jsCallback"]=$retour;
 		return $this->_ajax($method, $url,null,$parameters);
 	}
-
+	
 	/**
 	 * Performs an ajax request and receives the JSON data types by assigning DOM elements with the same name
 	 * @param string $url the request url

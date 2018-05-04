@@ -531,6 +531,20 @@ trait JsUtilsActionsTrait {
 		return $script;
 	}
 	
+	public function setJsonToElement($json,$elementClass="_element",$immediatly=true){
+		$retour="var data={$json};"
+				."\n\tdata=($.isPlainObject(data))?data:JSON.parse(data);"
+				."\n\tvar pk=data['pk'];var object=data['object'];"
+				."\n\tfor(var field in object){"
+				."\n\tif($('[data-field='+field+']',$('._element[data-ajax='+pk+']')).length){"
+				."\n\t\t$('[data-field='+field+']',$('._element[data-ajax='+pk+']')).each(function(){"
+						."\n\t\t\tif($(this).is('[value]')) { $(this).val(object[field]);} else { $(this).html(object[field]); }"
+				."\n\t});"
+				."\n}};\n";
+		$retour.="\t$(document).trigger('jsonReady',[data]);\n";
+		return $this->exec($retour,$immediatly);
+	}
+	
 	/**
 	 * Sets an element draggable (HTML5 drag and drop)
 	 * @param string $element The element selector
