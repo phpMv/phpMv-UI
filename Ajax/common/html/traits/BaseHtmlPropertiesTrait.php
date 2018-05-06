@@ -51,13 +51,11 @@ trait BaseHtmlPropertiesTrait{
 		} else if ($value !== "" && $this->_self->propertyContains($name, $value) === false) {
 			if(isset($this->_self->properties[$name])){
 				$v=$this->_self->properties[$name];
-				if (isset($v) && $v !== "")
-					$v=$v . $separator . $value;
-					else
-						$v=$value;
-	
-				return $this->_self->setProperty($name, $v);
+				if (isset($v) && $v !== ""){
+					$value=$v . $separator . $value;
+				}
 			}
+			return $this->_self->setProperty($name, $value);
 		}
 		return $this;
 	}

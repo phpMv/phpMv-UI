@@ -36,6 +36,9 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 	}
 
 	private function _getContent($key="content",$baseClass="content"){
+		if(!is_array($this->content)){
+			$this->content=[$this->content];
+		}
 		if(\array_key_exists($key, $this->content)===false){
 			$this->content[$key]=new HtmlSemDoubleElement($key."-".$this->identifier,"div",$baseClass);
 		}

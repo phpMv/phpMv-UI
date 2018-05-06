@@ -209,10 +209,6 @@ class HtmlBreadcrumb extends HtmlSemNavElement {
 		return $itemO;
 	}
 
-	public function asLinks() {
-		$this->contentAs("a");
-	}
-
 	public function asTexts() {
 		$this->contentAs("div");
 	}

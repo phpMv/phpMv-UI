@@ -172,14 +172,19 @@ abstract class JsUtils{
 	 * @param mixed $injected optional param for Symfony/Ubiquity
 	 */
 	public function __construct($params=array(),$injected=NULL) {
-		$defaults=['debug'=>true,'defer'=>false,'ajax'=>
-				['ajaxTransition'=>null,'attr'=>'','historize'=>false,'jsCallback'=>null,'hasLoader'=>true,'jqueryDone'=>'html',
-				'async'=>true,'params'=>null,'headers'=>null,'jsCondition'=>null,'ajaxLoader'=>null],
+		$ajaxDefault=['ajaxTransition'=>null,'attr'=>'','historize'=>false,'jsCallback'=>null,'hasLoader'=>true,'jqueryDone'=>'html',
+				'async'=>true,'params'=>null,'headers'=>null,'jsCondition'=>null,'ajaxLoader'=>null];
+		$defaults=['debug'=>true,'defer'=>false,'ajax'=>$ajaxDefault,
 				'historize'=>true,'autoActiveLinks'=>true
 		];
 		foreach ( $defaults as $key => $val ) {
 			if (isset($params[$key])===false || $params[$key]==="") {
 				$params[$key]=$defaults[$key];
+			}
+		}
+		foreach ( $ajaxDefault as $key=>$val){
+			if (isset($params["ajax"][$key])===false || $params["ajax"][$key]==="") {
+				$params["ajax"][$key]=$ajaxDefault[$key];
 			}
 		}
 

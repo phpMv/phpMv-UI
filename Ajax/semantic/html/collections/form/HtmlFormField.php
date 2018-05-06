@@ -117,7 +117,7 @@ class HtmlFormField extends HtmlSemDoubleElement {
 	}
 
 	public function setReadonly(){
-		$this->getField()->setProperty("readonly", "");
+		$this->getDataField()->setProperty("readonly", "");
 	}
 
 	public function addRule($type,$prompt=NULL,$value=NULL){

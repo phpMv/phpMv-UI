@@ -123,7 +123,11 @@ class HtmlTR extends HtmlSemCollection {
 	}
 
 	public function mergeRow($colIndex=0) {
-		return $this->getItem($colIndex)->mergeRow();
+		$row=$this->getItem($colIndex);
+		if(isset($row)){
+			$this->getItem($colIndex)->mergeRow();
+		}
+		return $this;
 	}
 
 	public function getColPosition($colIndex) {

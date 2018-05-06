@@ -19,7 +19,7 @@ trait SemanticWidgetsTrait {
 	 * @param array $instances
 	 * @return DataTable
 	 */
-	public function dataTable($identifier,$model, $instances){
+	public function dataTable($identifier,$model, $instances=null){
 		return $this->addHtmlComponent(new DataTable($identifier,$model,$instances));
 	}
 
@@ -29,7 +29,7 @@ trait SemanticWidgetsTrait {
 	 * @param array $instances
 	 * @return JsonDataTable
 	 */
-	public function jsonDataTable($identifier,$model, $instances){
+	public function jsonDataTable($identifier,$model, $instances=null){
 		return $this->addHtmlComponent(new JsonDataTable($identifier,$model,$instances));
 	}
 
@@ -38,7 +38,7 @@ trait SemanticWidgetsTrait {
 	 * @param object $instance
 	 * @return DataElement
 	 */
-	public function dataElement($identifier, $instance){
+	public function dataElement($identifier, $instance=null){
 		return $this->addHtmlComponent(new DataElement($identifier,$instance));
 	}
 

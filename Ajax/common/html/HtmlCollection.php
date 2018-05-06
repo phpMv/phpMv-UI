@@ -80,7 +80,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	 * @return \Ajax\common\html\HtmlDoubleElement
 	 */
 	public function getItem($index) {
-		if (is_int($index))
+		if (is_int($index)&& isset($this->content[$index]))
 			return $this->content[$index];
 		else {
 			$elm=$this->getElementById($index, $this->content);
