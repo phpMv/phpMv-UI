@@ -13,6 +13,7 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\base\traits\BaseTrait;
+use Ubiquity\utils\base\UString;
 
 /**
  * DataTable widget for displaying list of objects
@@ -63,13 +64,13 @@ class DataTable extends Widget {
 		if(\is_array($this->_editBehavior))
 			$this->_generateBehavior("edit",$this->_editBehavior,$js);
 		if(\is_array($this->_displayBehavior)){
-			$this->_displayBehavior["jsCallback"]='$("#dataTable").hide();';
 			$this->_generateBehavior("display",$this->_displayBehavior,$js);
 		}
 		parent::run($js);
-		$this->_associateSearchFieldBehavior($js,$offset);
 		if(isset($this->_pagination))
 			$this->_associatePaginationBehavior($js,$offset);
+		$this->_associateSearchFieldBehavior($js,$offset);
+			
 	}
 
 	protected function _generateBehavior($op,$params,JsUtils $js){
@@ -219,13 +220,13 @@ class DataTable extends Widget {
 
 	protected function _associatePaginationBehavior(JsUtils $js=NULL,$offset=null){
 		if(isset($this->_urls["refresh"])){
-			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page')}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
+			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page'),'_model':'".UString::doubleBackSlashes($this->_model)."'}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
 		}
 	}
 	
 	protected function _compileSearchFieldBehavior(JsUtils $js=NULL){
 		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
-			$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(self).val()}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>"internal","jsCallback"=>'$("#'.$this->identifier.'").trigger("searchTerminate",[$(self).val()]);']);
+			$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(self).val(),'_model':'".UString::doubleBackSlashes($this->_model)."'}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>"internal","jsCallback"=>'$("#'.$this->identifier.'").trigger("searchTerminate",[$(self).val()]);']);
 		}
 	}
 	protected function _associateSearchFieldBehavior(JsUtils $js=NULL,$offset=null){
@@ -498,4 +499,32 @@ class DataTable extends Widget {
 		$this->getHtmlComponent()->onActiveRowChange($jsCode);
 		return $this;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getDeleteBehavior() {
+		return $this->_deleteBehavior;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getEditBehavior() {
+		return $this->_editBehavior;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDisplayBehavior() {
+		return $this->_displayBehavior;
+	}
+	/**
+	 * @param mixed $_displayBehavior
+	 */
+	public function setDisplayBehavior($_displayBehavior) {
+		$this->_displayBehavior = $_displayBehavior;
+	}
+
+
 }

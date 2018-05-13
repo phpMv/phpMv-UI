@@ -6,6 +6,7 @@ use Ajax\service\JReflection;
 use Ajax\common\html\BaseHtml;
 use Ajax\service\AjaxCall;
 use Ajax\JsUtils;
+use Ubiquity\utils\base\UString;
 
 /**
  * @author jc
@@ -58,7 +59,7 @@ class JsonDataTable extends DataTable {
 			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));
 			$callback.=$this->_generatePaginationScript($id);
 			if(isset($this->_urls["refresh"])){
-				$js->jsonArrayOn("click", "#".$menu->getIdentifier()." a","#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'p':$(this).attr('data-page')}","jsCallback"=>$callback]);
+				$js->jsonArrayOn("click", "#".$menu->getIdentifier()." a","#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'p':$(this).attr('data-page'),'_model':'".UString::doubleBackSlashes($this->_model)."'}","jsCallback"=>$callback]);
 			}
 		}
 
@@ -93,7 +94,7 @@ class JsonDataTable extends DataTable {
 			$callback=$js->getScript($offset).$this->getHtmlComponent()->getInnerScript();
 			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));
 			$callback.="$('#pagination-{$id}').hide();$('#".$this->identifier."').trigger('searchTerminate',[$(self).val()]);";
-			$js->jsonArrayOn("change", "#".$this->_searchField->getDataField()->getIdentifier(),"#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'s':$(self).val()}","jsCallback"=>$callback]);
+			$js->jsonArrayOn("change", "#".$this->_searchField->getDataField()->getIdentifier(),"#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'s':$(self).val(),'_model':'".UString::doubleBackSlashes($this->_model)."'}","jsCallback"=>$callback]);
 		}
 	}
 	
