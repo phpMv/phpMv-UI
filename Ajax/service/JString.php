@@ -62,6 +62,12 @@ class JString {
 		}
 		return $result;
 	}
+	
+	public static function doubleBackSlashes($value){
+		if(is_string($value))
+			return str_replace("\\", "\\\\", $value);
+			return $value;
+	}
 
 	public static function cleanIdentifier($id) {
 		return preg_replace('/[^a-zA-Z0-9\-]/s', '', $id);

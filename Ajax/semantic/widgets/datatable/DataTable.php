@@ -13,7 +13,7 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\base\traits\BaseTrait;
-use Ubiquity\utils\base\UString;
+use Ajax\service\JString;
 
 /**
  * DataTable widget for displaying list of objects
@@ -220,13 +220,13 @@ class DataTable extends Widget {
 
 	protected function _associatePaginationBehavior(JsUtils $js=NULL,$offset=null){
 		if(isset($this->_urls["refresh"])){
-			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page'),'_model':'".UString::doubleBackSlashes($this->_model)."'}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
+			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page'),'_model':'".JString::doubleBackSlashes($this->_model)."'}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
 		}
 	}
 	
 	protected function _compileSearchFieldBehavior(JsUtils $js=NULL){
 		if(isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])){
-			$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(self).val(),'_model':'".UString::doubleBackSlashes($this->_model)."'}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>"internal","jsCallback"=>'$("#'.$this->identifier.'").trigger("searchTerminate",[$(self).val()]);']);
+			$this->_searchField->postOn("change", $this->_urls["refresh"],"{'s':$(self).val(),'_model':'".JString::doubleBackSlashes($this->_model)."'}","#".$this->identifier." tbody",["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>"internal","jsCallback"=>'$("#'.$this->identifier.'").trigger("searchTerminate",[$(self).val()]);']);
 		}
 	}
 	protected function _associateSearchFieldBehavior(JsUtils $js=NULL,$offset=null){
