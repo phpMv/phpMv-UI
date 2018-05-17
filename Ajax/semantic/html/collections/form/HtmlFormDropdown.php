@@ -2,7 +2,6 @@
 
 namespace Ajax\semantic\html\collections\form;
 
-use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\modules\HtmlDropdown;
 
 class HtmlFormDropdown extends HtmlFormField {

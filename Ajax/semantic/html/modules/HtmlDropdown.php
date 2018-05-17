@@ -66,7 +66,11 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	public function addIcon($icon,$before=true,$labeled=false){
 		$this->removeArrow();
 		$this->addIconP($icon,$before,$labeled);
-		return $this->getElementById("text-".$this->identifier, $this->content)->setWrapAfter("");
+		$elm=$this->getElementById("text-".$this->identifier, $this->content);
+		if(isset($elm)){
+			$elm->setWrapAfter("");
+		}
+		return $this;
 	}
 
 	public function addIcons($icons){
