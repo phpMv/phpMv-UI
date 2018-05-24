@@ -572,4 +572,20 @@ trait JsUtilsActionsTrait {
 		$script.=$this->_add_event($element, Javascript::dropZone($jqueryDone,$jsCallback), "drop",true,$stopPropagation,$immediatly);
 		return $script;
 	}
+	
+	public function interval($jsCode,$time,$globalName=null,$immediatly=true){
+		if(!Javascript::isFunction($jsCode)){
+			$jsCode="function(){\n".$jsCode."\n}";
+		}
+		if(isset($globalName)){
+			$script="if(window.{$globalName}){clearInterval(window.{$globalName});}\nwindow.{$globalName}=setInterval({$jsCode},{$time});";
+		}else{
+			$script="setInterval({$jsCode},{$time});";
+		}
+		return $this->exec($script,$immediatly);
+	}
+	
+	public function clearInterval($globalName,$immediatly=true){
+		return $this->exec("if(window.{$globalName}){clearInterval(window.{$globalName});}",$immediatly);
+	}
 }

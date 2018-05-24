@@ -17,6 +17,10 @@ class Javascript {
 	public static function containsCode($expression){
 		return strrpos($expression, 'this')!==false||strrpos($expression, 'event')!==false||strrpos($expression, 'self')!==false;
 	}
+	
+	public static function isFunction($jsCode){
+		return JString::startswith($jsCode, "function");
+	}
 
 	/**
 	 * Puts HTML element in quotes for use in jQuery code

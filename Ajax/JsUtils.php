@@ -438,11 +438,11 @@ abstract class JsUtils{
 		}
 		if (array_search($event, $this->jquery_events)===false)
 			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
-			else
-				$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
-				if($immediatly)
-					$this->jquery_code_for_compile[]=$event;
-					return $event;
+		else
+			$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
+		if($immediatly)
+			$this->jquery_code_for_compile[]=$event;
+		return $event;
 	}
 
 	public function getInjected() {

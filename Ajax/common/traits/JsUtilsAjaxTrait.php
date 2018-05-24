@@ -18,6 +18,7 @@ trait JsUtilsAjaxTrait {
 
 	abstract public function getUrl($url);
 	abstract public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true);
+	abstract public function interval($jsCode,$time,$globalName=null,$immediatly=true);
 
 	protected function _ajax($method,$url,$responseElement="",$parameters=[]) {
 		if(isset($this->params["ajax"])){
@@ -227,6 +228,10 @@ trait JsUtilsAjaxTrait {
 	public function ajax($method,$url, $responseElement="", $parameters=[]) {
 		$parameters["immediatly"]=true;
 		return $this->_ajax($method,$url,$responseElement,$parameters);
+	}
+	
+	public function ajaxInterval($method,$url, $interval,$globalName=null,$responseElement="", $parameters=[]){
+		return $this->interval($this->ajaxDeferred($method, $url,$responseElement,$parameters), $interval,$globalName);
 	}
 
 	/**
