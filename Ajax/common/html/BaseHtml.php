@@ -197,10 +197,7 @@ abstract class BaseHtml extends BaseWidget {
 					$beforeCompile($this,$js,$view);
 				}
 			}
-			if(\is_callable($this->_preCompile)){
-				$pc=$this->_preCompile;
-				$pc($this);
-			}
+			$this->callCallback($this->_preCompile);
 			unset($this->properties["jsCallback"]);
 			$this->_compiled=true;
 		}
@@ -279,6 +276,28 @@ abstract class BaseHtml extends BaseWidget {
 	}
 
 	public function onPreCompile($callback){
-		$this->_preCompile=$callback;
+		$this->_preCompile=$this->addCallback($this->_preCompile, $callback);
+	}
+	
+	private function addCallback($originalValue,$callback){
+		if(isset($originalValue)){
+			if(!is_array($originalValue)){
+				$result=[$originalValue];
+			}
+			$result[]=$callback;
+			return $result;
+		}
+		return $callback;
+	}
+	
+	private function callCallback($callable){
+		if(\is_callable($callable)){
+			return $callable($this);
+		}
+		if(is_array($callable)){
+			foreach ($callable as $call){
+				$this->callCallback($call);
+			}
+		}
 	}
 }

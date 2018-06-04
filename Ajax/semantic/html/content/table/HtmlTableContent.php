@@ -213,6 +213,17 @@ class HtmlTableContent extends HtmlSemCollection {
 		}
 		return $this;
 	}
+	
+	private function colAlignFromRight($colIndex, $function) {
+		$count=$this->count();
+		for($i=0; $i < $count; $i++) {
+			$maxRow=$this->content[$i]->count();
+			$index=$maxRow-$colIndex-1;
+			if (($cell=$this->getCell($i, $index))!== NULL)
+				$cell->$function();
+		}
+		return $this;
+	}
 
 	public function colCenter($colIndex) {
 		return $this->colAlign($colIndex, "textCenterAligned");
@@ -224,6 +235,18 @@ class HtmlTableContent extends HtmlSemCollection {
 
 	public function colLeft($colIndex) {
 		return $this->colAlign($colIndex, "textLeftAligned");
+	}
+	
+	public function colCenterFromRight($colIndex) {
+		return $this->colAlignFromRight($colIndex, "textCenterAligned");
+	}
+	
+	public function colRightFromRight($colIndex) {
+		return $this->colAlignFromRight($colIndex, "textRightAligned");
+	}
+	
+	public function colLeftFromRight($colIndex) {
+		return $this->colAlignFromRight($colIndex, "textLeftAligned");
 	}
 
 	/**

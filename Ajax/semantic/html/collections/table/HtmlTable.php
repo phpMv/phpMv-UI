@@ -231,6 +231,33 @@ class HtmlTable extends HtmlSemDoubleElement {
 	public function colLeft($colIndex) {
 		return $this->colAlign($colIndex, "colLeft");
 	}
+	
+	/**
+	 * Sets the col alignment to center
+	 * @param int $colIndex
+	 * @return HtmlTable
+	 */
+	public function colCenterFromRight($colIndex) {
+		return $this->colAlign($colIndex, "colCenterFromRight");
+	}
+	
+	/**
+	 * Sets the col alignment to right
+	 * @param int $colIndex
+	 * @return HtmlTable
+	 */
+	public function colRightFromRight($colIndex) {
+		return $this->colAlign($colIndex, "colRightFromRight");
+	}
+	
+	/**
+	 * Sets col alignment to left
+	 * @param int $colIndex
+	 * @return HtmlTable
+	 */
+	public function colLeftFromRight($colIndex) {
+		return $this->colAlign($colIndex, "colLeftFromRight");
+	}
 
 	public function setColAlignment($colIndex,$alignment){
 		switch ($alignment){
@@ -248,6 +275,27 @@ class HtmlTable extends HtmlSemDoubleElement {
 			
 			default:
 				$function="colLeft";
+		}
+		$this->colAlign($colIndex, $function);
+		return $this;
+	}
+	
+	public function setColAlignmentFromRight($colIndex,$alignment){
+		switch ($alignment){
+			case TextAlignment::LEFT:
+				$function="colLeftFromRight";
+				break;
+				
+			case TextAlignment::RIGHT:
+				$function="colRightFromRight";
+				break;
+				
+			case TextAlignment::CENTER:
+				$function="colCenterFromRight";
+				break;
+				
+			default:
+				$function="colLeftFromRight";
 		}
 		$this->colAlign($colIndex, $function);
 		return $this;
