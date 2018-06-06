@@ -508,5 +508,9 @@ class HtmlTable extends HtmlSemDoubleElement {
 		$this->on("activeRowChange",$jsCode);
 		return $this;
 	}
+	
+	public function addMergeRow($colCount,$value=null){
+		return $this->getBody()->addMergeRow($colCount,$value);
+	}
 
 }

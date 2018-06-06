@@ -15,6 +15,7 @@ class InstanceViewer {
 	protected $captions;
 	protected $captionCallback;
 	protected $defaultValueFunction;
+	protected $groupByFields;
 
 
 	public static $index=0;
@@ -55,8 +56,18 @@ class InstanceViewer {
 		$values=[];
 		$index=0;
 		$count=$this->count();
-		while($index<$count){
-			$values[]=$this->getValue($index++);
+		$hasGroupby=is_array($this->groupByFields);
+		if(!$hasGroupby){
+			while($index<$count){
+					$values[]=$this->getValue($index++);
+			}
+		}else{
+			while($index<$count){
+				if(array_search($index, $this->groupByFields)===false){
+					$values[]=$this->getValue($index);
+				}
+				$index++;
+			}
 		}
 		return $values;
 	}
@@ -300,7 +311,8 @@ class InstanceViewer {
 	}
 
 	public function getCaptions(){
-		$count=$this->count();
+		$hasGroupby=is_array($this->groupByFields);
+		$count=$this->count()-$this->getGroupByFieldsCount();
 		if(isset($this->captions)){
 			$captions= \array_values($this->captions);
 			$captionsSize=\sizeof($captions);
@@ -310,8 +322,17 @@ class InstanceViewer {
 		}else{
 			$captions=[];
 			$index=0;
-			while($index<$count){
-				$captions[]=$this->getCaption($index++);
+			if(!$hasGroupby){
+				while($index<$count){
+						$captions[]=$this->getCaption($index++);
+				}
+			}else{
+				while($index<$count){
+					if($hasGroupby && array_search($index, $this->groupByFields)===false){
+						$captions[]=$this->getCaption($index);
+					}
+					$index++;
+				}
 			}
 		}
 		if(isset($this->captionCallback) && \is_callable($this->captionCallback)){
@@ -382,4 +403,25 @@ class InstanceViewer {
 	public function getDefaultValueFunction() {
 		return $this->defaultValueFunction;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getGroupByFields() {
+		return $this->groupByFields;
+	}
+
+	/**
+	 * @param mixed $groupByFields
+	 */
+	public function setGroupByFields($groupByFields) {
+		$this->groupByFields = $groupByFields;
+	}
+	
+	public function getGroupByFieldsCount(){
+		if(is_array($this->groupByFields)){
+			return sizeof($this->groupByFields);
+		}
+		return 0;
+	}
+
 }

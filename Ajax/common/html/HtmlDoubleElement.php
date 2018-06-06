@@ -96,4 +96,11 @@ class HtmlDoubleElement extends HtmlSingleElement {
 			$this->setProperty("target", $target);
 		return $this->setTagName("a");
 	}
+	
+	public function getTextContent(){
+		if(is_array($this->content)){
+			return strip_tags(implode("", $this->content));
+		}
+		return strip_tags($this->content);
+	}
 }

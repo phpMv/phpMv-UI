@@ -14,6 +14,7 @@ use Ajax\semantic\html\collections\table\traits\TableTrait;
 use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\base\traits\BaseTrait;
 use Ajax\service\JString;
+use Ajax\common\html\HtmlDoubleElement;
 
 /**
  * DataTable widget for displaying list of objects
@@ -166,17 +167,55 @@ class DataTable extends Widget {
 		}
 			InstanceViewer::setIndex(0);
 			$fields=$this->_instanceViewer->getSimpleProperties();
-			$table->fromDatabaseObjects($objects, function($instance) use($table,$fields){
-				return $this->_generateRow($instance, $fields,$table);
-			});
+			if(!is_array($this->_instanceViewer->getGroupByFields())){
+				$table->fromDatabaseObjects($objects, function($instance) use($table,$fields){
+					return $this->_generateRow($instance, $fields,$table);
+				});
+			}else{
+				$groupByFields=$this->_instanceViewer->getGroupByFields();
+				$activeValues=array_combine($groupByFields, array_fill(0, sizeof($groupByFields), null));
+				$uuids=[];
+				$table->fromDatabaseObjects($objects, function($instance) use($table,$fields,&$activeValues,$groupByFields,&$uuids){
+					$this->_instanceViewer->setInstance($instance);
+					foreach ($groupByFields as $index=>$gbField){
+						$this->_generateGroupByRow($index, $gbField, $table,$fields,$activeValues, $uuids);
+					}
+					return $this->_generateRow($instance, $fields,$table,null,$uuids);
+				});
+			}
 		if($table->getRowCount()==0){
 			$result=$table->addRow();
 			$result->mergeRow();
 			$result->setValues([$this->_emptyMessage]);
 		}
 	}
+	
+	protected function _generateGroupByRow($index,$gbField,$table,$fields,&$activeValues,&$uuids){
+		$newValue=$this->_instanceViewer->getValue($gbField);
+		if($this->getElementContent($activeValues[$gbField])!==$this->getElementContent($newValue)){
+			if($index==0){
+				$uuids=[];
+			}
+			$uuid=uniqid("grp");
+			$uuids[$gbField]=$uuid;
+			$id=$this->_instanceViewer->getIdentifier();
+			$result=$table->addMergeRow(sizeof($fields)+1,$newValue);
+			$result->setIdentifier($this->identifier."-tr-gb-".$id);
+			$result->setProperty("data-ajax",$id);
+			$result->setProperty("data-group",$uuid);
+			$result->addToProperty("class",$this->_rowClass);
+			$activeValues[$gbField]=$newValue;
+		}
+	}
+	
+	private function getElementContent($elm){
+		if($elm instanceof HtmlDoubleElement){
+			return $elm->getTextContent();
+		}
+		return $elm;
+	}
 
-	protected function _generateRow($instance,$fields,&$table,$checkedClass=null){
+	protected function _generateRow($instance,$fields,&$table,$checkedClass=null,$uuids=null){
 		$this->_instanceViewer->setInstance($instance);
 		InstanceViewer::$index++;
 		$values= $this->_instanceViewer->getValues();
@@ -205,6 +244,9 @@ class DataTable extends Widget {
 		$result->setValues($values);
 		$result->addToProperty("class",$this->_rowClass);
 		$result->setPropertyValues("data-field", $fields);
+		if(isset($uuids)){
+			$result->setProperty("data-child",implode(" ", $uuids));
+		}
 		return $result;
 	}
 
@@ -525,6 +567,20 @@ class DataTable extends Widget {
 	public function setDisplayBehavior($_displayBehavior) {
 		$this->_displayBehavior = $_displayBehavior;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getGroupByFields() {
+		return $this->_instanceViewer->getGroupByFields();
+	}
+
+	/**
+	 * @param mixed $_groupByFields
+	 */
+	public function setGroupByFields($_groupByFields) {
+		$this->_instanceViewer->setGroupByFields($_groupByFields);
+	}
+
 
 
 }

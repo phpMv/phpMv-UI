@@ -59,6 +59,7 @@ class JsonDataTable extends DataTable {
 			$callback.=$js->trigger("#".$id." [name='selection[]']","change",false)."$('#".$id." tbody .ui.checkbox').checkbox();".$js->execOn("change", "#".$id." [name='selection[]']", $this->_getCheckedChange($js));
 			$callback.=$this->_generatePaginationScript($id);
 			if(isset($this->_urls["refresh"])){
+				if(isset($menu))
 				$js->jsonArrayOn("click", "#".$menu->getIdentifier()." a","#".$this->_identifier." tr.".$this->_modelClass, $this->_urls["refresh"],"post",["params"=>"{'p':$(this).attr('data-page'),'_model':'".JString::doubleBackSlashes($this->_model)."'}","jsCallback"=>$callback]);
 			}
 		}

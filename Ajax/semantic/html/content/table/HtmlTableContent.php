@@ -86,6 +86,15 @@ class HtmlTableContent extends HtmlSemCollection {
 		return $this->addItem($row);
 	}
 	
+	public function addMergeRow($colCount,$value=null){
+		$row=$this->addRow($colCount);
+		$row->mergeCol();
+		if(isset($value)){
+			$row->setValues([$value]);
+		}
+		return $row;
+	}
+	
 	/**
 	 * @return HtmlTR
 	 */
@@ -219,8 +228,10 @@ class HtmlTableContent extends HtmlSemCollection {
 		for($i=0; $i < $count; $i++) {
 			$maxRow=$this->content[$i]->count();
 			$index=$maxRow-$colIndex-1;
-			if (($cell=$this->getCell($i, $index))!== NULL)
-				$cell->$function();
+			if (($cell=$this->getCell($i, $index))!== NULL){
+				if($cell->getColspan()==1)
+					$cell->$function();
+			}
 		}
 		return $this;
 	}
