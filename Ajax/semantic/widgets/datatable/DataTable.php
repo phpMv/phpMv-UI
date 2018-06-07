@@ -15,6 +15,7 @@ use Ajax\semantic\html\collections\HtmlMessage;
 use Ajax\semantic\html\base\traits\BaseTrait;
 use Ajax\service\JString;
 use Ajax\common\html\HtmlDoubleElement;
+use Ubiquity\utils\http\URequest;
 
 /**
  * DataTable widget for displaying list of objects
@@ -167,12 +168,12 @@ class DataTable extends Widget {
 		}
 			InstanceViewer::setIndex(0);
 			$fields=$this->_instanceViewer->getSimpleProperties();
-			if(!is_array($this->_instanceViewer->getGroupByFields())){
+			$groupByFields=$this->_instanceViewer->getGroupByFields();
+			if(!is_array($groupByFields)){
 				$table->fromDatabaseObjects($objects, function($instance) use($table,$fields){
 					return $this->_generateRow($instance, $fields,$table);
 				});
 			}else{
-				$groupByFields=$this->_instanceViewer->getGroupByFields();
 				$activeValues=array_combine($groupByFields, array_fill(0, sizeof($groupByFields), null));
 				$uuids=[];
 				$table->fromDatabaseObjects($objects, function($instance) use($table,$fields,&$activeValues,$groupByFields,&$uuids){
@@ -262,7 +263,15 @@ class DataTable extends Widget {
 
 	protected function _associatePaginationBehavior(JsUtils $js=NULL,$offset=null){
 		if(isset($this->_urls["refresh"])){
-			$this->_pagination->getMenu()->postOnClick($this->_urls["refresh"],"{'p':$(this).attr('data-page'),'_model':'".JString::doubleBackSlashes($this->_model)."'}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
+			$menu=$this->_pagination->getMenu();
+			if(isset($menu) && isset($js)){
+				$js->postOnClick("#".$menu->getIdentifier()." .item",$this->_urls["refresh"],"{'p':$(this).attr('data-page'),'_model':'".JString::doubleBackSlashes($this->_model)."'}",$this->getRefreshSelector(),["preventDefault"=>false,"jqueryDone"=>"replaceWith","hasLoader"=>false,"jsCallback"=>'$("#'.$this->identifier.'").trigger("pageChange");$("#'.$this->identifier.'").trigger("activeRowChange");']);
+				$page=URequest::post("p");
+				if(isset($page)){
+					$js->execAtLast('$("#'.$this->getIdentifier().' .pagination").children("a.item").removeClass("active");$("#'.$this->getIdentifier().' .pagination").children("a.item[data-page='.$page.']:not(.no-active)").addClass("active");');
+				}
+				
+			}
 		}
 	}
 	

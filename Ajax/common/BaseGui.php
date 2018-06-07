@@ -74,4 +74,8 @@ class BaseGui {
 			$htmlComponent->compile($js, $view);
 		}
 	}
+	
+	public function matchHtmlComponents($callback){
+		return array_filter($this->htmlComponents,$callback);
+	}
 }

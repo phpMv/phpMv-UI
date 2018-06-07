@@ -17,12 +17,11 @@ use Ajax\semantic\components\Modal;
 use Ajax\semantic\components\Tab;
 use Ajax\semantic\components\Shape;
 use Ajax\semantic\components\Form;
-use Ajax\JsUtils;
 use Ajax\semantic\components\SimpleSemExtComponent;
 
 /**
  * @author jc
- * @property JsUtils $js
+ * @property \Ajax\JsUtils $js
  */
 trait SemanticComponentsTrait {
 
