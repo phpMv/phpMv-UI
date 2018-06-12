@@ -203,6 +203,16 @@ class HtmlTableContent extends HtmlSemCollection {
 		}
 		return $this;
 	}
+	
+	public function addPropertyCol($colIndex, $name,$value) {
+		$count=$this->count();
+		for($i=0; $i < $count; $i++) {
+			$cell=$this->getCell($i, $colIndex);
+			if(isset($cell))
+				$cell->addToProperty($name,$value);
+		}
+		return $this;
+	}
 
 	public function setRowValues($rowIndex, $values=array()) {
 		$count=$this->count();
