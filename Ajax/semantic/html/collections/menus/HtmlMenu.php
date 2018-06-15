@@ -53,7 +53,7 @@ class HtmlMenu extends HtmlSemCollection {
 	}
 
 	private function getItemToInsert($item) {
-		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButtonGroups || $item instanceof HtmlButton || $item instanceof HtmlLabel) {
+		if ($item instanceof HtmlInput || $item instanceof HtmlImg || $item instanceof HtmlIcon || $item instanceof HtmlButtonGroups || $item instanceof HtmlButton || $item instanceof HtmlLabel || $item instanceof HtmlDropdown) {
 			$itemO=new HtmlMenuItem("item-" . $this->identifier . "-" . \sizeof($this->content) , $item);
 			$itemO->addClass("no-active");
 			$item=$itemO;
@@ -241,6 +241,6 @@ class HtmlMenu extends HtmlSemCollection {
 		if($this->identifier!=="" && !isset($this->_bsComponent))
 			$this->onClick('if(!$(this).hasClass("dropdown")&&!$(this).hasClass("no-active")){$(this).addClass("active").siblings().removeClass("active");}',false,false);
 		$result= parent::run($js);
-		return $result->setItemSelector(".item");
+		return $result->setItemSelector(">.item");
 	}
 }

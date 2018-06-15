@@ -3,6 +3,7 @@ namespace Ajax\semantic\widgets\base;
 use Ajax\service\JString;
 use Ajax\service\JArray;
 use Ajax\service\JReflection;
+use Ubiquity\utils\base\UArray;
 
 class InstanceViewer {
 	protected $widgetIdentifier;
@@ -312,28 +313,25 @@ class InstanceViewer {
 
 	public function getCaptions(){
 		$hasGroupby=is_array($this->groupByFields);
-		$count=$this->count()-$this->getGroupByFieldsCount();
+		$count=$this->count();
+		$moreAdded=false;
 		if(isset($this->captions)){
 			$captions= \array_values($this->captions);
+			$gbSize=$hasGroupby?sizeof($this->groupByFields):0;
 			$captionsSize=\sizeof($captions);
-			for($i=$captionsSize;$i<$count;$i++){
+			for($i=$captionsSize;$i<$count-$gbSize;$i++){
 				$captions[]="";
+				$moreAdded=true;
 			}
 		}else{
 			$captions=[];
 			$index=0;
-			if(!$hasGroupby){
-				while($index<$count){
-						$captions[]=$this->getCaption($index++);
-				}
-			}else{
-				while($index<$count){
-					if($hasGroupby && array_search($index, $this->groupByFields)===false){
-						$captions[]=$this->getCaption($index);
-					}
-					$index++;
-				}
+			while($index<$count){
+					$captions[]=$this->getCaption($index++);
 			}
+		}
+		if($hasGroupby && sizeof($captions)>=$count && !$moreAdded){
+			$captions=UArray::removeByKeys($captions, $this->groupByFields);
 		}
 		if(isset($this->captionCallback) && \is_callable($this->captionCallback)){
 			$callback=$this->captionCallback;
