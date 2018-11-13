@@ -369,6 +369,10 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 	public function setShowOnFocus($value){
 		$this->_params["showOnFocus"]=$value;
 	}
+	
+	public function setAllowAdditions($value){
+		$this->_params["allowAdditions"]=$value;
+	}
 
 	public function setFullTextSearch($value){
 		$this->_params["fullTextSearch"]=$value;

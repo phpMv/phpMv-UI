@@ -17,6 +17,7 @@ use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\modules\HtmlAccordion;
 use Ajax\semantic\html\collections\menus\HtmlAccordionMenu;
 use Ajax\semantic\html\modules\HtmlSticky;
+use Ajax\semantic\html\collections\form\HtmlFormFields;
 
 trait SemanticHtmlModulesTrait {
 
@@ -32,6 +33,18 @@ trait SemanticHtmlModulesTrait {
 	 */
 	public function htmlCheckbox($identifier, $label=NULL, $value=NULL, $type=NULL) {
 		return $this->addHtmlComponent(new HtmlCheckbox($identifier, $label, $value, $type));
+	}
+	
+	/**
+	 * @param string $identifier
+	 * @param array $items
+	 * @param string $label
+	 * @param mixed $value
+	 * @param string $type
+	 * @return HtmlFormFields
+	 */
+	public function htmlRadios($identifier, $items=[], $label=NULL,$value=NULL, $type=NULL) {
+		return $this->addHtmlComponent(HtmlFormFields::radios($identifier,$items,$label,$value,$type));
 	}
 
 	/**

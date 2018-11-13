@@ -104,7 +104,7 @@ class HtmlFormFields extends HtmlSemCollection {
 	}
 
 
-	public static function radios($name, $items=array(), $label=NULL, $value=null, $type=NULL) {
+	public static function radios($identifier,$name, $items=array(), $label=NULL, $value=null, $type=NULL) {
 		$fields=array ();
 		$i=0;
 		foreach ( $items as $val => $caption ) {
@@ -114,13 +114,13 @@ class HtmlFormFields extends HtmlSemCollection {
 			}
 			$fields[]=$itemO;
 		}
-		$radios=new HtmlFormFields("fields-".$name, $fields);
+		$radios=new HtmlFormFields($identifier, $fields);
 		if (isset($label))
 			$radios->setLabel($label)->setProperty("for", $name);
 		return $radios;
 	}
 
-	public static function checkeds($name, $items=array(), $label=NULL, $values=array(), $type=NULL) {
+	public static function checkeds($identifier,$name, $items=array(), $label=NULL, $values=array(), $type=NULL) {
 		$fields=array ();
 		$i=0;
 		foreach ( $items as $val => $caption ) {
@@ -131,7 +131,7 @@ class HtmlFormFields extends HtmlSemCollection {
 			}
 			$fields[]=$itemO;
 		}
-		$radios=new HtmlFormFields("fields-".$name, $fields);
+		$radios=new HtmlFormFields($identifier, $fields);
 		if (isset($label))
 			$radios->setLabel($label)->setProperty("for", $name);
 		return $radios;
@@ -140,5 +140,10 @@ class HtmlFormFields extends HtmlSemCollection {
 	public function setEqualWidth($_equalWidth) {
 		$this->_equalWidth=$_equalWidth;
 		return $this;
+	}
+	
+	public function run(JsUtils $js){
+		$result= parent::run($js);
+		return $result->setItemSelector("[data-value]");
 	}
 }

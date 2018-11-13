@@ -36,4 +36,8 @@ class Dropdown extends SimpleSemExtComponent {
 	public function setShowOnFocus($value){
 		return $this->setParam("showOnFocus", $value);
 	}
+	
+	public function setAllowAdditions($value){
+		return $this->setParam("allowAdditions", $value);
+	}
 }
