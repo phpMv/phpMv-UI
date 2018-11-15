@@ -144,6 +144,6 @@ class HtmlFormFields extends HtmlSemCollection {
 	
 	public function run(JsUtils $js){
 		$result= parent::run($js);
-		return $result->setItemSelector("[data-value]");
+		//return $result->setItemSelector("[data-value]");
 	}
 }

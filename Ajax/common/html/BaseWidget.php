@@ -12,6 +12,7 @@ use Ajax\service\JString;
 abstract class BaseWidget {
 	protected $identifier;
 	protected $_identifier;
+	protected $_libraryId;
 	protected $_self;
 
 	public function __construct($identifier) {
@@ -32,4 +33,21 @@ abstract class BaseWidget {
 	protected function cleanIdentifier($id) {
 		return JString::cleanIdentifier($id);
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getLibraryId() {
+		if( isset($this->_libraryId)){
+			return $this->_libraryId;
+		}
+		return $this->identifier;
+	}
+
+	/**
+	 * @param mixed $_libraryId
+	 */
+	public function setLibraryId($_libraryId) {
+		$this->_libraryId = $_libraryId;
+	}
+
 }

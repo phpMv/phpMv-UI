@@ -472,4 +472,11 @@ abstract class Widget extends HtmlDoubleElement {
 	public function addToProperty($name, $value, $separator=" ") {
 		return $this->getHtmlComponent()->addToProperty($name,$value,$separator);
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getModelInstance() {
+		return $this->_modelInstance;
+	}
+
 }
