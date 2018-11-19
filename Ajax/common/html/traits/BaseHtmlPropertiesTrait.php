@@ -65,7 +65,7 @@ trait BaseHtmlPropertiesTrait{
 		return $this;
 	}
 
-	protected function removePropertyValue($name, $value) {
+	public function removePropertyValue($name, $value) {
 		$this->_self->properties[$name]=\str_replace($value, "", $this->_self->properties[$name]);
 		return $this;
 	}
@@ -100,7 +100,7 @@ trait BaseHtmlPropertiesTrait{
 			unset($this->_self->properties[$name]);
 			return $this;
 	}
-
+	
 	public function propertyContains($propertyName, $value) {
 		$values=$this->_self->getProperty($propertyName);
 		if (isset($values)) {

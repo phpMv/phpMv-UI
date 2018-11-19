@@ -18,9 +18,10 @@ use Ajax\semantic\html\collections\form\HtmlFormField;
 use Ajax\semantic\html\collections\form\traits\FormTrait;
 use Ajax\common\html\BaseWidget;
 use Ajax\semantic\html\modules\HtmlModal;
+use Ajax\common\html\traits\BaseHooksTrait;
 
 abstract class Widget extends HtmlDoubleElement {
-	use FieldAsTrait,FormTrait;
+	use FieldAsTrait,FormTrait,BaseHooksTrait;
 
 	/**
 	 * @var string classname
@@ -51,7 +52,6 @@ abstract class Widget extends HtmlDoubleElement {
 	protected $_form;
 
 	protected $_generated;
-
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier);
