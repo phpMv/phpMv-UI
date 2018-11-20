@@ -52,6 +52,9 @@ abstract class Widget extends HtmlDoubleElement {
 	protected $_form;
 
 	protected $_generated;
+	
+	protected $_hasRules;
+	
 
 	public function __construct($identifier,$model,$modelInstance=NULL) {
 		parent::__construct($identifier);
@@ -478,5 +481,13 @@ abstract class Widget extends HtmlDoubleElement {
 	public function getModelInstance() {
 		return $this->_modelInstance;
 	}
+	
+	/**
+	 * @return mixed true if widget has validation rules
+	 */
+	public function hasRules() {
+		return $this->_hasRules;
+	}
+	
 
 }

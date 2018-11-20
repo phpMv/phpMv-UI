@@ -29,7 +29,8 @@ use Ajax\semantic\html\elements\HtmlList;
  * @author jc
  * @property InstanceViewer $_instanceViewer
  * @property boolean $_edition
- * @property mixed _modelInstance
+ * @property mixed $_modelInstance
+ * @property boolean $_hasRules
  */
 trait FieldAsTrait{
 
@@ -64,6 +65,7 @@ trait FieldAsTrait{
 
 	protected function _addRules(HtmlFormField $element,&$attributes){
 		if(isset($attributes["rules"])){
+			$this->_hasRules=true;
 			$rules=$attributes["rules"];
 			if(\is_array($rules)){
 				$element->addRules($rules);

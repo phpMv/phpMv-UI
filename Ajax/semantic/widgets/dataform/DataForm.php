@@ -70,6 +70,9 @@ class DataForm extends Widget {
 				$this->_generateFields($form, $fields, $headers, $separators[$i], $wrappers);
 			}
 		}
+		if($this->_hasRules && !$this->getForm()->hasValidationParams()){
+				$this->setValidationParams(["inline"=>true]);
+		}
 	}
 
 	protected function _generateFields($form,$values,$headers,$sepFirst,$wrappers){

@@ -213,6 +213,10 @@ class HtmlForm extends HtmlSemCollection {
 		$this->_validationParams=$_validationParams;
 		return $this;
 	}
+	
+	public function hasValidationParams(){
+		return sizeof($this->_validationParams)>0;
+	}
 
 	public function getValidationParams() {
 		return $this->_validationParams;
