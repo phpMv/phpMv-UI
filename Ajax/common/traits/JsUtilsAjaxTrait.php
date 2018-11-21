@@ -230,6 +230,15 @@ trait JsUtilsAjaxTrait {
 		return $this->_ajax($method,$url,$responseElement,$parameters);
 	}
 	
+	/**
+	 * @param string $method The http method (post, get...)
+	 * @param string $url The url of the request
+	 * @param int $interval The interval in milliseconds
+	 * @param string $globalName The interval name, for clear it
+	 * @param string $responseElement
+	 * @param array $parameters  The ajax parameters, default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false) 
+	 * @return string
+	 */
 	public function ajaxInterval($method,$url, $interval,$globalName=null,$responseElement="", $parameters=[]){
 		return $this->interval($this->ajaxDeferred($method, $url,$responseElement,$parameters), $interval,$globalName);
 	}

@@ -573,6 +573,14 @@ trait JsUtilsActionsTrait {
 		return $script;
 	}
 	
+	/**
+	 * Calls a function or evaluates an expression at specified intervals (in milliseconds)
+	 * @param string $jsCode The code to execute
+	 * @param int $time The time interval in milliseconds
+	 * @param string $globalName The global name of the interval, used to clear it
+	 * @param boolean $immediatly delayed if false
+	 * @return string
+	 */
 	public function interval($jsCode,$time,$globalName=null,$immediatly=true){
 		if(!Javascript::isFunction($jsCode)){
 			$jsCode="function(){\n".$jsCode."\n}";
@@ -585,6 +593,12 @@ trait JsUtilsActionsTrait {
 		return $this->exec($script,$immediatly);
 	}
 	
+	/**
+	 * Clears an existing interval
+	 * @param string $globalName The interval global name
+	 * @param boolean $immediatly delayed if false
+	 * @return string
+	 */
 	public function clearInterval($globalName,$immediatly=true){
 		return $this->exec("if(window.{$globalName}){clearInterval(window.{$globalName});}",$immediatly);
 	}
