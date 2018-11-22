@@ -231,6 +231,7 @@ trait JsUtilsAjaxTrait {
 	}
 	
 	/**
+	 * Executes an ajax query at regular intervals
 	 * @param string $method The http method (post, get...)
 	 * @param string $url The url of the request
 	 * @param int $interval The interval in milliseconds

@@ -602,4 +602,58 @@ trait JsUtilsActionsTrait {
 	public function clearInterval($globalName,$immediatly=true){
 		return $this->exec("if(window.{$globalName}){clearInterval(window.{$globalName});}",$immediatly);
 	}
+	
+	/**
+	 * Associates a counter to the element designated by $counterSelector
+	 * @param string $counterSelector Selector of the existing element wich display the counter
+	 * @param integer $value The initial value of the counter
+	 * @param integer $limit The limit of the counter (minimum if countDown is true, maximum if not)
+	 * @param string $globalName The global name of the counter, to use with the clearInterval method
+	 * @param boolean $countDown count down if true or elapse if false
+	 * @param boolean $immediatly delayed if false
+	 * @return string
+	 */
+	public function counter($counterSelector,$value=0,$limit=0,$globalName=null,$countDown=true,$immediatly=true){
+		$stop="";
+		if($countDown){
+			$stop="if (--timer < ".$limit.") {clearInterval(interval);display.trigger('counter-end',timer);}";
+		}else{
+			if($limit!=0){
+				$stop="if (++timer > ".$limit.") {clearInterval(interval);display.trigger('counter-end',timer);}";
+			}
+		}
+		$global="";
+		if(isset($globalName)){
+			$global="\nwindow.{$globalName}=interval;";
+		}
+		$timer="var startTimer=function(duration, display) {var timer = duration, minutes, seconds;
+											display.trigger('counter-start',timer);
+											display.show();
+    										var interval=setInterval(function () {
+        										minutes = parseInt(timer / 60, 10);seconds = parseInt(timer % 60, 10);
+										        minutes = minutes < 10 ? '0' + minutes : minutes;
+        										seconds = seconds < 10 ? '0' + seconds : seconds;
+										        if(display.is('[value]')){display.val(minutes + ':' + seconds);} else {display.html(minutes + ':' + seconds);};
+										        ".$stop."
+    										}, 1000);
+										".$global."
+										}";
+		$element='$("'.$counterSelector.'")';
+		return $this->exec($timer."\nstartTimer(".$value.",".$element.");",$immediatly);
+	}
+	
+	/**
+	 * Associates a counter to the element designated by $counterSelector when $event is triggered on $element 
+	 * @param string $element The triggering element
+	 * @param string $event The triggering event
+	 * @param string $counterSelector Selector of the existing element wich display the counter
+	 * @param integer $value The initial value of the counter
+	 * @param integer $limit The limit of the counter (minimum if countDown is true, maximum if not)
+	 * @param string $globalName The global name of the counter, to use with the clearInterval method
+	 * @param boolean $countDown count down if true or elapse if false
+	 * @return string
+	 */
+	public function counterOn($element,$event,$counterSelector,$value=0,$limit=0,$globalName=null,$countDown=true){
+		return $this->execOn($event, $element, $this->counter($counterSelector,$value,$limit,$globalName,$countDown,false));
+	}
 }
