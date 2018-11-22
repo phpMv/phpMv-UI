@@ -605,6 +605,7 @@ trait JsUtilsActionsTrait {
 	
 	/**
 	 * Associates a counter to the element designated by $counterSelector
+	 * Triggers the events counter-start and counter-end on finished with the parameters value and limit
 	 * @param string $counterSelector Selector of the existing element wich display the counter
 	 * @param integer $value The initial value of the counter
 	 * @param integer $limit The limit of the counter (minimum if countDown is true, maximum if not)
