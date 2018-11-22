@@ -616,10 +616,10 @@ trait JsUtilsActionsTrait {
 	public function counter($counterSelector,$value=0,$limit=0,$globalName=null,$countDown=true,$immediatly=true){
 		$stop="";
 		if($countDown){
-			$stop="if (--timer < ".$limit.") {clearInterval(interval);display.trigger('counter-end',timer);}";
+			$stop="if (--timer < ".$limit.") {clearInterval(interval);display.trigger({type:'counter-end',value: timer,limit:".$limit."});}";
 		}else{
 			if($limit!=0){
-				$stop="if (++timer > ".$limit.") {clearInterval(interval);display.trigger('counter-end',timer);}";
+				$stop="if (++timer > ".$limit.") {clearInterval(interval);display.trigger({type:'counter-end',value: timer,limit:".$limit."});}";
 			}
 		}
 		$global="";
