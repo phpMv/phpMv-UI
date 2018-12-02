@@ -9,6 +9,7 @@ use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\elements\HtmlLabel;
 use Ajax\semantic\components\validation\FieldValidation;
 use Ajax\semantic\html\collections\form\traits\FieldTrait;
+use Ajax\semantic\html\base\constants\Size;
 
 class HtmlFormField extends HtmlSemDoubleElement {
 	use FieldTrait;
@@ -163,5 +164,9 @@ class HtmlFormField extends HtmlSemDoubleElement {
 
 	public function getValidation() {
 		return $this->_validation;
+	}
+	
+	public function setSize($size) {
+		return $this->getField()->addToPropertyCtrl("class", $size, Size::getConstants());
 	}
 }

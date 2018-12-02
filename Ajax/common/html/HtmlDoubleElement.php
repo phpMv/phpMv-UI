@@ -4,6 +4,8 @@ namespace Ajax\common\html;
 
 
 use Ajax\JsUtils;
+use Ajax\semantic\html\collections\form\HtmlFormField;
+use Ajax\semantic\html\collections\form\HtmlForm;
 class HtmlDoubleElement extends HtmlSingleElement {
 	/**
 	 *
@@ -12,6 +14,7 @@ class HtmlDoubleElement extends HtmlSingleElement {
 	protected $content;
 	protected $wrapContentBefore="";
 	protected $wrapContentAfter="";
+	protected $_editableContent;
 
 	public function __construct($identifier, $tagName="p") {
 		parent::__construct($identifier, $tagName);
@@ -103,4 +106,40 @@ class HtmlDoubleElement extends HtmlSingleElement {
 		}
 		return strip_tags($this->content);
 	}
+	
+	public function asEditable(HtmlFormField $field,$asForm=false,$setValueProperty="val()"){
+		$idF=$field->getIdentifier();
+		$idE=$idF;
+		if($asForm){
+			$frm=new HtmlForm("frm-".$field->getIdentifier());
+			$frm->setProperty("onsubmit", "return false;");
+			$fields=$frm->addFields();
+			$idE=$frm->getIdentifier();
+			$fields->addItem($field);
+			$fields->addButtonIcon("bt-okay", "check","green mini","\$('#".$idE."').trigger('validate',{value: $('#'+idF+' input').val()});");
+			$fields->addButtonIcon("bt-cancel", "close","mini","\$('#".$idE."').trigger('endEdit');");
+			$this->_editableContent=$frm;
+			$keypress="";
+			$focusOut="";
+		}else{
+			$focusOut="if(e.relatedTarget==null)elm.trigger('endEdit');";
+			$this->_editableContent=$field;
+			$keypress="$('#".$idF."').keyup(function(e){if(e.which == 13) {\$('#".$idE."').trigger('validate',{value: $('#'+idF+' input').val()});}if(e.keyCode===27) {\$('#".$idE."').trigger('endEdit');}});";
+		}
+		$this->_editableContent->setProperty("style", "display:none;");
+		$this->onCreate("let idF='".$idF."';let idE='".$idE."';let elm=$('#'+idE);let self=$('#".$this->getIdentifier()."');".$keypress."elm.on('validate',function(){self.html($('#'+idE+' input').".$setValueProperty.");elm.trigger('endEdit');});elm.on('endEdit',function(){self.show();$(this).hide();});elm.focusout(function(e){".$focusOut."});");
+		$this->onClick("let self=$(this);self.hide();".$field->setJsContent("self.html()").";$('#".$idF." input').trigger('change');elm.show();$('#'+idE+' input').focus();");
+	}
+	/**
+	 * {@inheritDoc}
+	 * @see \Ajax\common\html\BaseHtml::compile_once()
+	 */
+	protected function compile_once(\Ajax\JsUtils $js = NULL, &$view = NULL) {
+		if(!$this->_compiled && isset($this->_editableContent)){
+			$this->wrap("",$this->_editableContent);
+		}
+		parent::compile_once($js,$view);
+		
+	}
+
 }

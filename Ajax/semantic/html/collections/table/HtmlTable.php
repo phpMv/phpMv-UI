@@ -408,6 +408,11 @@ class HtmlTable extends HtmlSemDoubleElement {
 		$this->_compileParts=$parts;
 		return $this;
 	}
+	
+	public function refreshTR(){
+		$this->setCompileParts();
+		$this->getPart("tbody")->refreshTR();
+	}
 
 	public function refresh($js){
 		$this->_footer=$this->getFooter();

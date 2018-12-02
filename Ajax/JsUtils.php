@@ -436,10 +436,15 @@ abstract class JsUtils{
 		if ($stopPropagation===true) {
 			$js=Javascript::$stopPropagation.$js;
 		}
-		if (array_search($event, $this->jquery_events)===false)
+		if (array_search($event, $this->jquery_events)===false){
 			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
-		else
+		}
+		else{
+			/*if($event==="click"){
+				$js="let self = $(this);if (self.hasClass('__clicked')){self.removeClass('__clicked');}else{self.addClass('__clicked');setTimeout(function() {if (self.hasClass('__clicked')){self.removeClass('__clicked');".$js."}}, 500);}";
+			}*/
 			$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
+		}
 		if($immediatly)
 			$this->jquery_code_for_compile[]=$event;
 		return $event;

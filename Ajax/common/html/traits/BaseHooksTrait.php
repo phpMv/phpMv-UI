@@ -39,9 +39,9 @@ trait BaseHooksTrait {
 	 * @param mixed|null $variable
 	 * @return void|mixed
 	 */
-	public function execHook($hookKey,$variable=null){
+	public function execHook($hookKey,...$variables){
 		if(($hook=$this->getHook($hookKey))!=null){
-			return $hook($variable);
+			return call_user_func_array($hook,$variables);
 		}
 		return;
 	}

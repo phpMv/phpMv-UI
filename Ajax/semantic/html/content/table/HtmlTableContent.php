@@ -47,6 +47,10 @@ class HtmlTableContent extends HtmlSemCollection {
 	public function getTdTagName($tagName) {
 		return $this->_tdTagNames[$this->tagName];
 	}
+	
+	public function refreshTR(){
+		$this->_template="%wrapContentBefore%%content%%wrapContentAfter%";
+	}
 
 	/**
 	 *

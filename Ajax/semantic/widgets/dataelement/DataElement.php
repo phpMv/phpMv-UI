@@ -61,6 +61,20 @@ class DataElement extends Widget {
 			$row->getItem(1)->setProperty("data-field", $fields[$i]);
 		}
 	}
+	
+	public function getFieldValue($index){
+		if(is_string($index)){
+			$fields=$this->_instanceViewer->getVisibleProperties();
+			$index=array_search($index, $fields);
+		}
+		if(is_numeric($index)){
+			$values= $this->_instanceViewer->getValues();
+			if(isset($values[$index])){
+				return $values[$index];
+			}
+		}
+		return null;
+	}
 
 	protected function _applyStyleAttributes(HtmlTable $table){
 		$table->setColWidths($this->_colWidths);

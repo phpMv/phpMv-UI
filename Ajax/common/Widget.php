@@ -169,6 +169,7 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_instanceViewer->addField($field,$key);
 		return $this;
 	}
+	
 
 	public function addFields($fields){
 		$this->_instanceViewer->addFields($fields);

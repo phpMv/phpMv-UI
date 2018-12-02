@@ -159,6 +159,16 @@ trait FieldsTrait {
 	public function addButton($identifier,$value,$cssStyle=NULL,$onClick=NULL){
 		return $this->addItem(new HtmlButton($identifier,$value,$cssStyle,$onClick));
 	}
+	
+	public function addButtonIcon($identifier,$icon,$cssStyle=NULL,$onClick=NULL){
+		$bt=new HtmlButton($identifier);
+		$bt->asIcon($icon);
+		if(isset($onClick))
+			$bt->onClick($onClick);
+		if (isset($cssStyle))
+			$bt->addClass($cssStyle);
+		return $this->addItem($bt);
+	}
 
 	/**
 	 * @param string $identifier

@@ -89,6 +89,18 @@ class DataTable extends Widget {
 	protected function getTable() {
 		return $this->content["table"];
 	}
+	
+	public function refreshTR(){
+		$this->getTable()->refreshTR();
+		return $this;
+	}
+	
+	public function refreshTD($fieldName,$jquery,$view){
+		$index=$this->_getIndex($fieldName);
+		$this->compile($jquery,$view);
+		return $this->refreshTR()->getTable()->getCell(0,$index);
+	}
+	
 
 
 	public function compile(JsUtils $js=NULL,&$view=NULL){
@@ -215,6 +227,17 @@ class DataTable extends Widget {
 		}
 		return $elm;
 	}
+	
+	public function getFieldValue($index){
+		$index=$this->_getIndex($index);
+		if(is_numeric($index)){
+			$values= $this->_instanceViewer->getValues();
+			if(isset($values[$index])){
+				return $values[$index];
+			}
+		}
+		return null;
+	}
 
 	protected function _generateRow($instance,$fields,&$table,$checkedClass=null,$uuids=null){
 		$this->_instanceViewer->setInstance($instance);
@@ -269,8 +292,7 @@ class DataTable extends Widget {
 				$page=URequest::post("p");
 				if(isset($page)){
 					$js->execAtLast('$("#'.$this->getIdentifier().' .pagination").children("a.item").removeClass("active");$("#'.$this->getIdentifier().' .pagination").children("a.item[data-page='.$page.']:not(.no-active)").addClass("active");');
-				}
-				
+				}				
 			}
 		}
 	}

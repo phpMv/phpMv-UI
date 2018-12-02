@@ -31,6 +31,8 @@ trait JsUtilsAjaxTrait {
 		$originalSelector=$responseElement;
 		$responseElement=$this->_getResponseElement($responseElement);
 		$retour.="var self=this;\n";
+		$before=isset($before)?$before:"";
+		$retour.=$before;
 		if($hasLoader===true && JString::isNotNull($responseElement)){
 			$this->addLoading($retour, $responseElement,$ajaxLoader);
 		}elseif($hasLoader==="internal"){

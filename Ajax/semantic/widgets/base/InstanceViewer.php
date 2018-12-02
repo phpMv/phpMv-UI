@@ -124,6 +124,7 @@ class InstanceViewer {
 				$value=JReflection::callMethod($this->instance, $getter, []);
 			}
 		}
+
 		return $this->_postGetValue($index, $propertyName, $value);
 	}
 

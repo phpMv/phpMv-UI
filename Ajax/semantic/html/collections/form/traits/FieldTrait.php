@@ -124,4 +124,19 @@ trait FieldTrait {
 			$field->addToProperty("class", "disabled");
 		return $this;
 	}
+	
+	public function setJsContent($content){
+		$id="";
+		$field=$this->getDataField();
+		if(isset($field)){
+			$id=$field->getIdentifier();
+		}
+		if($id!==''){
+			return '$("#'.$id.'").val('.$content.')';
+		}
+	}
+	
+	public function getJsContent(){
+		return $this->setJsContent("");
+	}
 }

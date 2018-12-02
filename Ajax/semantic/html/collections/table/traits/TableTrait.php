@@ -80,8 +80,12 @@ trait TableTrait{
 	}
 
 	public function getOnRow($event, $url, $responseElement="", $parameters=array()){
-		$parameters=\array_merge($parameters,["stopPropagation"=>false,"preventDefault"=>false]);
-		return $this->_self->getOn($event."{{tbody tr}}", $url,$responseElement,$parameters);
+		$parameters=\array_merge($parameters,["stopPropagation"=>false,"preventDefault"=>false,"jsCondition"=>'!$(this).closest("tr").hasClass("active")']);
+		$selector="tbody tr";
+		if(isset($parameters["selector"])){
+			$selector=$parameters["selector"];
+		}
+		return $this->_self->getOn($event."{{".$selector."}}", $url,$responseElement,$parameters);
 	}
 	
 	public function onPageChange($jsCode){
