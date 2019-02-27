@@ -3,7 +3,7 @@ namespace Ajax\service;
 class JString {
 
 	public static function contains($hay,$needle){
-		return strpos($hay, $needle) !== false;
+		return strpos("$hay", $needle) !== false;
 	}
 	public static function startswith($hay, $needle) {
 		return substr($hay, 0, strlen($needle)) === $needle;
