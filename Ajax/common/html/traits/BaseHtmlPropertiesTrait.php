@@ -103,7 +103,7 @@ trait BaseHtmlPropertiesTrait{
 	
 	public function propertyContains($propertyName, $value) {
 		$values=$this->_self->getProperty($propertyName);
-		if (isset($values)) {
+		if (isset($values) && $value!=null) {
 			return JString::contains($values, $value);
 		}
 		return false;
