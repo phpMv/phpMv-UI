@@ -5,6 +5,7 @@ namespace Ajax\common\traits;
 use Ajax\service\AjaxTransition;
 use Ajax\service\Javascript;
 use Ajax\service\JString;
+use Ubiquity\utils\base\UString;
 
 /**
  * @author jc
@@ -43,7 +44,7 @@ trait JsUtilsAjaxTrait {
 		$ajaxParameters["async"]=($async?"true":"false");
 		
 		if(isset($params)){
-			$ajaxParameters["data"]=self::_correctParams($params);
+			$ajaxParameters["data"]=self::_correctParams($params,$parameters);
 		}
 		if(isset($headers)){
 			$ajaxParameters["headers"]=$headers;
@@ -58,7 +59,7 @@ trait JsUtilsAjaxTrait {
 	}
 
 	protected function createAjaxParameters(&$original,$parameters){
-		$validParameters=["dataType"=>"'%value%'","beforeSend"=>"function(jqXHR,settings){%value%}","complete"=>"function(jqXHR){%value%}"];
+		$validParameters=["contentType"=>"%value%","dataType"=>"'%value%'","beforeSend"=>"function(jqXHR,settings){%value%}","complete"=>"function(jqXHR){%value%}"];
 		foreach ($validParameters as $param=>$mask){
 			if(isset($parameters[$param])){
 				$original[$param]=\str_replace("%value%", $parameters[$param], $mask);
@@ -67,7 +68,17 @@ trait JsUtilsAjaxTrait {
 	}
 
 	protected function implodeAjaxParameters($ajaxParameters){
-		$s = ''; foreach ($ajaxParameters as $k=>$v) { if ($s !== '') { $s .= ','; } $s .= "'{$k}':{$v}"; }
+		$s = ''; 
+		foreach ($ajaxParameters as $k=>$v) {
+			if ($s !== '') {
+				$s .= ','; 
+			}
+			if(is_array($v)){
+				$s .= "'{$k}':{".self::implodeAjaxParameters($v)."}";
+			}else{
+				$s .= "'{$k}':{$v}";
+			}
+		}
 		return $s;
 	}
 
@@ -151,12 +162,16 @@ trait JsUtilsAjaxTrait {
 			return $url;
 	}
 
-	public static function _correctParams($params){
+	public static function _correctParams($params,$ajaxParameters=[]){
 		if(JString::isNull($params)){
 			return "";
 		}
 		if(\preg_match("@^\{.*?\}$@", $params)){
-			return '$.param('.$params.')';
+			if( !isset($ajaxParameters['contentType'])|| !UString::contains('json', $ajaxParameters['contentType'])){
+				return '$.param('.$params.')';
+			}else{
+				return 'JSON.stringify('.$params.')';
+			}
 		}
 		return $params;
 	}
