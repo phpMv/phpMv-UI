@@ -35,7 +35,7 @@ trait SemanticHtmlCollectionsTrait {
 	 */
 	public function htmlMessage($identifier, $content="",$styles=NULL) {
 		$msg= $this->addHtmlComponent(new HtmlMessage($identifier, $content));
-		if(isset($msg))
+		if(isset($msg) && $styles!==null)
 			$msg->setStyle($styles);
 		return $msg;
 	}
