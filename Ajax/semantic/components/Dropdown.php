@@ -40,4 +40,8 @@ class Dropdown extends SimpleSemExtComponent {
 	public function setAllowAdditions($value){
 		return $this->setParam("allowAdditions", $value);
 	}
+	
+	public function setClearable($value){
+		return $this->setParam("clearable", $value);
+	}
 }

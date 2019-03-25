@@ -396,4 +396,8 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$js="var first=$('#{$this->identifier} .item').first();if(first!=undefined){var new =first.clone();first.parent().append(new);first.html('{$caption}};')";
 		return $js;
 	}
+	
+	public function setClearable($value){
+		$this->_params["clearable"]=$value;
+	}
 }
