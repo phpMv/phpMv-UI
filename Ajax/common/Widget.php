@@ -141,7 +141,9 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	public function afterCompile($index,$callback){
 		$index=$this->_getIndex($index);
-		$this->_instanceViewer->afterCompile($index, $callback);
+		if($index!==false){
+			$this->_instanceViewer->afterCompile($index, $callback);
+		}
 		return $this;
 	}
 
@@ -198,7 +200,9 @@ abstract class Widget extends HtmlDoubleElement {
 
 	public function insertInField($index,$field,$key=null){
 		$index=$this->_getIndex($index);
-		$this->_instanceViewer->insertInField($index, $field,$key);
+		if($index!==false){
+			$this->_instanceViewer->insertInField($index, $field,$key);
+		}
 		return $this;
 	}
 
@@ -210,7 +214,9 @@ abstract class Widget extends HtmlDoubleElement {
 	 */
 	public function setValueFunction($index,$callback){
 		$index=$this->_getIndex($index);
-		$this->_instanceViewer->setValueFunction($index, $callback);
+		if($index!==false){
+			$this->_instanceViewer->setValueFunction($index, $callback);
+		}
 		return $this;
 	}
 
@@ -460,7 +466,9 @@ abstract class Widget extends HtmlDoubleElement {
 
 	public function removeField($index){
 		$index=$this->_getIndex($index);
-		$this->_instanceViewer->removeField($index);
+		if($index!==false){
+			$this->_instanceViewer->removeField($index);
+		}
 		return $this;
 	}
 
