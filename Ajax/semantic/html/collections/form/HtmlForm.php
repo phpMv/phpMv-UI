@@ -178,7 +178,7 @@ class HtmlForm extends HtmlSemCollection {
 		}
 		foreach ($this->_fields as $field){
 			if($field instanceof HtmlFormField){
-				$compo=$this->addCompoValidation($compo, $field);
+				$this->addCompoValidation($compo, $field);
 			}
 		}
 		foreach ($this->content as $field){
@@ -186,12 +186,12 @@ class HtmlForm extends HtmlSemCollection {
 				$items=$field->getItems();
 				foreach ($items as $_field){
 					if($_field instanceof HtmlFormField)
-						$compo=$this->addCompoValidation($compo, $_field);
+						$this->addCompoValidation($compo, $_field);
 				}
 			}
 		}
 		foreach ($this->_extraFieldRules as $field=>$fieldValidation){
-			$compo=$this->addExtraCompoValidation($compo, $fieldValidation);
+			$this->addExtraCompoValidation($compo, $fieldValidation);
 		}
 		$this->_runValidationParams($compo,$js);
 		return $this->_bsComponent;
