@@ -22,7 +22,6 @@ trait FormTrait{
 	 */
 	abstract protected function getForm();
 	
-	protected $_runnedParams=false;
 
 	protected function addCompoValidation(Form $compo,HtmlFormField $field){
 		$validation=$field->getValidation();
@@ -30,28 +29,23 @@ trait FormTrait{
 			$validation->setIdentifier($field->getDataField()->getIdentifier());
 			$compo->addFieldValidation($validation);
 		}
-		return $compo;
 	}
 	
 	protected function addExtraCompoValidation(Form $compo,FieldValidation $validation){
 		$compo->addFieldValidation($validation);
-		return $compo;
 	}
 
 	protected function _runValidationParams(Form &$compo,JsUtils $js=NULL){
-		if(!$this->_runnedParams){
-			$form=$this->getForm();
-			$params=$form->getValidationParams();
-			if(isset($params["_ajaxSubmit"])){
-				$compilation=$this->_compileAjaxSubmit($params["_ajaxSubmit"],$js);
-				$this->onSuccess($compilation);
-				$form->removeValidationParam("_ajaxSubmit");
-			}
-			$compo->addParams($form->getValidationParams());
-			$form->setBsComponent($compo);
-			$form->addEventsOnRun($js);
-			$this->_runnedParams=true;
+		$form=$this->getForm();
+		$params=$form->getValidationParams();
+		if(isset($params["_ajaxSubmit"])){
+			$compilation=$this->_compileAjaxSubmit($params["_ajaxSubmit"],$js);
+			$this->onSuccess($compilation);
+			$form->removeValidationParam("_ajaxSubmit");
 		}
+		$compo->addParams($form->getValidationParams());
+		$form->setBsComponent($compo);
+		$form->addEventsOnRun($js);
 	}
 
 	protected function _compileAjaxSubmit($ajaxSubmit,JsUtils $js=null){

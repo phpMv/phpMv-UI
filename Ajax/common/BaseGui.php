@@ -54,10 +54,16 @@ class BaseGui {
 	}
 
 	public function addComponent(SimpleComponent $component, $attachTo, $params) {
-		if ($this->autoCompile)
-			$this->components []=$component;
-		if (isset($attachTo))
-			$component->attach($attachTo);
+		if ($this->autoCompile){
+			if($attachTo!=null){
+				if(!isset($this->components [$attachTo])){
+					$this->components [$attachTo]=$component;
+				}
+				$component->attach($attachTo);
+			}else{
+				$this->components []=$component;
+			}
+		}
 		if (isset($params))
 			if (\is_array($params))
 				$component->setParams($params);
