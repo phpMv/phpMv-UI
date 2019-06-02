@@ -13,11 +13,12 @@ use Ajax\semantic\html\content\HtmlMenuItem;
  * Semantic Tab component
  * @see http://semantic-ui.com/collections/tab.html
  * @author jc
- * @version 1.001
+ * @version 1.02
  */
 class HtmlTab extends HtmlSemCollection{
 
 	protected $params=[];
+	protected $_activated=false;
 
 	public function __construct( $identifier, $tabs=array()){
 		parent::__construct( $identifier, "div", "");
@@ -97,6 +98,7 @@ class HtmlTab extends HtmlSemCollection{
 	public function activate($index){
 		$this->content["menu"]->getItem($index)->setActive(true);
 		$this->content[$index]->setActive(true);
+		$this->_activated=true;
 		return $this;
 	}
 
@@ -244,7 +246,7 @@ class HtmlTab extends HtmlSemCollection{
 	}
 
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
-		if($this->content["menu"]->count()>0 && \sizeof($this->content)>1)
+		if(!$this->_activated && $this->content["menu"]->count()>0 && \sizeof($this->content)>1)
 			$this->activate(0);
 		return parent::compile($js,$view);
 	}
