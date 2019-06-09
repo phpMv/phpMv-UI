@@ -792,13 +792,13 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function activateLink($target, $property = 'href', $href = null) {
-		$js = '$(' . $target . ' [' . $property . ']).removeClass("active");';
+		$js = '$("' . $target . ' [' . $property . ']").removeClass("active");';
 		if (isset($href)) {
 			$js .= 'var href="' . $href . '";';
 		} else {
 			$js .= 'var href=window.location.href;';
 		}
-		$js .= '$(' . $target . ' [' . $property . ']).each(function(){if(href.includes($(this).attr("' . $property . '"))) $(this).addClass("active");});';
-		return $js;
+		$js .= '$("' . $target . ' [' . $property . ']").each(function(){if(href.includes($(this).attr("' . $property . '"))) $(this).addClass("active");});';
+		return $this->execAtLast($js);
 	}
 }
