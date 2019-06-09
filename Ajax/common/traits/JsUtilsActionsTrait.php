@@ -792,6 +792,21 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function activateLink($target, $property = 'href', $href = null) {
+		return $this->execAtLast($this->_activateLink($target, $property, $href));
+	}
+
+	/**
+	 * Returns the javascript code for activate an element if it is active (add the class active)
+	 *
+	 * @param string $target
+	 *        	the container element
+	 * @param string $property
+	 *        	default: href
+	 * @param string $href
+	 *        	the active href (if null, window.location.href is used)
+	 * @return string
+	 */
+	public function _activateLink($target, $property = 'href', $href = null) {
 		$js = '$("' . $target . ' [' . $property . ']").removeClass("active");';
 		if (isset($href)) {
 			$js .= 'var href="' . $href . '";';
@@ -799,6 +814,6 @@ trait JsUtilsActionsTrait {
 			$js .= 'var href=window.location.href;';
 		}
 		$js .= '$("' . $target . ' [' . $property . ']").each(function(){if(href.includes($(this).attr("' . $property . '"))) $(this).addClass("active");});';
-		return $this->execAtLast($js);
+		return $js;
 	}
 }
