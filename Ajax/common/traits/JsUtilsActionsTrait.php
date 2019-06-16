@@ -647,8 +647,11 @@ trait JsUtilsActionsTrait {
 	 */
 	public function setDraggable($element, $parameters = []) {
 		$attr = "id";
+		$preventDefault = false;
+		$stopPropagation = false;
+		$immediatly = true;
 		extract($parameters);
-		$script = $this->_add_event($element, Javascript::draggable($attr), "dragstart", $parameters);
+		$script = $this->_add_event($element, Javascript::draggable($attr), "dragstart", $preventDefault, $stopPropagation, $immediatly);
 		return $script;
 	}
 
