@@ -744,15 +744,23 @@ trait JsUtilsActionsTrait {
 		if (isset($globalName)) {
 			$global = "\nwindow.{$globalName}=interval;";
 		}
-		$timer = "var startTimer=function(duration, display) {var timer = duration, minutes, seconds;
+		$timer = "var startTimer=function(duration, display) {var timer = duration, days, hours, minutes, seconds;
+											var sh=function(disp,v){if(disp.is('[value]')){disp.val(v);} else {disp.html(v);};};
+											var shHide=function(v,k,kBefore){if(v==0 && display.find(k).closest('.timer').is(':visible') && (!kBefore || !display.find(kBefore).closest('.timer').is(':visible'))){display.find(k).closest('.timer').hide();}else{sh(display.find(k),v);}};
+											var pl=function(v,text){return (v>1)?v+' '+text+'s':(v>0)?v+' '+text:'';};
+											var d0=function(v){return v < 10 ? '0' + v : v;};
+											var shortSh=function(d,h,m,s){sh(display,pl(d,'day')+' '+[h,m,s].join(':'));};
+											var longSh=function(d,h,m,s){shHide(d,'.day');shHide(h,'.hour','.day');shHide(m,'.minute','.hour');shHide(s,'.second','.minute');};
+											var mainSh=(display.find('.hour').first().length)?longSh:shortSh;
 											display.trigger('counter-start',timer);
 											display.show();
-    										var interval=setInterval(function () {
-        										minutes = parseInt(timer / 60, 10);seconds = parseInt(timer % 60, 10);
-										        minutes = minutes < 10 ? '0' + minutes : minutes;
-        										seconds = seconds < 10 ? '0' + seconds : seconds;
-										        if(display.is('[value]')){display.val(minutes + ':' + seconds);} else {display.html(minutes + ':' + seconds);};
-										        " . $stop . "
+											var interval=setInterval(function () {
+												days = parseInt(timer / 86400, 10);
+												hours = d0(parseInt((timer%86400) / 3600, 10));
+												minutes = d0(parseInt((timer%3600) / 60, 10));
+												seconds = d0(parseInt(timer%60, 10));
+												mainSh(days,hours,minutes,seconds);
+												" . $stop . "
     										}, 1000);
 										" . $global . "
 										}";
