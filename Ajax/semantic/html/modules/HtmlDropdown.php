@@ -1,16 +1,16 @@
 <?php
 namespace Ajax\semantic\html\modules;
 
-use Ajax\semantic\html\base\HtmlSemDoubleElement;
-use Ajax\semantic\html\content\HtmlDropdownItem;
-use Ajax\semantic\html\elements\HtmlIcon;
+use Ajax\JsUtils;
+use Ajax\common\html\HtmlDoubleElement;
 use Ajax\common\html\html5\HtmlInput;
-use Ajax\service\JArray;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Direction;
 use Ajax\semantic\html\base\traits\LabeledIconTrait;
-use Ajax\JsUtils;
 use Ajax\semantic\html\collections\form\traits\FieldTrait;
-use Ajax\common\html\HtmlDoubleElement;
+use Ajax\semantic\html\content\HtmlDropdownItem;
+use Ajax\semantic\html\elements\HtmlIcon;
+use Ajax\service\JArray;
 
 class HtmlDropdown extends HtmlSemDoubleElement {
 	use FieldTrait,LabeledIconTrait {
@@ -43,18 +43,16 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		$this->setProperty("class", "ui dropdown");
 		$this->_multiple = false;
 		$content = [];
-		if (isset($value)) {
-			if ($value instanceof HtmlSemDoubleElement) {
-				$text = $value;
-			} else {
-				$text = new HtmlSemDoubleElement("text-" . $this->identifier, "div");
-				$text->setClass("text");
-				$this->setValue($value);
-			}
-			$content = [
-				"text" => $text
-			];
+		if ($value instanceof HtmlSemDoubleElement) {
+			$text = $value;
+		} else {
+			$text = new HtmlSemDoubleElement("text-" . $this->identifier, "div");
+			$text->setClass("text");
+			$this->setValue($value);
 		}
+		$content = [
+			"text" => $text
+		];
 		$content["arrow"] = new HtmlIcon($identifier . "-icon", "dropdown");
 		$this->content = $content;
 		$this->tagName = "div";
