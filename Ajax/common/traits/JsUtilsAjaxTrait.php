@@ -4,7 +4,6 @@ namespace Ajax\common\traits;
 use Ajax\service\AjaxTransition;
 use Ajax\service\Javascript;
 use Ajax\service\JString;
-use Ubiquity\utils\base\UString;
 
 /**
  *
@@ -178,7 +177,7 @@ trait JsUtilsAjaxTrait {
 			return "";
 		}
 		if (\preg_match("@^\{.*?\}$@", $params)) {
-			if (! isset($ajaxParameters['contentType']) || ! UString::contains('json', $ajaxParameters['contentType'])) {
+			if (! isset($ajaxParameters['contentType']) || ! JString::contains('json', $ajaxParameters['contentType'])) {
 				return '$.param(' . $params . ')';
 			} else {
 				return 'JSON.stringify(' . $params . ')';
@@ -582,6 +581,8 @@ trait JsUtilsAjaxTrait {
 		$parameters["attr"] = "href";
 		if (JString::isNull($responseElement)) {
 			$responseElement = '%$(self).attr("data-target")%';
+		} else {
+			$responseElement = '%$(self).attr("data-target") || "' . $responseElement . '"%';
 		}
 		if (! isset($parameters["historize"])) {
 			$parameters["historize"] = true;
@@ -597,13 +598,15 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true)
 	 * @return $this
 	 */
 	public function postHref($element, $responseElement = "", $parameters = array()) {
 		$parameters["attr"] = "href";
 		if (JString::isNull($responseElement)) {
 			$responseElement = '%$(this).attr("data-target")%';
+		} else {
+			$responseElement = '%$(self).attr("data-target") || "' . $responseElement . '"%';
 		}
 		if (! isset($parameters["historize"])) {
 			$parameters["historize"] = true;
@@ -698,26 +701,14 @@ trait JsUtilsAjaxTrait {
 		}
 		$params = "{}";
 		$validation = false;
-		$hasFiles = false;
 		\extract($parameters);
 		$async = ($async) ? "true" : "false";
 		$jsCallback = isset($jsCallback) ? $jsCallback : "";
 		$retour = $this->_getAjaxUrl($url, $attr);
 		$retour .= "\n$('#" . $form . "').trigger('ajaxSubmit');";
-		if (! $hasFiles) {
-			$retour .= "\nvar params=$('#" . $form . "').serialize();\n";
-			if (isset($params)) {
-				$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
-			}
-			$ajaxParameters = [];
-		} else {
-			$retour .= "\nvar params=new FormData($('#" . $form . "')[0]);\n";
-			$ajaxParameters = [
-				'enctype' => "'multipart/form-data'",
-				'processData' => "false",
-				'contentType' => "false",
-				'timeout' => 600000
-			];
+		$retour .= "\nvar params=$('#" . $form . "').serialize();\n";
+		if (isset($params)) {
+			$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
 		}
 		$responseElement = $this->_getResponseElement($responseElement);
 		$retour .= "var self=this;\n";
@@ -731,7 +722,7 @@ trait JsUtilsAjaxTrait {
 			"method" => "'POST'",
 			"data" => "params",
 			"async" => $async
-		] + $ajaxParameters;
+		];
 		if (isset($headers)) {
 			$ajaxParameters["headers"] = $headers;
 		}
