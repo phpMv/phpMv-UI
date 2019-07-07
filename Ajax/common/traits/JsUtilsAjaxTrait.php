@@ -177,7 +177,7 @@ trait JsUtilsAjaxTrait {
 			return "";
 		}
 		if (\preg_match("@^\{.*?\}$@", $params)) {
-			if (! isset($ajaxParameters['contentType']) || ! JString::contains('json', $ajaxParameters['contentType'])) {
+			if (! isset($ajaxParameters['contentType']) || ! JString::contains($ajaxParameters['contentType'], 'json')) {
 				return '$.param(' . $params . ')';
 			} else {
 				return 'JSON.stringify(' . $params . ')';
