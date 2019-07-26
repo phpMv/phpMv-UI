@@ -111,6 +111,23 @@ class HtmlMenu extends HtmlSemCollection {
 		$item->addContent($menu);
 		return $item;
 	}
+	
+	/**
+	 * Adds an header to the menu
+	 * @param String|HtmlDoubleElement $caption
+	 * @return \Ajax\common\html\HtmlDoubleElement
+	 */
+	public function addHeader($caption){
+		if(!($caption instanceof HtmlDoubleElement)){
+			$header=new HtmlDoubleElement('','div');
+			$header->setContent($caption);
+		}else{
+			$header=$caption;
+		}
+		$header->addClass('item header');
+		$this->wrapContent($header);
+		return $header;
+	}
 
 	public function addMenuAsItem($menu, $header=null) {
 		return $this->addItem($this->generateMenuAsItem($menu, $header));
@@ -241,6 +258,6 @@ class HtmlMenu extends HtmlSemCollection {
 		if($this->identifier!=="" && !isset($this->_bsComponent))
 			$this->onClick('if(!$(this).hasClass("dropdown")&&!$(this).hasClass("no-active")){$(this).addClass("active").siblings().removeClass("active");}',false,false);
 		$result= parent::run($js);
-		return $result->setItemSelector(">.item");
+		return $result->setItemSelector(">.item:not(.header)");
 	}
 }
