@@ -174,6 +174,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		$list->setOrdered($ordered);
 		$list->setClass("ui list");
 		$this->addContent($list);
+		return $list;
 	}
 
 	/*
