@@ -9,10 +9,10 @@ use Ajax\common\html\BaseHtml;
 /**
  * Twitter Bootstrap HTML Modal component
  * @author jc
- * @version 1.001
+ * @version 1.02
  */
 class HtmlModal extends BaseHtml {
-	protected $title="Titre de ma boîte";
+	protected $title="HtmlModal Title";
 	protected $content="";
 	protected $buttons=array ();
 	protected $showOnStartup=false;
@@ -183,11 +183,11 @@ class HtmlModal extends BaseHtml {
 	}
 
 	/**
-	 * Allow modal to be moved using the mouse.
+	 * Allow modal to be moved using the mouse, on the dialog title.
 	 * needs JQuery UI
 	 * @param boolean $value
 	 */
-	public function setDraggable($value) {
+	public function draggable($value=true) {
 		$this->draggable=$value;
 		if ($value) {
 			$this->backdrop=false;
