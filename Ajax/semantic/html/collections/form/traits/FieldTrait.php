@@ -9,6 +9,8 @@ use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\elements\HtmlLabel;
+use Ajax\common\html\html5\HtmlInput as HtmlInput5;
+
 
 /**
  * @author jc
@@ -138,5 +140,14 @@ trait FieldTrait {
 	
 	public function getJsContent(){
 		return $this->setJsContent("");
+	}
+	
+	public function asFile($caption='', $direction=Direction::RIGHT, $icon='cloud upload alternate', $labeled=false){
+		$field=$this->getField();
+		$field->getDataField()->setProperty('readonly', 'readonly');
+		$file=new HtmlInput5($this->identifier.'-file','file');
+		$file->setProperty('style','display: none!important;');
+		$field->getField()->content['file']=$file;
+		$this->addAction($caption,$direction,$icon,$labeled);
 	}
 }

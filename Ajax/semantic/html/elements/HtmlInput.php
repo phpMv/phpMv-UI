@@ -8,6 +8,8 @@ use Ajax\semantic\html\base\traits\IconTrait;
 use Ajax\semantic\html\collections\form\traits\TextFieldsTrait;
 use Ajax\semantic\html\collections\form\traits\FieldTrait;
 use Ajax\JsUtils;
+use Ajax\common\html\html5\HtmlInput as HtmlInput5;
+use Ajax\service\Javascript;
 
 class HtmlInput extends HtmlSemDoubleElement {
 	use IconTrait,TextFieldsTrait,FieldTrait;
@@ -15,7 +17,8 @@ class HtmlInput extends HtmlSemDoubleElement {
 	public function __construct($identifier, $type="text", $value="", $placeholder="") {
 		parent::__construct("div-" . $identifier, "div", "ui input");
 		$this->_identifier=$identifier;
-		$this->content=[ "field" => new \Ajax\common\html\html5\HtmlInput($identifier, $type, $value, $placeholder) ];
+		$this->_libraryId=$identifier;
+		$this->content=[ "field" => new HtmlInput5($identifier, $type, $value, $placeholder) ];
 		$this->_states=[ State::DISABLED,State::FOCUS,State::ERROR ];
 		$this->_variations=[ Variation::TRANSPARENT ];
 	}
@@ -43,5 +46,12 @@ class HtmlInput extends HtmlSemDoubleElement {
 
 	public function setTransparent(){
 		return $this->addToProperty("class", "transparent");
+	}
+	
+	public function compile_once(\Ajax\JsUtils $js = NULL, &$view = NULL){
+		parent::compile_once($js,$view);
+		if(isset($this->content['file'])){
+			$this->onCreate(Javascript::fileUploadBehavior($this->identifier));
+		}
 	}
 }

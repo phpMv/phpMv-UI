@@ -21,6 +21,11 @@ class Javascript {
 	public static function isFunction($jsCode){
 		return JString::startswith($jsCode, "function");
 	}
+	
+	public static function fileUploadBehavior($id=''){
+		return "$('input:text, .ui.button', '#{$id}').on('click', function (e) {e.preventDefault();\$('input:file', '#{$id}').click();});
+				$('input:file', '#{$id}').on('change', function (e) {if(e.target.files.length){var name = e.target.files[0].name;$('input:text', $(e.target).parent()).val(name);}});";
+	}
 
 	/**
 	 * Puts HTML element in quotes for use in jQuery code

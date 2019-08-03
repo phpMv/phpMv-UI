@@ -197,6 +197,17 @@ trait FieldAsTrait{
 			return $this->_prepareFormFields($input, $name, $attributes);
 		}, $index,$attributes,"input");
 	}
+	
+	public function fieldAsFile($index,$attributes=NULL){
+		if(isset($this->_form)){
+			$this->_form->setProperty('enctype','multipart/form-data');
+		}
+		return $this->_fieldAs(function($id,$name,$value,$caption) use ($attributes){
+			$input= new HtmlFormInput($id,$caption);
+			$input->asFile();
+			return $this->_prepareFormFields($input, $name, $attributes);
+		}, $index,$attributes,"input");
+	}
 
 	public function fieldAsTextarea($index,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value,$caption) use ($attributes){
