@@ -68,7 +68,8 @@ trait JsUtilsAjaxTrait {
 			"contentType" => "%value%",
 			"dataType" => "'%value%'",
 			"beforeSend" => "function(jqXHR,settings){%value%}",
-			"complete" => "function(jqXHR){%value%}"
+			"complete" => "function(jqXHR){%value%}",
+			"processData"=>"%value%"
 		];
 		foreach ($validParameters as $param => $mask) {
 			if (isset($parameters[$param])) {
@@ -706,9 +707,13 @@ trait JsUtilsAjaxTrait {
 		$jsCallback = isset($jsCallback) ? $jsCallback : "";
 		$retour = $this->_getAjaxUrl($url, $attr);
 		$retour .= "\n$('#" . $form . "').trigger('ajaxSubmit');";
-		$retour .= "\nvar params=$('#" . $form . "').serialize();\n";
-		if (isset($params)) {
-			$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
+		if(!isset($contentType) || $contentType!='false'){
+			$retour .= "\nvar params=$('#" . $form . "').serialize();\n";
+			if (isset($params)) {
+				$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
+			}
+		}else{
+			$retour .= "\nvar params=new FormData($('#" . $form . "')[0]);\n";
 		}
 		$responseElement = $this->_getResponseElement($responseElement);
 		$retour .= "var self=this;\n";
