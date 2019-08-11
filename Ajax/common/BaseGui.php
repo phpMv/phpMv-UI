@@ -89,4 +89,8 @@ class BaseGui {
 	public function matchHtmlComponents($callback) {
 		return array_filter($this->htmlComponents, $callback);
 	}
+	
+	public function getHtmlComponent($identifier){
+		return $this->htmlComponents[$identifier]??'';
+	}
 }
