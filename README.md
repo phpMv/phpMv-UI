@@ -224,7 +224,49 @@ $loader = new Psr4ClassLoader();
 $loader->addPrefix('Ajax\\', __DIR__.'/lib/phpmv/php-mv-ui/Ajax');
 $loader->register();
 ```
-#### Injection of the service
+
+
+#### Symfony 4
+
+Create a service inheriting from `JquerySemantic`
+```php
+namespace App\Services\semantic;
+
+use Ajax\php\symfony\JquerySemantic;
+
+class SemanticGui extends JquerySemantic{
+}
+```
+Check that autowiring is activated in **config/services.yml**:
+```yml
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+```
+You can then use dependency injection on properties, constructors or setters:
+
+```php
+namespace App\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Services\semantic\SemanticGui;
+
+BarController extends AbstractController{
+	/**
+	 * @var SemanticGui
+	 */
+	protected $gui;
+
+    public function loadViewWithAjaxButtonAction(){
+    	$bt=$this->gui->semantic()->htmlButton('button1','a button');
+    	$bt->getOnClick("/url",'#responseElement');
+    	return $this->gui->renderView("barView.html.twig");
+    }
+}
+```
+#### Symfony 3
+##### Injection of the service
 Create 2 services in the **app/config/services.yml** file :
   * The first for the JsUtils instance
   * The second for the controller
