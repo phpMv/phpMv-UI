@@ -198,7 +198,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		if(isset($params)){
 			$this->_toast->setParams($params);
 		}
-		$this->_toast->setOnShow('$("#'.$this->_identifier.'").show();');
+		$this->_toast->setParam('onShow','$(".toast-box *").show();');
 		return $this->_toast;
 	}
 
