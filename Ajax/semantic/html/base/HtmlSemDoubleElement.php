@@ -198,6 +198,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		if(isset($params)){
 			$this->_toast->setParams($params);
 		}
+		$this->_toast->setOnShow('$("#'.$this->_identifier.'").show();');
 		return $this->_toast;
 	}
 

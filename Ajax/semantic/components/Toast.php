@@ -53,6 +53,10 @@ class Toast extends SimpleSemExtComponent {
 		$this->params['showProgress']=$value;
 	}
 
+	public function setOnShow($jsCode) {
+		$this->addComponentEvent('onShow', $jsCode);
+	}
+	
 	public function setOnHide($jsCode) {
 		$this->addComponentEvent('onHide', $jsCode);
 	}
