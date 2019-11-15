@@ -192,7 +192,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	 * @return \Ajax\semantic\components\Toast
 	 */
 	public function asToast($params=NULL){
-		$this->_toast=new Toast(null);
+		$this->_toast=new Toast();
 		if(isset($params)){
 			$this->_toast->setParams($params);
 		}
