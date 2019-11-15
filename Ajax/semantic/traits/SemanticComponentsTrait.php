@@ -18,6 +18,7 @@ use Ajax\semantic\components\Tab;
 use Ajax\semantic\components\Shape;
 use Ajax\semantic\components\Form;
 use Ajax\semantic\components\SimpleSemExtComponent;
+use Ajax\semantic\components\Toast;
 
 /**
  * @author jc
@@ -165,6 +166,16 @@ trait SemanticComponentsTrait {
 	 */
 	public function form($attachTo=NULL, $params=NULL) {
 		$result= $this->addComponent(new Form($this->js), $attachTo, $params);
+		return $result;
+	}
+	
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Toast
+	 */
+	public function toast($attachTo=NULL, $params=NULL) {
+		$result= $this->addComponent(new Toast($this->js), $attachTo, $params);
 		return $result;
 	}
 
