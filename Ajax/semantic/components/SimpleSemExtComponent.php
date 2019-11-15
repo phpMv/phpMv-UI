@@ -12,6 +12,11 @@ class SimpleSemExtComponent extends SimpleExtComponent {
 		$this->paramParts=array();
 	}
 
+	protected function addBehavior($name) {
+		$this->paramParts[]=[$name];
+		return $this;
+	}
+	
 	protected function generateParamParts(){
 		$results=[];
 		foreach ($this->paramParts as $paramPart){
@@ -38,7 +43,7 @@ class SimpleSemExtComponent extends SimpleExtComponent {
 	}
 
 	public function addComponentEvent($event,$jsCode){
-		$jsCode=str_ireplace("\"","%quote%", $jsCode);
+		$jsCode=\str_ireplace("\"","%quote%", $jsCode);
 		return $this->setParam($event, "%function(){".$jsCode."}%");
 	}
 

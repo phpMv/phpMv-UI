@@ -13,16 +13,18 @@ use Ajax\JsUtils;
 use Ajax\semantic\html\base\constants\Side;
 use Ajax\common\html\html5\HtmlList;
 use Ajax\common\html\BaseHtml;
+use Ajax\semantic\components\Toast;
 
 /**
  * Base class for Semantic double elements
  * @author jc
- * @version 1.001
+ * @version 1.0.2
  */
 class HtmlSemDoubleElement extends HtmlDoubleElement {
 	use BaseTrait;
 	protected $_popup=NULL;
 	protected $_dimmer=NULL;
+	protected $_toast=NULL;
 	protected $_params=array ();
 
 
@@ -166,15 +168,35 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 		if (isset($this->_popup)) {
 			$this->_popup->run($js);
 		}
+		if (isset($this->_toast)) {
+			$this->_toast->run($js);
+		}
 		return $this->_bsComponent;
 	}
 
+	/**
+	 * @param array $items
+	 * @param boolean $ordered
+	 * @return \Ajax\common\html\html5\HtmlList
+	 */
 	public function addList($items,$ordered=false){
 		$list=new HtmlList("list-".$this->identifier,$items);
 		$list->setOrdered($ordered);
 		$list->setClass("ui list");
 		$this->addContent($list);
 		return $list;
+	}
+	
+	/**
+	 * @param ?array $params
+	 * @return \Ajax\semantic\components\Toast
+	 */
+	public function asToast($params=NULL){
+		$this->_toast=new Toast(null);
+		if(isset($params)){
+			$this->_toast->setParams($params);
+		}
+		return $this->_toast;
 	}
 
 	/*

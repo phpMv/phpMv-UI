@@ -74,7 +74,7 @@ abstract class BaseComponent {
 				$this->$method($v);
 			else {
 				$this->setParam($k, $v);
-				trigger_error("`".$k."` property n'existe pas", E_USER_NOTICE);
+				trigger_error("`{$k}` doesn't exists!", E_USER_NOTICE);
 			}
 		}
 
@@ -97,4 +97,5 @@ abstract class BaseComponent {
 	public function setVerbose($value){
 		return $this->setParam("verbose", $value);
 	}
+
 }

@@ -104,5 +104,5 @@ abstract class SimpleComponent extends BaseComponent {
 		$this->itemSelector=$itemSelector;
 		return $this;
 	}
-
+	
 }

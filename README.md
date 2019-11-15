@@ -17,15 +17,16 @@ Using the dependency injection, the jQuery object can be injected into **php fra
 
 ## Requirements/Dependencies
 
-* PHP >= 5.3.9
+* PHP >= 7.0
 * JQuery >= 2.0.3
 * JQuery UI >= 1.10 [optional]
 * Twitter Bootstrap >= 3.3.2 [optional]
-* Semantic-UI >= 2.2 [optional]
+* Semantic-UI >= 2.2 or Fomantic-UI >= 2.7 [optional]
 
 ## Resources
 * [API](https://api.kobject.net/phpMv-UI/)
 * [Documentation/demo](https://phpmv-ui.kobject.net/)
+* [Semantic-ui](https://semantic-ui.com) [Fomantic-ui](https://fomantic-ui.com)
 
 ## I - Installation
 
@@ -41,7 +42,7 @@ Create the composer.json file in the app directory as follows:
 ```json
 {
     "require": {
-        "phpmv/php-mv-ui": "2.3.x-dev"
+        "phpmv/php-mv-ui": "^2.3"
     }
 }
 ```
