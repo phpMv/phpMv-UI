@@ -194,6 +194,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	public function asToast($params=NULL){
 		$this->_toast=new Toast();
 		$this->_toast->attach('#'.$this->_identifier);
+		$this->setProperty('style','display:none;');
 		if(isset($params)){
 			$this->_toast->setParams($params);
 		}
