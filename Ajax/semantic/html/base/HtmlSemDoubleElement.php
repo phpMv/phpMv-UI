@@ -169,7 +169,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 			$this->_popup->run($js);
 		}
 		if (isset($this->_toast)) {
-			$this->_toast->run($js);
+			$this->_toast->setJs($js);
 		}
 		return $this->_bsComponent;
 	}
@@ -193,6 +193,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	 */
 	public function asToast($params=NULL){
 		$this->_toast=new Toast();
+		$this->_toast->attach('#'.$this->_identifier);
 		if(isset($params)){
 			$this->_toast->setParams($params);
 		}

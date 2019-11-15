@@ -46,5 +46,10 @@ class SimpleSemExtComponent extends SimpleExtComponent {
 		$jsCode=\str_ireplace("\"","%quote%", $jsCode);
 		return $this->setParam($event, "%function(){".$jsCode."}%");
 	}
+	
+	public function setJs(JsUtils $js){
+		$this->js=$js;
+		$js->semantic()->addComponent($this, $this->attachTo, $this->params);
+	}
 
 }
