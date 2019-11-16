@@ -6,10 +6,11 @@ use Ajax\JsUtils;
 
 /**
  * Ajax\semantic\components$Toast
- * This class is part of Ubiquity
+ * This class is part of phpMv-ui
  * @author jcheron <myaddressmail@gmail.com>
  * @version 1.0.0
  * @since 2.3.0
+ * @see https://fomantic-ui.com/modules/toast.html
  */
 class Toast extends SimpleSemExtComponent {
 
@@ -49,7 +50,7 @@ class Toast extends SimpleSemExtComponent {
 		$this->params['displayTime']=$time;
 	}
 	
-	public function showProgress($value='top'){
+	public function setShowProgress($value='top'){
 		$this->params['showProgress']=$value;
 	}
 

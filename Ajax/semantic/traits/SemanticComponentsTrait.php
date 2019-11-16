@@ -19,6 +19,7 @@ use Ajax\semantic\components\Shape;
 use Ajax\semantic\components\Form;
 use Ajax\semantic\components\SimpleSemExtComponent;
 use Ajax\semantic\components\Toast;
+use Ajax\semantic\components\Slider;
 
 /**
  * @author jc
@@ -176,6 +177,16 @@ trait SemanticComponentsTrait {
 	 */
 	public function toast($attachTo=NULL, $params=NULL) {
 		$result= $this->addComponent(new Toast($this->js), $attachTo, $params);
+		return $result;
+	}
+	
+	/**
+	 * @param string $attachTo
+	 * @param string|array $params
+	 * @return Slider
+	 */
+	public function slider($attachTo=NULL, $params=NULL) {
+		$result= $this->addComponent(new Slider($this->js), $attachTo, $params);
 		return $result;
 	}
 
