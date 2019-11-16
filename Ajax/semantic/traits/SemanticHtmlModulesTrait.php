@@ -18,6 +18,7 @@ use Ajax\semantic\html\modules\HtmlAccordion;
 use Ajax\semantic\html\collections\menus\HtmlAccordionMenu;
 use Ajax\semantic\html\modules\HtmlSticky;
 use Ajax\semantic\html\collections\form\HtmlFormFields;
+use Ajax\semantic\html\modules\HtmlSlider;
 
 trait SemanticHtmlModulesTrait {
 
@@ -172,5 +173,14 @@ trait SemanticHtmlModulesTrait {
 	 */
 	public function htmlSticky($identifier, $content=array()) {
 		return $this->addHtmlComponent(new HtmlSticky($identifier, $content));
+	}
+	
+	/**
+	 * Returns a new Semantic Slider
+	 * @param string $identifier
+	 * @return HtmlSlider
+	 */
+	public function htmlSlider($identifier) {
+		return $this->addHtmlComponent(new HtmlSlider($identifier));
 	}
 }
