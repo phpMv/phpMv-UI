@@ -32,7 +32,7 @@ class HtmlSlider extends HtmlSemDoubleElement {
 	}
 	
 	public function setLabels($labels){
-		$this->params['interpretLabel']=$labels;
+		$this->_params['interpretLabel']=$labels;
 	}
 	
 	/**
