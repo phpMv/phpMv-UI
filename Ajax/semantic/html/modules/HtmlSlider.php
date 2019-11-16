@@ -31,6 +31,10 @@ class HtmlSlider extends HtmlSemDoubleElement {
 		$this->addClass('ticked');
 	}
 	
+	public function setLabels($labels){
+		$this->params['interpretLabel']=$labels;
+	}
+	
 	/**
 	 * $values is an associative array with keys (min,max,start,end,step,smooth)
 	 * @param array $values
