@@ -3,6 +3,7 @@
 namespace Ajax\semantic\components;
 
 use Ajax\JsUtils;
+use Ajax\service\JString;
 
 /**
  * Ajax\semantic\components$Slider
@@ -24,8 +25,9 @@ class Slider extends SimpleSemExtComponent {
 	}
 
 	public function setInterpretLabel($labels){
-		$this->addCode('var labels='.\json_encode($labels).';');
-		$this->params['interpretLabel']='%function(value) {return labels[value];}%';
+		$var="window.document._slider_labels['".JString::cleanIdentifier($this->attachTo)."']";
+		$this->addCode('window.document._slider_labels=window.document._slider_labels||[];'.$var.'='.\json_encode($labels).';');
+		$this->params['interpretLabel']='%function(value) {return '.$var.'[value];}%';
 	}
 	
 	public function setMin($min){

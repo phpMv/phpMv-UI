@@ -28,6 +28,7 @@ class SimpleSemExtComponent extends SimpleExtComponent {
 	public function getScript() {
 		$allParams=$this->params;
 		$this->jquery_code_for_compile=array ();
+		$this->compileJsCodes();
 		$paramParts="";
 		if(\sizeof($this->paramParts)>0){
 			$paramParts=".".$this->generateParamParts();

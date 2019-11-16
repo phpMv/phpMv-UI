@@ -15,12 +15,16 @@ class SimpleExtComponent extends SimpleComponent {
 
 	public function getScript() {
 		parent::getScript();
+		$this->compileJsCodes();
+		return $this->compileJQueryCode();
+	}
+	
+	protected function compileJsCodes(){
 		foreach ( $this->jsCodes as $jsCode ) {
 			$this->jquery_code_for_compile []=$jsCode->compile(array (
-					"identifier" => $this->attachTo
+				"identifier" => $this->attachTo
 			));
 		}
-		return $this->compileJQueryCode();
 	}
 
 	public function addCode($jsCode) {
