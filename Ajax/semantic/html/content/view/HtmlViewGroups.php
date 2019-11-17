@@ -60,6 +60,7 @@ abstract class HtmlViewGroups extends HtmlSemCollection {
 			$content=$item->getContent();
 			if(isset($content[$contentIndex]))
 				return $content[$contentIndex];
+			return $content;
 		}
 	}
 
