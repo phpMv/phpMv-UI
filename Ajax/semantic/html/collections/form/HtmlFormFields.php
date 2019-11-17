@@ -115,8 +115,12 @@ class HtmlFormFields extends HtmlSemCollection {
 			$fields[]=$itemO;
 		}
 		$radios=new HtmlFormFields($identifier, $fields);
-		if (isset($label))
-			$radios->setLabel($label)->setProperty("for", $name);
+		if (isset($label)){
+			$lbl=$radios->setLabel($label);
+			if($lbl instanceof HtmlSemDoubleElement){
+				$lbl->setProperty("for", $name);
+			}
+		}
 		return $radios;
 	}
 
@@ -143,7 +147,7 @@ class HtmlFormFields extends HtmlSemCollection {
 	}
 	
 	public function run(JsUtils $js){
-		$result= parent::run($js);
+		return parent::run($js);
 		//return $result->setItemSelector("[data-value]");
 	}
 }
