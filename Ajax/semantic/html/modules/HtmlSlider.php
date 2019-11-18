@@ -21,18 +21,19 @@ class HtmlSlider extends HtmlSemDoubleElement {
 	}
 	
 	public function setLabeled(){
-		$this->addClass('labeled');
+		return $this->addClass('labeled');
 	}
 	
 	public function setTicked(){
 		if(!$this->propertyContains('class', 'labeled')){
 			$this->addClass('labeled');
 		}
-		$this->addClass('ticked');
+		return $this->addClass('ticked');
 	}
 	
 	public function setLabels($labels){
 		$this->_params['interpretLabel']=$labels;
+		return $this;
 	}
 	
 	/**
@@ -44,6 +45,7 @@ class HtmlSlider extends HtmlSemDoubleElement {
 		if(\is_array($values)){
 			$this->_params=\array_merge($this->_params,$values);
 		}
+		return $this;
 	}
 	
 	/**
@@ -54,18 +56,21 @@ class HtmlSlider extends HtmlSemDoubleElement {
 		if(\is_array($values)){
 			$this->_params=\array_merge($this->_params,$values);
 		}
+		return $this;
 	}
 	
 	public function setReversed($value=true){
 		if($value){
 			$this->addClass('reversed');
 		}
+		return $this;
 	}
 	
 	public function setVertical($value=true){
 		if($value){
 			$this->addClass('vertical');
 		}
+		return $this;
 	}
 	
 	/*
