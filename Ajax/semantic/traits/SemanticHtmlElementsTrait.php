@@ -24,6 +24,7 @@ use Ajax\semantic\html\base\constants\State;
 use Ajax\semantic\html\elements\HtmlLabelGroups;
 use Ajax\common\html\BaseHtml;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ajax\semantic\html\elements\HtmlEmoji;
 
 trait SemanticHtmlElementsTrait {
 
@@ -233,5 +234,14 @@ trait SemanticHtmlElementsTrait {
 	 */
 	public function htmlFlag($identifier, $flag) {
 		return $this->addHtmlComponent(new HtmlFlag($identifier, $flag));
+	}
+	
+	/**
+	 * @param string $identifier
+	 * @param string $flag
+	 * @return HtmlEmoji
+	 */
+	public function htmlEmoji($identifier, $emoji) {
+		return $this->addHtmlComponent(new HtmlEmoji($identifier, $emoji));
 	}
 }
