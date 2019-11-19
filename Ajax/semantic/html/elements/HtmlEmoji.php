@@ -31,11 +31,12 @@ class HtmlEmoji extends HtmlSemDoubleElement {
 	 * @return HtmlEmoji
 	 */
 	public function setEmoji($emoji) {
+		$emoji=":{$emoji}:";
 		if (isset($this->_emoji)) {
-			$this->removePropertyValue("data-emoji", ":{$this->_emoji}:");
+			$this->removePropertyValue("data-emoji", $this->_emoji);
 		}
 		$this->_emoji=$emoji;
-		$this->addToProperty("data-emoji", ":{$emoji}:");
+		$this->addToProperty("data-emoji", $emoji);
 		return $this;
 	}
 
