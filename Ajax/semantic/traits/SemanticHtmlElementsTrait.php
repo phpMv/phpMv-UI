@@ -238,7 +238,7 @@ trait SemanticHtmlElementsTrait {
 	
 	/**
 	 * @param string $identifier
-	 * @param string $flag
+	 * @param string $emoji
 	 * @return HtmlEmoji
 	 */
 	public function htmlEmoji($identifier, $emoji) {
