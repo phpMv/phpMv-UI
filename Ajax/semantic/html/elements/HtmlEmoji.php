@@ -64,12 +64,12 @@ class HtmlEmoji extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "link");
 	}
 
-	public function addLabel($label, $before, $emoji) {
+	public function addLabel($label, $before=false, $emoji=null) {
 		if($before)
 			$this->wrap($label);
 		else
 			$this->wrap("", $label);
-		if(isset($emoji))
+		if($emoji!=null)
 			$this->setEmoji($emoji);
 		return $this;
 	}
