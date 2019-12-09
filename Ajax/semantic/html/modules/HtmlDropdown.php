@@ -356,6 +356,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function setDefaultText($text) {
 		$this->content["text"] = new HtmlSemDoubleElement("", "div", "default text", $text);
+		return $this;
 	}
 
 	private function applyValue() {
@@ -394,22 +395,27 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function setAction($action) {
 		$this->_params["action"] = $action;
+		return $this;
 	}
 
 	public function setOn($on) {
 		$this->_params["on"] = $on;
+		return $this;
 	}
 
 	public function setShowOnFocus($value) {
 		$this->_params["showOnFocus"] = $value;
+		return $this;
 	}
 
 	public function setAllowAdditions($value) {
 		$this->_params["allowAdditions"] = $value;
+		return $this;
 	}
 
 	public function setFullTextSearch($value) {
 		$this->_params["fullTextSearch"] = $value;
+		return $this;
 	}
 
 	public function compile(JsUtils $js = NULL, &$view = NULL) {
@@ -434,6 +440,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 
 	public function setClearable($value) {
 		$this->_params["clearable"] = $value;
+		return $this;
 	}
 
 	/**
