@@ -69,7 +69,7 @@ trait JsUtilsAjaxTrait {
 			"dataType" => "'%value%'",
 			"beforeSend" => "function(jqXHR,settings){%value%}",
 			"complete" => "function(jqXHR){%value%}",
-			"processData"=>"%value%"
+			"processData" => "%value%"
 		];
 		foreach ($validParameters as $param => $mask) {
 			if (isset($parameters[$param])) {
@@ -284,10 +284,12 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 * @param array $parameters
 	 *        	The ajax parameters, default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
+	 * @param
+	 *        	$immediatly
 	 * @return string
 	 */
-	public function ajaxInterval($method, $url, $interval, $globalName = null, $responseElement = "", $parameters = []) {
-		return $this->interval($this->ajaxDeferred($method, $url, $responseElement, $parameters), $interval, $globalName);
+	public function ajaxInterval($method, $url, $interval, $globalName = null, $responseElement = "", $parameters = [], $immediatly = true) {
+		return $this->interval($this->ajaxDeferred($method, $url, $responseElement, $parameters), $interval, $globalName, $immediatly);
 	}
 
 	/**
@@ -707,12 +709,12 @@ trait JsUtilsAjaxTrait {
 		$jsCallback = isset($jsCallback) ? $jsCallback : "";
 		$retour = $this->_getAjaxUrl($url, $attr);
 		$retour .= "\n$('#" . $form . "').trigger('ajaxSubmit');";
-		if(!isset($contentType) || $contentType!='false'){
+		if (! isset($contentType) || $contentType != 'false') {
 			$retour .= "\nvar params=$('#" . $form . "').serialize();\n";
 			if (isset($params)) {
 				$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
 			}
-		}else{
+		} else {
 			$retour .= "\nvar params=new FormData($('#" . $form . "')[0]);\n";
 		}
 		$responseElement = $this->_getResponseElement($responseElement);
