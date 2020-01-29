@@ -54,9 +54,14 @@ trait JsUtilsAjaxTrait {
 		if (isset($headers)) {
 			$ajaxParameters["headers"] = $headers;
 		}
+		if (isset($partial)) {
+			$ajaxParameters["xhr"] = "xhrProvider";
+			$retour .= "var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
+		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data, textStatus, jqXHR ) {\n";
 		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader, ($historize ? $originalSelector : null)) . "});\n";
+
 		$retour = $this->_addJsCondition($jsCondition, $retour);
 		if ($immediatly)
 			$this->jquery_code_for_compile[] = $retour;
@@ -734,6 +739,10 @@ trait JsUtilsAjaxTrait {
 		];
 		if (isset($headers)) {
 			$ajaxParameters["headers"] = $headers;
+		}
+		if (isset($partial)) {
+			$ajaxParameters["xhr"] = "xhrProvider";
+			$retour .= "var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data ) {\n";
