@@ -27,7 +27,6 @@ trait JsUtilsAjaxTrait {
 		if (isset($this->params["ajax"])) {
 			extract($this->params["ajax"]);
 		}
-		$immediatly = false;
 		extract($parameters);
 
 		$jsCallback = isset($jsCallback) ? $jsCallback : "";
