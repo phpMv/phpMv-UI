@@ -640,6 +640,7 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
 	public function post($url, $params = "{}", $responseElement = "", $parameters = []) {
+		$parameters['immediatly'] = true;
 		return $this->_post($url, $params, $responseElement, $parameters);
 	}
 
