@@ -21,7 +21,7 @@ use Ajax\service\JString;
  * @version 1.0
  * @author jc
  * @since 2.2
- *       
+ *
  */
 class DataTable extends Widget {
 	use TableTrait,DataTableFieldAsTrait,HasCheckboxesTrait,BaseTrait;
@@ -281,7 +281,7 @@ class DataTable extends Widget {
 				$checked = $func($instance);
 			}
 			$ck->setChecked($checked);
-			$ck->setOnChange("event.stopPropagation();");
+			// $ck->setOnChange("event.stopPropagation();");
 			$field = $ck->getField();
 			$field->setProperty("value", $dataAjax);
 			$field->setProperty("name", "selection[]");
@@ -475,7 +475,9 @@ class DataTable extends Widget {
 	 * @param array $compileParts
 	 * @return DataTable
 	 */
-	public function refresh($compileParts = ["tbody"]) {
+	public function refresh($compileParts = [
+		"tbody"
+	]) {
 		$this->_compileParts = $compileParts;
 		return $this;
 	}
