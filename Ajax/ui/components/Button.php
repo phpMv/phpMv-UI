@@ -1,6 +1,5 @@
 <?php
-
-namespace Ajax\ui\Components;
+namespace Ajax\ui\components;
 
 use Ajax\common\components\SimpleComponent;
 use Ajax\JsUtils;
@@ -8,6 +7,7 @@ use Ajax\service\JString;
 
 /**
  * Composant JQuery UI Button
+ *
  * @author jc
  * @version 1.001
  */
@@ -15,12 +15,14 @@ class Button extends SimpleComponent {
 
 	public function __construct(JsUtils $js) {
 		parent::__construct($js);
-		$this->uiName="button";
+		$this->uiName = "button";
 	}
 
 	/**
 	 * Disables the button if set to true.
-	 * @param Boolean $value default : false
+	 *
+	 * @param Boolean $value
+	 *        	default : false
 	 * @return $this
 	 */
 	public function setDisabled($value) {
@@ -33,14 +35,15 @@ class Button extends SimpleComponent {
 	 * The positioning can be controlled via CSS.
 	 * The value for the primary and secondary properties must match an icon class name, e.g., "ui-icon-gear".
 	 * For using only one icon: icons: { primary: "ui-icon-locked" }. For using two icons: icons: { primary: "ui-icon-gear", secondary: "ui-icon-triangle-1-s" }.
-	 * @param String $value default : { primary: null, secondary: null }
+	 *
+	 * @param String $value
+	 *        	default : { primary: null, secondary: null }
 	 * @return $this
 	 */
 	public function setIcons($value) {
 		if (is_string($value)) {
-			if (JString::startsWith($value, "{"))
-				;
-			$value="%".$value."%";
+			if (JString::startsWith($value, "{"));
+			$value = "%" . $value . "%";
 		}
 		return $this->setParam("icons", $value);
 	}
@@ -48,7 +51,9 @@ class Button extends SimpleComponent {
 	/**
 	 * Whether to show the label.
 	 * When set to false no text will be displayed, but the icons option must be enabled, otherwise the text option will be ignored.
-	 * @param Boolean $value default : false
+	 *
+	 * @param Boolean $value
+	 *        	default : false
 	 * @return $this
 	 */
 	public function setText($value) {
@@ -59,7 +64,9 @@ class Button extends SimpleComponent {
 	 * Text to show in the button.
 	 * When not specified (null), the element's HTML content is used, or its value attribute if the element is an input element of type submit or reset,
 	 * or the HTML content of the associated label element if the element is an input of type radio or checkbox.
-	 * @param string $value default : null
+	 *
+	 * @param string $value
+	 *        	default : null
 	 * @return $this
 	 */
 	public function setLabel($value) {
