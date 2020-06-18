@@ -690,4 +690,12 @@ class DataTable extends Widget {
 	public function setGroupByFields($_groupByFields) {
 		$this->_instanceViewer->setGroupByFields($_groupByFields);
 	}
+
+	/**
+	 *
+	 * @param boolean $_visibleHover
+	 */
+	public function setVisibleHover($_visibleHover) {
+		$this->_visibleHover = $_visibleHover;
+	}
 }
