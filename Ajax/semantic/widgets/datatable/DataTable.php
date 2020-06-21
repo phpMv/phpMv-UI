@@ -18,7 +18,7 @@ use Ajax\service\JString;
 /**
  * DataTable widget for displaying list of objects
  *
- * @version 1.0
+ * @version 1.1.0
  * @author jc
  * @since 2.2
  *
@@ -72,11 +72,11 @@ class DataTable extends Widget {
 			$this->_runCheckboxes($js);
 		}
 		if ($this->_visibleHover) {
-			$js->execOn("mouseover", "#" . $this->identifier . " tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'visible');", [
+			$js->execOn("mouseover", "#" . $this->identifier . " tr", "$(event.currentTarget).closest('tr').find('.visibleover').css('visibility', 'visible');", [
 				"preventDefault" => false,
 				"stopPropagation" => true
 			]);
-			$js->execOn("mouseout", "#" . $this->identifier . " tr", "$(event.target).closest('tr').find('.visibleover').css('visibility', 'hidden');", [
+			$js->execOn("mouseout", "#" . $this->identifier . " tr", "$(event.currentTarget).closest('tr').find('.visibleover').css('visibility', 'hidden');$(event.currentTarget).trigger('visibleoverOut');", [
 				"preventDefault" => false,
 				"stopPropagation" => true
 			]);
