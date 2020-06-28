@@ -83,9 +83,9 @@ The library is already loaded by default in the config file **app/config/config.
 Example of creating a Semantic-UI button
 
 ```php
-    /**
-     * @property \Ajax\php\ubiquity\JsUtils $jquery
-    **/
+/**
+ * @property \Ajax\php\ubiquity\JsUtils $jquery
+ */
 class ExempleController extends Controller{
 	public function index(){
 		$semantic=$this->jquery->semantic();
@@ -123,9 +123,9 @@ Example of creating a Semantic-UI button
 ```php
 use Phalcon\Mvc\Controller;
 use Ajax\php\phalcon\JsUtils;
-    /**
-     * @property JsUtils $jquery
-    **/
+/**
+ * @property JsUtils $jquery
+ */
 class ExempleController extends Controller{
 	public function indexAction(){
 		$semantic=$this->jquery->semantic();
