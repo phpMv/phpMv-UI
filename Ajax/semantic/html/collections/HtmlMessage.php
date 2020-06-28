@@ -100,10 +100,10 @@ class HtmlMessage extends HtmlSemDoubleElement {
 	public function run(JsUtils $js) {
 		if (! isset($this->_bsComponent)) {
 			if (isset($this->close)) {
-				$js->execOn("click", "#" . $this->identifier . " .close", "$(this).closest('.message').transition({$this->_closeTransition})");
+				$js->execOn("click", "#" . $this->identifier . " .close", "$(this).closest('.message').transition({$this->_closeTransition}).trigger('close-message');");
 			}
 			if (isset($this->_timeout)) {
-				$js->exec("setTimeout(function() { $('#{$this->identifier}').transition({$this->_closeTransition}); }, {$this->_timeout});", true);
+				$js->exec("setTimeout(function() { $('#{$this->identifier}').transition({$this->_closeTransition}).trigger('close-message'); }, {$this->_timeout});", true);
 			}
 		}
 		return parent::run($js);
