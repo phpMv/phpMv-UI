@@ -67,6 +67,33 @@ Whatever the php framework used, with "composer", it is enough to integrate the 
 ```php
 require_once("vendor/autoload.php");
 ```
+### <img src="http://angular.kobject.net/git/images/ubiquity.png" width="30"> Ubiquity configuration
+
+#### Library loading
+The library is already loaded by default in the config file **app/config/config.php** :
+
+```php
+	"di"=>array(
+			"@exec"=>array("jquery"=>function ($controller){
+						return \Ubiquity\core\Framework::diSemantic($controller);
+					})
+			),
+```
+#### Use in controllers
+Example of creating a Semantic-UI button
+
+```php
+    /**
+     * @property \Ajax\php\ubiquity\JsUtils $jquery
+    **/
+class ExempleController extends Controller{
+	public function index(){
+		$semantic=$this->jquery->semantic();
+		$button=$semantic->htmlButton("btTest","Test Button");
+		echo $button;
+	}
+}
+```
 ### <img src="http://angular.kobject.net/git/images/phalcon.png" width="30"> Phalcon configuration
 
 #### Library loading
