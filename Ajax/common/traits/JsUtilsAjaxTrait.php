@@ -38,7 +38,9 @@ trait JsUtilsAjaxTrait {
 		$retour .= $before;
 		if ($hasLoader === true && JString::isNotNull($responseElement)) {
 			$this->addLoading($retour, $responseElement, $ajaxLoader);
-		} elseif ($hasLoader === "internal") {
+		} elseif ($hasLoader === 'response') {
+			$this->addResponseLoading($retour, $responseElement, $ajaxLoader);
+		} elseif ($hasLoader === 'internal') {
 			$retour .= "\n$(this).addClass('loading');";
 		}
 		$ajaxParameters = [
@@ -202,6 +204,14 @@ trait JsUtilsAjaxTrait {
 	}
 
 	protected function addLoading(&$retour, $responseElement, $ajaxLoader = null) {
+		if (! isset($ajaxLoader)) {
+			$ajaxLoader = $this->ajaxLoader;
+		}
+		$loading_notifier = '<div class="ajax-loader ui active inverted dimmer">' . $ajaxLoader . '</div>';
+		$retour .= "\t\t{$responseElement}.append('{$loading_notifier}');\n";
+	}
+
+	protected function addResponseLoading(&$retour, $responseElement, $ajaxLoader = null) {
 		if (! isset($ajaxLoader)) {
 			$ajaxLoader = $this->ajaxLoader;
 		}
@@ -729,7 +739,9 @@ trait JsUtilsAjaxTrait {
 		$retour .= $before;
 		if ($hasLoader === true) {
 			$this->addLoading($retour, $responseElement, $ajaxLoader);
-		} elseif ($hasLoader === "internal") {
+		} elseif ($hasLoader === 'response') {
+			$this->addResponseLoading($retour, $responseElement, $ajaxLoader);
+		} elseif ($hasLoader === 'internal') {
 			$retour .= "\n$(this).addClass('loading');";
 		}
 		$ajaxParameters = [
