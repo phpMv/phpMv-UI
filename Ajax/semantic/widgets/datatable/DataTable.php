@@ -67,31 +67,34 @@ class DataTable extends Widget {
 	}
 
 	public function run(JsUtils $js) {
-		$offset = $js->scriptCount();
-		if ($this->_hasCheckboxes && isset($js)) {
-			$this->_runCheckboxes($js);
+		if ($this->_runned !== true) {
+			$offset = $js->scriptCount();
+			if ($this->_hasCheckboxes && isset($js)) {
+				$this->_runCheckboxes($js);
+			}
+			if ($this->_visibleHover) {
+				$js->execOn("mouseover", "#" . $this->identifier . " tr", "$(event.currentTarget).closest('tr').find('.visibleover').css('visibility', 'visible');", [
+					"preventDefault" => false,
+					"stopPropagation" => true
+				]);
+				$js->execOn("mouseout", "#" . $this->identifier . " tr", "$(event.currentTarget).closest('tr').find('.visibleover').css('visibility', 'hidden');$(event.currentTarget).trigger('visibleoverOut');", [
+					"preventDefault" => false,
+					"stopPropagation" => true
+				]);
+			}
+			if (\is_array($this->_deleteBehavior))
+				$this->_generateBehavior("delete", $this->_deleteBehavior, $js);
+			if (\is_array($this->_editBehavior))
+				$this->_generateBehavior("edit", $this->_editBehavior, $js);
+			if (\is_array($this->_displayBehavior)) {
+				$this->_generateBehavior("display", $this->_displayBehavior, $js);
+			}
+			parent::run($js);
+			if (isset($this->_pagination))
+				$this->_associatePaginationBehavior($js, $offset);
+			$this->_associateSearchFieldBehavior($js, $offset);
+			$this->_runned = true;
 		}
-		if ($this->_visibleHover) {
-			$js->execOn("mouseover", "#" . $this->identifier . " tr", "$(event.currentTarget).closest('tr').find('.visibleover').css('visibility', 'visible');", [
-				"preventDefault" => false,
-				"stopPropagation" => true
-			]);
-			$js->execOn("mouseout", "#" . $this->identifier . " tr", "$(event.currentTarget).closest('tr').find('.visibleover').css('visibility', 'hidden');$(event.currentTarget).trigger('visibleoverOut');", [
-				"preventDefault" => false,
-				"stopPropagation" => true
-			]);
-		}
-		if (\is_array($this->_deleteBehavior))
-			$this->_generateBehavior("delete", $this->_deleteBehavior, $js);
-		if (\is_array($this->_editBehavior))
-			$this->_generateBehavior("edit", $this->_editBehavior, $js);
-		if (\is_array($this->_displayBehavior)) {
-			$this->_generateBehavior("display", $this->_displayBehavior, $js);
-		}
-		parent::run($js);
-		if (isset($this->_pagination))
-			$this->_associatePaginationBehavior($js, $offset);
-		$this->_associateSearchFieldBehavior($js, $offset);
 	}
 
 	protected function _generateBehavior($op, $params, JsUtils $js) {
