@@ -1,4 +1,5 @@
 <?php
+
 namespace Ajax\common\traits;
 
 use Ajax\service\Javascript;
@@ -9,48 +10,46 @@ use Ajax\service\Javascript;
  * @property array $jquery_code_for_compile
  */
 trait JsUtilsEventsTrait {
-
-	protected $jquery_events = array(
-		"bind",
-		"blur",
-		"change",
-		"click",
-		"dblclick",
-		"delegate",
-		"die",
-		"error",
-		"focus",
-		"focusin",
-		"focusout",
-		"hover",
-		"keydown",
-		"keypress",
-		"keyup",
-		"live",
-		"load",
-		"mousedown",
-		"mousseenter",
-		"mouseleave",
-		"mousemove",
-		"mouseout",
-		"mouseover",
-		"mouseup",
-		"off",
-		"on",
-		"one",
-		"ready",
-		"resize",
-		"scroll",
-		"select",
-		"submit",
-		"toggle",
-		"trigger",
-		"triggerHandler",
-		"undind",
-		"undelegate",
-		"unload"
+	protected $jquery_events = array (
+			"bind",
+			"blur",
+			"change",
+			"click",
+			"dblclick",
+			"delegate",
+			"die",
+			"error",
+			"focus",
+			"focusin",
+			"focusout",
+			"hover",
+			"keydown",
+			"keypress",
+			"keyup",
+			"live",
+			"load",
+			"mousedown",
+			"mousseenter",
+			"mouseleave",
+			"mousemove",
+			"mouseout",
+			"mouseover",
+			"mouseup",
+			"off",
+			"on",
+			"one",
+			"ready",
+			"resize",
+			"scroll",
+			"select",
+			"submit",
+			"toggle",
+			"trigger",
+			"triggerHandler",
+			"undind",
+			"undelegate",
+			"unload"
 	);
-
 	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true);
 
 	/**
@@ -63,7 +62,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function blur($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'blur');
+		return $this->_add_event ( $element, $js, 'blur' );
 	}
 
 	/**
@@ -78,7 +77,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function change($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event($element, $js, 'change', $preventDefault, $stopPropagation);
+		return $this->_add_event ( $element, $js, 'change', $preventDefault, $stopPropagation );
 	}
 
 	/**
@@ -95,17 +94,17 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function click($element = 'this', $js = '', $ret_false = TRUE, $preventDefault = false, $stopPropagation = false) {
-		if (! is_array($js)) {
-			$js = array(
-				$js
+		if (! is_array ( $js )) {
+			$js = array (
+					$js
 			);
 		}
 
 		if ($ret_false) {
-			$js[] = "return false;";
+			$js [] = "return false;";
 		}
 
-		return $this->_add_event($element, $js, 'click', $preventDefault, $stopPropagation);
+		return $this->_add_event ( $element, $js, 'click', $preventDefault, $stopPropagation );
 	}
 
 	/**
@@ -118,7 +117,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function contextmenu($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'contextmenu');
+		return $this->_add_event ( $element, $js, 'contextmenu' );
 	}
 
 	/**
@@ -131,7 +130,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function dblclick($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'dblclick');
+		return $this->_add_event ( $element, $js, 'dblclick' );
 	}
 
 	/**
@@ -144,7 +143,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function error($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'error');
+		return $this->_add_event ( $element, $js, 'error' );
 	}
 
 	/**
@@ -157,7 +156,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function focus($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'focus');
+		return $this->_add_event ( $element, $js, 'focus' );
 	}
 
 	/**
@@ -170,9 +169,9 @@ trait JsUtilsEventsTrait {
 	 *        	code for mouse out
 	 * @return string
 	 */
-	public function hover($element = 'this', $over, $out) {
-		$event = "\n\t$(" . Javascript::prep_element($element) . ").hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
-		$this->jquery_code_for_compile[] = $event;
+	public function hover($element = 'this', $over = '', $out = '') {
+		$event = "\n\t$(" . Javascript::prep_element ( $element ) . ").hover(\n\t\tfunction()\n\t\t{\n\t\t\t{$over}\n\t\t}, \n\t\tfunction()\n\t\t{\n\t\t\t{$out}\n\t\t});\n";
+		$this->jquery_code_for_compile [] = $event;
 		return $event;
 	}
 
@@ -186,7 +185,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function keydown($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'keydown');
+		return $this->_add_event ( $element, $js, 'keydown' );
 	}
 
 	/**
@@ -199,7 +198,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function keypress($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'keypress');
+		return $this->_add_event ( $element, $js, 'keypress' );
 	}
 
 	/**
@@ -212,7 +211,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function keyup($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'keyup');
+		return $this->_add_event ( $element, $js, 'keyup' );
 	}
 
 	/**
@@ -225,7 +224,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function load($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'load');
+		return $this->_add_event ( $element, $js, 'load' );
 	}
 
 	/**
@@ -238,7 +237,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function mousedown($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'mousedown');
+		return $this->_add_event ( $element, $js, 'mousedown' );
 	}
 
 	/**
@@ -251,7 +250,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function mouseout($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event($element, $js, 'mouseout', $preventDefault, $stopPropagation);
+		return $this->_add_event ( $element, $js, 'mouseout', $preventDefault, $stopPropagation );
 	}
 
 	/**
@@ -264,7 +263,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function mouseleave($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event($element, $js, 'mouseleave', $preventDefault, $stopPropagation);
+		return $this->_add_event ( $element, $js, 'mouseleave', $preventDefault, $stopPropagation );
 	}
 
 	/**
@@ -277,7 +276,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function mouseenter($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event($element, $js, 'mouseenter', $preventDefault, $stopPropagation);
+		return $this->_add_event ( $element, $js, 'mouseenter', $preventDefault, $stopPropagation );
 	}
 
 	/**
@@ -290,7 +289,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function mouseover($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'mouseover');
+		return $this->_add_event ( $element, $js, 'mouseover' );
 	}
 
 	/**
@@ -303,7 +302,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function mouseup($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'mouseup');
+		return $this->_add_event ( $element, $js, 'mouseup' );
 	}
 
 	/**
@@ -316,7 +315,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function unload($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'unload');
+		return $this->_add_event ( $element, $js, 'unload' );
 	}
 
 	// --------------------------------------------------------------------
@@ -330,7 +329,7 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function resize($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'resize');
+		return $this->_add_event ( $element, $js, 'resize' );
 	}
 
 	// --------------------------------------------------------------------
@@ -344,6 +343,6 @@ trait JsUtilsEventsTrait {
 	 * @return string
 	 */
 	public function scroll($element = 'this', $js = '') {
-		return $this->_add_event($element, $js, 'scroll');
+		return $this->_add_event ( $element, $js, 'scroll' );
 	}
 }

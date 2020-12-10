@@ -1,4 +1,5 @@
 <?php
+
 namespace Ajax\common\traits;
 
 use Ajax\service\Javascript;
@@ -10,7 +11,6 @@ use Ajax\service\Javascript;
  * @property array $jquery_code_for_compile_at_last
  */
 trait JsUtilsActionsTrait {
-
 	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true);
 
 	/**
@@ -28,14 +28,14 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	protected function _showHideWithEffect($action, $element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		$element = Javascript::prep_element($element);
-		$speed = $this->_validate_speed($speed);
+		$element = Javascript::prep_element ( $element );
+		$speed = $this->_validate_speed ( $speed );
 		if ($callback != '') {
 			$callback = ", function(){\n{$callback}\n}";
 		}
 		$str = "$({$element}).{$action}({$speed}{$callback});";
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -46,13 +46,13 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	private function _validate_speed($speed) {
-		if (in_array($speed, array(
-			'slow',
-			'normal',
-			'fast'
-		))) {
+		if (in_array ( $speed, array (
+				'slow',
+				'normal',
+				'fast'
+		) )) {
 			$speed = '"' . $speed . '"';
-		} elseif (preg_match("/[^0-9]/", $speed)) {
+		} elseif (preg_match ( "/[^0-9]/", $speed )) {
 			$speed = '';
 		}
 
@@ -69,14 +69,14 @@ trait JsUtilsActionsTrait {
 	 *        	delayed if false
 	 */
 	public function _genericCallValue($jQueryCall, $element = 'this', $param = "", $immediatly = false) {
-		$element = Javascript::prep_element($element);
-		if (isset($param)) {
-			$param = Javascript::prep_value($param);
+		$element = Javascript::prep_element ( $element );
+		if (isset ( $param )) {
+			$param = Javascript::prep_value ( $param );
 			$str = "$({$element}).{$jQueryCall}({$param});";
 		} else
 			$str = "$({$element}).{$jQueryCall}();";
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -90,12 +90,12 @@ trait JsUtilsActionsTrait {
 	 *        	delayed if false
 	 * @return string
 	 */
-	public function _genericCallElement($jQueryCall, $to = 'this', $element, $immediatly = false) {
-		$to = Javascript::prep_element($to);
-		$element = Javascript::prep_element($element);
+	public function _genericCallElement($jQueryCall, $to = 'this', $element = '', $immediatly = false) {
+		$to = Javascript::prep_element ( $to );
+		$element = Javascript::prep_element ( $element );
 		$str = "$({$to}).{$jQueryCall}({$element});";
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -110,7 +110,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function addClass($element = 'this', $class = '', $immediatly = false) {
-		return $this->_genericCallValue('addClass', $element, $class, $immediatly);
+		return $this->_genericCallValue ( 'addClass', $element, $class, $immediatly );
 	}
 
 	/**
@@ -123,7 +123,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function after($to, $element, $immediatly = false) {
-		return $this->_genericCallElement('after', $to, $element, $immediatly);
+		return $this->_genericCallElement ( 'after', $to, $element, $immediatly );
 	}
 
 	/**
@@ -136,7 +136,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function before($to, $element, $immediatly = false) {
-		return $this->_genericCallElement('before', $to, $element, $immediatly);
+		return $this->_genericCallElement ( 'before', $to, $element, $immediatly );
 	}
 
 	/**
@@ -148,15 +148,15 @@ trait JsUtilsActionsTrait {
 	 * @param boolean $immediatly
 	 *        	delayed if false
 	 */
-	public function attr($element = 'this', $attributeName, $value = "", $immediatly = false) {
-		$element = Javascript::prep_element($element);
-		if (isset($value)) {
-			$value = Javascript::prep_value($value);
+	public function attr($element = 'this', $attributeName = 'id', $value = "", $immediatly = false) {
+		$element = Javascript::prep_element ( $element );
+		if (isset ( $value )) {
+			$value = Javascript::prep_value ( $value );
 			$str = "$({$element}).attr(\"$attributeName\",{$value});";
 		} else
 			$str = "$({$element}).attr(\"$attributeName\");";
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -169,7 +169,7 @@ trait JsUtilsActionsTrait {
 	 *        	defers the execution if set to false
 	 */
 	public function val($element = 'this', $value = '', $immediatly = false) {
-		return $this->_genericCallValue('val', $element, $value, $immediatly);
+		return $this->_genericCallValue ( 'val', $element, $value, $immediatly );
 	}
 
 	/**
@@ -181,7 +181,7 @@ trait JsUtilsActionsTrait {
 	 *        	defers the execution if set to false
 	 */
 	public function html($element = 'this', $value = '', $immediatly = false) {
-		return $this->_genericCallValue('html', $element, $value, $immediatly);
+		return $this->_genericCallValue ( 'html', $element, $value, $immediatly );
 	}
 
 	/**
@@ -197,17 +197,17 @@ trait JsUtilsActionsTrait {
 	 *        	defers the execution if set to false
 	 * @return string
 	 */
-	public function animate($element = 'this', $params = array(), $speed = '', $extra = '', $immediatly = false) {
-		$element = Javascript::prep_element($element);
-		$speed = $this->_validate_speed($speed);
+	public function animate($element = 'this', $params = array (), $speed = '', $extra = '', $immediatly = false) {
+		$element = Javascript::prep_element ( $element );
+		$speed = $this->_validate_speed ( $speed );
 
 		$animations = "\t\t\t";
-		if (\is_array($params)) {
-			foreach ($params as $param => $value) {
+		if (\is_array ( $params )) {
+			foreach ( $params as $param => $value ) {
 				$animations .= $param . ': \'' . $value . '\', ';
 			}
 		}
-		$animations = substr($animations, 0, - 2); // remove the last ", "
+		$animations = substr ( $animations, 0, - 2 ); // remove the last ", "
 
 		if ($speed != '') {
 			$speed = ', ' . $speed;
@@ -220,7 +220,7 @@ trait JsUtilsActionsTrait {
 		$str = "$({$element}).animate({\n$animations\n\t\t}" . $speed . $extra . ");";
 
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -234,7 +234,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function append($to, $element, $immediatly = false) {
-		return $this->_genericCallElement('append', $to, $element, $immediatly);
+		return $this->_genericCallElement ( 'append', $to, $element, $immediatly );
 	}
 
 	/**
@@ -247,7 +247,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function prepend($to, $element, $immediatly = false) {
-		return $this->_genericCallElement('prepend', $to, $element, $immediatly);
+		return $this->_genericCallElement ( 'prepend', $to, $element, $immediatly );
 	}
 
 	/**
@@ -264,7 +264,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function fadeIn($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("fadeIn", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "fadeIn", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -281,7 +281,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function fadeOut($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("fadeOut", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "fadeOut", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -298,7 +298,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function slideUp($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("slideUp", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "slideUp", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -313,7 +313,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function removeClass($element = 'this', $class = '', $immediatly = false) {
-		return $this->_genericCallValue('removeClass', $element, $class, $immediatly);
+		return $this->_genericCallValue ( 'removeClass', $element, $class, $immediatly );
 	}
 
 	/**
@@ -330,7 +330,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function slideDown($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("slideDown", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "slideDown", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -347,7 +347,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function slideToggle($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("slideToggle", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "slideToggle", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -364,7 +364,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function hide($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("hide", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "hide", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -381,7 +381,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function toggle($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("toggle", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "toggle", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -395,7 +395,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function toggleClass($element = 'this', $class = '', $immediatly = false) {
-		return $this->_genericCallValue('toggleClass', $element, $class, $immediatly);
+		return $this->_genericCallValue ( 'toggleClass', $element, $class, $immediatly );
 	}
 
 	/**
@@ -407,11 +407,11 @@ trait JsUtilsActionsTrait {
 	 *        	defers the execution if set to false
 	 */
 	public function trigger($element = 'this', $event = 'click', $immediatly = false) {
-		$element = Javascript::prep_element($element);
+		$element = Javascript::prep_element ( $element );
 		$str = "$({$element}).trigger(\"$event\");";
 
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -429,7 +429,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function show($element = 'this', $speed = '', $callback = '', $immediatly = false) {
-		return $this->_showHideWithEffect("show", $element, $speed, $callback, $immediatly);
+		return $this->_showHideWithEffect ( "show", $element, $speed, $callback, $immediatly );
 	}
 
 	/**
@@ -439,18 +439,18 @@ trait JsUtilsActionsTrait {
 	 * @param array $options
 	 * @return string
 	 */
-	public function sortable($element, $options = array()) {
-		if (count($options) > 0) {
-			$sort_options = array();
-			foreach ($options as $k => $v) {
-				$sort_options[] = "\n\t\t" . $k . ': ' . $v . "";
+	public function sortable($element, $options = array ()) {
+		if (count ( $options ) > 0) {
+			$sort_options = array ();
+			foreach ( $options as $k => $v ) {
+				$sort_options [] = "\n\t\t" . $k . ': ' . $v . "";
 			}
-			$sort_options = implode(",", $sort_options);
+			$sort_options = implode ( ",", $sort_options );
 		} else {
 			$sort_options = '';
 		}
 
-		return "$(" . Javascript::prep_element($element) . ").sortable({" . $sort_options . "\n\t});";
+		return "$(" . Javascript::prep_element ( $element ) . ").sortable({" . $sort_options . "\n\t});";
 	}
 
 	/**
@@ -463,7 +463,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function tablesorter($table = '', $options = '') {
-		$this->jquery_code_for_compile[] = "\t$(" . Javascript::prep_element($table) . ").tablesorter($options);\n";
+		$this->jquery_code_for_compile [] = "\t$(" . Javascript::prep_element ( $table ) . ").tablesorter($options);\n";
 	}
 
 	/**
@@ -477,12 +477,12 @@ trait JsUtilsActionsTrait {
 	 */
 	public function condition($condition, $jsCodeIfTrue, $jsCodeIfFalse = null, $immediatly = false) {
 		$str = "if(" . $condition . "){" . $jsCodeIfTrue . "}";
-		if (isset($jsCodeIfFalse)) {
+		if (isset ( $jsCodeIfFalse )) {
 			$str .= "else{" . $jsCodeIfFalse . "}";
 		}
 
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $str;
+			$this->jquery_code_for_compile [] = $str;
 		return $str;
 	}
 
@@ -498,13 +498,13 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	private function _doJQuery($element, $jqueryCall, $param = "", $jsCallback = "", $immediatly = false) {
-		$param = Javascript::prep_value($param);
+		$param = Javascript::prep_value ( $param );
 		$callback = "";
 		if ($jsCallback != "")
 			$callback = ", function(event){\n{$jsCallback}\n}";
-		$script = "$(" . Javascript::prep_element($element) . ")." . $jqueryCall . "(" . $param . $callback . ");\n";
+		$script = "$(" . Javascript::prep_element ( $element ) . ")." . $jqueryCall . "(" . $param . $callback . ");\n";
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $script;
+			$this->jquery_code_for_compile [] = $script;
 		return $script;
 	}
 
@@ -522,7 +522,7 @@ trait JsUtilsActionsTrait {
 	 * @return mixed
 	 */
 	public function doJQuery($element, $jqueryCall, $param = "", $jsCallback = "") {
-		return $this->_doJQuery($element, $jqueryCall, $param, $jsCallback, true);
+		return $this->_doJQuery ( $element, $jqueryCall, $param, $jsCallback, true );
 	}
 
 	/**
@@ -539,7 +539,7 @@ trait JsUtilsActionsTrait {
 	 * @return mixed
 	 */
 	public function doJQueryDeferred($element, $jqueryCall, $param = "", $jsCallback = "") {
-		return $this->_doJQuery($element, $jqueryCall, $param, $jsCallback, false);
+		return $this->_doJQuery ( $element, $jqueryCall, $param, $jsCallback, false );
 	}
 
 	/**
@@ -557,7 +557,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	private function _doJQueryOn($event, $element, $elementToModify, $jqueryCall, $param = "", $preventDefault = false, $stopPropagation = false, $jsCallback = "", $immediatly = true) {
-		return $this->_add_event($element, $this->_doJQuery($elementToModify, $jqueryCall, $param, $jsCallback), $event, $preventDefault, $stopPropagation, $immediatly);
+		return $this->_add_event ( $element, $this->_doJQuery ( $elementToModify, $jqueryCall, $param, $jsCallback ), $event, $preventDefault, $stopPropagation, $immediatly );
 	}
 
 	/**
@@ -571,13 +571,13 @@ trait JsUtilsActionsTrait {
 	 * @param array $parameters
 	 *        	default : array("preventDefault"=>false,"stopPropagation"=>false,"jsCallback"=>'',"immediatly"=>true)
 	 */
-	public function doJQueryOn($event, $element, $elementToModify, $jqueryCall, $param = "", $parameters = array()) {
+	public function doJQueryOn($event, $element, $elementToModify, $jqueryCall, $param = "", $parameters = array ()) {
 		$jsCallback = "";
 		$stopPropagation = false;
 		$preventDefault = false;
 		$immediatly = true;
-		extract($parameters);
-		return $this->_doJQueryOn($event, $element, $elementToModify, $jqueryCall, $param, $preventDefault, $stopPropagation, $jsCallback, $immediatly);
+		extract ( $parameters );
+		return $this->_doJQueryOn ( $event, $element, $elementToModify, $jqueryCall, $param, $preventDefault, $stopPropagation, $jsCallback, $immediatly );
 	}
 
 	/**
@@ -592,7 +592,7 @@ trait JsUtilsActionsTrait {
 	public function exec($js, $immediatly = false) {
 		$script = $js . "\n";
 		if ($immediatly)
-			$this->jquery_code_for_compile[] = $script;
+			$this->jquery_code_for_compile [] = $script;
 		return $script;
 	}
 
@@ -607,7 +607,7 @@ trait JsUtilsActionsTrait {
 	 */
 	public function execAtLast($js) {
 		$script = $js . "\n";
-		$this->jquery_code_for_compile_at_last[] = $script;
+		$this->jquery_code_for_compile_at_last [] = $script;
 		return $script;
 	}
 
@@ -622,19 +622,18 @@ trait JsUtilsActionsTrait {
 	 *        	default : array("preventDefault"=>false,"stopPropagation"=>false,"immediatly"=>true)
 	 * @return String
 	 */
-	public function execOn($event, $element, $js, $parameters = array()) {
+	public function execOn($event, $element, $js, $parameters = array ()) {
 		$stopPropagation = false;
 		$preventDefault = false;
 		$immediatly = true;
-		extract($parameters);
-		$script = $this->_add_event($element, $this->exec($js), $event, $preventDefault, $stopPropagation, $immediatly);
+		extract ( $parameters );
+		$script = $this->_add_event ( $element, $this->exec ( $js ), $event, $preventDefault, $stopPropagation, $immediatly );
 		return $script;
 	}
-
 	public function setJsonToElement($json, $elementClass = "_element", $immediatly = true) {
 		$retour = "var data={$json};" . "\n\tdata=($.isPlainObject(data))?data:JSON.parse(data);" . "\n\tvar pk=data['pk'];var object=data['object'];" . "\n\tfor(var field in object){" . "\n\tif($('[data-field='+field+']',$('._element[data-ajax='+pk+']')).length){" . "\n\t\t$('[data-field='+field+']',$('._element[data-ajax='+pk+']')).each(function(){" . "\n\t\t\tif($(this).is('[value]')) { $(this).val(object[field]);} else { $(this).html(object[field]); }" . "\n\t});" . "\n}};\n";
 		$retour .= "\t$(document).trigger('jsonReady',[data]);\n";
-		return $this->exec($retour, $immediatly);
+		return $this->exec ( $retour, $immediatly );
 	}
 
 	/**
@@ -645,13 +644,13 @@ trait JsUtilsActionsTrait {
 	 * @param array $parameters
 	 *        	default : array("attr"=>"id","preventDefault"=>false,"stopPropagation"=>false,"immediatly"=>true)
 	 */
-	public function setDraggable($element, $parameters = []) {
+	public function setDraggable($element, $parameters = [ ]) {
 		$attr = "id";
 		$preventDefault = false;
 		$stopPropagation = false;
 		$immediatly = true;
-		extract($parameters);
-		$script = $this->_add_event($element, Javascript::draggable($attr), "dragstart", $preventDefault, $stopPropagation, $immediatly);
+		extract ( $parameters );
+		$script = $this->_add_event ( $element, Javascript::draggable ( $attr ), "dragstart", $preventDefault, $stopPropagation, $immediatly );
 		return $script;
 	}
 
@@ -665,13 +664,13 @@ trait JsUtilsActionsTrait {
 	 * @param string $jsCallback
 	 *        	the js script to call when element is dropped
 	 */
-	public function asDropZone($element, $jsCallback = "", $parameters = []) {
+	public function asDropZone($element, $jsCallback = "", $parameters = [ ]) {
 		$stopPropagation = false;
 		$immediatly = true;
 		$jqueryDone = "append";
-		$script = $this->_add_event($element, '', "dragover", true, $stopPropagation, $immediatly);
-		extract($parameters);
-		$script .= $this->_add_event($element, Javascript::dropZone($jqueryDone, $jsCallback), "drop", true, $stopPropagation, $immediatly);
+		$script = $this->_add_event ( $element, '', "dragover", true, $stopPropagation, $immediatly );
+		extract ( $parameters );
+		$script .= $this->_add_event ( $element, Javascript::dropZone ( $jqueryDone, $jsCallback ), "drop", true, $stopPropagation, $immediatly );
 		return $script;
 	}
 
@@ -689,15 +688,15 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function interval($jsCode, $time, $globalName = null, $immediatly = true) {
-		if (! Javascript::isFunction($jsCode)) {
+		if (! Javascript::isFunction ( $jsCode )) {
 			$jsCode = "function(){\n" . $jsCode . "\n}";
 		}
-		if (isset($globalName)) {
+		if (isset ( $globalName )) {
 			$script = "if(window.{$globalName}){clearInterval(window.{$globalName});}\nwindow.{$globalName}=setInterval({$jsCode},{$time});";
 		} else {
 			$script = "setInterval({$jsCode},{$time});";
 		}
-		return $this->exec($script, $immediatly);
+		return $this->exec ( $script, $immediatly );
 	}
 
 	/**
@@ -710,7 +709,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function clearInterval($globalName, $immediatly = true) {
-		return $this->exec("if(window.{$globalName}){clearInterval(window.{$globalName});}", $immediatly);
+		return $this->exec ( "if(window.{$globalName}){clearInterval(window.{$globalName});}", $immediatly );
 	}
 
 	/**
@@ -741,7 +740,7 @@ trait JsUtilsActionsTrait {
 			}
 		}
 		$global = "";
-		if (isset($globalName)) {
+		if (isset ( $globalName )) {
 			$global = "\nwindow.{$globalName}=interval;";
 		}
 		$timer = "var startTimer=function(duration, display) {var timer = duration, days, hours, minutes, seconds;
@@ -765,7 +764,7 @@ trait JsUtilsActionsTrait {
 										" . $global . "
 										}";
 		$element = '$("' . $counterSelector . '")';
-		return $this->exec($timer . "\nstartTimer(" . $value . "," . $element . ");", $immediatly);
+		return $this->exec ( $timer . "\nstartTimer(" . $value . "," . $element . ");", $immediatly );
 	}
 
 	/**
@@ -788,7 +787,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function counterOn($element, $event, $counterSelector, $value = 0, $limit = 0, $globalName = null, $countDown = true) {
-		return $this->execOn($event, $element, $this->counter($counterSelector, $value, $limit, $globalName, $countDown, false));
+		return $this->execOn ( $event, $element, $this->counter ( $counterSelector, $value, $limit, $globalName, $countDown, false ) );
 	}
 
 	/**
@@ -803,7 +802,7 @@ trait JsUtilsActionsTrait {
 	 * @return string
 	 */
 	public function activateLink($target, $property = 'href', $href = null) {
-		return $this->execAtLast($this->_activateLink($target, $property, $href));
+		return $this->execAtLast ( $this->_activateLink ( $target, $property, $href ) );
 	}
 
 	/**
@@ -819,7 +818,7 @@ trait JsUtilsActionsTrait {
 	 */
 	public function _activateLink($target, $property = 'href', $href = null) {
 		$js = '$("' . $target . ' [' . $property . ']").removeClass("active");';
-		if (isset($href)) {
+		if (isset ( $href )) {
 			$js .= 'var href="' . $href . '";';
 		} else {
 			$js .= 'var href=window.location.href;';
