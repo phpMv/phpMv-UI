@@ -355,9 +355,10 @@ trait JsUtilsAjaxTrait {
 		$this->setDefaultParameters ( $parameters, [ 
 				"preventDefault" => true,
 				"stopPropagation" => true,
-				"immediatly" => true
+				"immediatly" => true,
+				'listenerOn'=>false
 		] );
-		return $this->_add_event ( $element, $this->jsonDeferred ( $url, $method, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] );
+		return $this->_add_event ( $element, $this->jsonDeferred ( $url, $method, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] ,$parameters['listenerOn']);
 	}
 
 	/**
@@ -459,9 +460,10 @@ trait JsUtilsAjaxTrait {
 		$this->setDefaultParameters ( $parameters, [ 
 				"preventDefault" => true,
 				"stopPropagation" => true,
-				"immediatly" => true
+				"immediatly" => true,
+				'listenerOn'=>false
 		] );
-		return $this->_add_event ( $element, $this->jsonArrayDeferred ( $maskSelector, $url, $method, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] );
+		return $this->_add_event ( $element, $this->jsonArrayDeferred ( $maskSelector, $url, $method, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] ,$parameters['listenerOn']);
 	}
 
 	/**
@@ -496,12 +498,8 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function getOn($event, $element, $url, $responseElement = "", $parameters = array ()) {
-		$this->setDefaultParameters ( $parameters, [ 
-				"preventDefault" => true,
-				"stopPropagation" => true,
-				"immediatly" => true
-		] );
-		return $this->_add_event ( $element, $this->getDeferred ( $url, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] );
+		$parameters['method']='get';
+		return $this->ajaxOn($event, $element, $url,$responseElement,$parameters);
 	}
 
 	/**
@@ -667,12 +665,8 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function postOn($event, $element, $url, $params = "{}", $responseElement = "", $parameters = array ()) {
-		$this->setDefaultParameters ( $parameters, [ 
-				"preventDefault" => true,
-				"stopPropagation" => true,
-				"immediatly" => true
-		] );
-		return $this->_add_event ( $element, $this->postDeferred ( $url, $params, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] );
+		$parameters['method']='post';
+		return $this->ajaxOn($event, $element, $url,$responseElement,$parameters);
 	}
 
 	/**
@@ -689,17 +683,17 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"before"=>null,"listenerOn"=>false)
 	 */
-	public function postOnClick($element, $url, $params = "{}", $responseElement = "", $parameters = array ()) {
-		return $this->postOn ( "click", $element, $url, $params, $responseElement, $parameters );
+	public function postOnClick($element, $url, $params = '{}', $responseElement = '', $parameters = array ()) {
+		return $this->postOn ( 'click', $element, $url, $params, $responseElement, $parameters );
 	}
 	private function _postForm($url, $form, $responseElement, $parameters = [ ]) {
-		if (isset ( $this->params ["ajax"] )) {
-			extract ( $this->params ["ajax"] );
+		if (isset ( $this->params ['ajax'] )) {
+			extract ( $this->params ['ajax'] );
 		}
-		$params = "{}";
+		$params = '{}';
 		$validation = false;
 		\extract ( $parameters );
-		$async = ($async) ? "true" : "false";
+		$async = ($async) ? 'true' : 'false';
 		$jsCallback = isset ( $jsCallback ) ? $jsCallback : "";
 		$retour = $this->_getAjaxUrl ( $url, $attr );
 		$retour .= "\n$('#" . $form . "').trigger('ajaxSubmit');";
@@ -764,7 +758,7 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
 	public function postForm($url, $form, $responseElement, $parameters = [ ]) {
-		$parameters ["immediatly"] = true;
+		$parameters ['immediatly'] = true;
 		return $this->_postForm ( $url, $form, $responseElement, $parameters );
 	}
 
@@ -782,7 +776,7 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
 	public function postFormDeferred($url, $form, $responseElement, $parameters = [ ]) {
-		$parameters ["immediatly"] = false;
+		$parameters ['immediatly'] = false;
 		return $this->_postForm ( $url, $form, $responseElement, $parameters );
 	}
 
@@ -801,11 +795,12 @@ trait JsUtilsAjaxTrait {
 	 */
 	public function postFormOn($event, $element, $url, $form, $responseElement = "", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
-				"preventDefault" => true,
-				"stopPropagation" => true,
-				"immediatly" => true
+				'preventDefault' => true,
+				'stopPropagation' => true,
+				'immediatly' => true,
+				'listenerOn'=>false
 		] );
-		return $this->_add_event ( $element, $this->postFormDeferred ( $url, $form, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] );
+		return $this->_add_event ( $element, $this->postFormDeferred ( $url, $form, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] ,$parameters['listenerOn']);
 	}
 
 	/**
