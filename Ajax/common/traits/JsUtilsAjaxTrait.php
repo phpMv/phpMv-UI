@@ -524,9 +524,10 @@ trait JsUtilsAjaxTrait {
 				"preventDefault" => true,
 				"stopPropagation" => true,
 				"immediatly" => true,
-				"method" => "get"
+				"method" => "get",
+				"listenerOn"=>false
 		] );
-		return $this->_add_event ( $element, $this->ajaxDeferred ( $parameters ["method"], $url, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] );
+		return $this->_add_event ( $element, $this->ajaxDeferred ( $parameters ["method"], $url, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"],$parameters['listenerOn'] );
 	}
 
 	/**
