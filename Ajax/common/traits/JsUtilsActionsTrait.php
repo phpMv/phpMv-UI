@@ -11,7 +11,8 @@ use Ajax\service\Javascript;
  * @property array $jquery_code_for_compile_at_last
  */
 trait JsUtilsActionsTrait {
-	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true);
+
+	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true, $listenerOn=false);
 
 	/**
 	 * show or hide with effect

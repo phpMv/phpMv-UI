@@ -50,7 +50,8 @@ trait JsUtilsEventsTrait {
 			"undelegate",
 			"unload"
 	);
-	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true);
+
+	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true, $listenerOn=false);
 
 	/**
 	 * Outputs a javascript library blur event

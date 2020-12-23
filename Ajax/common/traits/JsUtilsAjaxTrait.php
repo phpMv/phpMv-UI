@@ -16,7 +16,7 @@ trait JsUtilsAjaxTrait {
 	protected $ajaxTransition;
 	protected $ajaxLoader = "<div class=\"ui active centered inline text loader\">Loading</div>";
 	abstract public function getUrl($url);
-	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true);
+	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true, $listenerOn=false);
 	abstract public function interval($jsCode, $time, $globalName = null, $immediatly = true);
 	protected function _ajax($method, $url, $responseElement = "", $parameters = [ ]) {
 		if (isset ( $this->params ["ajax"] )) {
@@ -349,7 +349,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $method
 	 *        	default get
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","immediatly"=>true,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","immediatly"=>true,"before"=>null,"listenerOn"=>false)
 	 */
 	public function jsonOn($event, $element, $url, $method = "get", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
@@ -453,7 +453,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $method
 	 *        	Method used, default : get
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","rowClass"=>"_json","immediatly"=>true,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","rowClass"=>"_json","immediatly"=>true,"before"=>null,"listenerOn"=>false)
 	 */
 	public function jsonArrayOn($event, $element, $maskSelector, $url, $method = "get", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
@@ -493,7 +493,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	The selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function getOn($event, $element, $url, $responseElement = "", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
@@ -517,7 +517,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	The selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function ajaxOn($event, $element, $url, $responseElement = "", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
@@ -540,7 +540,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	The selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function ajaxOnClick($element, $url, $responseElement = "", $parameters = array ()) {
 		return $this->ajaxOn ( "click", $element, $url, $responseElement, $parameters );
@@ -557,7 +557,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	The selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function getOnClick($element, $url, $responseElement = "", $parameters = array ()) {
 		return $this->getOn ( "click", $element, $url, $responseElement, $parameters );
@@ -663,7 +663,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function postOn($event, $element, $url, $params = "{}", $responseElement = "", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
@@ -686,7 +686,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"before"=>null,"listenerOn"=>false)
 	 */
 	public function postOnClick($element, $url, $params = "{}", $responseElement = "", $parameters = array ()) {
 		return $this->postOn ( "click", $element, $url, $params, $responseElement, $parameters );
@@ -796,7 +796,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function postFormOn($event, $element, $url, $form, $responseElement = "", $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
@@ -817,7 +817,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	selector of the HTML element displaying the answer
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"validation"=>false,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>null,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
 	public function postFormOnClick($element, $url, $form, $responseElement = "", $parameters = array ()) {
 		return $this->postFormOn ( "click", $element, $url, $form, $responseElement, $parameters );

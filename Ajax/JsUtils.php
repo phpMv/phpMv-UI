@@ -424,9 +424,11 @@ abstract class JsUtils{
 	 * @param string $event The event to pass
 	 * @param boolean $preventDefault If set to true, the default action of the event will not be triggered.
 	 * @param boolean $stopPropagation Prevents the event from bubbling up the DOM tree, preventing any parent handlers from being notified of the event.
+	 * @param boolean $immediatly if true, execute this code immediatly
+	 * @param boolean|string false for an event associated with existing DOM elements, or a string selector and then the event is dynamically associated to all elements created in this selector
 	 * @return string
 	 */
-	public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false,$immediatly=true) {
+	public function _add_event($element, $js, $event, $preventDefault=false, $stopPropagation=false, $immediatly=true, $listenerOn=false) {
 		if (\is_array($js)) {
 			$js=implode("\n\t\t", $js);
 		}
@@ -436,14 +438,15 @@ abstract class JsUtils{
 		if ($stopPropagation===true) {
 			$js=Javascript::$stopPropagation.$js;
 		}
-		if (array_search($event, $this->jquery_events)===false){
-			$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
-		}
-		else{
-			/*if($event==="click"){
-				$js="let self = $(this);if (self.hasClass('__clicked')){self.removeClass('__clicked');}else{self.addClass('__clicked');setTimeout(function() {if (self.hasClass('__clicked')){self.removeClass('__clicked');".$js."}}, 500);}";
-			}*/
-			$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
+		if(\is_string($listenerOn)){
+			$event="\n\t$(".Javascript::prep_element($listenerOn).").on('{$event}',".Javascript::prep_element($element).",function(event){\n\t\t{$js}\n\t});\n";
+		}else{
+			if (\array_search($event, $this->jquery_events)===false){
+				$event="\n\t$(".Javascript::prep_element($element).").bind('{$event}',function(event){\n\t\t{$js}\n\t});\n";
+			}
+			else{
+				$event="\n\t$(".Javascript::prep_element($element).").{$event}(function(event){\n\t\t{$js}\n\t});\n";
+			}
 		}
 		if($immediatly)
 			$this->jquery_code_for_compile[]=$event;
