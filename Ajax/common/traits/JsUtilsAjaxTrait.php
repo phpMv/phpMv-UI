@@ -18,13 +18,14 @@ trait JsUtilsAjaxTrait {
 	abstract public function getUrl($url);
 	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true, $listenerOn=false);
 	abstract public function interval($jsCode, $time, $globalName = null, $immediatly = true);
-	protected function _ajax($method, $url, $responseElement = "", $parameters = [ ]) {
-		if (isset ( $this->params ["ajax"] )) {
-			extract ( $this->params ["ajax"] );
+
+	protected function _ajax($method, $url, $responseElement = '', $parameters = [ ]) {
+		if (isset ( $this->params ['ajax'] )) {
+			extract ( $this->params ['ajax'] );
 		}
 		extract ( $parameters );
 
-		$jsCallback = isset ( $jsCallback ) ? $jsCallback : "";
+		$jsCallback = isset ( $jsCallback ) ? $jsCallback : '';
 		$retour = $this->_getAjaxUrl ( $url, $attr );
 		$originalSelector = $responseElement;
 		$responseElement = $this->_getResponseElement ( $responseElement );
@@ -145,7 +146,7 @@ trait JsUtilsAjaxTrait {
 			}
 			$retour .= "\nwindow.history.pushState({'html':data,'selector':" . Javascript::prep_value ( $history ) . ",'jqueryDone':'{$jqueryDone}'},'', url);";
 		}
-		if ($hasLoader === "internal") {
+		if ($hasLoader === 'internal') {
 			$retour .= "\n$(self).removeClass('loading');";
 		}
 		$retour .= "\t" . $jsCallback . "\n";
@@ -204,7 +205,7 @@ trait JsUtilsAjaxTrait {
 	protected function setAjaxDataCall($params) {
 		$result = null;
 		if (! \is_callable ( $params )) {
-			$result = function ($responseElement, $jqueryDone = "html") use ($params) {
+			$result = function ($responseElement, $jqueryDone = 'html') use ($params) {
 				return AjaxTransition::{$params} ( $responseElement, $jqueryDone );
 			};
 		}
@@ -228,8 +229,8 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	selector of the HTML element displaying the answer
 	 */
-	private function _get($url, $responseElement = "", $parameters = [ ]) {
-		return $this->_ajax ( "get", $url, $responseElement, $parameters );
+	private function _get($url, $responseElement = '', $parameters = [ ]) {
+		return $this->_ajax ( 'get', $url, $responseElement, $parameters );
 	}
 
 	/**
@@ -242,8 +243,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
-	public function get($url, $responseElement = "", $parameters = [ ]) {
-		$parameters ["immediatly"] = true;
+	public function get($url, $responseElement = '', $parameters = [ ]) {
+		$parameters ['immediatly'] = true;
 		return $this->_get ( $url, $responseElement, $parameters );
 	}
 
@@ -259,8 +260,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
-	public function ajax($method, $url, $responseElement = "", $parameters = [ ]) {
-		$parameters ["immediatly"] = true;
+	public function ajax($method, $url, $responseElement = '', $parameters = [ ]) {
+		$parameters ['immediatly'] = true;
 		return $this->_ajax ( $method, $url, $responseElement, $parameters );
 	}
 
@@ -282,7 +283,7 @@ trait JsUtilsAjaxTrait {
 	 *        	$immediatly
 	 * @return string
 	 */
-	public function ajaxInterval($method, $url, $interval, $globalName = null, $responseElement = "", $parameters = [ ], $immediatly = true) {
+	public function ajaxInterval($method, $url, $interval, $globalName = null, $responseElement = '', $parameters = [ ], $immediatly = true) {
 		return $this->interval ( $this->ajaxDeferred ( $method, $url, $responseElement, $parameters ), $interval, $globalName, $immediatly );
 	}
 
@@ -298,8 +299,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
-	public function ajaxDeferred($method, $url, $responseElement = "", $parameters = [ ]) {
-		$parameters ["immediatly"] = false;
+	public function ajaxDeferred($method, $url, $responseElement = '', $parameters = [ ]) {
+		$parameters ['immediatly'] = false;
 		return $this->_ajax ( $method, $url, $responseElement, $parameters );
 	}
 
@@ -351,11 +352,11 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","immediatly"=>true,"before"=>null,"listenerOn"=>false)
 	 */
-	public function jsonOn($event, $element, $url, $method = "get", $parameters = array ()) {
+	public function jsonOn($event, $element, $url, $method = 'get', $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
-				"preventDefault" => true,
-				"stopPropagation" => true,
-				"immediatly" => true,
+				'preventDefault' => true,
+				'stopPropagation' => true,
+				'immediatly' => true,
 				'listenerOn'=>false
 		] );
 		return $this->_add_event ( $element, $this->jsonDeferred ( $url, $method, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] ,$parameters['listenerOn']);
@@ -371,8 +372,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>"document","jsCondition"=>NULL,"headers"=>null,"immediatly"=>false,"before"=>null)
 	 */
-	public function jsonDeferred($url, $method = "get", $parameters = [ ]) {
-		$parameters ["immediatly"] = false;
+	public function jsonDeferred($url, $method = 'get', $parameters = [ ]) {
+		$parameters ['immediatly'] = false;
 		return $this->_json ( $url, $method, $parameters );
 	}
 
@@ -387,7 +388,7 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>null,"jsCondition"=>NULL,"headers"=>null,"immediatly"=>false,"rowClass"=>"_json","before"=>null)
 	 */
-	private function _jsonArray($maskSelector, $url, $method = "get", $parameters = [ ]) {
+	private function _jsonArray($maskSelector, $url, $method = 'get', $parameters = [ ]) {
 		$parameters = \array_merge ( $parameters, [ 
 				"hasLoader" => false
 		] );
@@ -424,7 +425,7 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>null,"jsCondition"=>NULL,"headers"=>null,"immediatly"=>false,"rowClass"=>"_json","before"=>null)
 	 */
-	public function jsonArray($maskSelector, $url, $method = "get", $parameters = [ ]) {
+	public function jsonArray($maskSelector, $url, $method = 'get', $parameters = [ ]) {
 		return $this->_jsonArray ( $maskSelector, $url, $method, $parameters );
 	}
 
@@ -439,8 +440,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","context"=>null,"jsCondition"=>NULL,"headers"=>null,"rowClass"=>"_json","before"=>null)
 	 */
-	public function jsonArrayDeferred($maskSelector, $url, $method = "get", $parameters = [ ]) {
-		$parameters ["immediatly"] = false;
+	public function jsonArrayDeferred($maskSelector, $url, $method = 'get', $parameters = [ ]) {
+		$parameters ['immediatly'] = false;
 		return $this->jsonArray ( $maskSelector, $url, $method, $parameters );
 	}
 
@@ -456,11 +457,11 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"jsCallback"=>NULL,"attr"=>"id","params"=>"{}","method"=>"get","rowClass"=>"_json","immediatly"=>true,"before"=>null,"listenerOn"=>false)
 	 */
-	public function jsonArrayOn($event, $element, $maskSelector, $url, $method = "get", $parameters = array ()) {
+	public function jsonArrayOn($event, $element, $maskSelector, $url, $method = 'get', $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
-				"preventDefault" => true,
-				"stopPropagation" => true,
-				"immediatly" => true,
+				'preventDefault' => true,
+				'stopPropagation' => true,
+				'immediatly' => true,
 				'listenerOn'=>false
 		] );
 		return $this->_add_event ( $element, $this->jsonArrayDeferred ( $maskSelector, $url, $method, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"] ,$parameters['listenerOn']);
@@ -478,7 +479,7 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
 	public function getDeferred($url, $responseElement = "", $parameters = [ ]) {
-		$parameters ["immediatly"] = false;
+		$parameters ['immediatly'] = false;
 		return $this->_get ( $url, $responseElement, $parameters );
 	}
 
@@ -517,15 +518,15 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
-	public function ajaxOn($event, $element, $url, $responseElement = "", $parameters = array ()) {
+	public function ajaxOn($event, $element, $url, $responseElement = '', $parameters = array ()) {
 		$this->setDefaultParameters ( $parameters, [ 
-				"preventDefault" => true,
-				"stopPropagation" => true,
-				"immediatly" => true,
-				"method" => "get",
-				"listenerOn"=>false
+				'preventDefault' => true,
+				'stopPropagation' => true,
+				'immediatly' => true,
+				'method' => 'get',
+				'listenerOn'=>false
 		] );
-		return $this->_add_event ( $element, $this->ajaxDeferred ( $parameters ["method"], $url, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"],$parameters['listenerOn'] );
+		return $this->_add_event ( $element, $this->ajaxDeferred ( $parameters ['method'], $url, $responseElement, $parameters ), $event, $parameters ["preventDefault"], $parameters ["stopPropagation"], $parameters ["immediatly"],$parameters['listenerOn'] );
 	}
 
 	/**
@@ -541,8 +542,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("method"=>"get","preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
-	public function ajaxOnClick($element, $url, $responseElement = "", $parameters = array ()) {
-		return $this->ajaxOn ( "click", $element, $url, $responseElement, $parameters );
+	public function ajaxOnClick($element, $url, $responseElement = '', $parameters = array ()) {
+		return $this->ajaxOn ( 'click', $element, $url, $responseElement, $parameters );
 	}
 
 	/**
@@ -558,8 +559,8 @@ trait JsUtilsAjaxTrait {
 	 * @param array $parameters
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null,"listenerOn"=>false)
 	 */
-	public function getOnClick($element, $url, $responseElement = "", $parameters = array ()) {
-		return $this->getOn ( "click", $element, $url, $responseElement, $parameters );
+	public function getOnClick($element, $url, $responseElement = '', $parameters = array ()) {
+		return $this->getOn ( 'click', $element, $url, $responseElement, $parameters );
 	}
 
 	/**
@@ -574,14 +575,14 @@ trait JsUtilsAjaxTrait {
 	 * @return $this
 	 */
 	public function getHref($element, $responseElement = "", $parameters = array ()) {
-		$parameters ["attr"] = "href";
+		$parameters ['attr'] = 'href';
 		if (JString::isNull ( $responseElement )) {
 			$responseElement = '%$(self).attr("data-target")%';
 		} else {
 			$responseElement = '%$(self).attr("data-target") || "' . $responseElement . '"%';
 		}
-		if (! isset ( $parameters ["historize"] )) {
-			$parameters ["historize"] = true;
+		if (! isset ( $parameters ['historize'] )) {
+			$parameters ['historize'] = true;
 		}
 		return $this->getOnClick ( $element, "", $responseElement, $parameters );
 	}
@@ -598,20 +599,20 @@ trait JsUtilsAjaxTrait {
 	 * @return $this
 	 */
 	public function postHref($element, $responseElement = "", $parameters = array ()) {
-		$parameters ["attr"] = "href";
+		$parameters ['attr'] = 'href';
 		if (JString::isNull ( $responseElement )) {
 			$responseElement = '%$(this).attr("data-target")%';
 		} else {
 			$responseElement = '%$(self).attr("data-target") || "' . $responseElement . '"%';
 		}
-		if (! isset ( $parameters ["historize"] )) {
-			$parameters ["historize"] = true;
+		if (! isset ( $parameters ['historize'] )) {
+			$parameters ['historize'] = true;
 		}
-		return $this->postOnClick ( $element, "", "{}", $responseElement, $parameters );
+		return $this->postOnClick ( $element, '', '{}', $responseElement, $parameters );
 	}
-	private function _post($url, $params = "{}", $responseElement = "", $parameters = [ ]) {
-		$parameters ["params"] = $params;
-		return $this->_ajax ( "POST", $url, $responseElement, $parameters );
+	private function _post($url, $params = '{}', $responseElement = '', $parameters = [ ]) {
+		$parameters ['params'] = $params;
+		return $this->_ajax ( 'POST', $url, $responseElement, $parameters );
 	}
 
 	/**
@@ -645,7 +646,7 @@ trait JsUtilsAjaxTrait {
 	 *        	default : array("jsCallback"=>NULL,"attr"=>"id","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","ajaxTransition"=>null,"jsCondition"=>NULL,"headers"=>null,"historize"=>false,"before"=>null)
 	 */
 	public function postDeferred($url, $params = "{}", $responseElement = "", $parameters = [ ]) {
-		$parameters ["immediatly"] = false;
+		$parameters ['immediatly'] = false;
 		return $this->_post ( $url, $params, $responseElement, $parameters );
 	}
 
@@ -666,6 +667,7 @@ trait JsUtilsAjaxTrait {
 	 */
 	public function postOn($event, $element, $url, $params = "{}", $responseElement = "", $parameters = array ()) {
 		$parameters['method']='post';
+		$parameters ['params'] = $params;
 		return $this->ajaxOn($event, $element, $url,$responseElement,$parameters);
 	}
 
