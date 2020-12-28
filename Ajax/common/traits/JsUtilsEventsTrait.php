@@ -10,46 +10,46 @@ use Ajax\service\Javascript;
  * @property array $jquery_code_for_compile
  */
 trait JsUtilsEventsTrait {
-	protected $jquery_events = array (
-			"bind",
-			"blur",
-			"change",
-			"click",
-			"dblclick",
-			"delegate",
-			"die",
-			"error",
-			"focus",
-			"focusin",
-			"focusout",
-			"hover",
-			"keydown",
-			"keypress",
-			"keyup",
-			"live",
-			"load",
-			"mousedown",
-			"mousseenter",
-			"mouseleave",
-			"mousemove",
-			"mouseout",
-			"mouseover",
-			"mouseup",
-			"off",
-			"on",
-			"one",
-			"ready",
-			"resize",
-			"scroll",
-			"select",
-			"submit",
-			"toggle",
-			"trigger",
-			"triggerHandler",
-			"undind",
-			"undelegate",
-			"unload"
-	);
+	protected $jquery_events = [
+			'bind',
+			'blur',
+			'change',
+			'click',
+			'dblclick',
+			'delegate',
+			'die',
+			'error',
+			'focus',
+			'focusin',
+			'focusout',
+			'hover',
+			'keydown',
+			'keypress',
+			'keyup',
+			'live',
+			'load',
+			'mousedown',
+			'mousseenter',
+			'mouseleave',
+			'mousemove',
+			'mouseout',
+			'mouseover',
+			'mouseup',
+			'off',
+			'on',
+			'one',
+			'ready',
+			'resize',
+			'scroll',
+			'select',
+			'submit',
+			'toggle',
+			'trigger',
+			'triggerHandler',
+			'undind',
+			'undelegate',
+			'unload'
+	];
 
 	abstract public function _add_event($element, $js, $event, $preventDefault = false, $stopPropagation = false, $immediatly = true, $listenerOn=false);
 
@@ -62,8 +62,8 @@ trait JsUtilsEventsTrait {
 	 *        	code to execute
 	 * @return string
 	 */
-	public function blur($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'blur' );
+	public function blur($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'blur', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -75,10 +75,11 @@ trait JsUtilsEventsTrait {
 	 *        	code to execute
 	 * @param boolean $preventDefault
 	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler 
 	 * @return string
 	 */
-	public function change($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event ( $element, $js, 'change', $preventDefault, $stopPropagation );
+	public function change($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'change', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -92,9 +93,10 @@ trait JsUtilsEventsTrait {
 	 *        	or not to return false
 	 * @param boolean $preventDefault
 	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function click($element = 'this', $js = '', $ret_false = TRUE, $preventDefault = false, $stopPropagation = false) {
+	public function click($element = 'this', $js = '', $ret_false = TRUE, $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
 		if (! is_array ( $js )) {
 			$js = array (
 					$js
@@ -105,7 +107,7 @@ trait JsUtilsEventsTrait {
 			$js [] = "return false;";
 		}
 
-		return $this->_add_event ( $element, $js, 'click', $preventDefault, $stopPropagation );
+		return $this->_add_event ( $element, $js, 'click', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -115,10 +117,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function contextmenu($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'contextmenu' );
+	public function contextmenu($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'contextmenu', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -128,10 +133,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function dblclick($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'dblclick' );
+	public function dblclick($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'dblclick', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -154,10 +162,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function focus($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'focus' );
+	public function focus($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'focus', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -183,10 +194,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function keydown($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'keydown' );
+	public function keydown($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'keydown', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -196,10 +210,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function keypress($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'keypress' );
+	public function keypress($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'keypress', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -209,10 +226,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function keyup($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'keyup' );
+	public function keyup($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'keyup', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -222,10 +242,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function load($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'load' );
+	public function load($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'load', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -235,10 +258,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function mousedown($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'mousedown' );
+	public function mousedown($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'mousedown', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -248,10 +274,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function mouseout($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event ( $element, $js, 'mouseout', $preventDefault, $stopPropagation );
+	public function mouseout($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'mouseout', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -261,10 +290,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function mouseleave($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event ( $element, $js, 'mouseleave', $preventDefault, $stopPropagation );
+	public function mouseleave($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'mouseleave', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -274,10 +306,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function mouseenter($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false) {
-		return $this->_add_event ( $element, $js, 'mouseenter', $preventDefault, $stopPropagation );
+	public function mouseenter($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'mouseenter', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -287,10 +322,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function mouseover($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'mouseover' );
+	public function mouseover($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'mouseover', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -300,10 +338,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function mouseup($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'mouseup' );
+	public function mouseup($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'mouseup', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	/**
@@ -313,10 +354,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function unload($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'unload' );
+	public function unload($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'unload', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	// --------------------------------------------------------------------
@@ -327,10 +371,13 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function resize($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'resize' );
+	public function resize($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'resize', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 
 	// --------------------------------------------------------------------
@@ -341,9 +388,12 @@ trait JsUtilsEventsTrait {
 	 *        	element to attach the event to
 	 * @param string $js
 	 *        	code to execute
+	 * @param boolean $preventDefault
+	 * @param boolean $stopPropagation
+	 * @param boolean|string $listenerOn use a selector for a delegated event handler
 	 * @return string
 	 */
-	public function scroll($element = 'this', $js = '') {
-		return $this->_add_event ( $element, $js, 'scroll' );
+	public function scroll($element = 'this', $js = '', $preventDefault = false, $stopPropagation = false, $listenerOn=false) {
+		return $this->_add_event ( $element, $js, 'scroll', $preventDefault, $stopPropagation, true, $listenerOn );
 	}
 }
