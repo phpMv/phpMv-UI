@@ -173,7 +173,7 @@ abstract class JsUtils{
 	 */
 	public function __construct($params=array(),$injected=NULL) {
 		$ajaxDefault=['ajaxTransition'=>null,'attr'=>'','historize'=>false,'jsCallback'=>null,'hasLoader'=>true,'jqueryDone'=>'html',
-				'async'=>true,'params'=>null,'headers'=>null,'jsCondition'=>null,'ajaxLoader'=>null];
+				'async'=>true,'params'=>null,'headers'=>null,'jsCondition'=>null,'ajaxLoader'=>null,'csrf'=>false];
 		$defaults=['debug'=>true,'defer'=>false,'ajax'=>$ajaxDefault,
 				'historize'=>true,'autoActiveLinks'=>true
 		];
@@ -200,6 +200,9 @@ abstract class JsUtils{
 			}
 			if($params["ajax"]["historize"]){
 				$params["historize"]=true;
+			}
+			if($params["ajax"]["csrf"]){
+				$this->exec($this->addCsrf(),true);
 			}
 		}
 		if($params["historize"]){

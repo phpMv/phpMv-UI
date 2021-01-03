@@ -52,6 +52,10 @@ trait JsUtilsAjaxTrait {
 		if (isset ( $headers )) {
 			$ajaxParameters ["headers"] = $headers;
 		}
+		if ($csrf) {
+			$csrf=(is_string($csrf))?$csrf:'csrf-token';
+			$parameters ["beforeSend"] = "jqXHR.setRequestHeader('{$csrf}', $('meta[name=\"{$csrf}\"]').attr('content'));";
+		}
 		if (isset ( $partial )) {
 			$ajaxParameters ["xhr"] = "xhrProvider";
 			$retour .= "var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
@@ -819,5 +823,17 @@ trait JsUtilsAjaxTrait {
 	 */
 	public function postFormOnClick($element, $url, $form, $responseElement = "", $parameters = array ()) {
 		return $this->postFormOn ( "click", $element, $url, $form, $responseElement, $parameters );
+	}
+	
+	public function addCsrf($name='csrf-token'){
+		return "
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				let csrfSafeMethod=function(method) { return (/^(GET|HEAD|OPTIONS)$/.test(method));};
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader('{$name}', $('meta[name=\"{$name}\"]').attr('content'));
+				}
+			}
+		});";
 	}
 }
