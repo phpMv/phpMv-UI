@@ -57,6 +57,8 @@ class DataTable extends Widget {
 	protected $_hiddenColumns;
 
 	protected $_colWidths;
+	
+	protected $_paginationToolbar;
 
 	public function __construct($identifier, $model, $modelInstance = NULL) {
 		parent::__construct($identifier, $model, $modelInstance);
@@ -311,7 +313,8 @@ class DataTable extends Widget {
 		}
 		$footer = $table->getFooter();
 		$footer->mergeCol();
-		$footer->addValues($this->_pagination->generateMenu($this->identifier));
+		$this->_paginationToolbar=$this->_pagination->generateMenu($this->identifier);
+		$footer->addValues($this->_paginationToolbar);
 	}
 
 	protected function _associatePaginationBehavior(JsUtils $js = NULL, $offset = null) {
@@ -701,4 +704,11 @@ class DataTable extends Widget {
 	public function setVisibleHover($_visibleHover) {
 		$this->_visibleHover = $_visibleHover;
 	}
+	/**
+	 * @return \Ajax\semantic\html\collections\menus\HtmlPaginationMenu
+	 */
+	public function getPaginationToolbar() {
+		return $this->_paginationToolbar;
+	}
+
 }
