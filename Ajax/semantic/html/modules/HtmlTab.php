@@ -14,7 +14,7 @@ use Ajax\semantic\html\content\HtmlMenuItem;
  *
  * @see http://semantic-ui.com/collections/tab.html
  * @author jc
- * @version 1.02
+ * @version 1.0.2
  */
 class HtmlTab extends HtmlSemCollection {
 
@@ -28,6 +28,10 @@ class HtmlTab extends HtmlSemCollection {
 		$menu->asTab(false)->setAttachment(NULL, Side::TOP);
 		$this->content["menu"] = $menu;
 		$this->addItems($tabs);
+	}
+	
+	public function getMenu(){
+		return $this->content['menu'];
 	}
 
 	/**
@@ -287,5 +291,10 @@ class HtmlTab extends HtmlSemCollection {
 		if (! $this->_activated && $this->content["menu"]->count() > 0 && \sizeof($this->content) > 1)
 			$this->activate(0);
 		return parent::compile($js, $view);
+	}
+	
+	public function setInverted($recursive=true){
+		parent::setInverted($recursive);
+		$this->content['menu']->addClass('inverted');
 	}
 }

@@ -14,6 +14,7 @@ use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
 use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\service\JArray;
 use Ajax\service\JString;
+use Ajax\semantic\html\base\HtmlSemDoubleElement;
 
 /**
  * DataTable widget for displaying list of objects
@@ -710,5 +711,11 @@ class DataTable extends Widget {
 	public function getPaginationToolbar() {
 		return $this->_paginationToolbar;
 	}
-
+	
+	public function setInverted($recursive=true){
+		$this->getHtmlComponent()->setInverted($recursive);
+		if($this->_emptyMessage instanceof HtmlSemDoubleElement){
+			$this->_emptyMessage->setInverted($recursive);
+		}
+	}
 }
