@@ -167,6 +167,9 @@ class HtmlModal extends HtmlSemDoubleElement {
 	 */
 	public function compile(JsUtils $js=NULL, &$view=NULL) {
 		$this->content=JArray::sortAssociative($this->content, ["header","content","actions" ]);
+		if(isset($this->_params["inverted"]) && $this->_params["inverted"]){
+			parent::setInverted(true);
+		}
 		return parent::compile($js, $view);
 	}
 	/*

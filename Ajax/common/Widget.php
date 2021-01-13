@@ -480,7 +480,7 @@ abstract class Widget extends HtmlDoubleElement {
 			$noValidate = "";
 			if (\sizeof($this->_form->getValidationParams()) > 0)
 				$noValidate = "novalidate";
-			$this->wrapContent("<form class='ui form' id='frm-" . $this->identifier . "' name='frm-" . $this->identifier . "' " . $noValidate . ">", "</form>");
+				$this->wrapContent("<form class='".$this->_form->getProperty('class')."' id='frm-" . $this->identifier . "' name='frm-" . $this->identifier . "' " . $noValidate . ">", "</form>");
 		}
 	}
 
