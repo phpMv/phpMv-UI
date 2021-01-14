@@ -482,9 +482,7 @@ class DataTable extends Widget {
 	 * @param array $compileParts
 	 * @return DataTable
 	 */
-	public function refresh($compileParts = [
-		"tbody"
-	]) {
+	public function refresh($compileParts = ['tbody']) {
 		$this->_compileParts = $compileParts;
 		return $this;
 	}

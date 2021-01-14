@@ -65,7 +65,7 @@ abstract class Widget extends HtmlDoubleElement {
 	protected $_runned;
 
 	protected $_hasRules;
-
+	
 	public function __construct($identifier, $model, $modelInstance = NULL) {
 		parent::__construct($identifier);
 		$this->_template = "%wrapContentBefore%%content%%wrapContentAfter%";
@@ -543,4 +543,5 @@ abstract class Widget extends HtmlDoubleElement {
 	public function hasRules() {
 		return $this->_hasRules;
 	}
+	
 }

@@ -18,8 +18,11 @@ use Ajax\semantic\html\base\traits\BaseTrait;
  * @property FormInstanceViewer $_instanceViewer
  */
 class DataForm extends Widget {
-	use BaseTrait;
-
+	use BaseTrait{
+		setInverted as setInvertedTrait;
+	}
+	private $_inverted;
+	
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
 		$this->_form=new HtmlForm($identifier);
@@ -41,6 +44,9 @@ class DataForm extends Widget {
 				$this->_setToolbarPosition($form);
 			}
 			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"form",PositionInTable::AFTERTABLE]);
+			if($this->_inverted){
+				$this->content['form']->setInverted(true);
+			}
 			$this->_generated=true;
 		}
 		return parent::compile($js,$view);
@@ -164,5 +170,10 @@ class DataForm extends Widget {
 
 	public function run(JsUtils $js){
 		parent::run($js);
+	}
+	
+	public function setInverted($recursive=true) {
+		$this->setInvertedTrait($recursive);
+		$this->_inverted=$recursive;
 	}
 }
