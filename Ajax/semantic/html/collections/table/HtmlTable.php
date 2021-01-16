@@ -456,6 +456,10 @@ class HtmlTable extends HtmlSemDoubleElement {
 		$this->_activeRowSelector=new ActiveRow($this,$class,$event,$multiple);
 		return $this;
 	}
+	
+	public function hasActiveRowSelector(){
+		return isset($this->_activeRowSelector);
+	}
 
 	public function hideColumn($colIndex){
 		if(isset($this->content["thead"])){

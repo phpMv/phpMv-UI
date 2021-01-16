@@ -616,6 +616,10 @@ class DataTable extends Widget {
 		$this->_self->setActiveRowSelector($class, $event, $multiple);
 		return $this;
 	}
+	
+	public function hasActiveRowSelector(){
+		return $this->_self->hasActiveRowSelector();
+	}
 
 	public function hideColumn($colIndex) {
 		if (! \is_array($this->_hiddenColumns))
