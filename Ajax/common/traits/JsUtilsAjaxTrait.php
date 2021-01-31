@@ -41,7 +41,7 @@ trait JsUtilsAjaxTrait {
 		} elseif ($hasLoader === 'response') {
 			$this->addResponseLoading($retour, $responseElement, $ajaxLoader);
 		} elseif ($hasLoader === 'internal-x') {
-			$this->addLoading($retour, '$(this).closest(".item")', $ajaxLoader);
+			$this->addLoading($retour, '$(this).closest(".item, .step")', $ajaxLoader);
 		} elseif ($hasLoader === 'internal') {
 			$retour .= "\n$(this).addClass('loading');";
 		}
