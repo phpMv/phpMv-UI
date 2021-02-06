@@ -261,7 +261,7 @@ trait FieldAsTrait {
 
 	public function fieldAsDropDown($index, $elements = [], $multiple = false, $attributes = NULL) {
 		return $this->_fieldAs(function ($id, $name, $value, $caption) use ($elements, $multiple, $attributes) {
-			$dd = new HtmlFormDropdown($id, $elements, $caption, $value);
+			$dd = new HtmlFormDropdown($id, $elements, $caption, $value ?? '');
 			$dd->asSelect($name, $multiple);
 			return $this->_prepareFormFields($dd, $name, $attributes);
 		}, $index, $attributes, "dd");
