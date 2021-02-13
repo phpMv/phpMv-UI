@@ -120,6 +120,7 @@ trait JsUtilsAjaxTrait {
 		if (JString::endswith($url, "/") === true) {
 			$slash = "";
 		}
+
 		if (JString::isNotNull($attr)) {
 			if ($attr === "value") {
 				$retour .= "url=url+'" . $slash . "'+$(this).val();\n";
@@ -127,8 +128,10 @@ trait JsUtilsAjaxTrait {
 				$retour .= "url=url+'" . $slash . "'+$(this).html();\n";
 			} elseif (\substr($attr, 0, 3) === "js:") {
 				$retour .= "url=url+'" . $slash . "'+" . \substr($attr, 3) . ";\n";
-			} elseif ($attr !== null && $attr !== "")
-				$retour .= "url=url+'" . $slash . "'+($(this).attr('" . $attr . "')||'');\n";
+			} elseif ($attr !== null && $attr !== "") {
+				$retour .= "let elmUrl=$(this).attr('" . $attr . "')||'';";
+				$retour .= "url=(!/^((http|https|ftp):\/\/)/.test(elmUrl))?url+'" . $slash . "'+elmUrl:elmUrl;\n";
+			}
 		}
 		return $retour;
 	}
