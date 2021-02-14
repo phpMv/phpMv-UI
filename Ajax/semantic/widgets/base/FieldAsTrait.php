@@ -204,6 +204,24 @@ trait FieldAsTrait {
 		}, $index, $attributes, "input");
 	}
 
+	public function fieldAsLabeledInput($index, $attributes = NULL) {
+		return $this->_fieldAs(function ($id, $name, $value, $caption) use ($attributes) {
+			$input = new HtmlFormInput($id, '', 'text', $value, $caption);
+			$required = '';
+			if (isset($attributes['rules'])) {
+				$rules = json_encode($attributes['rules']);
+				if (strpos($rules, 'empty') !== false) {
+					$required = 'required';
+				}
+			}
+			$input->getField()
+				->labeled($caption)
+				->setTagName('label')
+				->addClass($required);
+			return $this->_prepareFormFields($input, $name, $attributes);
+		}, $index, $attributes, 'input');
+	}
+
 	public function fieldAsDataList($index, ?array $items = [], $attributes = NULL) {
 		return $this->_fieldAs(function ($id, $name, $value, $caption) use ($attributes, $items) {
 			$input = new HtmlFormInput($id, $caption, "text", $value);
