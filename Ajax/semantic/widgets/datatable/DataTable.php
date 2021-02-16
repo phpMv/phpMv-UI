@@ -58,7 +58,7 @@ class DataTable extends Widget {
 	protected $_hiddenColumns;
 
 	protected $_colWidths;
-	
+
 	protected $_paginationToolbar;
 
 	public function __construct($identifier, $model, $modelInstance = NULL) {
@@ -314,7 +314,7 @@ class DataTable extends Widget {
 		}
 		$footer = $table->getFooter();
 		$footer->mergeCol();
-		$this->_paginationToolbar=$this->_pagination->generateMenu($this->identifier);
+		$this->_paginationToolbar = $this->_pagination->generateMenu($this->identifier);
 		$footer->addValues($this->_paginationToolbar);
 	}
 
@@ -360,19 +360,29 @@ class DataTable extends Widget {
 		return null;
 	}
 
-	protected function _setToolbarPosition($table, $captions = NULL) {
-		switch ($this->_toolbarPosition) {
+	protected function applyToolbarPosition(string $position, $table, $captions = NULL) {
+		switch ($position) {
 			case PositionInTable::BEFORETABLE:
 			case PositionInTable::AFTERTABLE:
 				if (isset($this->_compileParts) === false) {
-					$this->content[$this->_toolbarPosition] = $this->_toolbar;
+					$this->content[$position] = $this->_toolbar;
 				}
 				break;
 			case PositionInTable::HEADER:
 			case PositionInTable::FOOTER:
 			case PositionInTable::BODY:
-				$this->addToolbarRow($this->_toolbarPosition, $table, $captions);
+				$this->addToolbarRow($position, $table, $captions);
 				break;
+		}
+	}
+
+	protected function _setToolbarPosition($table, $captions = NULL) {
+		if (\is_array($this->_toolbarPosition)) {
+			foreach ($this->_toolbarPosition as $tbp) {
+				$this->applyToolbarPosition($tbp, $table, $captions);
+			}
+		} else {
+			$this->applyToolbarPosition($this->_toolbarPosition, $table, $captions);
 		}
 	}
 
@@ -482,7 +492,9 @@ class DataTable extends Widget {
 	 * @param array $compileParts
 	 * @return DataTable
 	 */
-	public function refresh($compileParts = ['tbody']) {
+	public function refresh($compileParts = [
+		'tbody'
+	]) {
 		$this->_compileParts = $compileParts;
 		return $this;
 	}
@@ -616,8 +628,8 @@ class DataTable extends Widget {
 		$this->_self->setActiveRowSelector($class, $event, $multiple);
 		return $this;
 	}
-	
-	public function hasActiveRowSelector(){
+
+	public function hasActiveRowSelector() {
 		return $this->_self->hasActiveRowSelector();
 	}
 
@@ -707,16 +719,18 @@ class DataTable extends Widget {
 	public function setVisibleHover($_visibleHover) {
 		$this->_visibleHover = $_visibleHover;
 	}
+
 	/**
+	 *
 	 * @return \Ajax\semantic\html\collections\menus\HtmlPaginationMenu
 	 */
 	public function getPaginationToolbar() {
 		return $this->_paginationToolbar;
 	}
-	
-	public function setInverted($recursive=true){
+
+	public function setInverted($recursive = true) {
 		$this->getHtmlComponent()->setInverted($recursive);
-		if($this->_emptyMessage instanceof HtmlSemDoubleElement){
+		if ($this->_emptyMessage instanceof HtmlSemDoubleElement) {
 			$this->_emptyMessage->setInverted($recursive);
 		}
 	}
