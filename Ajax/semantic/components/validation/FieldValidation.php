@@ -1,5 +1,6 @@
 <?php
 namespace Ajax\semantic\components\validation;
+use Ajax\JsUtils;
 use Ajax\service\JArray;
 
 /**
@@ -16,6 +17,12 @@ class FieldValidation implements \JsonSerializable{
 	 * @var array array of Rules
 	 */
 	protected $rules;
+	/**
+	 * @var array array of custom rules
+	 */
+	protected $customRules;
+
+	protected $hasCustomRules=false;
 
 	/**
 	 * @var string
@@ -43,21 +50,26 @@ class FieldValidation implements \JsonSerializable{
 	}
 
 	/**
-	 * @param string $type|Rule|array
+	 * @param string|Rule|array $type
 	 * @param string $prompt
 	 * @param string $value
 	 * @return Rule
 	 */
 	public function addRule($type,$prompt=NULL,$value=NULL){
-		if($type instanceof  Rule)
-			$rule=$type;
-		else if(\is_array($type)){
+		if($type instanceof  Rule) {
+			$rule = $type;
+			if($type instanceof CustomRule){
+				$this->customRules[]=$type;
+				$this->hasCustomRules=true;
+			}
+		}elseif(\is_array($type)){
 			$value=JArray::getValue($type, "value", 2);
 			$prompt=JArray::getValue($type, "prompt", 1);
 			$type=JArray::getValue($type, "type", 0);
 			$rule=new Rule($type,$prompt,$value);
-		}else
-			$rule=new Rule($type,$prompt,$value);
+		}else {
+			$rule = new Rule($type, $prompt, $value);
+		}
 		$this->rules[]=$rule;
 		return $rule;
 	}
@@ -81,6 +93,14 @@ class FieldValidation implements \JsonSerializable{
 	public function setOptional($optional) {
 		$this->optional=$optional;
 		return $this;
+	}
+
+	public function compile(JsUtils $js){
+		if($this->hasCustomRules) {
+			foreach ($this->customRules as $rule) {
+				$rule->compile($js);
+			}
+		}
 	}
 
 }

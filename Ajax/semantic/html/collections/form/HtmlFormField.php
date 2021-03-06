@@ -2,6 +2,7 @@
 
 namespace Ajax\semantic\html\collections\form;
 
+use Ajax\JsUtils;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Wide;
 use Ajax\semantic\html\base\constants\State;
@@ -169,4 +170,12 @@ class HtmlFormField extends HtmlSemDoubleElement {
 	public function setSize($size) {
 		return $this->getField()->addToPropertyCtrl("class", $size, Size::getConstants());
 	}
+
+	public function run(JsUtils $js) {
+		if(isset($this->_validation)){
+			$this->_validation->compile($js);
+		}
+		return parent::run($js);
+	}
+
 }
