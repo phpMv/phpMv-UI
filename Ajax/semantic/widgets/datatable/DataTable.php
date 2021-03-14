@@ -19,7 +19,7 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 /**
  * DataTable widget for displaying list of objects
  *
- * @version 1.1.0
+ * @version 1.1.1
  * @author jc
  * @since 2.2
  *
@@ -733,5 +733,9 @@ class DataTable extends Widget {
 		if ($this->_emptyMessage instanceof HtmlSemDoubleElement) {
 			$this->_emptyMessage->setInverted($recursive);
 		}
+	}
+
+	public function setFocusable(bool $focusable) {
+		$this->content["table"]->setFocusable($focusable);
 	}
 }

@@ -14,6 +14,7 @@ use Ajax\semantic\html\base\traits\BaseTrait;
  *
  */
 class HtmlTableContent extends HtmlSemCollection {
+	protected $_focusable=false;
 
 	protected $_tdTagNames = [
 		"thead" => "th",
@@ -69,6 +70,9 @@ class HtmlTableContent extends HtmlSemCollection {
 		$count = $this->count();
 		$tr = new HtmlTR("");
 		$tr->setContainer($this, $count);
+		if($this->_focusable) {
+			$tr->setProperty('tabindex', $count);
+		}
 		$tr->setTdTagName($this->_tdTagNames[$this->tagName]);
 		if (isset($value) === true) {
 			$tr->setColCount($value);
@@ -480,5 +484,12 @@ class HtmlTableContent extends HtmlSemCollection {
 	public function _setMerged($value) {
 		$this->_merged = $value;
 		return $this;
+	}
+
+	/**
+	 * @param bool $focusable
+	 */
+	public function setFocusable(bool $focusable): void {
+		$this->_focusable = $focusable;
 	}
 }

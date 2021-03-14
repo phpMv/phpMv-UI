@@ -26,6 +26,15 @@ class HtmlTable extends HtmlSemDoubleElement {
 	private $_footer;
 	private $_afterCompileEvents;
 	private $_activeRowSelector;
+	private $_focusable=false;
+
+	/**
+	 * @return ActiveRow
+	 */
+	public function getActiveRowSelector() {
+		return $this->_activeRowSelector;
+	}
+	
 	protected $_innerScript;
 	
 
@@ -520,6 +529,13 @@ class HtmlTable extends HtmlSemDoubleElement {
 	
 	public function addMergeRow($colCount,$value=null){
 		return $this->getBody()->addMergeRow($colCount,$value);
+	}
+
+	/**
+	 * @param bool $focusable
+	 */
+	public function setFocusable(bool $focusable): void {
+		$this->getBody()->setFocusable($focusable);
 	}
 
 }

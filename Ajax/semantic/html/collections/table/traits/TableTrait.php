@@ -89,7 +89,7 @@ trait TableTrait {
 	}
 
 	public function getOnRow($event, $url, $responseElement = "", $parameters = array()) {
-		$jsCondition = '!$(this).closest("tr").hasClass("active")';
+		$jsCondition = '!$(this).closest("tr").is(":focus")';
 		if (isset($parameters['jsCondition'])) {
 			$jsCondition = '(' . $parameters['jsCondition'] . ' && ' . $jsCondition . ')';
 		}
