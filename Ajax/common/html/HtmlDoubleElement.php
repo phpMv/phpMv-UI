@@ -43,7 +43,7 @@ class HtmlDoubleElement extends HtmlSingleElement {
 				$this->content = array();
 		}
 		if ($before)
-			array_unshift($this->content, $content);
+			\array_unshift($this->content, $content);
 		else
 			$this->content[] = $content;
 		return $this;
@@ -116,10 +116,10 @@ class HtmlDoubleElement extends HtmlSingleElement {
 	}
 
 	public function getTextContent() {
-		if (is_array($this->content)) {
-			return strip_tags(implode("", $this->content));
+		if (\is_array($this->content)) {
+			return \strip_tags(implode("", $this->content));
 		}
-		return strip_tags($this->content);
+		return \strip_tags($this->content);
 	}
 
 	public function asEditable(HtmlFormField $field, $asForm = false, $setValueProperty = "val()") {
