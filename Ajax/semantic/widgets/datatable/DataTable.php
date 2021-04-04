@@ -711,6 +711,13 @@ class DataTable extends Widget {
 	public function setGroupByFields($_groupByFields) {
 		$this->_instanceViewer->setGroupByFields($_groupByFields);
 	}
+	
+	public function addGroupBy($index){
+		$index = $this->_getIndex($index);
+		if ($index !== false) {
+			$this->_instanceViewer->addGroupBy($index);
+		}
+	}
 
 	/**
 	 *

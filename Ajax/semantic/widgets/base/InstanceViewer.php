@@ -449,6 +449,10 @@ class InstanceViewer {
 	public function setGroupByFields($groupByFields) {
 		$this->groupByFields = $groupByFields;
 	}
+	
+	public function addGroupBy($groupByField){
+		$this->groupByFields[]=$groupByField;
+	}
 
 	public function getGroupByFieldsCount() {
 		if (is_array($this->groupByFields)) {
