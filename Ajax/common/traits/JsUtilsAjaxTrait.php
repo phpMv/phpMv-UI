@@ -44,6 +44,8 @@ trait JsUtilsAjaxTrait {
 			$this->addLoading($retour, '$(this).closest(".item, .step")', $ajaxLoader);
 		} elseif ($hasLoader === 'internal') {
 			$retour .= "\n$(this).addClass('loading');";
+		} elseif (\is_string($hasLoader)) {
+			$this->addLoading($retour, $hasLoader, $ajaxLoader);
 		}
 		$ajaxParameters = [
 			"url" => "url",
@@ -170,6 +172,8 @@ trait JsUtilsAjaxTrait {
 			$retour .= "\n$(self).removeClass('loading');";
 		} elseif ($hasLoader === 'internal-x') {
 			$retour .= "\n$(self).children('.ajax-loader').remove();";
+		} else {
+			$retour .= "\n$(self).find('.loading').removeClass('loading');";
 		}
 		$retour .= "\t" . $jsCallback . "\n";
 		return $retour;
@@ -180,6 +184,13 @@ trait JsUtilsAjaxTrait {
 			$responseElement = Javascript::prep_jquery_selector($responseElement);
 		}
 		return $responseElement;
+	}
+
+	protected function _getFormElement($formElement) {
+		if (JString::isNotNull($formElement)) {
+			$formElement = Javascript::prep_value($formElement);
+		}
+		return $formElement;
 	}
 
 	protected function _correctAjaxUrl($url) {
@@ -646,31 +657,29 @@ trait JsUtilsAjaxTrait {
 	 * Uses a form action to make an ajax post request
 	 *
 	 * @param string $element
-	 *        	a form submit selector
-	 * @param string $formId
-	 *        	the form identifier
+	 *        	a form selector
 	 * @param string $responseElement
 	 *        	the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
 	 * @param array $parameters
 	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true,"before"=>null,"listenerOn"=>false)
 	 * @return $this
 	 */
-	public function postFormAction($element, $formId = "", $responseElement = "", $parameters = array()) {
+	public function postFormAction($element, $responseElement = "", $parameters = array()) {
 		$parameters['attr'] = 'action';
 		if (JString::isNull($responseElement)) {
-			$responseElement = '%$(self).closest("form").attr("data-target")%';
+			$responseElement = '%$(self).attr("data-target")%';
 		} else {
-			$responseElement = '%$(self).closest("form").attr("data-target") || "' . $responseElement . '"%';
+			$responseElement = '%$(self).attr("data-target") || "' . $responseElement . '"%';
 		}
-		if (JString::isNull($formId)) {
-			$formId = '%$(self).closest("form").attr("id")%';
-		} else {
-			$formId = '%$(self).closest("form").attr("id") || "' . $formId . '"%';
-		}
+		$formId = '%$(this).attr("id")%';
 		if (! isset($parameters['historize'])) {
 			$parameters['historize'] = true;
 		}
-		return $this->postFormOnClick($element, '', $formId, $responseElement, $parameters);
+		$parameters['preventDefault'] = true;
+		if (! isset($parameters['hasLoader'])) {
+			$parameters['hasLoader'] = '$(self).find("button, input[type=submit], input[type=button]")';
+		}
+		return $this->postFormOn('submit', $element, '', $formId, $responseElement, $parameters);
 	}
 
 	private function _post($url, $params = '{}', $responseElement = '', $parameters = []) {
@@ -762,14 +771,15 @@ trait JsUtilsAjaxTrait {
 		$async = ($async) ? 'true' : 'false';
 		$jsCallback = isset($jsCallback) ? $jsCallback : "";
 		$retour = $this->_getAjaxUrl($url, $attr);
-		$retour .= "\n$('#" . $form . "').trigger('ajaxSubmit');";
+		$form = $this->_getFormElement($form);
+		$retour .= "\n$('#'+" . $form . ").trigger('ajaxSubmit');";
 		if (! isset($contentType) || $contentType != 'false') {
-			$retour .= "\nvar params=$('#" . $form . "').serialize();\n";
+			$retour .= "\nvar params=$('#'+" . $form . ").serialize();\n";
 			if (isset($params)) {
 				$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
 			}
 		} else {
-			$retour .= "\nvar params=new FormData($('#" . $form . "')[0]);\n";
+			$retour .= "\nvar params=new FormData($('#'+" . $form . ")[0]);\n";
 		}
 		$responseElement = $this->_getResponseElement($responseElement);
 		$retour .= "var self=this;\n";
@@ -779,8 +789,12 @@ trait JsUtilsAjaxTrait {
 			$this->addLoading($retour, $responseElement, $ajaxLoader);
 		} elseif ($hasLoader === 'response') {
 			$this->addResponseLoading($retour, $responseElement, $ajaxLoader);
+		} elseif ($hasLoader === 'internal-x') {
+			$this->addLoading($retour, '$(this).closest(".item, .step")', $ajaxLoader);
 		} elseif ($hasLoader === 'internal') {
 			$retour .= "\n$(this).addClass('loading');";
+		} elseif (\is_string($hasLoader)) {
+			$retour .= "\n$hasLoader.addClass('loading');";
 		}
 		$ajaxParameters = [
 			"url" => "url",
@@ -800,10 +814,10 @@ trait JsUtilsAjaxTrait {
 		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader) . "});\n";
 
 		if ($validation) {
-			$retour = "$('#" . $form . "').validate({submitHandler: function(form) {
+			$retour = "$('#'+" . $form . ").validate({submitHandler: function(form) {
 			" . $retour . "
 			}});\n";
-			$retour .= "$('#" . $form . "').submit();\n";
+			$retour .= "$('#'+" . $form . ").submit();\n";
 		}
 		$retour = $this->_addJsCondition($jsCondition, $retour);
 		if ($immediatly)

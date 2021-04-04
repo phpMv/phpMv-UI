@@ -180,4 +180,10 @@ trait FormTrait{
 		$fv=$form->getExtraFieldValidation($fieldname);
 		$fv->setOptional($optional);
 	}
+
+	public function setActionTarget(string $action, string $target){
+		$form=$this->getForm();
+		$form->setProperty('data-target',$target);
+		$form->setProperty('action',$action);
+	}
 }
