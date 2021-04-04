@@ -602,7 +602,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true,"before"=>null,"listenerOn"=>false)
 	 * @return $this
 	 */
 	public function getHref($element, $responseElement = "", $parameters = array()) {
@@ -626,7 +626,7 @@ trait JsUtilsAjaxTrait {
 	 * @param string $responseElement
 	 *        	the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
 	 * @param array $parameters
-	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true,"before"=>null)
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true,"before"=>null,"listenerOn"=>false)
 	 * @return $this
 	 */
 	public function postHref($element, $responseElement = "", $parameters = array()) {
@@ -640,6 +640,37 @@ trait JsUtilsAjaxTrait {
 			$parameters['historize'] = true;
 		}
 		return $this->postOnClick($element, '', '{}', $responseElement, $parameters);
+	}
+
+	/**
+	 * Uses a form action to make an ajax post request
+	 *
+	 * @param string $element
+	 *        	a form submit selector
+	 * @param string $formId
+	 *        	the form identifier
+	 * @param string $responseElement
+	 *        	the target of the ajax request (data-target attribute of the element is used if responseElement is omited)
+	 * @param array $parameters
+	 *        	default : array("preventDefault"=>true,"stopPropagation"=>true,"params"=>"{}","jsCallback"=>NULL,"attr"=>"href","hasLoader"=>true,"ajaxLoader"=>null,"immediatly"=>true,"jqueryDone"=>"html","jsCondition"=>NULL,"headers"=>null,"historize"=>true,"before"=>null,"listenerOn"=>false)
+	 * @return $this
+	 */
+	public function postFormAction($element, $formId = "", $responseElement = "", $parameters = array()) {
+		$parameters['attr'] = 'action';
+		if (JString::isNull($responseElement)) {
+			$responseElement = '%$(self).closest("form").attr("data-target")%';
+		} else {
+			$responseElement = '%$(self).closest("form").attr("data-target") || "' . $responseElement . '"%';
+		}
+		if (JString::isNull($formId)) {
+			$formId = '%$(self).closest("form").attr("id")%';
+		} else {
+			$formId = '%$(self).closest("form").attr("id") || "' . $formId . '"%';
+		}
+		if (! isset($parameters['historize'])) {
+			$parameters['historize'] = true;
+		}
+		return $this->postFormOnClick($element, '', $formId, $responseElement, $parameters);
 	}
 
 	private function _post($url, $params = '{}', $responseElement = '', $parameters = []) {

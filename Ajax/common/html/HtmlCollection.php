@@ -130,7 +130,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 	abstract protected function createItem($value);
 
 	protected function createCondition($value){
-		return \is_object($value)===false;
+		return !($value instanceof BaseHtml);
 	}
 
 	protected function contentAs($tagName){
