@@ -626,6 +626,9 @@ trait JsUtilsAjaxTrait {
 		if (! isset($parameters['historize'])) {
 			$parameters['historize'] = true;
 		}
+		if (! isset($parameters['jsCallback'])) {
+			$parameters['jsCallback'] = 'var event = jQuery.Event( "getHref" );event.url = url;$(self).trigger(event);';
+		}
 		return $this->getOnClick($element, "", $responseElement, $parameters);
 	}
 
@@ -678,6 +681,9 @@ trait JsUtilsAjaxTrait {
 		$parameters['preventDefault'] = true;
 		if (! isset($parameters['hasLoader'])) {
 			$parameters['hasLoader'] = '$(self).find("button, input[type=submit], input[type=button]")';
+		}
+		if (! isset($parameters['jsCallback'])) {
+			$parameters['jsCallback'] = 'var event = jQuery.Event( "postFormAction" );event.params = Object.fromEntries(new URLSearchParams(params));$(self).trigger(event);';
 		}
 		return $this->postFormOn('submit', $element, '', $formId, $responseElement, $parameters);
 	}
