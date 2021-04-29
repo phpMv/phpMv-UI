@@ -46,6 +46,8 @@ trait FieldAsTrait {
 
 	abstract protected function _buttonAsSubmit(BaseHtml &$button, $event, $url, $responseElement = NULL, $parameters = NULL);
 
+	private $_speProperties;
+
 	/**
 	 *
 	 * @param HtmlFormField $element
@@ -98,6 +100,10 @@ trait FieldAsTrait {
 				unset($attributes["name"]);
 			}
 			$element = $elementCallback($id, $name, $value, $caption);
+			if (isset($this->_speProperties[$index])) {
+				$attributes ??= [];
+				$attributes += $this->_speProperties[$index];
+			}
 			if (\is_array($attributes)) {
 				$this->_applyAttributes($element, $attributes, $index, $instance);
 			}
@@ -105,6 +111,21 @@ trait FieldAsTrait {
 			return $element;
 		});
 		return $this;
+	}
+
+	/**
+	 * Defines the values for the fields for a property (or html attribute).
+	 *
+	 * @param int|string $property
+	 *        	the property to update
+	 * @param array $indexValues
+	 *        	array of field=>value
+	 */
+	public function setPropertyValues($property, $indexValues) {
+		foreach ($indexValues as $index => $value) {
+			$ind = $this->_getIndex($index);
+			$this->_speProperties[$ind][$property] = $value;
+		}
 	}
 
 	public function fieldAsProgress($index, $label = NULL, $attributes = array()) {
