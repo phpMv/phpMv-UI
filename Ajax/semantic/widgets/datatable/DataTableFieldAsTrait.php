@@ -151,7 +151,7 @@ trait DataTableFieldAsTrait{
 		return $this;
 	}
 
-	private function addDefaultButton($icon,$class=null,$visibleHover=true,$callback=null,$key=null){
+	public function addDefaultButton($icon,$class=null,$visibleHover=true,$callback=null,$key=null){
 		$this->addField($this->getCallable("getDefaultButton",[$icon,$class,$visibleHover],$callback),$key);
 		return $this;
 	}
@@ -252,6 +252,13 @@ trait DataTableFieldAsTrait{
 		$this->_displayBehavior=$displayBehavior;
 		return $this->insertDefaultButtonIn($index,"eye","_display basic",$visibleHover,$callback,"display");
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getButtonsColumn() {
+		return $this->_buttonsColumn;
+	}
 	
 	/**
 	 * @param array  $_buttons
@@ -259,5 +266,12 @@ trait DataTableFieldAsTrait{
 	public function setButtons($_buttons) {
 		$this->_buttons = $_buttons;
 		return $this;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getButtons(): array {
+		return $this->_buttons;
 	}
 }
