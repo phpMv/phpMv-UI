@@ -12,7 +12,7 @@ use Ajax\semantic\html\base\traits\BaseTrait;
 
 /**
  * DataForm widget for editing model objects
- * @version 1.0
+ * @version 1.0.2
  * @author jc
  * @since 2.2
  * @property FormInstanceViewer $_instanceViewer
@@ -26,10 +26,10 @@ class DataForm extends Widget {
 	public function __construct($identifier, $modelInstance=NULL) {
 		parent::__construct($identifier, null,$modelInstance);
 		$this->_form=new HtmlForm($identifier);
-		$this->_init(new FormInstanceViewer($identifier), "form", $this->_form, true);
+		$this->_init(new FormInstanceViewer($identifier), 'form', $this->_form, true);
 	}
 
-	protected function _getFieldIdentifier($prefix,$name=""){
+	protected function _getFieldIdentifier($prefix,$name=''){
 		return $this->identifier."-{$name}-".$this->_instanceViewer->getIdentifier();
 	}
 
@@ -37,13 +37,13 @@ class DataForm extends Widget {
 		if(!$this->_generated){
 			$this->_instanceViewer->setInstance($this->_modelInstance);
 
-			$form=$this->content["form"];
+			$form=$this->content['form'];
 			$this->_generateContent($form);
 
 			if(isset($this->_toolbar)){
 				$this->_setToolbarPosition($form);
 			}
-			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,"form",PositionInTable::AFTERTABLE]);
+			$this->content=JArray::sortAssociative($this->content, [PositionInTable::BEFORETABLE,'form',PositionInTable::AFTERTABLE]);
 			if($this->_inverted){
 				$this->content['form']->setInverted(true);
 			}
@@ -61,44 +61,46 @@ class DataForm extends Widget {
 		$separators=$this->_instanceViewer->getSeparators();
 		$headers=$this->_instanceViewer->getHeaders();
 		$wrappers=$this->_instanceViewer->getWrappers();
+		$names=$this->_instanceViewer->getProperties();
 		\sort($separators);
-		$size=\sizeof($separators);
+		$size=\count($separators);
 		$nb=0;
 		if($size===1){
 			$i=-1;
-			foreach ($values as $v){
-				$this->_generateFields($form, [$v], $headers, $i, $wrappers,$nb++);
+			foreach ($values as $k=>$v){
+				$this->_generateFields($form, [$v], $headers, $i, $wrappers,$nb++,$names[$k]??'');
 				$i++;
 			}
 		}else{
 			$separators[]=$count;
 			for($i=0;$i<$size;$i++){
 				$fields=\array_slice($values, $separators[$i]+1,$separators[$i+1]-$separators[$i]);
-				$this->_generateFields($form, $fields, $headers, $separators[$i], $wrappers,$nb++);
+				$this->_generateFields($form, $fields, $headers, $separators[$i], $wrappers,$nb++,$names[$i]??'');
 			}
 		}
 		if($this->_hasRules && !$this->getForm()->hasValidationParams()){
-				$this->setValidationParams(["inline"=>true]);
+				$this->setValidationParams(['inline'=>true]);
 		}
 	}
 
-	protected function _generateFields($form,$values,$headers,$sepFirst,$wrappers,$nb){
+	protected function _generateFields($form, $values, $headers, $sepFirst, $wrappers, $nb, $name){
 		$wrapper=null;
 		if(isset($headers[$sepFirst+1]))
 			$form->addHeader($headers[$sepFirst+1],4,true);
 		if(isset($wrappers[$sepFirst+1])){
 			$wrapper=$wrappers[$sepFirst+1];
 		}
-		if(\sizeof($values)===1){
+		$count=\count($values);
+		if($count===1){
 			$added=$form->addField($values[0]);
-		}elseif(\sizeof($values)>1){
+		}elseif($count>1){
 			$added=$form->addFields($values);
 		}else
 			return;
 		if(isset($wrapper)){
 			$added->wrap($wrapper[0],$wrapper[1]);
 		}
-		$this->execHook("onGenerateFields",$added,$nb);
+		$this->execHook('onGenerateFields',$added,$nb,$name);
 	}
 	
 	/**
@@ -107,14 +109,14 @@ class DataForm extends Widget {
 	 * @param callable $callback the fonction to call when a field is generated
 	 */
 	public function onGenerateField($callback){
-		$this->addHook("onGenerateFields",$callback);
+		$this->addHook('onGenerateFields',$callback);
 	}
 
 	/**
 	 * @return HtmlForm
 	 */
 	public function getForm(){
-		return $this->content["form"];
+		return $this->content['form'];
 	}
 
 	public function addSeparatorAfter($fieldNum){
@@ -135,7 +137,7 @@ class DataForm extends Widget {
 	public function fieldAsReset($index,$cssStyle=NULL,$attributes=NULL){
 		return $this->_fieldAs(function($id,$name,$value) use ($cssStyle){
 			$button=new HtmlButton($id,$value,$cssStyle);
-			$button->setProperty("type", "reset");
+			$button->setProperty('type', 'reset');
 			return $button;
 		}, $index,$attributes);
 	}
@@ -146,7 +148,7 @@ class DataForm extends Widget {
 	 * @return HtmlForm
 	 */
 	public function getHtmlComponent() {
-		return $this->content["form"];
+		return $this->content['form'];
 	}
 	/**
 	 * {@inheritdoc}
