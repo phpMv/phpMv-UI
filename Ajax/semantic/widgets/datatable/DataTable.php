@@ -15,11 +15,12 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\service\JArray;
 use Ajax\service\JString;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
+use Ubiquity\utils\base\UArray;
 
 /**
  * DataTable widget for displaying list of objects
  *
- * @version 1.1.1
+ * @version 1.1.2
  * @author jc
  * @since 2.2
  *
@@ -142,7 +143,7 @@ class DataTable extends Widget {
 			if ($this->_hasCheckboxes) {
 				$this->_generateMainCheckbox($captions);
 			}
-			$table->setRowCount(0, \sizeof($captions));
+			$table->setRowCount(0, \count($captions));
 			$this->_generateHeader($table, $captions);
 
 			if (isset($this->_compileParts))
@@ -198,6 +199,10 @@ class DataTable extends Widget {
 	}
 
 	protected function _generateHeader(HtmlTable $table, $captions) {
+		$gbFields = $this->_instanceViewer->getGroupByFields();
+		if (\is_array($gbFields)) {
+			$captions = \array_values(UArray::removeByKeys($captions, $gbFields));
+		}
 		$table->setHeaderValues($captions);
 		if (isset($this->_sortable)) {
 			$table->setSortable($this->_sortable);
@@ -217,14 +222,15 @@ class DataTable extends Widget {
 				return $this->_generateRow($instance, $fields, $table);
 			});
 		} else {
-			$activeValues = array_combine($groupByFields, array_fill(0, sizeof($groupByFields), null));
+			$diffFields = array_values(UArray::removeByKeys($fields, $groupByFields));
+			$activeValues = array_combine($groupByFields, \array_fill(0, \count($groupByFields), null));
 			$uuids = [];
-			$table->fromDatabaseObjects($objects, function ($instance) use ($table, $fields, &$activeValues, $groupByFields, &$uuids) {
+			$table->fromDatabaseObjects($objects, function ($instance) use ($table, $fields, &$activeValues, $groupByFields, &$uuids, $diffFields) {
 				$this->_instanceViewer->setInstance($instance);
 				foreach ($groupByFields as $index => $gbField) {
 					$this->_generateGroupByRow($index, $gbField, $table, $fields, $activeValues, $uuids);
 				}
-				return $this->_generateRow($instance, $fields, $table, null, $uuids);
+				return $this->_generateRow($instance, $diffFields, $table, null, $uuids);
 			});
 		}
 		if ($table->getRowCount() == 0) {
@@ -287,7 +293,6 @@ class DataTable extends Widget {
 				$checked = $func($instance);
 			}
 			$ck->setChecked($checked);
-			// $ck->setOnChange("event.stopPropagation();");
 			$field = $ck->getField();
 			$field->setProperty("value", $dataAjax);
 			$field->setProperty("name", "selection[]");
@@ -711,8 +716,8 @@ class DataTable extends Widget {
 	public function setGroupByFields($_groupByFields) {
 		$this->_instanceViewer->setGroupByFields($_groupByFields);
 	}
-	
-	public function addGroupBy($index){
+
+	public function addGroupBy($index) {
 		$index = $this->_getIndex($index);
 		if ($index !== false) {
 			$this->_instanceViewer->addGroupBy($index);
