@@ -15,7 +15,6 @@ use Ajax\semantic\widgets\base\InstanceViewer;
 use Ajax\service\JArray;
 use Ajax\service\JString;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
-use Ubiquity\utils\base\UArray;
 
 /**
  * DataTable widget for displaying list of objects
@@ -201,7 +200,7 @@ class DataTable extends Widget {
 	protected function _generateHeader(HtmlTable $table, $captions) {
 		$gbFields = $this->_instanceViewer->getGroupByFields();
 		if (\is_array($gbFields)) {
-			$captions = \array_values(UArray::removeByKeys($captions, $gbFields));
+			$captions = \array_values(JArray::removeByKeys($captions, $gbFields));
 		}
 		$table->setHeaderValues($captions);
 		if (isset($this->_sortable)) {
@@ -222,8 +221,8 @@ class DataTable extends Widget {
 				return $this->_generateRow($instance, $fields, $table);
 			});
 		} else {
-			$diffFields = array_values(UArray::removeByKeys($fields, $groupByFields));
-			$activeValues = array_combine($groupByFields, \array_fill(0, \count($groupByFields), null));
+			$diffFields = \array_values(JArray::removeByKeys($fields, $groupByFields));
+			$activeValues = \array_combine($groupByFields, \array_fill(0, \count($groupByFields), null));
 			$uuids = [];
 			$table->fromDatabaseObjects($objects, function ($instance) use ($table, $fields, &$activeValues, $groupByFields, &$uuids, $diffFields) {
 				$this->_instanceViewer->setInstance($instance);
