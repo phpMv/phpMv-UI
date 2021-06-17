@@ -1,5 +1,5 @@
 <?php
-namespace Ajax\ui\Components;
+namespace Ajax\ui\components;
 
 use Ajax\JsUtils;
 use Ajax\ui\properties\Position;
@@ -10,7 +10,7 @@ use Ajax\service\JString;
  * JQuery UI Autocomplete component
  *
  * @author jc
- * @version 1.001
+ * @version 1.0.2
  */
 class Autocomplete extends SimpleComponent {
 
