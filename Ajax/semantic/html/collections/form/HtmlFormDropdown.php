@@ -36,6 +36,10 @@ class HtmlFormDropdown extends HtmlFormField {
 		$this->getField()->asSelect($name, $multiple, $selection);
 		return $this;
 	}
+	
+	public function setClearable($value) {
+		return $this->getField()->setClearable($value);
+	}
 
 	/**
 	 *
