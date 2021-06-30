@@ -75,6 +75,7 @@ class JsUtils extends \Ajax\JsUtils {
 	 * @param string $jsFile
 	 * @param array $parameters
 	 * @param boolean $immediatly
+	 * @return string|null
 	 * @throws \Exception
 	 */
 	public function execJSFromFile($jsFile, $parameters = [], $immediatly = true) {
@@ -83,7 +84,7 @@ class JsUtils extends \Ajax\JsUtils {
 			if (isset($parameters))
 				$view->setVars($parameters);
 			$js = $view->render($jsFile . '.js', true);
-			$this->exec($js, $immediatly);
+			return $this->exec($js, $immediatly);
 		}
 		throw new \Exception(get_class() . " instance is not properly instancied : you omitted the second parameter \$controller!");
 	}
