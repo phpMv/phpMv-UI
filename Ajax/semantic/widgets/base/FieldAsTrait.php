@@ -1,6 +1,7 @@
 <?php
 namespace Ajax\semantic\widgets\base;
 
+use Ajax\semantic\widgets\datatable\DataTable;
 use Ajax\service\JString;
 use Ajax\semantic\html\elements\HtmlImage;
 use Ajax\semantic\html\base\constants\Size;
@@ -375,5 +376,27 @@ trait FieldAsTrait {
 			$button = new HtmlButton($id, $value, $cssStyle);
 			return $button;
 		}, $index, $attributes, "button");
+	}
+
+	public function fieldAsDataTable($index, $model, $instances = null, $fields = [], $attributes = NULL) {
+		return $this->_fieldAs(function ($id, $name, $value, $caption) use ($model, $instances, $fields, $index) {
+			$dt = new DataTable($id, $model, $instances);
+			$dt->setNamePrefix($index);
+			$dt->setFields($fields);
+			$dt->setEdition(true);
+			$dt->addDeleteButton(false, [], function ($bt) use ($index) {
+				$bt->addClass('mini circular')
+					->wrap('<input value="" class="_status" type="hidden" name="' . $index . '._status[]">');
+			});
+			if ($caption != null) {
+				$dt->setFormCaption($caption);
+			}
+			$dt->onPreCompile(function () use (&$dt) {
+				$dt->getHtmlComponent()
+					->colRightFromRight(0);
+			});
+			$dt->wrap('<input type="hidden" name="' . $index . '">');
+			return $dt;
+		}, $index, $attributes, "dataTable");
 	}
 }

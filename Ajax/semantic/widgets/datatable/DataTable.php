@@ -60,6 +60,10 @@ class DataTable extends Widget {
 	protected $_colWidths;
 
 	protected $_paginationToolbar;
+	
+	protected $_caption;
+	
+	protected $_namePrefix;
 
 	public function __construct($identifier, $model, $modelInstance = NULL) {
 		parent::__construct($identifier, $model, $modelInstance);
@@ -93,8 +97,9 @@ class DataTable extends Widget {
 				$this->_generateBehavior("display", $this->_displayBehavior, $js);
 			}
 			parent::run($js);
-			if (isset($this->_pagination))
+			if (isset($this->_pagination)) {
 				$this->_associatePaginationBehavior($js, $offset);
+			}
 			$this->_associateSearchFieldBehavior($js, $offset);
 			$this->_runned = true;
 		}
@@ -158,6 +163,9 @@ class DataTable extends Widget {
 				"table",
 				PositionInTable::AFTERTABLE
 			]);
+			if($this->_caption!=null){
+				$this->wrap("<div class='field'><label>{$this->_caption}</label>","</div>");
+			}
 			$this->_compileForm();
 			$this->_applyStyleAttributes($table);
 			$this->_generated = true;
@@ -357,6 +365,9 @@ class DataTable extends Widget {
 		$fieldName = parent::_getFieldName($index);
 		if (\is_object($fieldName))
 			$fieldName = "field-" . $index;
+		if($this->_namePrefix!=null){
+			$fieldName=$this->_namePrefix.'.'.$fieldName;
+		}
 		return $fieldName . "[]";
 	}
 
@@ -748,5 +759,23 @@ class DataTable extends Widget {
 
 	public function setFocusable(bool $focusable) {
 		$this->content["table"]->setFocusable($focusable);
+	}
+	
+	public function setFormCaption($caption){
+		$this->_caption=$caption;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getNamePrefix() {
+		return $this->_namePrefix;
+	}
+
+	/**
+	 * @param mixed $namePrefix
+	 */
+	public function setNamePrefix($namePrefix): void {
+		$this->_namePrefix = $namePrefix;
 	}
 }

@@ -250,18 +250,22 @@ class InstanceViewer {
 	}
 
 	public function setInstance($instance) {
-		if (\is_string($instance)) {
+		if (\is_string($instance) && \class_exists($instance)) {
 			$instance = new $instance();
 		}
 		$this->instance = $instance;
 		$this->properties = [];
-		$this->reflect = new \ReflectionClass($instance);
-		if (JArray::count($this->visibleProperties) === 0) {
-			$this->properties = $this->getDefaultProperties();
-		} else {
-			foreach ($this->visibleProperties as $property) {
-				$this->setInstanceProperty($property);
+		try{
+			$this->reflect = new \ReflectionClass($instance);
+			if (JArray::count($this->visibleProperties) === 0) {
+				$this->properties = $this->getDefaultProperties();
+			} else {
+				foreach ($this->visibleProperties as $property) {
+					$this->setInstanceProperty($property);
+				}
 			}
+		}catch (\Throwable $th){
+			
 		}
 		return $this;
 	}

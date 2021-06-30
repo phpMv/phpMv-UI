@@ -65,8 +65,9 @@ trait DataTableFieldAsTrait{
 	 * @param string $caption
 	 * @return HtmlButton
 	 */
-	private function getFieldButton($caption,$visibleHover=true){
-		$bt= new HtmlButton($this->cleanIdentifier($caption),$caption);
+	private function getFieldButton($caption,$visibleHover=true,$icon=null){
+		$id=$this->_instanceViewer->getIdentifier();
+		$bt= new HtmlButton($this->cleanIdentifier($icon??$caption).'-'.$id,$caption);
 		if($visibleHover)
 			$this->_visibleOver($bt);
 		return $bt;
@@ -162,7 +163,7 @@ trait DataTableFieldAsTrait{
 	}
 
 	private function getDefaultButton($icon,$class=null,$visibleHover=true){
-		$bt=$this->getFieldButton("",$visibleHover);
+		$bt=$this->getFieldButton("",$visibleHover,$icon);
 		$bt->asIcon($icon);
 		if(isset($class))
 			$bt->addClass($class);
