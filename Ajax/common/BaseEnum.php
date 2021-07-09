@@ -61,11 +61,12 @@ abstract class BaseEnum {
 	public static function getRandomValue(bool $unique = false) {
 		$values = self::getConstantValues();
 		$count = \count($values);
-		if ($unique && $count > count(self::$picked)) {
+		$calledClass = \get_called_class();
+		if ($unique && $count > count(self::$picked[$calledClass] ?? [])) {
 			do {
 				$newVal = $values[\rand(0, $count - 1)];
-			} while (isset(self::$picked[$newVal]));
-			self::$picked[$newVal] = true;
+			} while (isset(self::$picked[$calledClass][$newVal]));
+			self::$picked[$calledClass][$newVal] = true;
 			return $newVal;
 		}
 		return $values[\rand(0, $count - 1)];
