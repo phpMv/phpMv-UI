@@ -60,9 +60,9 @@ class DataTable extends Widget {
 	protected $_colWidths;
 
 	protected $_paginationToolbar;
-	
+
 	protected $_caption;
-	
+
 	protected $_namePrefix;
 
 	public function __construct($identifier, $model, $modelInstance = NULL) {
@@ -163,8 +163,8 @@ class DataTable extends Widget {
 				"table",
 				PositionInTable::AFTERTABLE
 			]);
-			if($this->_caption!=null){
-				$this->wrap("<div class='field'><label>{$this->_caption}</label>","</div>");
+			if ($this->_caption != null) {
+				$this->wrap("<div class='field'><label>{$this->_caption}</label>", "</div>");
 			}
 			$this->_compileForm();
 			$this->_applyStyleAttributes($table);
@@ -342,7 +342,8 @@ class DataTable extends Widget {
 				]);
 				$page = $_POST["p"] ?? null;
 				if (isset($page)) {
-					$js->execAtLast('$("#' . $this->getIdentifier() . ' .pagination").children("a.item").removeClass("active");$("#' . $this->getIdentifier() . ' .pagination").children("a.item[data-page=' . $page . ']:not(.no-active)").addClass("active");');
+					$activeClass = $this->getActiveRowClass();
+					$js->execAtLast('$("#' . $this->getIdentifier() . ' .pagination").children("a.item").removeClass("' . $activeClass . '");$("#' . $this->getIdentifier() . ' .pagination").children("a.item[data-page=' . $page . ']:not(.no-active)").addClass("' . $activeClass . '");');
 				}
 			}
 		}
@@ -365,8 +366,8 @@ class DataTable extends Widget {
 		$fieldName = parent::_getFieldName($index);
 		if (\is_object($fieldName))
 			$fieldName = "field-" . $index;
-		if($this->_namePrefix!=null){
-			$fieldName=$this->_namePrefix.'.'.$fieldName;
+		if ($this->_namePrefix != null) {
+			$fieldName = $this->_namePrefix . '.' . $fieldName;
 		}
 		return $fieldName . "[]";
 	}
@@ -644,6 +645,10 @@ class DataTable extends Widget {
 		return $this;
 	}
 
+	public function getActiveRowClass() {
+		return $this->_self->getActiveRowClass();
+	}
+
 	public function hasActiveRowSelector() {
 		return $this->_self->hasActiveRowSelector();
 	}
@@ -760,12 +765,13 @@ class DataTable extends Widget {
 	public function setFocusable(bool $focusable) {
 		$this->content["table"]->setFocusable($focusable);
 	}
-	
-	public function setFormCaption($caption){
-		$this->_caption=$caption;
+
+	public function setFormCaption($caption) {
+		$this->_caption = $caption;
 	}
 
 	/**
+	 *
 	 * @return mixed
 	 */
 	public function getNamePrefix() {
@@ -773,6 +779,7 @@ class DataTable extends Widget {
 	}
 
 	/**
+	 *
 	 * @param mixed $namePrefix
 	 */
 	public function setNamePrefix($namePrefix): void {
