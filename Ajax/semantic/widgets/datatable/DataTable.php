@@ -19,7 +19,7 @@ use Ajax\semantic\html\base\HtmlSemDoubleElement;
 /**
  * DataTable widget for displaying list of objects
  *
- * @version 1.1.2
+ * @version 1.1.3
  * @author jc
  * @since 2.2
  *
@@ -242,7 +242,7 @@ class DataTable extends Widget {
 		}
 		if ($table->getRowCount() == 0) {
 			$result = $table->addRow();
-			$result->mergeRow();
+			$result->mergeCol();
 			$result->setValues([
 				$this->_emptyMessage
 			]);
@@ -258,7 +258,7 @@ class DataTable extends Widget {
 			$uuid = uniqid("grp");
 			$uuids[$gbField] = $uuid;
 			$id = $this->_instanceViewer->getIdentifier();
-			$result = $table->addMergeRow(sizeof($fields) + 1, $newValue);
+			$result = $table->addMergeRow(\count($fields) + 1, $newValue);
 			$result->setIdentifier($this->identifier . "-tr-gb-" . $id);
 			$result->setProperty("data-ajax", $id);
 			$result->setProperty("data-group", $uuid);
@@ -420,7 +420,7 @@ class DataTable extends Widget {
 	private function addToolbarRow($part, $table, $captions) {
 		$hasPart = $table->hasPart($part);
 		if ($hasPart) {
-			$row = $table->getPart($part)->addRow(\sizeof($captions));
+			$row = $table->getPart($part)->addRow(\count($captions));
 		} else {
 			$row = $table->getPart($part)->getRow(0);
 		}
