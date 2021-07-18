@@ -224,7 +224,7 @@ class DataTable extends Widget {
 		InstanceViewer::setIndex(0);
 		$fields = $this->_instanceViewer->getSimpleProperties();
 		$groupByFields = $this->_instanceViewer->getGroupByFields();
-		if (! is_array($groupByFields)) {
+		if (! \is_array($groupByFields)) {
 			$table->fromDatabaseObjects($objects, function ($instance) use ($table, $fields) {
 				return $this->_generateRow($instance, $fields, $table);
 			});
@@ -255,7 +255,7 @@ class DataTable extends Widget {
 			if ($index == 0) {
 				$uuids = [];
 			}
-			$uuid = uniqid("grp");
+			$uuid = \uniqid("grp");
 			$uuids[$gbField] = $uuid;
 			$id = $this->_instanceViewer->getIdentifier();
 			$result = $table->addMergeRow(\count($fields) + 1, $newValue);
@@ -276,7 +276,7 @@ class DataTable extends Widget {
 
 	public function getFieldValue($index) {
 		$index = $this->_getIndex($index);
-		if (is_numeric($index)) {
+		if (\is_numeric($index)) {
 			$values = $this->_instanceViewer->getValues();
 			if (isset($values[$index])) {
 				return $values[$index];
