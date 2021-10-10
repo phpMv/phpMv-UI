@@ -366,7 +366,7 @@ trait FieldAsTrait {
 	public function fieldAsSubmit($index, $cssStyle = NULL, $url = NULL, $responseElement = NULL, $attributes = NULL) {
 		return $this->_fieldAs(function ($id, $name, $value, $caption) use ($url, $responseElement, $cssStyle, $attributes) {
 			$button = new HtmlButton($id, $caption, $cssStyle);
-			$this->_buttonAsSubmit($button, "click", $url, $responseElement, @$attributes["ajax"]);
+			$this->_buttonAsSubmit($button, "click", $url, $responseElement, $attributes["ajax"] ?? []);
 			return $button;
 		}, $index, $attributes, "submit");
 	}
