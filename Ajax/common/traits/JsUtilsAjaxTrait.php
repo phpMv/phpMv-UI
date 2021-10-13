@@ -70,11 +70,15 @@ trait JsUtilsAjaxTrait {
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data, textStatus, jqXHR ) {\n";
-		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader, ($historize ? $originalSelector : null)) . "});\n";
-
+		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader, ($historize ? $originalSelector : null)) . "})";
+		if (isset($error)) {
+			$retour .= '.fail(function( jqXHR, textStatus, errorThrown ){' . $error . '})';
+		}
+		$retour .= ";\n";
 		$retour = $this->_addJsCondition($jsCondition, $retour);
-		if ($immediatly)
+		if ($immediatly) {
 			$this->jquery_code_for_compile[] = $retour;
+		}
 		return $retour;
 	}
 
@@ -817,8 +821,11 @@ trait JsUtilsAjaxTrait {
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data ) {\n";
-		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader) . "});\n";
-
+		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader) . "})";
+		if (isset($error)) {
+			$retour .= '.fail(function( jqXHR, textStatus, errorThrown ){' . $error . '})';
+		}
+		$retour .= ";\n";
 		if ($validation) {
 			$retour = "$('#'+" . $form . ").validate({submitHandler: function(form) {
 			" . $retour . "
