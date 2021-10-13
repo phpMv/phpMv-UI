@@ -74,7 +74,7 @@ trait JsUtilsAjaxTrait {
 		if (isset($error)) {
 			$retour .= '.fail(function( jqXHR, textStatus, errorThrown ){' . $error . '})';
 		}
-		$retour .= '.always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
+		$retour .= '.always(function( dataOrjqXHR, textStatus, jqXHROrerrorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
 		$retour .= ";\n";
 		$retour = $this->_addJsCondition($jsCondition, $retour);
 		if ($immediatly) {
@@ -829,7 +829,7 @@ trait JsUtilsAjaxTrait {
 		if (isset($error)) {
 			$retour .= '.fail(function( jqXHR, textStatus, errorThrown ){' . $error . '})';
 		}
-		$retour .= '.always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
+		$retour .= '.always(function( dataOrjqXHR, textStatus, jqXHROrerrorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
 		$retour .= ";\n";
 		if ($validation) {
 			$retour = "$('#'+" . $form . ").validate({submitHandler: function(form) {
