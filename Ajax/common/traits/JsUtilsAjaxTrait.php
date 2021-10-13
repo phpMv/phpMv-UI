@@ -179,7 +179,7 @@ trait JsUtilsAjaxTrait {
 
 	protected function removeLoader($hasLoader) {
 		if ($hasLoader === true) {
-			return "\n$(self).find('.ajax-loader').remove();";
+			return "\n$('body').find('.ajax-loader').remove();";
 		}
 		if ($hasLoader === 'internal') {
 			return "\n$(self).removeClass('loading');";
@@ -187,7 +187,7 @@ trait JsUtilsAjaxTrait {
 		if ($hasLoader === 'internal-x') {
 			return "\n$(self).children('.ajax-loader').remove();";
 		}
-		return "\n$(self).find('.loading').removeClass('loading');";
+		return "\n$('body').find('.loading').removeClass('loading');";
 	}
 
 	protected function _getResponseElement($responseElement) {
