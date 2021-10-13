@@ -70,10 +70,11 @@ trait JsUtilsAjaxTrait {
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data, textStatus, jqXHR ) {\n";
-		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader, ($historize ? $originalSelector : null)) . "})";
+		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, ($historize ? $originalSelector : null)) . "})";
 		if (isset($error)) {
 			$retour .= '.fail(function( jqXHR, textStatus, errorThrown ){' . $error . '})';
 		}
+		$retour .= '.always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
 		$retour .= ";\n";
 		$retour = $this->_addJsCondition($jsCondition, $retour);
 		if ($immediatly) {
@@ -152,7 +153,7 @@ trait JsUtilsAjaxTrait {
 		return $result;
 	}
 
-	protected function _getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader = false, $history = null) {
+	protected function _getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $history = null) {
 		$retour = "";
 		$call = null;
 		if (JString::isNotNull($responseElement)) {
@@ -172,15 +173,18 @@ trait JsUtilsAjaxTrait {
 			}
 			$retour .= "\nwindow.history.pushState({'html':data,'selector':" . Javascript::prep_value($history) . ",'jqueryDone':'{$jqueryDone}'},'', url);";
 		}
-		if ($hasLoader === 'internal') {
-			$retour .= "\n$(self).removeClass('loading');";
-		} elseif ($hasLoader === 'internal-x') {
-			$retour .= "\n$(self).children('.ajax-loader').remove();";
-		} else {
-			$retour .= "\n$(self).find('.loading').removeClass('loading');";
-		}
 		$retour .= "\t" . $jsCallback . "\n";
 		return $retour;
+	}
+
+	protected function removeLoader($hasLoader) {
+		if ($hasLoader === 'internal') {
+			return "\n$(self).removeClass('loading');";
+		}
+		if ($hasLoader === 'internal-x') {
+			return "\n$(self).children('.ajax-loader').remove();";
+		}
+		return "\n$(self).find('.loading').removeClass('loading');";
 	}
 
 	protected function _getResponseElement($responseElement) {
@@ -821,10 +825,11 @@ trait JsUtilsAjaxTrait {
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data ) {\n";
-		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback, $hasLoader) . "})";
+		$retour .= $this->_getOnAjaxDone($responseElement, $jqueryDone, $ajaxTransition, $jsCallback) . "})";
 		if (isset($error)) {
 			$retour .= '.fail(function( jqXHR, textStatus, errorThrown ){' . $error . '})';
 		}
+		$retour .= '.always(function( data|jqXHR, textStatus, jqXHR|errorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
 		$retour .= ";\n";
 		if ($validation) {
 			$retour = "$('#'+" . $form . ").validate({submitHandler: function(form) {
