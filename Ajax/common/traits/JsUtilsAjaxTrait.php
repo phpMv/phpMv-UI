@@ -178,6 +178,9 @@ trait JsUtilsAjaxTrait {
 	}
 
 	protected function removeLoader($hasLoader) {
+		if ($hasLoader === true) {
+			return "\n$(self).find('.ajax-loader').remove();";
+		}
 		if ($hasLoader === 'internal') {
 			return "\n$(self).removeClass('loading');";
 		}
