@@ -88,4 +88,38 @@ class JsUtils extends \Ajax\JsUtils {
 		}
 		throw new \Exception(get_class() . " instance is not properly instancied : you omitted the second parameter \$controller!");
 	}
+
+	/**
+	 * Returns an instance of JsUtils initialized with Semantic (for di injection)
+	 *
+	 * @param \Ubiquity\controllers\Controller $controller
+	 * @param array $options
+	 * @return \Ajax\php\ubiquity\JsUtils
+	 */
+	public static function diSemantic($controller, $options = [
+		'defer' => true,
+		'gc' => true
+	]) {
+		$jquery = new JsUtils($options, $controller);
+		$jquery->semantic(new \Ajax\Semantic());
+		$jquery->setAjaxLoader("<div class=\"ui active centered inline text loader\">Loading</div>");
+		return $jquery;
+	}
+
+	/**
+	 * Returns an instance of JsUtils initialized with Bootstrap (for di injection)
+	 *
+	 * @param \Ubiquity\controllers\Controller $controller
+	 * @param array $options
+	 * @return \Ajax\php\ubiquity\JsUtils
+	 */
+	public static function diBootstrap($controller, $options = [
+		'defer' => true,
+		'gc' => true
+	]) {
+		$jquery = new JsUtils($options, $controller);
+		$jquery->bootstrap(new \Ajax\Bootstrap());
+		$jquery->setAjaxLoader("<div class=\"ui active centered inline text loader\">Loading</div>");
+		return $jquery;
+	}
 }
