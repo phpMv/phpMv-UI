@@ -119,7 +119,7 @@ class JsUtils extends \Ajax\JsUtils {
 	]) {
 		$jquery = new JsUtils($options, $controller);
 		$jquery->bootstrap(new \Ajax\Bootstrap());
-		$jquery->setAjaxLoader("<div class=\"ui active centered inline text loader\">Loading</div>");
+		$jquery->setAjaxLoader("<div class=\"d-flex justify-content-center\"><div class=\"spinner-border\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
 		return $jquery;
 	}
 }
