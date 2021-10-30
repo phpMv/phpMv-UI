@@ -75,7 +75,7 @@ The library is already loaded by default in the config file **app/config/config.
 ```php
 	"di"=>array(
 			"@exec"=>array("jquery"=>function ($controller){
-						return \Ubiquity\core\Framework::diSemantic($controller);
+						return \Ajax\php\ubiquity\JsUtils::diSemantic($controller);
 					})
 			),
 ```
