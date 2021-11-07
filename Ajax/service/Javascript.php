@@ -16,8 +16,13 @@ class Javascript {
 		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;var _data=JSON.parse(dt.getData("text/plain"));' . $done . 'var data=_data.data;' . $jsCallback;
 	}
 
+	public static function fileDropZone($jsCallback = "") {
+		$done = 'event.target.upload=formData;$(event.target).trigger("upload");';
+		return 'var dt=event.dataTransfer || event.originalEvent.dataTransfer;var files=dt.files;var formData = new FormData();for (var i = 0; i < files.length; i++) {formData.append("file-"+i,files[i]);}' . $done . $jsCallback;
+	}
+
 	public static function containsCode($expression) {
-		return strrpos($expression, 'this') !== false || strrpos($expression, 'event') !== false || strrpos($expression, 'self') !== false;
+		return \strrpos($expression, 'this') !== false || \strrpos($expression, 'event') !== false || \strrpos($expression, 'self') !== false;
 	}
 
 	public static function isFunction($jsCode) {
