@@ -359,18 +359,19 @@ abstract class JsUtils {
 	 * @return void
 	 */
 	public function clear_compile() {
-		$this->jquery_code_for_compile = array();
+		$this->jquery_code_for_compile = $this->jquery_code_for_compile_at_last = [];
 	}
 
 	public function getScript($offset = 0) {
-		$code = $this->jquery_code_for_compile;
-		if ($offset > 0)
+		$code = \array_merge($this->jquery_code_for_compile, $this->jquery_code_for_compile_at_last);
+		if ($offset > 0) {
 			$code = \array_slice($code, $offset);
-		return implode('', $code);
+		}
+		return \implode('', $code);
 	}
 
 	public function scriptCount() {
-		return \sizeof($this->jquery_code_for_compile);
+		return \count($this->jquery_code_for_compile);
 	}
 
 	/**
