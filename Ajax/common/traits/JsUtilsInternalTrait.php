@@ -8,6 +8,8 @@ trait JsUtilsInternalTrait {
 	protected $jquery_code_for_compile = array();
 
 	protected $jquery_code_for_compile_at_last = array();
+	
+	protected $nonce;
 
 	protected function _addToCompile($jsScript) {
 		$this->jquery_code_for_compile[] = $jsScript;
@@ -71,8 +73,25 @@ trait JsUtilsInternalTrait {
 	 */
 	protected function _open_script($src = '') {
 		$str = '<script ';
+		if(isset($this->params['nonce'])){
+			$str.=' nonce="'.$this->generateNonce($this->params['nonce']).'" ';
+			$this->onNonce();
+		}
 		$str .= ($src == '') ? '>' : ' src="' . $src . '">';
 		return $str;
+	}
+	
+	protected function onNonce(){
+		
+	}
+	
+	protected function generateNonce($value=null): string {
+		$bytes = \random_bytes((int) ($value ?? 32));
+		return $this->nonce=\base64_encode($bytes);
+	}
+	
+	public function getNonce(){
+		return $this->nonce;
 	}
 
 	/**

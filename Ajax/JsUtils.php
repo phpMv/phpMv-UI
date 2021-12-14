@@ -14,7 +14,7 @@ use Ajax\service\Javascript;
  * JQuery PHP library
  *
  * @author jcheron
- * @version 1.004
+ * @version 1.0.5
  * @license Apache 2 http://www.apache.org/licenses/
  */
 /**
@@ -213,7 +213,8 @@ abstract class JsUtils {
 			'defer' => false,
 			'ajax' => $ajaxDefault,
 			'historize' => true,
-			'autoActiveLinks' => true
+			'autoActiveLinks' => true,
+			'nonce' => true
 		];
 		foreach ($defaults as $key => $val) {
 			if (isset($params[$key]) === false || $params[$key] === "") {
