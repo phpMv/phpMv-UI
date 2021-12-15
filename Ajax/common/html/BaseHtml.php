@@ -12,7 +12,7 @@ use Ajax\service\Javascript;
  * BaseHtml for HTML components
  *
  * @author jc
- * @version 1.3.2
+ * @version 1.3.3
  */
 abstract class BaseHtml extends BaseWidget {
 	use BaseHtmlEventsTrait,BaseHtmlPropertiesTrait;
@@ -219,7 +219,7 @@ abstract class BaseHtml extends BaseWidget {
 				} else {
 					$v = $value;
 				}
-				$result = str_replace("%{$key}%", $v, $result);
+				$result = \str_replace("%{$key}%", $v ?? '', $result);
 			}
 		}
 		if (isset($js) === true) {
