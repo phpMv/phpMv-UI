@@ -1,39 +1,48 @@
 <?php
 namespace Ajax\semantic\components\validation;
+
 use Ajax\JsUtils;
 use Ajax\service\JArray;
 
 /**
+ *
  * @author jc
  * @version 1.001
- * Generates a JSON field validator
+ *          Generates a JSON field validator
  */
-class FieldValidation implements \JsonSerializable{
+class FieldValidation implements \JsonSerializable {
+
 	/**
+	 *
 	 * @var string
 	 */
-	protected  $identifier;
+	protected $identifier;
+
 	/**
+	 *
 	 * @var array array of Rules
 	 */
 	protected $rules;
+
 	/**
+	 *
 	 * @var array array of custom rules
 	 */
 	protected $customRules;
 
-	protected $hasCustomRules=false;
+	protected $hasCustomRules = false;
 
 	/**
+	 *
 	 * @var string
 	 */
 	protected $depends;
 
 	protected $optional;
 
-	public function __construct($identifier){
-		$this->identifier=$identifier;
-		$this->rules=[];
+	public function __construct($identifier) {
+		$this->identifier = $identifier;
+		$this->rules = [];
 	}
 
 	public function getIdentifier() {
@@ -41,7 +50,7 @@ class FieldValidation implements \JsonSerializable{
 	}
 
 	public function setIdentifier($identifier) {
-		$this->identifier=$identifier;
+		$this->identifier = $identifier;
 		return $this;
 	}
 
@@ -50,57 +59,61 @@ class FieldValidation implements \JsonSerializable{
 	}
 
 	/**
+	 *
 	 * @param string|Rule|array $type
 	 * @param string $prompt
 	 * @param string $value
 	 * @return Rule
 	 */
-	public function addRule($type,$prompt=NULL,$value=NULL){
-		if($type instanceof  Rule) {
+	public function addRule($type, $prompt = NULL, $value = NULL) {
+		if ($type instanceof Rule) {
 			$rule = $type;
-			if($type instanceof CustomRule){
-				$this->customRules[]=$type;
-				$this->hasCustomRules=true;
+			if ($type instanceof CustomRule) {
+				$this->customRules[] = $type;
+				$this->hasCustomRules = true;
 			}
-		}elseif(\is_array($type)){
-			$value=JArray::getValue($type, "value", 2);
-			$prompt=JArray::getValue($type, "prompt", 1);
-			$type=JArray::getValue($type, "type", 0);
-			$rule=new Rule($type,$prompt,$value);
-		}else {
+		} elseif (\is_array($type)) {
+			$value = JArray::getValue($type, "value", 2);
+			$prompt = JArray::getValue($type, "prompt", 1);
+			$type = JArray::getValue($type, "type", 0);
+			$rule = new Rule($type, $prompt, $value);
+		} else {
 			$rule = new Rule($type, $prompt, $value);
 		}
-		$this->rules[]=$rule;
+		$this->rules[] = $rule;
 		return $rule;
 	}
 
-	public function jsonSerialize(){
-		$result=["identifier"=>$this->identifier,"rules"=>$this->rules];
-		if($this->optional){
-			$result["optional"]=true;
+	# [\ReturnTypeWillChange]
+	public function jsonSerialize() {
+		$result = [
+			"identifier" => $this->identifier,
+			"rules" => $this->rules
+		];
+		if ($this->optional) {
+			$result["optional"] = true;
 		}
-		if(isset($this->depends)){
-			$result["depends"]=$this->depends;
+		if (isset($this->depends)) {
+			$result["depends"] = $this->depends;
 		}
 		return $result;
 	}
 
 	public function setDepends($depends) {
-		$this->depends=$depends;
+		$this->depends = $depends;
 		return $this;
 	}
 
 	public function setOptional($optional) {
-		$this->optional=$optional;
+		$this->optional = $optional;
 		return $this;
 	}
 
-	public function compile(JsUtils $js){
-		if($this->hasCustomRules) {
+	public function compile(JsUtils $js) {
+		if ($this->hasCustomRules) {
 			foreach ($this->customRules as $rule) {
 				$rule->compile($js);
 			}
 		}
 	}
-
 }
