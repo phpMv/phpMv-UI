@@ -56,6 +56,7 @@ class Rule implements \JsonSerializable{
 		return $this;
 	}
 
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		$result= ["type"=>$this->type];
 		if(isset($this->prompt))
