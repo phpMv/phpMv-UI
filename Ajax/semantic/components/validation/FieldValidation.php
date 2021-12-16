@@ -84,7 +84,7 @@ class FieldValidation implements \JsonSerializable {
 		return $rule;
 	}
 
-	# [\ReturnTypeWillChange]
+	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		$result = [
 			"identifier" => $this->identifier,
