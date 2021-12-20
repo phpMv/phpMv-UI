@@ -8,7 +8,7 @@ trait JsUtilsInternalTrait {
 	protected $jquery_code_for_compile = array();
 
 	protected $jquery_code_for_compile_at_last = array();
-	
+
 	protected $nonce;
 
 	protected function _addToCompile($jsScript) {
@@ -73,24 +73,24 @@ trait JsUtilsInternalTrait {
 	 */
 	protected function _open_script($src = '') {
 		$str = '<script ';
-		if(isset($this->params['nonce'])){
-			$str.=' nonce="'.$this->generateNonce($this->params['nonce']).'" ';
-			$this->onNonce();
+		if (! $this->isAjax() && isset($this->params['nonce'])) {
+			$nonce = $this->nonce ?? $this->generateNonce($this->params['nonce']);
+			$str .= ' nonce="' . $nonce . '" ';
 		}
 		$str .= ($src == '') ? '>' : ' src="' . $src . '">';
 		return $str;
 	}
-	
-	protected function onNonce(){
-		
-	}
-	
-	protected function generateNonce($value=null): string {
+
+	protected function onNonce() {}
+
+	protected function generateNonce($value = null): string {
 		$bytes = \random_bytes((int) ($value ?? 32));
-		return $this->nonce=\base64_encode($bytes);
+		$this->nonce = \base64_encode($bytes);
+		$this->onNonce();
+		return $this->nonce;
 	}
-	
-	public function getNonce(){
+
+	public function getNonce() {
 		return $this->nonce;
 	}
 
@@ -110,5 +110,9 @@ trait JsUtilsInternalTrait {
 
 	public function addToCompile($jsScript) {
 		$this->_addToCompile($jsScript);
+	}
+
+	public function isAjax(): bool {
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 	}
 }

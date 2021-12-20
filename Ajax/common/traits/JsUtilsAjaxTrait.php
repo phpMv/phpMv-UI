@@ -67,9 +67,9 @@ trait JsUtilsAjaxTrait {
 		if (isset($partial)) {
 			$ajaxParameters["xhr"] = "xhrProvider";
 			$retour .= "var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
-		}elseif (isset($upload)) {
+		} elseif (isset($upload)) {
 			$ajaxParameters["xhr"] = "xhrProvider";
-			$retour .= 'var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.upload.addEventListener("progress", function(event) {if (event.lengthComputable) {'.$upload.'}}, false);';
+			$retour .= 'var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.upload.addEventListener("progress", function(event) {if (event.lengthComputable) {' . $upload . '}}, false);';
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data, textStatus, jqXHR ) {\n";
