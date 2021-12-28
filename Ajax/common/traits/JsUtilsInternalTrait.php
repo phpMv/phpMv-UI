@@ -9,8 +9,6 @@ trait JsUtilsInternalTrait {
 
 	protected $jquery_code_for_compile_at_last = array();
 
-	protected $nonce;
-
 	protected function _addToCompile($jsScript) {
 		$this->jquery_code_for_compile[] = $jsScript;
 	}
