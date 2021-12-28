@@ -3,8 +3,25 @@ namespace Ajax\php\ubiquity;
 
 use Ubiquity\controllers\Startup;
 use Ubiquity\utils\http\URequest;
+use Ubiquity\security\csp\ContentSecurityManager;
 
 class JsUtils extends \Ajax\JsUtils {
+
+	/**
+	 * Outputs an opening <script>
+	 *
+	 * @param string $src
+	 * @return string
+	 */
+	protected function _open_script($src = '') {
+		$str = '<script ';
+		if (isset($this->params['nonce']) && ContentSecurityManager::isStarted()) {
+			$nonce = ContentSecurityManager::getNonce('jsUtils');
+			$str .= ' nonce="' . $nonce . '" ';
+		}
+		$str .= ($src == '') ? '>' : ' src="' . $src . '">';
+		return $str;
+	}
 
 	public function getUrl($url) {
 		return URequest::getUrl($url);
