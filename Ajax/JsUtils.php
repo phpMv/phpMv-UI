@@ -213,8 +213,7 @@ abstract class JsUtils {
 			'defer' => false,
 			'ajax' => $ajaxDefault,
 			'historize' => true,
-			'autoActiveLinks' => true,
-			'nonce' => false
+			'autoActiveLinks' => true
 		];
 		foreach ($defaults as $key => $val) {
 			if (isset($params[$key]) === false || $params[$key] === "") {
