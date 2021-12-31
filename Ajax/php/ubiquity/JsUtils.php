@@ -15,7 +15,7 @@ class JsUtils extends \Ajax\JsUtils {
 	 */
 	protected function _open_script($src = '') {
 		$str = '<script ';
-		if (isset($this->params['nonce']) && ContentSecurityManager::isStarted()) {
+		if (($this->params['nonce']??false) && ContentSecurityManager::isStarted()) {
 			$nonce = ContentSecurityManager::getNonce('jsUtils');
 			$str .= ' nonce="' . $nonce . '" ';
 		}
