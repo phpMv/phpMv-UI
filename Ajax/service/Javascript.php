@@ -22,6 +22,9 @@ class Javascript {
 	}
 
 	public static function containsCode($expression) {
+		if ($expression == null) {
+			return false;
+		}
 		return \strrpos($expression, 'this') !== false || \strrpos($expression, 'event') !== false || \strrpos($expression, 'self') !== false;
 	}
 
@@ -44,7 +47,7 @@ class Javascript {
 	 */
 	public static function prep_element($element) {
 		if (self::containsCode($element) === false) {
-			$element = '"' . addslashes($element) . '"';
+			$element = '"' . addslashes($element ?? '') . '"';
 		}
 		return $element;
 	}
