@@ -15,13 +15,22 @@ class JsUtils extends \Ajax\JsUtils {
 	 */
 	protected function _open_script($src = '') {
 		$str = '<script ';
-		if (($this->params['nonce']??false) && ContentSecurityManager::isStarted()) {
+		if (($this->params['csp']??false)==='nonce' && ContentSecurityManager::isStarted()) {
 			$nonce = ContentSecurityManager::getNonce('jsUtils');
 			$str .= ' nonce="' . $nonce . '" ';
 		}
 		$str .= ($src == '') ? '>' : ' src="' . $src . '">';
 		return $str;
 	}
+
+	public function inline($script, $cdata = true) {
+		if (($this->params['csp']??false)==='hash' && ContentSecurityManager::isStarted()) {
+			$script= ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
+			ContentSecurityManager::getHash('jsUtils',$script);
+		}
+		return $this->_open_script().$script.$this->_close_script();
+	}
+
 
 	public function getUrl($url) {
 		return URequest::getUrl($url);

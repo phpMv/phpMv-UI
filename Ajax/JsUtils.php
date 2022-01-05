@@ -513,4 +513,8 @@ abstract class JsUtils {
 	public function getInjected() {
 		return $this->injected;
 	}
+	
+	public function setParam(string $param,$value){
+		$this->params[$param]=$value;
+	}
 }
