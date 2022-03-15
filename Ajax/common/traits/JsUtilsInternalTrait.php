@@ -27,14 +27,14 @@ trait JsUtilsInternalTrait {
 	}
 
 	protected function defer($script) {
-		$result = "window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { defer(method) }, 50);};";
-		$result .= "window.defer(function(){" . $script . "})";
+		$result = "window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { window.defer(method); }, 50);};";
+		$result .= "window.defer(function(){" . $script . "});";
 		return $result;
 	}
 
 	protected function ready($script) {
-		$result = '$(document).ready(function() {' . "\n";
-		$result .= $script . '})';
+		$result = '$(function() {' . "\n";
+		$result .= $script . '});';
 		return $result;
 	}
 
