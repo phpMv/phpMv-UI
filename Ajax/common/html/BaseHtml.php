@@ -96,14 +96,14 @@ abstract class BaseHtml extends BaseWidget {
 		return $this;
 	}
 
-	protected function addToMember(&$name, $value, $separator = " ") {
-		$name = str_ireplace($value, "", $name) . $separator . $value;
+	protected function addToMember(&$name, $value, $separator = ' ') {
+		$name = \str_ireplace($value, '', $name??'') . $separator . $value;
 		return $this;
 	}
 
 	protected function removeOldValues(&$oldValue, $allValues) {
-		$oldValue = str_ireplace($allValues, "", $oldValue);
-		$oldValue = trim($oldValue);
+		$oldValue = \str_ireplace($allValues, '', $oldValue??'');
+		$oldValue = \trim($oldValue);
 	}
 
 	protected function _getElementBy($callback, $elements) {
