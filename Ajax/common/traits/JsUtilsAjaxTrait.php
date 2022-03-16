@@ -33,7 +33,7 @@ trait JsUtilsAjaxTrait {
 		$retour = $this->_getAjaxUrl($url, $attr);
 		$originalSelector = $responseElement;
 		$responseElement = $this->_getResponseElement($responseElement);
-		$retour .= "var self=this;\n";
+		$retour .= "let self=this;\n";
 		$before = isset($before) ? $before : "";
 		$retour .= $before;
 		if ($hasLoader === true && JString::isNotNull($responseElement)) {
@@ -66,10 +66,10 @@ trait JsUtilsAjaxTrait {
 		}
 		if (isset($partial)) {
 			$ajaxParameters["xhr"] = "xhrProvider";
-			$retour .= "var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
+			$retour .= "let xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
 		} elseif (isset($upload)) {
 			$ajaxParameters["xhr"] = "xhrProvider";
-			$retour .= 'var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.upload.addEventListener("progress", function(event) {if (event.lengthComputable) {' . $upload . '}}, false);';
+			$retour .= 'let xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.upload.addEventListener("progress", function(event) {if (event.lengthComputable) {' . $upload . '}}, false);';
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data, textStatus, jqXHR ) {\n";
@@ -125,7 +125,7 @@ trait JsUtilsAjaxTrait {
 
 	protected function _getAjaxUrl($url, $attr) {
 		$url = $this->_correctAjaxUrl($url);
-		$retour = "url='" . $url . "';";
+		$retour = "let url='" . $url . "';";
 		$slash = "/";
 		if (JString::endswith($url, "/") === true) {
 			$slash = "";
@@ -147,12 +147,12 @@ trait JsUtilsAjaxTrait {
 	}
 
 	protected function onPopstate() {
-		return "window.onpopstate = function(e){if(e.state){var target=e.state.jqueryDone;$(e.state.selector)[target](e.state.html);}};";
+		return "window.onpopstate = function(e){if(e.state){let target=e.state.jqueryDone;$(e.state.selector)[target](e.state.html);}};";
 	}
 
 	protected function autoActiveLinks($previousURL = "window.location.href") {
-		$result = "\nfunction getHref(url) { return \$('a').filter(function(){return \$(this).prop('href') == url; });}";
-		$result .= "\nvar myurl={$previousURL};if(window._previousURL) getHref(window._previousURL).removeClass('active');getHref(myurl).addClass('active');window._previousURL=myurl;";
+		$result = "\nif (typeof getHref !== 'function'){function getHref(url) { return \$('a').filter(function(){return \$(this).prop('href') == url; });}}";
+		$result .= "\nlet myurl={$previousURL};if(window._previousURL) getHref(window._previousURL).removeClass('active');getHref(myurl).addClass('active');window._previousURL=myurl;";
 		return $result;
 	}
 
@@ -460,10 +460,10 @@ trait JsUtilsAjaxTrait {
 		}
 		$appendTo = "\t\tnewElm.appendTo(" . $parent . ");\n";
 		$retour = $parent . ".find('.{$rowClass}').remove();";
-		$retour .= "\tdata=($.isPlainObject(data)||$.isArray(data))?data:JSON.parse(data);\n$.each(data, function(index, value) {\n" . "\tvar created=false;var maskElm=$('" . $maskSelector . "').first();maskElm.hide();" . "\tvar newId=(maskElm.attr('id') || 'mask')+'-'+index;" . "\tvar newElm=" . $newElm . ";\n" . "\tif(!newElm.length){\n" . "\t\tnewElm=maskElm.clone();
-		newElm.attr('id',newId);\n;newElm.addClass('{$rowClass}').removeClass('_jsonArrayModel');\nnewElm.find('[id]').each(function(){ var newId=$(this).attr('id')+'-'+index;$(this).attr('id',newId).removeClass('_jsonArrayChecked');});\n";
+		$retour .= "\tdata=($.isPlainObject(data)||$.isArray(data))?data:JSON.parse(data);\n$.each(data, function(index, value) {\n" . "\tlet created=false;let maskElm=$('" . $maskSelector . "').first();maskElm.hide();" . "\tlet newId=(maskElm.attr('id') || 'mask')+'-'+index;" . "\tlet newElm=" . $newElm . ";\n" . "\tif(!newElm.length){\n" . "\t\tnewElm=maskElm.clone();
+		newElm.attr('id',newId);\n;newElm.addClass('{$rowClass}').removeClass('_jsonArrayModel');\nnewElm.find('[id]').each(function(){ let newId=$(this).attr('id')+'-'+index;$(this).attr('id',newId).removeClass('_jsonArrayChecked');});\n";
 		$retour .= $appendTo;
-		$retour .= "\t}\n" . "\tfor(var key in value){\n" . "\t\t\tvar html = $('<div />').append($(newElm).clone()).html();\n" . "\t\t\tif(html.indexOf('__'+key+'__')>-1){\n" . "\t\t\t\tcontent=$(html.split('__'+key+'__').join(value[key]));\n" . "\t\t\t\t$(newElm).replaceWith(content);newElm=content;\n" . "\t\t\t}\n" . "\t\tvar sel='[data-id=\"'+key+'\"]';if($(sel,newElm).length){\n" . "\t\t\tvar selElm=$(sel,newElm);\n" . "\t\t\t if(selElm.is('[value]')) { selElm.attr('value',value[key]);selElm.val(value[key]);} else { selElm.html(value[key]); }\n" . "\t\t}\n" . "}\n" . "\t$(newElm).show(true);" . "\n" . "\t$(newElm).removeClass('hide');" . "});\n";
+		$retour .= "\t}\n" . "\tfor(var key in value){\n" . "\t\t\tlet html = $('<div />').append($(newElm).clone()).html();\n" . "\t\t\tif(html.indexOf('__'+key+'__')>-1){\n" . "\t\t\t\tcontent=$(html.split('__'+key+'__').join(value[key]));\n" . "\t\t\t\t$(newElm).replaceWith(content);newElm=content;\n" . "\t\t\t}\n" . "\t\tlet sel='[data-id=\"'+key+'\"]';if($(sel,newElm).length){\n" . "\t\t\tlet selElm=$(sel,newElm);\n" . "\t\t\t if(selElm.is('[value]')) { selElm.attr('value',value[key]);selElm.val(value[key]);} else { selElm.html(value[key]); }\n" . "\t\t}\n" . "}\n" . "\t$(newElm).show(true);" . "\n" . "\t$(newElm).removeClass('hide');" . "});\n";
 		$retour .= "\t$(document).trigger('jsonReady',[data]);\n";
 		$retour .= "\t" . $jsCallback;
 		$parameters["jsCallback"] = $retour;
@@ -641,7 +641,7 @@ trait JsUtilsAjaxTrait {
 			$parameters['historize'] = true;
 		}
 		if (! isset($parameters['jsCallback'])) {
-			$parameters['jsCallback'] = 'var event = jQuery.Event( "getHref" );event.url = url;$(self).trigger(event);';
+			$parameters['jsCallback'] = 'let event = jQuery.Event( "getHref" );event.url = url;$(self).trigger(event);';
 		}
 		return $this->getOnClick($element, "", $responseElement, $parameters);
 	}
@@ -697,7 +697,7 @@ trait JsUtilsAjaxTrait {
 			$parameters['hasLoader'] = '$(self).find("button, input[type=submit], input[type=button]")';
 		}
 		if (! isset($parameters['jsCallback'])) {
-			$parameters['jsCallback'] = 'var event = jQuery.Event( "postFormAction" );event.params = Object.fromEntries(new URLSearchParams(params));$(self).trigger(event);';
+			$parameters['jsCallback'] = 'let event = jQuery.Event( "postFormAction" );event.params = Object.fromEntries(new URLSearchParams(params));$(self).trigger(event);';
 		}
 		return $this->postFormOn('submit', $element, '', $formId, $responseElement, $parameters);
 	}
@@ -794,15 +794,15 @@ trait JsUtilsAjaxTrait {
 		$form = $this->_getFormElement($form);
 		$retour .= "\n$('#'+" . $form . ").trigger('ajaxSubmit');";
 		if (! isset($contentType) || $contentType != 'false') {
-			$retour .= "\nvar params=$('#'+" . $form . ").serialize();\n";
+			$retour .= "\nlet params=$('#'+" . $form . ").serialize();\n";
 			if (isset($params)) {
 				$retour .= "params+='&'+" . self::_correctParams($params) . ";\n";
 			}
 		} else {
-			$retour .= "\nvar params=new FormData($('#'+" . $form . ")[0]);\n";
+			$retour .= "\nlet params=new FormData($('#'+" . $form . ")[0]);\n";
 		}
 		$responseElement = $this->_getResponseElement($responseElement);
-		$retour .= "var self=this;\n";
+		$retour .= "let self=this;\n";
 		$before = isset($before) ? $before : "";
 		$retour .= $before;
 		if ($hasLoader === true) {
@@ -827,7 +827,7 @@ trait JsUtilsAjaxTrait {
 		}
 		if (isset($partial)) {
 			$ajaxParameters["xhr"] = "xhrProvider";
-			$retour .= "var xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
+			$retour .= "let xhr = $.ajaxSettings.xhr();function xhrProvider() {return xhr;};xhr.onreadystatechange = function (e) { if (3==e.target.readyState){let response=e.target.responseText;" . $partial . ";}; };";
 		}
 		$this->createAjaxParameters($ajaxParameters, $parameters);
 		$retour .= "$.ajax({" . $this->implodeAjaxParameters($ajaxParameters) . "}).done(function( data ) {\n";

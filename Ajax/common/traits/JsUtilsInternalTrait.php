@@ -27,8 +27,8 @@ trait JsUtilsInternalTrait {
 	}
 
 	protected function defer($script) {
-		$result = "window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { window.defer(method); }, 50);};";
-		$result .= "window.defer(function(){" . $script . "});";
+		$result = "(function(){window.defer=function (method) {if (window.jQuery) method(); else setTimeout(function() { window.defer(method); }, 50);};";
+		$result .= "window.defer(function(){" . $script . "})})()";
 		return $result;
 	}
 
