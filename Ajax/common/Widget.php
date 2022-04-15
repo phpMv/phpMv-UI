@@ -71,6 +71,7 @@ abstract class Widget extends HtmlDoubleElement {
 		$this->_template = "%wrapContentBefore%%content%%wrapContentAfter%";
 		$this->setModel($model);
 		if (isset($modelInstance)) {
+			$this->_model=get_class($modelInstance);
 			$this->show($modelInstance);
 		}
 		$this->_generated = false;
