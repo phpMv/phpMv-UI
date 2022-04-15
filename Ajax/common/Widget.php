@@ -65,13 +65,15 @@ abstract class Widget extends HtmlDoubleElement {
 	protected $_runned;
 
 	protected $_hasRules;
-	
+
 	public function __construct($identifier, $model, $modelInstance = NULL) {
 		parent::__construct($identifier);
 		$this->_template = "%wrapContentBefore%%content%%wrapContentAfter%";
 		$this->setModel($model);
 		if (isset($modelInstance)) {
-			$this->_model=get_class($modelInstance);
+			if (\is_object($modelInstance)) {
+				$this->_model = \get_class($modelInstance);
+			}
 			$this->show($modelInstance);
 		}
 		$this->_generated = false;
@@ -481,7 +483,7 @@ abstract class Widget extends HtmlDoubleElement {
 			$noValidate = "";
 			if (\sizeof($this->_form->getValidationParams()) > 0)
 				$noValidate = "novalidate";
-				$this->wrapContent("<form class='".$this->_form->getProperty('class')."' id='frm-" . $this->identifier . "' name='frm-" . $this->identifier . "' " . $noValidate . ">", "</form>");
+			$this->wrapContent("<form class='" . $this->_form->getProperty('class') . "' id='frm-" . $this->identifier . "' name='frm-" . $this->identifier . "' " . $noValidate . ">", "</form>");
 		}
 	}
 
@@ -544,5 +546,4 @@ abstract class Widget extends HtmlDoubleElement {
 	public function hasRules() {
 		return $this->_hasRules;
 	}
-	
 }
