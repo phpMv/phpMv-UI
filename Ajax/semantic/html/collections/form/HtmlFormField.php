@@ -2,6 +2,7 @@
 namespace Ajax\semantic\html\collections\form;
 
 use Ajax\JsUtils;
+use Ajax\semantic\components\validation\Rule;
 use Ajax\semantic\html\base\HtmlSemDoubleElement;
 use Ajax\semantic\html\base\constants\Wide;
 use Ajax\semantic\html\base\constants\State;
@@ -140,7 +141,11 @@ class HtmlFormField extends HtmlSemDoubleElement {
 			if (! isset($this->_validation)) {
 				$this->_validation = new FieldValidation($field->getIdentifier());
 			}
-			if ($type === 'empty' || ($type['type'] ?? '') === 'empty') {
+			if($type instanceof Rule){
+				if($type->getType()=='empty'){
+					$this->addToProperty('class', 'required');
+				}
+			}elseif ($type === 'empty' || ($type['type'] ?? '') === 'empty') {
 				$this->addToProperty('class', 'required');
 			}
 			$this->_validation->addRule($type, $prompt, $value);

@@ -15,7 +15,7 @@ class JsUtils extends \Ajax\JsUtils {
 	 */
 	protected function _open_script($src = '') {
 		$str = '<script ';
-		if (($this->params['csp']??false)==='nonce' && ContentSecurityManager::isStarted()) {
+		if (($this->params['csp'] ?? false) === 'nonce' && ContentSecurityManager::isStarted()) {
 			$nonce = ContentSecurityManager::getNonce('jsUtils');
 			$str .= ' nonce="' . $nonce . '" ';
 		}
@@ -24,13 +24,12 @@ class JsUtils extends \Ajax\JsUtils {
 	}
 
 	public function inline($script, $cdata = true) {
-		if (($this->params['csp']??false)==='hash' && ContentSecurityManager::isStarted()) {
-			$script= ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
-			ContentSecurityManager::getHash('jsUtils',$script);
+		if (($this->params['csp'] ?? false) === 'hash' && ContentSecurityManager::isStarted()) {
+			$script = ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
+			ContentSecurityManager::getHash('jsUtils', $script);
 		}
-		return $this->_open_script().$script.$this->_close_script();
+		return $this->_open_script() . $script . $this->_close_script();
 	}
-
 
 	public function getUrl($url) {
 		return URequest::getUrl($url);
@@ -75,9 +74,7 @@ class JsUtils extends \Ajax\JsUtils {
 		if (isset($this->injected)) {
 			$view = $this->injected->getView();
 			$this->compile($view);
-			if (isset($parameters))
-				$view->setVars($parameters);
-			return $view->render($viewName, $asString);
+			return $this->injected->loadView($viewName, $parameters, $asString);
 		}
 		throw new \Exception(get_class() . " instance is not properly instancied : you omitted the second parameter \$controller!");
 	}
