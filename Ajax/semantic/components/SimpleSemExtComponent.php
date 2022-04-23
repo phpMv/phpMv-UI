@@ -45,7 +45,7 @@ class SimpleSemExtComponent extends SimpleExtComponent {
 
 	public function addComponentEvent($event,$jsCode){
 		$jsCode=\str_ireplace("\"","%quote%", $jsCode);
-		return $this->setParam($event, "%function(){".$jsCode."}%");
+		return $this->setParam($event, "%function(module){".$jsCode."}%");
 	}
 	
 	public function setJs(JsUtils $js){

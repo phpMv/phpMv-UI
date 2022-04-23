@@ -140,7 +140,7 @@ trait JsUtilsAjaxTrait {
 				$retour .= "url=url+'" . $slash . "'+" . \substr($attr, 3) . ";\n";
 			} elseif ($attr !== null && $attr !== "") {
 				$retour .= "let elmUrl=$(this).attr('" . $attr . "')||'';";
-				$retour .= "url=(!/^((http|https|ftp):\/\/)/.test(elmUrl))?url+'" . $slash . "'+elmUrl:elmUrl;\n";
+				$retour .= "url=!(new RegExp('^((http|https|ftp):\/\/)')).test(elmUrl)?url+'" . $slash . "'+elmUrl:elmUrl;\n";
 			}
 		}
 		return $retour;

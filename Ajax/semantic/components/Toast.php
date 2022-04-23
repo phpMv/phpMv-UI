@@ -47,6 +47,20 @@ class Toast extends SimpleSemExtComponent {
 		$this->params['title']=$title;
 		return $this;
 	}
+
+	public function setActions(array $actions){
+		foreach ($actions as &$action){
+			if(isset($action['click'])){
+				$js=\str_ireplace("\"","%quote%", $action['click']);
+				$action['click']="%function(){".$js."}%";
+			}
+		}
+		$this->params['actions']=$actions;
+		if(count($actions)>0) {
+			$this->params['displayTime'] = 0;
+		}
+		return $this;
+	}
 	
 	public function setMessage($message){
 		$this->params['message']=$message;
