@@ -8,7 +8,7 @@ use Ajax\JsUtils;
  * Ajax\semantic\components$Toast
  * This class is part of phpMv-ui
  * @author jcheron <myaddressmail@gmail.com>
- * @version 1.0.0
+ * @version 1.0.1
  * @since 2.3.0
  * @see https://fomantic-ui.com/modules/toast.html
  */
@@ -35,6 +35,11 @@ class Toast extends SimpleSemExtComponent {
 	
 	public function setShowIcon($value=false){
 		$this->params['showIcon']=$value;
+		return $this;
+	}
+
+	public function setPreserveHTML($value=false){
+		$this->params['preserveHTML']=$value;
 		return $this;
 	}
 	
