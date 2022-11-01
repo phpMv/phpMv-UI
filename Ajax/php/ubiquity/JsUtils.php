@@ -1,9 +1,11 @@
 <?php
 namespace Ajax\php\ubiquity;
 
+use Ajax\semantic\components\validation\Rule;
 use Ubiquity\controllers\Startup;
 use Ubiquity\utils\http\URequest;
 use Ubiquity\security\csp\ContentSecurityManager;
+use Ubiquity\utils\http\UResponse;
 
 class JsUtils extends \Ajax\JsUtils {
 
@@ -144,5 +146,33 @@ class JsUtils extends \Ajax\JsUtils {
 		$jquery->bootstrap(new \Ajax\Bootstrap());
 		$jquery->setAjaxLoader("<div class=\"d-flex justify-content-center\"><div class=\"spinner-border\" role=\"status\"><span class=\"sr-only\">Loading...</span></div></div>");
 		return $jquery;
+	}
+
+	/**
+	 * Adds a new semantic validation ajax rule.
+	 * To use with @checkValidationRule in controllers.
+	 * @param string $ruleName
+	 * @param string $checkUrl
+	 * @param string $params
+	 * @param string $method
+	 * @return void
+	 */
+	public function ajaxValidationRule(string $ruleName,string $checkUrl,string $params='{_value:value}',string $method='post'): void {
+		$this->exec(Rule::ajax($this, $ruleName, $checkUrl, $params, 'result=data.result;', $method), true);
+	}
+
+	/**
+	 * Checks a validation rule declared with @ajaxValidationRule.
+	 * @param $callback a callback using the value to validate : function($value){}
+	 * @return void
+	 */
+	public function checkValidationRule($callback): void {
+		if (URequest::isPost()) {
+			$result = [];
+			UResponse::asJSON();
+			$value = $_POST['_value'];
+			$result['result'] = $callback($value);
+			echo \json_encode($result);
+		}
 	}
 }
