@@ -68,13 +68,15 @@ abstract class BaseComponent {
 	}
 
 	public function setParams($params) {
-		foreach ( $params as $k => $v ) {
-			$method="set".ucfirst($k);
-			if (method_exists($this, $method))
-				$this->$method($v);
-			else {
-				$this->setParam($k, $v);
-				trigger_error("`{$k}` doesn't exists!", E_USER_NOTICE);
+		if(\is_array($params)) {
+			foreach ($params as $k => $v) {
+				$method = "set" . ucfirst($k);
+				if (method_exists($this, $method))
+					$this->$method($v);
+				else {
+					$this->setParam($k, $v);
+					trigger_error("`{$k}` doesn't exists!", E_USER_NOTICE);
+				}
 			}
 		}
 
