@@ -7,8 +7,9 @@ use Ajax\service\JString;
 /**
  * BaseWidget for Twitter Bootstrap, jQuery UI or Semantic rich components
  * @author jc
- * @version 1.001
+ * @version 1.0.2
  */
+#[\AllowDynamicProperties()]
 abstract class BaseWidget {
 	protected $identifier;
 	protected $_identifier;
