@@ -33,7 +33,7 @@ trait JsUtilsAjaxTrait {
 		$retour = $this->_getAjaxUrl($url, $attr);
 		$originalSelector = $responseElement;
 		$responseElement = $this->_getResponseElement($responseElement);
-		$retour .= "let self=this;\n";
+		$retour .= "self=this;\n";
 		$before = isset($before) ? $before : "";
 		$retour .= $before;
 		if ($hasLoader === true && JString::isNotNull($responseElement)) {
@@ -80,7 +80,6 @@ trait JsUtilsAjaxTrait {
 		$retour .= '.always(function( dataOrjqXHR, textStatus, jqXHROrerrorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
 		$retour .= ";\n";
 		$retour = $this->_addJsCondition($jsCondition, $retour);
-        $retour='(function(){'.$retour.'})();';
 		if ($immediatly) {
 			$this->jquery_code_for_compile[] = $retour;
 		}
@@ -126,7 +125,7 @@ trait JsUtilsAjaxTrait {
 
 	protected function _getAjaxUrl($url, $attr) {
 		$url = $this->_correctAjaxUrl($url);
-		$retour = "let url='" . $url . "';";
+		$retour = "url='" . $url . "';";
 		$slash = "/";
 		if (JString::endswith($url, "/") === true) {
 			$slash = "";
