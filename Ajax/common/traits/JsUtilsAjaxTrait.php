@@ -80,6 +80,7 @@ trait JsUtilsAjaxTrait {
 		$retour .= '.always(function( dataOrjqXHR, textStatus, jqXHROrerrorThrown ) {' . ($always ?? '') . $this->removeLoader($hasLoader) . '})';
 		$retour .= ";\n";
 		$retour = $this->_addJsCondition($jsCondition, $retour);
+        $retour='(function(){'.$retour.'})();';
 		if ($immediatly) {
 			$this->jquery_code_for_compile[] = $retour;
 		}
