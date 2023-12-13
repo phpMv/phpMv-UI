@@ -16,7 +16,7 @@ abstract class BusinessForm extends DataForm {
 	 *
 	 * @see \Ajax\semantic\widgets\dataform\DataForm::__construct()
 	 */
-	public function __construct($identifier,$modelInstance=null,$fieldsOrder,$fieldsDefinition,$fields=[],$captions=[],$separators=[]) {
+	public function __construct($identifier,$modelInstance=null,$fieldsOrder=[],$fieldsDefinition=[],$fields=[],$captions=[],$separators=[]) {
 		if(!isset($modelInstance)){
 			$modelInstance=$this->getDefaultModelInstance();
 		}
