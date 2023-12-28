@@ -11,48 +11,45 @@ use Ajax\semantic\traits\SemanticHtmlViewsTrait;
 use Ajax\semantic\traits\SemanticWidgetsTrait;
 
 class Semantic extends BaseGui {
-	use SemanticComponentsTrait,SemanticHtmlElementsTrait,SemanticHtmlCollectionsTrait,
-	SemanticHtmlModulesTrait,SemanticHtmlViewsTrait,SemanticWidgetsTrait;
+    use SemanticComponentsTrait,SemanticHtmlElementsTrait,SemanticHtmlCollectionsTrait,
+        SemanticHtmlModulesTrait,SemanticHtmlViewsTrait,SemanticWidgetsTrait;
 
-	private $language;
+    private $language;
 
-    private $style;
+    private $inverted;
 
-	public function __construct($autoCompile=true) {
-		parent::__construct($autoCompile);
-	}
+    public function __construct($autoCompile=true) {
+        parent::__construct($autoCompile);
+    }
 
 
-	public function setLanguage($language){
-		if($language!==$this->language){
-			$file=\realpath(dirname(__FILE__)."/semantic/components/validation/languages/".$language.".js");
-			if(\file_exists($file)){
-				$script=\file_get_contents($file);
-				$this->js->exec($script,true);
-				$this->language=$language;
-			}
-		}
-	}
-
-    public function compile($internal = false) {
-        if($this->style!=null){
-            parent::compile($internal);
-        }else {
-            if ($internal === false && $this->autoCompile === true)
-                throw new \Exception("Impossible to compile if autoCompile is set to 'true'");
-            $style=$this->style;
-            foreach ($this->components as $component) {
-                $component->addToProperty("class", $style);
-                $component->compile();
+    public function setLanguage($language){
+        if($language!==$this->language){
+            $file=\realpath(dirname(__FILE__)."/semantic/components/validation/languages/".$language.".js");
+            if(\file_exists($file)){
+                $script=\file_get_contents($file);
+                $this->js->exec($script,true);
+                $this->language=$language;
             }
         }
     }
 
-    public function setStyle($style='inverted'){
-        $this->style=$style;
+    public function compileHtml(JsUtils $js = NULL, &$view = NULL) {
+        if($this->inverted==null){
+            parent::compileHtml($js,$view);
+        }else {
+            foreach ($this->htmlComponents as $htmlComponent) {
+                $htmlComponent->setInverted(true);
+                $htmlComponent->compile($js, $view);
+            }
+        }
     }
 
-    public function getStyle(){
-        return $this->style;
+    public function setInverted($inverted='inverted'){
+        $this->inverted=$inverted;
+    }
+
+    public function getInverted(){
+        return $this->inverted;
     }
 }
