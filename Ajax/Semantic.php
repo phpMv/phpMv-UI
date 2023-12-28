@@ -16,6 +16,8 @@ class Semantic extends BaseGui {
 
 	private $language;
 
+    private $style;
+
 	public function __construct($autoCompile=true) {
 		parent::__construct($autoCompile);
 	}
@@ -31,4 +33,26 @@ class Semantic extends BaseGui {
 			}
 		}
 	}
+
+    public function compile($internal = false) {
+        if($this->style!=null){
+            parent::compile($internal);
+        }else {
+            if ($internal === false && $this->autoCompile === true)
+                throw new \Exception("Impossible to compile if autoCompile is set to 'true'");
+            $style=$this->style;
+            foreach ($this->components as $component) {
+                $component->addToProperty("class", $style);
+                $component->compile();
+            }
+        }
+    }
+
+    public function setStyle($style='inverted'){
+        $this->style=$style;
+    }
+
+    public function getStyle(){
+        return $this->style;
+    }
 }
