@@ -1,6 +1,7 @@
 <?php
 namespace Ajax\php\ubiquity;
 
+use Ajax\common\html\BaseHtml;
 use Ajax\semantic\components\validation\Rule;
 use Ubiquity\controllers\Startup;
 use Ubiquity\utils\http\URequest;
@@ -80,6 +81,19 @@ class JsUtils extends \Ajax\JsUtils {
 		}
 		throw new \Exception(get_class() . " instance is not properly instancied : you omitted the second parameter \$controller!");
 	}
+
+    /**
+     * Compile and render a component.
+     *
+     * @param BaseHtml $component
+     * @param bool $asString
+     * @return mixed
+     * @throws \Exception
+     */
+    public function renderComponent(BaseHtml $component, bool $asString = false) {
+        $component->setLibraryId('_compo_');
+        return $this->renderView('@framework/main/component.html',[],$asString);
+    }
 
 	/**
 	 * Performs jQuery compilation and displays the default view
@@ -175,4 +189,12 @@ class JsUtils extends \Ajax\JsUtils {
 			echo \json_encode($result);
 		}
 	}
+
+    public function applyInverted(){
+        $this->setParam('beforeCompileHtml', function ($elm) {
+            if (\method_exists($elm, 'setInverted')) {
+                $elm->setInverted(false);
+            }
+        });
+    }
 }

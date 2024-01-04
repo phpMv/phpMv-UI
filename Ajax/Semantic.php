@@ -16,12 +16,9 @@ class Semantic extends BaseGui {
 
     private $language;
 
-    private $inverted;
-
     public function __construct($autoCompile=true) {
         parent::__construct($autoCompile);
     }
-
 
     public function setLanguage($language){
         if($language!==$this->language){
@@ -32,24 +29,5 @@ class Semantic extends BaseGui {
                 $this->language=$language;
             }
         }
-    }
-
-    public function compileHtml(JsUtils $js = NULL, &$view = NULL) {
-        if($this->inverted==null){
-            parent::compileHtml($js,$view);
-        }else {
-            foreach ($this->htmlComponents as $htmlComponent) {
-                $htmlComponent->setInverted(true);
-                $htmlComponent->compile($js, $view);
-            }
-        }
-    }
-
-    public function setInverted($inverted='inverted'){
-        $this->inverted=$inverted;
-    }
-
-    public function getInverted(){
-        return $this->inverted;
     }
 }
