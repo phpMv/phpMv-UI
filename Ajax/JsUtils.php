@@ -358,9 +358,18 @@ abstract class JsUtils {
 	 *
 	 * @return void
 	 */
-	public function clear_compile() {
-		$this->jquery_code_for_compile = $this->jquery_code_for_compile_at_last = [];
-	}
+    public function clear_compile() {
+        $this->jquery_code_for_compile = $this->jquery_code_for_compile_at_last = [];
+        if($this->_bootstrap!==null){
+            $this->_bootstrap->clearComponents();
+        }
+        if($this->_semantic!==null){
+            $this->_semantic->clearComponents();
+        }
+        if($this->_ui!==null){
+            $this->_ui->clearComponents();
+        }
+    }
 
 	public function getScript($offset = 0) {
 		$code = \array_merge($this->jquery_code_for_compile, $this->jquery_code_for_compile_at_last);

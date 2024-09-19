@@ -93,4 +93,8 @@ class BaseGui {
 	public function getHtmlComponent($identifier){
 		return $this->htmlComponents[$identifier]??'';
 	}
+    public function clearComponents(){
+        $this->components=[];
+        $this->htmlComponents=[];
+    }
 }
