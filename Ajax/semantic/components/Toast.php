@@ -14,7 +14,7 @@ use Ajax\JsUtils;
  */
 class Toast extends SimpleSemExtComponent {
 
-	public function __construct(JsUtils $js=NULL) {
+	public function __construct(?JsUtils $js=NULL) {
 		parent::__construct($js);
 		$this->uiName='toast';
 	}

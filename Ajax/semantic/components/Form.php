@@ -14,7 +14,7 @@ class Form extends SimpleSemExtComponent {
 	/**
 	 * @var array
 	 */
-	public function __construct(JsUtils $js=null) {
+	public function __construct(?JsUtils $js=null) {
 		parent::__construct($js);
 		$this->uiName="form";
 		$this->params["fields"]=[];

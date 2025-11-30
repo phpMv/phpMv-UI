@@ -7,7 +7,7 @@ use Ajax\JsUtils;
 
 class SimpleSemExtComponent extends SimpleExtComponent {
 	protected $paramParts;
-	public function __construct(JsUtils $js=NULL) {
+	public function __construct(?JsUtils $js=NULL) {
 		parent::__construct($js);
 		$this->paramParts=array();
 	}

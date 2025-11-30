@@ -15,7 +15,7 @@ use Ajax\service\JString;
  */
 class Slider extends SimpleSemExtComponent {
 
-	public function __construct(JsUtils $js=NULL) {
+	public function __construct(?JsUtils $js=NULL) {
 		parent::__construct($js);
 		$this->uiName='slider';
 	}
