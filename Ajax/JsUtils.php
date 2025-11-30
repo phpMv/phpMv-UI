@@ -216,13 +216,13 @@ abstract class JsUtils {
 			'autoActiveLinks' => true
 		];
 		foreach ($defaults as $key => $val) {
-			if (isset($params[$key]) === false || $params[$key] === "") {
+			if (isset($params[$key]) === false || $params[$key] === '') {
 				$params[$key] = $defaults[$key];
 			}
 		}
 		foreach ($ajaxDefault as $key => $val) {
-			if (isset($params["ajax"][$key]) === false || $params["ajax"][$key] === "") {
-				$params["ajax"][$key] = $ajaxDefault[$key];
+			if (isset($params['ajax'][$key]) === false || $params['ajax'][$key] === '') {
+				$params['ajax'][$key] = $ajaxDefault[$key];
 			}
 		}
 
