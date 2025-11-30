@@ -26,7 +26,7 @@ class JsUtils extends \Ajax\JsUtils {
 		return $str;
 	}
 
-	public function inline(string $script, bool $cdata = true) {
+	public function inline(string $script, bool $cdata = true): string{
 		if (($this->params['csp'] ?? false) === 'hash' && ContentSecurityManager::isStarted()) {
 			$script = ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
 			ContentSecurityManager::getHash('jsUtils', $script);
@@ -135,7 +135,7 @@ class JsUtils extends \Ajax\JsUtils {
 	 * @param array $options
 	 * @return \Ajax\php\ubiquity\JsUtils
 	 */
-	public static function diSemantic($controller, $options = [
+	public static function diSemantic($controller, array $options = [
 		'defer' => true,
 		'gc' => true
 	]) {
@@ -152,7 +152,7 @@ class JsUtils extends \Ajax\JsUtils {
 	 * @param array $options
 	 * @return \Ajax\php\ubiquity\JsUtils
 	 */
-	public static function diBootstrap($controller, $options = [
+	public static function diBootstrap($controller, array $options = [
 		'defer' => true,
 		'gc' => true
 	]) {
