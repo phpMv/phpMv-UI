@@ -26,7 +26,7 @@ class JsUtils extends \Ajax\JsUtils {
 		return $str;
 	}
 
-	public function inline($script, $cdata = true) {
+	public function inline(string $script, bool $cdata = true) {
 		if (($this->params['csp'] ?? false) === 'hash' && ContentSecurityManager::isStarted()) {
 			$script = ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
 			ContentSecurityManager::getHash('jsUtils', $script);

@@ -173,7 +173,7 @@ abstract class JsUtils {
 	 * @param Config|null $config
 	 * @return Config
 	 */
-	public function config(Config $config = NULL) {
+	public function config(?Config $config = NULL) {
 		if ($config === NULL) {
 			if ($this->config === NULL) {
 				$this->config = new DefaultConfig();
@@ -392,7 +392,7 @@ abstract class JsUtils {
 	 *        	If a CDATA section should be added
 	 * @return string
 	 */
-	public function inline($script, $cdata = TRUE) {
+	public function inline(string $script, bool $cdata = TRUE): string {
 		$str = $this->_open_script();
 		$str .= ($cdata) ? "\n// <![CDATA[\n{$script}\n// ]]>\n" : "\n{$script}\n";
 		$str .= $this->_close_script();
@@ -524,7 +524,7 @@ abstract class JsUtils {
 		return $this->injected;
 	}
 	
-	public function setParam(string $param,$value){
+	public function setParam(string $param,mixed $value): void {
 		$this->params[$param]=$value;
 	}
 }
