@@ -19,7 +19,7 @@ class HtmlFormField extends HtmlSemDoubleElement {
 
 	protected $_validation;
 
-	public function __construct($identifier, $field, $label = NULL) {
+	public function __construct($identifier, $field, ?string $label = NULL) {
 		parent::__construct($identifier, "div", "field");
 		$this->content = array();
 		$this->_states = [

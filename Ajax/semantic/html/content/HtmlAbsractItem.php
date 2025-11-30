@@ -99,7 +99,7 @@ abstract class HtmlAbsractItem extends HtmlSemDoubleElement {
 	 *
 	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::compile()
 	 */
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		if(\is_array($this->content) && JArray::isAssociative($this->content))
 			$this->content=JArray::sortAssociative($this->content, [ "right-content","icon","image","content" ]);
 		return parent::compile($js, $view);

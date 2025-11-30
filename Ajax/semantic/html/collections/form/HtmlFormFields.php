@@ -69,7 +69,7 @@ class HtmlFormFields extends HtmlSemCollection {
 		return parent::getItem($index);
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		if ($this->_equalWidth) {
 			$count=$this->count();
 			$this->addToProperty("class", Wide::getConstants()["W".$count]." fields");

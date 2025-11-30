@@ -73,7 +73,7 @@ class HtmlStep extends HtmlSemCollection{
 		return $this;
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		if(isset($this->_activeStep) && \is_numeric($this->_activeStep))
 			$this->defineActiveStep();
 		return parent::compile($js,$view);
@@ -84,7 +84,7 @@ class HtmlStep extends HtmlSemCollection{
 		return $this;
 	}
 
-	public function setAttached($side="",HtmlDoubleElement $toElement=NULL){
+	public function setAttached($side="",?HtmlDoubleElement $toElement=NULL){
 		if(isset($toElement)){
 			$toElement->addToPropertyCtrl("class", "attached",array("attached"));
 		}

@@ -35,7 +35,7 @@ trait FormTrait{
 		$compo->addFieldValidation($validation);
 	}
 
-	protected function _runValidationParams(Form &$compo,JsUtils $js=NULL){
+	protected function _runValidationParams(Form &$compo, ?JsUtils $js=NULL){
 		$form=$this->getForm();
 		$params=$form->getValidationParams();
 		if(isset($params["_ajaxSubmit"])){
@@ -48,7 +48,7 @@ trait FormTrait{
 		$form->addEventsOnRun($js);
 	}
 
-	protected function _compileAjaxSubmit($ajaxSubmit,JsUtils $js=null){
+	protected function _compileAjaxSubmit($ajaxSubmit, ?JsUtils $js=null){
 		$compilation="";
 		if(\is_array($ajaxSubmit)){
 			foreach ($ajaxSubmit as $ajaxSubmitItem){
@@ -90,10 +90,10 @@ trait FormTrait{
 	 * @param string|BaseHtml $identifierOrElement
 	 * @param string $url
 	 * @param string $responseElement
-	 * @param array $parameters
+	 * @param array|null $parameters
 	 * @return HtmlForm
 	 */
-	public function submitOn($event,$identifierOrElement,$url,$responseElement,$parameters=NULL){
+	public function submitOn(string $event, BaseHtml|string $identifierOrElement, string $url, string $responseElement, ?array $parameters=NULL): HtmlForm {
 		$form=$this->getForm();
 		if($identifierOrElement  instanceof BaseHtml)
 			$elem=$identifierOrElement;
@@ -105,11 +105,11 @@ trait FormTrait{
 		return $form;
 	}
 
-	public function submitOnClick($identifier,$url,$responseElement,$parameters=NULL){
+	public function submitOnClick(string $identifier,string $url,string $responseElement,?array $parameters=NULL){
 		return $this->submitOn("click", $identifier, $url, $responseElement,$parameters);
 	}
 
-	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL,$parameters=NULL){
+	public function addSubmit($identifier,$value,$cssStyle=NULL,$url=NULL,$responseElement=NULL,?array $parameters=NULL){
 		$bt=$this->getForm()->addButton($identifier, $value,$cssStyle);
 		return $this->_buttonAsSubmit($bt, "click",$url,$responseElement,$parameters);
 	}
@@ -133,7 +133,7 @@ trait FormTrait{
 		return $this;
 	}
 
-	public function addReset($identifier,$value,$cssStyle=NULL){
+	public function addReset(string $identifier,string $value,?string $cssStyle=NULL){
 		$bt=$this->getForm()->addButton($identifier, $value,$cssStyle);
 		$bt->setProperty("type", "reset");
 		return $bt;
@@ -144,7 +144,7 @@ trait FormTrait{
 	 * @param string $jsCode
 	 * @return \Ajax\semantic\html\collections\form\HtmlForm
 	 */
-	public function onValid($jsCode){
+	public function onValid(string $jsCode){
 		$form=$this->getForm();
 		$form->addValidationParam("onValid", "%function(){".$jsCode."}%");
 		return $form;
@@ -155,7 +155,7 @@ trait FormTrait{
 	 * @param string $jsCode can use event and fields parameters
 	 * @return HtmlForm
 	 */
-	public function onSuccess($jsCode){
+	public function onSuccess(string $jsCode): HtmlForm {
 		$form=$this->getForm();
 		$form->addValidationParam("onSuccess", $jsCode,"%function(event,fields){","}%");
 		return $form;
@@ -169,13 +169,13 @@ trait FormTrait{
 		}
 	}
 	
-	public function addExtraFieldRule($fieldname,$type,$prompt=NULL,$value=NULL){
+	public function addExtraFieldRule(string $fieldname,string $type,$prompt=NULL,$value=NULL){
 		$form=$this->getForm();
 		$fv=$form->getExtraFieldValidation($fieldname);
 		$fv->addRule($type,$prompt,$value);
 	}
 	
-	public function setOptional($fieldname,$optional=true){
+	public function setOptional(string $fieldname,bool $optional=true){
 		$form=$this->getForm();
 		$fv=$form->getExtraFieldValidation($fieldname);
 		$fv->setOptional($optional);

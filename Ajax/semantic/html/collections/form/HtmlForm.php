@@ -145,12 +145,12 @@ class HtmlForm extends HtmlSemCollection {
 	 *
 	 * @param string $identifier
 	 * @param string $content
-	 * @param string $header
-	 * @param string $icon
-	 * @param string $type
+	 * @param string|null $header
+	 * @param string|null $icon
+	 * @param string|null $type
 	 * @return HtmlMessage
 	 */
-	public function addMessage($identifier, $content, $header=NULL, $icon=NULL, $type=NULL) {
+	public function addMessage(string $identifier, string $content, ?string $header=NULL, ?string $icon=NULL, ?string $type=NULL): HtmlFormField|HtmlMessage {
 		$message=new HtmlMessage($identifier, $content);
 		if (isset($header))
 			$message->addHeader($header);
