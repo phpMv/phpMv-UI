@@ -17,7 +17,7 @@
 		"framework"
 	],
 	"require": {
-		"php": ">7.0",
+		"php": ">=8.5",
 		"frameworks/jquery": "~2.1"
 	},
 	"suggest": {

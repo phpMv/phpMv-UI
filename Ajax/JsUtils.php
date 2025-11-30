@@ -117,10 +117,10 @@ abstract class JsUtils {
 	/**
 	 * getter or setter of the jQuery-UI variable
 	 *
-	 * @param JqueryUI $ui
+	 * @param JqueryUI|null $ui
 	 * @return JqueryUI
 	 */
-	public function ui(JqueryUI $ui = NULL) {
+	public function ui(?JqueryUI $ui = NULL) {
 		if ($ui !== NULL) {
 			$this->_ui = $ui;
 			$ui->setJs($this);
@@ -135,10 +135,10 @@ abstract class JsUtils {
 	/**
 	 * getter or setter of the Twitter Bootstrap variable
 	 *
-	 * @param Bootstrap $bootstrap
+	 * @param Bootstrap|null $bootstrap
 	 * @return Bootstrap
 	 */
-	public function bootstrap(Bootstrap $bootstrap = NULL) {
+	public function bootstrap(?Bootstrap $bootstrap = NULL) {
 		if ($bootstrap !== NULL) {
 			$this->_bootstrap = $bootstrap;
 			$bootstrap->setJs($this);
@@ -153,10 +153,10 @@ abstract class JsUtils {
 	/**
 	 * getter or setter of the Semantic-UI variable
 	 *
-	 * @param Semantic $semantic
+	 * @param Semantic|null $semantic
 	 * @return Semantic
 	 */
-	public function semantic(Semantic $semantic = NULL) {
+	public function semantic(?Semantic $semantic = NULL) {
 		if ($semantic !== NULL) {
 			$this->_semantic = $semantic;
 			$semantic->setJs($this);
@@ -170,10 +170,10 @@ abstract class JsUtils {
 
 	/**
 	 *
-	 * @param Config $config
+	 * @param Config|null $config
 	 * @return Config
 	 */
-	public function config($config = NULL) {
+	public function config(Config $config = NULL) {
 		if ($config === NULL) {
 			if ($this->config === NULL) {
 				$this->config = new DefaultConfig();
@@ -190,10 +190,10 @@ abstract class JsUtils {
 	 *
 	 * @param array $params
 	 *        	['debug'=>true,'defer'=>false,'ajax'=>['ajaxTransition'=>null,'attr'=>'','historize'=>false,'attr'=>''],'beforeCompileHtml'=>null,'semantic'=>false,'bootstrap'=>false,'historize'=>true,'autoActiveLinks'=>true]
-	 * @param mixed $injected
+	 * @param mixed|null $injected
 	 *        	optional param for Symfony/Ubiquity
 	 */
-	public function __construct($params = array(), $injected = NULL) {
+	public function __construct(array $params = array(), mixed $injected = NULL) {
 		$ajaxDefault = [
 			'ajaxTransition' => null,
 			'attr' => '',
@@ -269,7 +269,7 @@ abstract class JsUtils {
 				$this->bootstrap($value);
 				break;
 			case "semantic":
-				$this->semantic(value);
+				$this->semantic($value);
 				break;
 			case "ui":
 				$this->ui($value);
@@ -283,7 +283,7 @@ abstract class JsUtils {
 	 *
 	 * @param string $key
 	 */
-	public function getParam($key) {
+	public function getParam(string $key) {
 		if (isset($this->params[$key]))
 			return $this->params[$key];
 	}
@@ -310,13 +310,14 @@ abstract class JsUtils {
 	/**
 	 * gather together all script needing to be output
 	 *
-	 * @param object $view
+	 * @param object|null $view
 	 * @param string $view_var
 	 *        	view script variable name, default : script_foot
 	 * @param boolean $script_tags
 	 * @return string
 	 */
-	public function compile(&$view = NULL, $view_var = 'script_foot', $script_tags = TRUE) {
+	public function compile(?object &$view = NULL, string $view_var = 'script_foot', bool $script_tags = TRUE): string
+    {
 		if (isset($this->_ui)) {
 			$this->_compileLibrary($this->_ui, $view);
 		}
@@ -330,7 +331,7 @@ abstract class JsUtils {
 		$this->jquery_code_for_compile = \array_merge($this->jquery_code_for_compile, $this->jquery_code_for_compile_at_last);
 
 		if (\count($this->jquery_code_for_compile) == 0) {
-			return;
+			return '';
 		}
 		
 		// Inline references
@@ -358,7 +359,7 @@ abstract class JsUtils {
 	 *
 	 * @return void
 	 */
-    public function clear_compile() {
+    public function clear_compile(): void {
         $this->jquery_code_for_compile = $this->jquery_code_for_compile_at_last = [];
         if($this->_bootstrap!==null){
             $this->_bootstrap->clearComponents();
@@ -371,7 +372,7 @@ abstract class JsUtils {
         }
     }
 
-	public function getScript($offset = 0) {
+	public function getScript(int $offset = 0): string {
 		$code = \array_merge($this->jquery_code_for_compile, $this->jquery_code_for_compile_at_last);
 		if ($offset > 0) {
 			$code = \array_slice($code, $offset);
@@ -379,7 +380,7 @@ abstract class JsUtils {
 		return \implode('', $code);
 	}
 
-	public function scriptCount() {
+	public function scriptCount(): int {
 		return \count($this->jquery_code_for_compile);
 	}
 
@@ -407,7 +408,7 @@ abstract class JsUtils {
 	 *        	match array types (defaults to objects)
 	 * @return string json formatted string
 	 */
-	public function generate_json($result = NULL, $match_array_type = FALSE) {
+	public function generate_json(mixed $result = NULL, bool $match_array_type = FALSE): string {
 		// JSON data can optionally be passed to this function
 		// either as a database result object or an array, or a user supplied array
 		if (! is_null($result)) {
@@ -424,7 +425,7 @@ abstract class JsUtils {
 		return $this->_create_json($json_result, $match_array_type);
 	}
 
-	private function _create_json($json_result, $match_array_type) {
+	private function _create_json($json_result, $match_array_type): string {
 		$json = array();
 		$_is_assoc = TRUE;
 		if (! is_array($json_result) && empty($json_result)) {
