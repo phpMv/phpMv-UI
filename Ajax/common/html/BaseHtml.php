@@ -56,7 +56,7 @@ abstract class BaseHtml extends BaseWidget {
 		return $result;
 	}
 
-	protected function getTemplate(JsUtils $js = NULL, $view = null) {
+	protected function getTemplate(?JsUtils $js = NULL, mixed $view = null): string {
 		return PropertyWrapper::wrap($this->_wrapBefore, $js, $view) . $this->_template . PropertyWrapper::wrap($this->_wrapAfter, $js, $view);
 	}
 

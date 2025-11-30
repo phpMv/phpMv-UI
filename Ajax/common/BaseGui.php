@@ -80,7 +80,7 @@ class BaseGui {
 		return $htmlComponent;
 	}
 
-	public function compileHtml(JsUtils $js = NULL, &$view = NULL) {
+	public function compileHtml(?JsUtils $js = NULL, mixed &$view = NULL) {
 		foreach ($this->htmlComponents as $htmlComponent) {
 			$htmlComponent->compile($js, $view);
 		}

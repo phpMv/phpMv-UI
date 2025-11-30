@@ -19,7 +19,7 @@ abstract class BaseComponent {
 	 */
 	protected $js;
 
-	public function __construct(JsUtils $js=NULL) {
+	public function __construct(?JsUtils $js=NULL) {
 		$this->js=$js;
 	}
 
