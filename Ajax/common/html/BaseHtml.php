@@ -191,7 +191,7 @@ abstract class BaseHtml extends BaseWidget {
 		return $this;
 	}
 
-	protected function compile_once(JsUtils $js = NULL, &$view = NULL) {
+	protected function compile_once(?JsUtils $js = NULL, mixed &$view = NULL) {
 		if (! $this->_compiled) {
 			if (isset($js)) {
 				$beforeCompile = $js->getParam("beforeCompileHtml");
