@@ -150,7 +150,7 @@ class HtmlList extends HtmlSemCollection {
 	 * {@inheritdoc}
 	 * @see \Ajax\common\html\HtmlCollection::compile()
 	 */
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		if (isset($this->_maxVisible) && $this->_maxVisible < $this->count()) {
 			$this->addFollowPoints();
 			if (isset($js)) {

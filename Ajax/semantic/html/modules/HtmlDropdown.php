@@ -421,7 +421,7 @@ class HtmlDropdown extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		$this->applyValue();
 		return parent::compile($js, $view);
 	}

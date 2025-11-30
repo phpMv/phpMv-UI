@@ -139,7 +139,7 @@ class HtmlViewContent extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		return parent::compile($js, $view);
 	}
 }

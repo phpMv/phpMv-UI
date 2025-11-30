@@ -63,7 +63,7 @@ class HtmlGridRow extends HtmlBsDoubleElement {
 		return $result;
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 
 		foreach ($this->cols as $col){
 			$this->addContent($col);

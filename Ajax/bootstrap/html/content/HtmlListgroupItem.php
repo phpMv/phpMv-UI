@@ -54,7 +54,7 @@ class HtmlListgroupItem extends HtmlElementAsContent {
 	 * (non-PHPdoc)
 	 * @see \Ajax\bootstrap\html\base\BaseHtml::compile()
 	 */
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		return $this->element->compile($js, $view);
 	}
 

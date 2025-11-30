@@ -205,7 +205,7 @@ abstract class BaseHtml extends BaseWidget {
 		}
 	}
 
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		$this->compile_once($js, $view);
 		$result = $this->getTemplate($js, $view);
 		foreach ($this as $key => $value) {

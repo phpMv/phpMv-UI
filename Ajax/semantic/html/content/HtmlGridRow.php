@@ -123,7 +123,7 @@ class HtmlGridRow extends HtmlSemCollection{
 		return $col;
 	}
 
-	public function compile(JsUtils $js=NULL,&$view=NULL){
+	public function compile(?JsUtils $js=NULL,mixed &$view=NULL){
 		if($this->_implicite===true){
 			$this->_template="%wrapContentBefore%%content%%wrapContentAfter%";
 		}

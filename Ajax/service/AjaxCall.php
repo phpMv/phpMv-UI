@@ -14,7 +14,7 @@ class AjaxCall {
 		$this->parameters = $parameters;
 	}
 
-	public function compile(JsUtils $js = null) {
+	public function compile(?JsUtils $js = null) {
 		if ($js === null)
 			return;
 		$params = "{}";

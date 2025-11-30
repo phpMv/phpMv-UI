@@ -287,7 +287,7 @@ class HtmlTab extends HtmlSemCollection {
 		return $this->_bsComponent;
 	}
 
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		if (! $this->_activated && $this->content["menu"]->count() > 0 && \sizeof($this->content) > 1)
 			$this->activate(0);
 		return parent::compile($js, $view);

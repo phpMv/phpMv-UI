@@ -18,7 +18,7 @@ class HtmlPaginationMenu extends HtmlMenu{
 	 * {@inheritDoc}
 	 * @see \Ajax\common\html\BaseHtml::compile()
 	 */
-	public function compile(JsUtils $js=NULL,&$view=NULL){
+	public function compile(?JsUtils $js=NULL,mixed &$view=NULL){
 		$max=$this->_max;
 		if(!$this->_compiled){
 			foreach ($this->content as $item){

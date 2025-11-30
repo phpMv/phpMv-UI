@@ -136,7 +136,7 @@ class DataTable extends Widget {
 			->getCell(0, $index);
 	}
 
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL,mixed &$view = NULL) {
 		if (! $this->_generated) {
 			if (isset($this->_buttonsColumn)) {
 				$this->_instanceViewer->sortColumnContent($this->_buttonsColumn, $this->_buttons);

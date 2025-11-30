@@ -140,7 +140,7 @@ abstract class HtmlViewItem extends HtmlSemDoubleElement {
 	 *
 	 * @see HtmlSemDoubleElement::compile()
 	 */
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		$this->content=JArray::sortAssociative($this->content, ["header","image","icon","content","extra-content"]);
 		return parent::compile($js, $view);
 	}

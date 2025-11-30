@@ -48,7 +48,7 @@ abstract class BaseComponent {
 		return $this->params;
 	}
 
-	public function compile(JsUtils $js=NULL) {
+	public function compile(?JsUtils $js=NULL) {
 		if ($js==NULL)
 			$js=$this->js;
 		$script=$this->getScript();

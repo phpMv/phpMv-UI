@@ -141,7 +141,7 @@ class HtmlCarousel extends BaseHtml {
 	 * (non-PHPdoc)
 	 * @see \Ajax\bootstrap\html\base\BaseHtml::compile()
 	 */
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		$this->slides [0]->setClass("item active");
 		$this->indicators [0]->setClass("active");
 		$this->createControls();

@@ -123,7 +123,7 @@ class HtmlBreadcrumbs extends HtmlNavElement {
 	 * (non-PHPdoc)
 	 * @see \Ajax\bootstrap\html\BaseHtml::compile()
 	 */
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		if($this->autoActive){
 			$this->setActive();
 		}

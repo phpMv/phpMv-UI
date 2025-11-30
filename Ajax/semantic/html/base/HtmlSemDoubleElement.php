@@ -166,7 +166,7 @@ class HtmlSemDoubleElement extends HtmlDoubleElement {
 	 * {@inheritdoc}
 	 * @see BaseHtml::compile()
 	 */
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		if (isset($this->_popup)) {
 			$this->_popup->compile($js);
 		}

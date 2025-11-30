@@ -132,7 +132,7 @@ class HtmlProgressbar extends HtmlBsDoubleElement {
 	 * (non-PHPdoc)
 	 * @see \Ajax\bootstrap\html\base\BaseHtml::compile()
 	 */
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		$actualStyle=$this->style;
 		if(isset($this->styleLimits)&& JArray::isAssociative($this->styleLimits)){
 			foreach ($this->styleLimits as $k=>$v){

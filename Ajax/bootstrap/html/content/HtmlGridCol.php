@@ -36,7 +36,7 @@ class HtmlGridCol extends HtmlBsDoubleElement {
 		return implode(" ", $result);
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		$this->setProperty("class", $this->_generateClass());
 		return parent::compile($js,$view);
 	}

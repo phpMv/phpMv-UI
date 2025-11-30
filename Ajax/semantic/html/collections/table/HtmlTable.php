@@ -414,7 +414,7 @@ class HtmlTable extends HtmlSemDoubleElement {
 	 *
 	 * @see HtmlSemDoubleElement::compile()
 	 */
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		if (\sizeof($this->_compileParts) < 3) {
 			$this->_template = "%content%";
 			$this->refresh($js);

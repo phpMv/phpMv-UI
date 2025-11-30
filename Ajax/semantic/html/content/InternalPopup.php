@@ -35,7 +35,7 @@ class InternalPopup {
 		$this->params["onShow"]=$jsCode;
 	}
 
-	public function compile(JsUtils $js=NULL){
+	public function compile(?JsUtils $js=NULL){
 		if(JString::isNotNull($this->title)){
 			$this->semElement->setProperty("data-title", $this->title);
 		}

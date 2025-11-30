@@ -33,7 +33,7 @@ class DataForm extends Widget {
 		return $this->identifier."-{$name}-".$this->_instanceViewer->getIdentifier();
 	}
 
-	public function compile(JsUtils $js=NULL,&$view=NULL){
+	public function compile(?JsUtils $js=NULL,mixed &$view=NULL){
 		if(!$this->_generated){
 			$this->_instanceViewer->setInstance($this->_modelInstance);
 

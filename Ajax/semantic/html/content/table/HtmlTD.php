@@ -154,7 +154,7 @@ class HtmlTD extends HtmlSemDoubleElement {
 		return $this;
 	}
 
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		if (! $this->_deleted)
 			return parent::compile($js, $view);
 	}
