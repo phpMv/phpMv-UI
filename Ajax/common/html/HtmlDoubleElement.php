@@ -151,7 +151,7 @@ class HtmlDoubleElement extends HtmlSingleElement {
 	 * {@inheritdoc}
 	 * @see \Ajax\common\html\BaseHtml::compile_once()
 	 */
-	protected function compile_once(\Ajax\JsUtils $js = NULL, &$view = NULL) {
+	protected function compile_once(?\Ajax\JsUtils $js = NULL, mixed &$view = NULL) {
 		if (! $this->_compiled && isset($this->_editableContent)) {
 			$this->wrap("", $this->_editableContent);
 		}

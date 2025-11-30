@@ -120,7 +120,7 @@ trait TableTrait {
 		return $this->_self->getBsComponent()->getScript();
 	}
 
-	public function addEventsOnRun(JsUtils $js = NULL) {
+	public function addEventsOnRun(?JsUtils $js = NULL) {
 		$script = parent::addEventsOnRun($js);
 		$innerScript = $this->_self->getInnerScript();
 		if (! isset($innerScript)) {

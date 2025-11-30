@@ -58,7 +58,7 @@ class HtmlInput extends HtmlSemDoubleElement {
 		return $this->addToProperty("class", "transparent");
 	}
 
-	public function compile_once(\Ajax\JsUtils $js = NULL, &$view = NULL) {
+	public function compile_once(?\Ajax\JsUtils $js = NULL, mixed &$view = NULL) {
 		parent::compile_once($js, $view);
 		if (isset($this->content['file'])) {
 			$this->onCreate(Javascript::fileUploadBehavior($this->identifier));

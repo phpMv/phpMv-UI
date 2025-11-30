@@ -14,7 +14,7 @@ use Ajax\JsUtils;
  */
 class Sidebar extends SimpleSemExtComponent {
 
-	public function __construct(JsUtils $js = NULL) {
+	public function __construct(?JsUtils $js = NULL) {
 		parent::__construct($js);
 		$this->uiName = 'sidebar';
 	}

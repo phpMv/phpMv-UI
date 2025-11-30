@@ -330,7 +330,7 @@ class DataTable extends Widget {
 		$footer->addValues($this->_paginationToolbar);
 	}
 
-	protected function _associatePaginationBehavior(JsUtils $js = NULL, $offset = null) {
+	protected function _associatePaginationBehavior(?JsUtils $js = NULL, $offset = null) {
 		if (isset($this->_urls["refresh"])) {
 			$menu = $this->_pagination->getMenu();
 			if (isset($menu) && isset($js)) {
@@ -349,7 +349,7 @@ class DataTable extends Widget {
 		}
 	}
 
-	protected function _compileSearchFieldBehavior(JsUtils $js = NULL) {
+	protected function _compileSearchFieldBehavior(?JsUtils $js = NULL) {
 		if (isset($this->_searchField) && isset($js) && isset($this->_urls["refresh"])) {
 			$this->_searchField->postOn("change", $this->_urls["refresh"], "{'s':$(self).val(),'_model':'" . JString::doubleBackSlashes($this->_model) . "'}", "#" . $this->identifier . " tbody", [
 				"preventDefault" => false,
@@ -360,7 +360,7 @@ class DataTable extends Widget {
 		}
 	}
 
-	protected function _associateSearchFieldBehavior(JsUtils $js = NULL, $offset = null) {}
+	protected function _associateSearchFieldBehavior(?JsUtils $js = NULL, $offset = null) {}
 
 	protected function _getFieldName($index) {
 		$fieldName = parent::_getFieldName($index);
