@@ -36,7 +36,7 @@ class HtmlAccordionItem extends HtmlSemDoubleElement {
 		return $element;
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL){
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL){
 		$this->titleElement=$this->createTitleElement();
 		return parent::compile($js,$view);
 	}

@@ -153,7 +153,7 @@ class HtmlShape extends HtmlSemCollection{
 		return $this->_bsComponent;
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL,mixed &$view=NULL) {
 		if($this->_autoActive)
 			$this->setActiveSide(0);
 		return parent::compile($js,$view);

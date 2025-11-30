@@ -27,7 +27,7 @@ class DataElement extends Widget {
 		$this->content["table"]->setDefinition()->addClass("_element");
 	}
 
-	public function compile(JsUtils $js=NULL,&$view=NULL){
+	public function compile(?JsUtils $js=NULL,mixed &$view=NULL){
 		if(!$this->_generated){
 			$this->_instanceViewer->setInstance($this->_modelInstance);
 

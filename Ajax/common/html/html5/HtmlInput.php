@@ -39,7 +39,7 @@ class HtmlInput extends HtmlSingleElement {
 		return $this;
 	}
 
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		$value = $this->_placeholder;
 		if (JString::isNull($value)) {
 			if (JString::isNotNull($this->getProperty("name")))

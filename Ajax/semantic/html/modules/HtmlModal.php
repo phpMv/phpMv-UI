@@ -197,7 +197,7 @@ class HtmlModal extends HtmlSemDoubleElement {
 	 *
 	 * @see \Ajax\semantic\html\base\HtmlSemDoubleElement::compile()
 	 */
-	public function compile(JsUtils $js = NULL, &$view = NULL) {
+	public function compile(?JsUtils $js = NULL, mixed &$view = NULL) {
 		$this->content = JArray::sortAssociative($this->content, [
 			'header',
 			'content',

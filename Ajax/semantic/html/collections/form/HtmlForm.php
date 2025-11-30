@@ -163,7 +163,7 @@ class HtmlForm extends HtmlSemCollection {
 
 
 
-	public function compile(JsUtils $js=NULL,&$view=NULL){
+	public function compile(?JsUtils $js=NULL,mixed &$view=NULL){
 		if(\sizeof($this->_validationParams)>0)
 			$this->setProperty("novalidate", "");
 		return parent::compile($js,$view);

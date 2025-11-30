@@ -194,7 +194,7 @@ abstract class HtmlCollection extends HtmlDoubleElement {
 		return $this;
 	}
 
-	public function compile(JsUtils $js=NULL, &$view=NULL) {
+	public function compile(?JsUtils $js=NULL, mixed &$view=NULL) {
 		$index=0;
 		$classname=\strtolower(JReflection::shortClassName($this));
 		foreach ($this->content as $item){
