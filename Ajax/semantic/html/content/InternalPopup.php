@@ -48,7 +48,7 @@ class InternalPopup {
 		}
 	}
 
-	private function _compileHtml(JsUtils $js=NULL){
+	private function _compileHtml(?JsUtils $js=NULL){
 		if(JString::isNotNull($this->html)){
 			$html=$this->html;
 			if(\is_array($html)){

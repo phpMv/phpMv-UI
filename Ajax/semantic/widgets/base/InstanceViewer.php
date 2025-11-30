@@ -111,7 +111,6 @@ class InstanceViewer {
 	}
 
 	protected function _getPropertyValue(\ReflectionProperty $property) {
-		$property->setAccessible(true);
 		return $property->getValue($this->instance);
 	}
 
